@@ -18,6 +18,10 @@
 #include "client.h"
 #include "message.h"
 
+#if defined(HAVE_FAYECPP_CONFIG_H)
+#include "fayecpp_config.h"
+#endif
+
 #ifdef HAVE_SUITABLE_QT_VERSION
 #include "private/websocketqt.h"
 #else
@@ -71,7 +75,10 @@ namespace FayeCpp {
 	
 	void Client::onTransportDisconnected(Message * message)
 	{
-		//TODO: reconnect or inform delegate
+#ifdef DEBUG_QT
+        qDebug() << "Client:" << "onTransportConnected.";
+#endif
+		if (_delegate) _delegate->onFayeTransportDisconnected(this);
         (void)message;
 	}
 	
@@ -188,9 +195,15 @@ namespace FayeCpp {
 			{
 				if (_delegate)
 				{
-					std::string error("Can't find implemented faye transport protocol type from supported by the server: ");
-					//TODO: here
-					//					for (size_t i = 0; i < supportedTypes.size(); i++) error.append(supportedTypes[i]);
+					std::string error("Can't find implemented faye transport protocol type from supported by the server: [");
+					unsigned int index = 0;
+					for (std::list<std::string>::iterator i = supportedTypes.begin(); i != supportedTypes.end(); ++i)
+					{
+						if (index) error.append(", ");
+						error.append(*i);
+						index++;
+					}
+					error.append("]");
 					_delegate->onFayeErrorString(this, error);
 				}
 			}

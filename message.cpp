@@ -17,6 +17,10 @@
 
 #include "message.h"
 
+#if defined(HAVE_FAYECPP_CONFIG_H)
+#include "fayecpp_config.h"
+#endif
+
 #include <jansson.h>
 
 namespace FayeCpp {

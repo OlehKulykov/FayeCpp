@@ -17,21 +17,25 @@
 
 #include "REMutex.h"
 
-namespace FayeCpp {
-	
 #if defined(HAVE_RECORE_SDK_CONFIG_H)
 #include "recore_sdk_config.h"
 #endif
-	
+
+#if defined(HAVE_FAYECPP_CONFIG_H)
+#include "fayecpp_config.h"
+#endif
+
 #if defined(HAVE_PTHREAD_H)
 #include <pthread.h>
 #elif defined(__RE_OS_WINDOWS__)
-	/* Use Windows threading */
+/* Use Windows threading */
 #ifndef __RE_USING_WINDOWS_THREADS__
 #define __RE_USING_WINDOWS_THREADS__
 #endif
 #include <Windows.h>
 #endif /* __RE_OS_WINDOWS__ */
+
+namespace FayeCpp {
 	
 	class REMutexInternal
 	{

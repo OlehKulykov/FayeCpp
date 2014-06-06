@@ -19,42 +19,46 @@
 #include "REMutex.h"
 #include "REList.h"
 
-namespace FayeCpp {
-	
 #ifdef __RE_DEBUG_MODE__
 #include "../../include/recore/RELog.h"
 #endif
-	
-	
+
+
 #if defined(HAVE_RECORE_SDK_CONFIG_H)
 #include "recore_sdk_config.h"
 #endif
-	
+
+#if defined(HAVE_FAYECPP_CONFIG_H)
+#include "fayecpp_config.h"
+#endif
+
 #if defined(HAVE_PTHREAD_H)
 #include <pthread.h>
 #elif defined(__RE_OS_WINDOWS__)
-	/* Use Windows threading */
+/* Use Windows threading */
 #ifndef __RE_USING_WINDOWS_THREADS__
 #define __RE_USING_WINDOWS_THREADS__
 #endif
 #include <Windows.h>
 #endif /* __RE_OS_WINDOWS__ */
-	
+
 #if defined(HAVE_SYS_TIME_H)
 #include <sys/time.h>
 #endif
-	
+
 #if defined(HAVE_UNISTD_H)
 #include <unistd.h>
 #endif
-	
+
 #if defined(HAVE_DISPATCH_DISPATCH_H)
 #include <dispatch/dispatch.h>
 #endif
-	
+
 #if !defined(HAVE_FUNCTION_PTHREAD_CANCEL)
 #include <signal.h>
 #endif
+
+namespace FayeCpp {
 	
 	typedef void(*REThreadInvokeThreadBodyFunction)(REThread *);
 	

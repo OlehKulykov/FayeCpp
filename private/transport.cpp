@@ -19,11 +19,9 @@
 #include "../message.h"
 #include "../client.h"
 #include "REThread.h"
+
 #include <assert.h>
 
-#ifdef DEBUG
-#include <iostream>
-#endif
 
 namespace FayeCpp {
 	
@@ -70,7 +68,7 @@ namespace FayeCpp {
 	void Transport::onError(const std::string & error)
 	{
 #ifdef DEBUG
-		std::cerr << "TRANSPORT ERROR: " << error << '\n';
+		fprintf(stderr, "TRANSPORT ERROR: %s\n", error.c_str());
 #endif
 	}
 	
