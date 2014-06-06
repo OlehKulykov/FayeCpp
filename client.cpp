@@ -200,7 +200,7 @@ namespace FayeCpp {
 	void Client::handshake()
 	{
 #ifdef DEBUG_QT
-        qDebug() << "Client:" << "handshake start ...";
+        qDebug() << "Client:" << "handshake start...";
 #endif
         Message message;
         message.addConnectionType(this->currentTransportName());
