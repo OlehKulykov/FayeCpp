@@ -424,7 +424,7 @@ include_directories(${PROJECT_BINARY_DIR})
 
 
 
-set(CORE_SRC	private/REBuffer.cpp
+set(FAYECPP_SOURCES	private/REBuffer.cpp
 				private/REMutex.cpp
 				private/REThread.cpp
 				private/transport.cpp
@@ -437,7 +437,7 @@ set(CORE_SRC	private/REBuffer.cpp
 				)
 				
 
-set(CORE_HDR 	fayecpp.h
+set(FAYECPP_HEADERS 	fayecpp.h
 				client.h
 				common.h
 				delegate.h
@@ -457,8 +457,8 @@ include_directories(${CMAKE_BINARY_DIR}/libwebsockets)
 #MESSAGE(CMAKE_LIBRARY_PATH "=" ${CMAKE_LIBRARY_PATH})
 
 
-#ADD_LIBRARY(fayecpp SHARED ${CORE_SRC} ${CORE_HDR})
-ADD_LIBRARY(fayecpp ${CORE_SRC} ${CORE_HDR})
+#ADD_LIBRARY(fayecpp SHARED ${FAYECPP_SOURCES} ${FAYECPP_HEADERS})
+ADD_LIBRARY(fayecpp ${FAYECPP_SOURCES} ${FAYECPP_HEADERS})
 
 #add_dependencies(fayecpp jansson libwebsockets)
 
