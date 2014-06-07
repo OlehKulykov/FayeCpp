@@ -1,3 +1,6 @@
 [submodule "jansson"]
 	path = jansson
 	url = https://github.com/akheron/jansson.git
+[submodule "libwebsockets"]
+	path = libwebsockets
+	url = git://git.libwebsockets.org/libwebsockets
