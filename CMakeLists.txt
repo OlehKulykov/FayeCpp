@@ -26,16 +26,6 @@ INCLUDE(CheckTypeSize)
 INCLUDE(CheckSymbolExists)
 INCLUDE(CheckIncludeFileCXX)
 
-# Allow the developer to select if Dynamic or Static libraries are built
-OPTION (BUILD_SHARED_LIBS "Build Shared Libraries" OFF)
-# Set the LIB_TYPE variable to STATIC
-SET (LIB_TYPE STATIC)
-IF (BUILD_SHARED_LIBS)
-  # User wants to build Dynamic Libraries, so change the LIB_TYPE variable to CMake keyword 'SHARED'
-  SET (LIB_TYPE SHARED)
-ENDIF (BUILD_SHARED_LIBS)
-
-
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 add_subdirectory(jansson)
@@ -449,11 +439,7 @@ set(FAYECPP_HEADERS 	fayecpp.h
 
 add_definitions(-DHAVE_FAYECPP_CONFIG_H)
 
-#add_dependencies(fayecpp jansson libwebsockets)
-
-
-ADD_LIBRARY(fayecpp ${LIB_TYPE} ${FAYECPP_SOURCES} ${FAYECPP_HEADERS})
-#ADD_LIBRARY(fayecpp ${FAYECPP_SOURCES} ${FAYECPP_HEADERS})
+ADD_LIBRARY(fayecpp STATIC ${FAYECPP_SOURCES} ${FAYECPP_HEADERS})
 
 add_dependencies(fayecpp jansson)
 

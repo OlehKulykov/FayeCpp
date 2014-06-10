@@ -66,7 +66,7 @@ class REMutexInternal;
  @brief Class of thread mutex.
  @detailed Class of thread mutex.
  */
-class __RE_PUBLIC_CLASS_API__ REMutex
+class REMutex
 {
 private:
 	REMutexInternal * _m;

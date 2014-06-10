@@ -23,7 +23,7 @@
 namespace FayeCpp {
 	
 	/// Class of memory buffer.
-	class __RE_PUBLIC_CLASS_API__ REBuffer
+	class REBuffer
 	{
 	protected:
 		void * _buff;

@@ -57,17 +57,6 @@
 #endif
 
 
-#if defined(__RE_OS_WINDOWS__) 
-#if defined(fayecpp_EXPORTS)
-#define __RE_PUBLIC_CLASS_API__ __declspec(dllexport)
-#else
-#define __RE_PUBLIC_CLASS_API__ __declspec(dllimport)
-#endif /* fayecpp_EXPORTS */
-#else /* defined(__RE_OS_WINDOWS__) */
-#define __RE_PUBLIC_CLASS_API__ 
-#endif
-
-
 /**
  @brief 8 bit unsigned byte type.
  @detailed 8 bit unsigned byte with 1 byte size.

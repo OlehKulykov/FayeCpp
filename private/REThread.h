@@ -28,7 +28,7 @@ namespace FayeCpp {
 	class REThreadInternal;
 	
 	/// Thread class for aditional work
-	class __RE_PUBLIC_CLASS_API__ REThread
+	class REThread
 	{
 	private:
 		REThreadInternal * _t;

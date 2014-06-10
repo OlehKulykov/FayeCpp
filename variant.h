@@ -22,7 +22,7 @@
 
 namespace FayeCpp
 {
-	class __RE_PUBLIC_CLASS_API__ Variant
+	class Variant
 	{
 	public:
 		typedef enum _variantType
