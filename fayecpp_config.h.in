@@ -133,6 +133,10 @@
 #cmakedefine HAVE_IO_H @HAVE_IO_H@
 
 
+/* signal.h */
+#cmakedefine HAVE_SIGNAL_H @HAVE_SIGNAL_H@
+
+
 /* setjmp.h */
 #cmakedefine HAVE_SETJMP_H @HAVE_SETJMP_H@
 
