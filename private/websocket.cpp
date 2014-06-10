@@ -203,12 +203,29 @@ namespace FayeCpp {
 		}
 	}
 	
+	void WebSocket::sendData(const unsigned char * data, const size_t dataSize)
+	{
+		if (data && dataSize > 0)
+		{
+			this->addWriteBufferData(data, dataSize, LWS_WRITE_BINARY);
+		}
+	}
+	
 	void WebSocket::sendText(const std::string & text)
 	{
 		if (text.size() > 0)
 		{
 			// NO NULL terminated char
 			this->addWriteBufferData((const unsigned char *)text.data(), text.size(), LWS_WRITE_TEXT);
+		}
+	}
+	
+	void WebSocket::sendText(const char * text, const size_t textSize)
+	{
+		if (text && textSize > 0)
+		{
+			// NO NULL terminated char
+			this->addWriteBufferData((const unsigned char *)text, textSize, LWS_WRITE_TEXT);
 		}
 	}
 	

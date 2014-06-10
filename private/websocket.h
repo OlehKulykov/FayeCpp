@@ -83,7 +83,11 @@ namespace FayeCpp {
 		virtual const std::string name() const;
 		
 		virtual void sendData(const std::vector<unsigned char> & data);
+		virtual void sendData(const unsigned char * data, const size_t dataSize);
+		
 		virtual void sendText(const std::string & text);
+		virtual void sendText(const char * text, const size_t textSize);
+		
 		virtual void connectToServer();
 		virtual void disconnectFromServer();
 		WebSocket(ClassMethodWrapper<Client, void(Client::*)(Message*), Message> * processMethod);

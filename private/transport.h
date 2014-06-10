@@ -61,8 +61,13 @@ namespace FayeCpp {
 		bool isUseSSL() const;
 		
 		virtual const std::string name() const = 0;
+
 		virtual void sendData(const std::vector<unsigned char> & data) = 0;
+		virtual void sendData(const unsigned char * data, const size_t dataSize) = 0;
+
 		virtual void sendText(const std::string & text) = 0;
+		virtual void sendText(const char * text, const size_t textSize) = 0;
+
 		virtual void connectToServer() = 0;
 		virtual void disconnectFromServer() = 0;
 		

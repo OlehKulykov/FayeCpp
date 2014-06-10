@@ -57,12 +57,29 @@ void WebSocketQt::sendData(const std::vector<unsigned char> & data)
     _socket->sendBinaryMessage(QByteArray((char*)data.data(), data.size()));
 }
 
+void WebSocketQt::sendData(const unsigned char * data, const size_t dataSize)
+{
+#ifdef DEBUG_QT
+	qDebug() << "SocketQt:" << "send bin:" << (const char*)data;
+#endif
+	_socket->sendBinaryMessage(QByteArray((char*)data, (int)dataSize));
+}
+
 void WebSocketQt::sendText(const std::string & text)
 {
 #ifdef DEBUG_QT
     qDebug() << "SocketQt:" << "send text:" << text.c_str();
 #endif
     _socket->sendTextMessage(QString(text.c_str()));
+}
+
+void WebSocketQt::sendText(const char * text, const size_t textSize)
+{
+#ifdef DEBUG_QT
+	qDebug() << "SocketQt:" << "send text:" << text;
+#endif
+	(void)textSize;
+	_socket->sendTextMessage(QString(text));
 }
 
 void WebSocketQt::connectToServer()
