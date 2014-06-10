@@ -110,6 +110,9 @@ namespace FayeCpp {
 	MessageType;
 	
 	
+	/**
+	 @brief Message class for internal logic communication.
+	 */
 	class Message
 	{
 	private:
@@ -129,17 +132,87 @@ namespace FayeCpp {
         char * jsonString() const;
 
 	public:
+		/**
+		 @brief Getter for message type.
+		 @return Enum type.
+		 */
 		MessageType type() const;
+		
+		
+		/**
+		 @brief Getter for client ID.
+		 @return Std string with client ID.
+		 */
 		const std::string & clientId() const;
+		
+		
+		/**
+		 @brief Getter for channel.
+		 @return Std string with channel name.
+		 */
 		const std::string & channel() const;
+		
+		
+		/**
+		 @brief Getter for channel type.
+		 @return Enum type.
+		 */
 		ChannelType channelType() const;
+		
+		
+		/**
+		 @brief Getter for subscription.
+		 @return Std string with subscription.
+		 */
 		const std::string & subscription() const;
+		
+		
+		/**
+		 @brief Getter for error string.
+		 @return Std string with error.
+		 */
 		const std::string & errorString() const;
+		
+		
+		/**
+		 @brief Getter for success flag.
+		 @return Boolen value of success.
+		 */
 		bool isSuccessfully() const;
+		
+		
+		/**
+		 @brief Getter for version string.
+		 @return Std string with version.
+		 */
 		const std::string & version() const;
+		
+		
+		/**
+		 @brief Getter for minimum version string.
+		 @return Std string with minimum version.
+		 */
 		const std::string & minimumVersion() const;
+		
+		
+		/**
+		 @brief Getter for connection type string.
+		 @return Std string with connection type.
+		 */
 		const std::string & connectionType() const;
+		
+		
+		/**
+		 @brief Getter for list of connection type strings.
+		 @return Std list with connection types strings.
+		 */
 		const std::list<std::string> & connectionTypes() const;
+		
+		
+		/**
+		 @brief Getter for message data.
+		 @return Std vector with message data.
+		 */
 		const std::vector<unsigned char> & data() const;
 		
 		Message & setType(MessageType type);

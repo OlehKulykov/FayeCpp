@@ -25,23 +25,24 @@
 #include "REMutex.h"
 #include "REBuffer.h"
 
+#if defined(HAVE_FAYECPP_CONFIG_H)
+#include "fayecpp_config.h"
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
-#include <getopt.h>
-#include <string.h>
-#include <signal.h>
 #include <string.h>
 
 namespace FayeCpp {
 	
 	struct libwebsocket_protocols WebSocket::protocols[] = {
 		{
-			"default",		/* name */
-			WebSocket::callbackEcho,		/* callback */
-			sizeof(EchoSessionData)	/* per_session_data_size */
+			"default",
+			WebSocket::callbackEcho,
+			sizeof(EchoSessionData)
 		},
 		{
-			NULL, NULL, 0		/* End of list */
+			NULL, NULL, 0
 		}
 	};
 	
@@ -85,7 +86,6 @@ namespace FayeCpp {
 				
 			case LWS_CALLBACK_CLIENT_RECEIVE:
 				if (input && len) socket->onCallbackReceive(input, len);
-//				fprintf(stderr, "\nClient RECEIVE: %s\n\n", (char *)input);
 				break;
 				
 			case LWS_CALLBACK_CLIENT_WRITEABLE:
@@ -214,6 +214,11 @@ namespace FayeCpp {
 		}
 	}
 	
+	const std::string WebSocket::name() const 
+	{
+		return WebSocket::transportName(); 
+	}
+	
 	void WebSocket::connectToServer()
 	{
 		if (!this->isConnected())
@@ -285,7 +290,11 @@ namespace FayeCpp {
 			_context = NULL;
 			
 			char error[1024] = { 0 };
+#if defined(HAVE_FUNCTION_SPRINTF_S)	
+			sprintf_s(error, 1024, "Failed to connect to %s:%i", this->host().c_str(), this->port());
+#else			
 			sprintf(error, "Failed to connect to %s:%i", this->host().c_str(), this->port());
+#endif			
 			this->onError(error);
 			return;
 		}
@@ -327,6 +336,11 @@ namespace FayeCpp {
 		}
 		
 		this->cleanup();
+	}
+	
+	std::string WebSocket::transportName() 
+	{
+		return std::string("websocket");
 	}
 }
 

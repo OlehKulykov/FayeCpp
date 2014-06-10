@@ -76,7 +76,7 @@ namespace FayeCpp {
 		virtual void threadBody();
 		
 	public:
-		virtual const std::string name() const { return WebSocket::transportName(); }
+		virtual const std::string name() const;
 		
 		virtual void sendData(const std::vector<unsigned char> & data);
 		virtual void sendText(const std::string & text);
@@ -85,7 +85,7 @@ namespace FayeCpp {
 		WebSocket(ClassMethodWrapper<Client, void(Client::*)(Message*), Message> * processMethod);
 		virtual ~WebSocket();
 		
-		static std::string transportName() { return "websocket"; }
+		static std::string transportName();
 	};
 	
 }

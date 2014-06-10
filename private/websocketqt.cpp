@@ -79,6 +79,11 @@ void WebSocketQt::disconnectFromServer()
     _socket->close();
 }
 
+const std::string WebSocketQt::name() const 
+{
+	return WebSocketQt::transportName(); 
+}
+	
 WebSocketQt::WebSocketQt(ClassMethodWrapper<Client, void(Client::*)(Message*), Message> * processMethod) : QObject(), Transport(processMethod),
     _socket(new QWebSocket(QString(""), QWebSocketProtocol::Version13, this))
 {
@@ -105,6 +110,11 @@ WebSocketQt::~WebSocketQt()
     delete _socket;
 }
 
+std::string WebSocketQt::transportName() 
+{
+	return std::string("websocket");
+}
+	
 }
 
 #endif /* HAVE_SUITABLE_QT_VERSION */

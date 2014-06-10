@@ -20,6 +20,8 @@
 
 #include "../common.h"
 
+#include <assert.h>
+
 namespace FayeCpp {
 	
 	template <typename T>
@@ -235,7 +237,9 @@ namespace FayeCpp {
 		_head(NULL)
 		{
 			NodeBase * newHead = (NodeBase *)malloc(sizeof(NodeBase));
-			if (newHead)
+			assert(newHead);
+			
+			if (newHead) 
 			{
 				this->_head = newHead;
 				this->_head->next = this->_castHead;
