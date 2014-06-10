@@ -263,7 +263,7 @@ namespace FayeCpp {
 				const int prior = GetThreadPriority(_reThreadThread);
 				const int minPriority = MIN(THREAD_PRIORITY_IDLE, THREAD_PRIORITY_TIME_CRITICAL);
 				const int range = MAX(THREAD_PRIORITY_IDLE, THREAD_PRIORITY_TIME_CRITICAL) - minPriority;
-				return ( (REFloat32)(prior - minPriority) / (REFloat32)range );
+				return ( (float)(prior - minPriority) / (float)range );
 			}
 #endif
 			return 0.0f;
@@ -289,7 +289,7 @@ namespace FayeCpp {
 			{
 				const int minPriority = MIN(THREAD_PRIORITY_IDLE, THREAD_PRIORITY_TIME_CRITICAL);
 				const int range = MAX(THREAD_PRIORITY_IDLE, THREAD_PRIORITY_TIME_CRITICAL) - minPriority;
-				const int prior = (int)(minPriority + (newPriority * (REFloat32)range));
+				const int prior = (int)(minPriority + (newPriority * (float)range));
 				if (SetThreadPriority(_reThreadThread, prior))
 				{
 					return true;
@@ -466,7 +466,7 @@ namespace FayeCpp {
 		{
 			REThreadInternal::mainThreadID = GetCurrentThreadId();
 		}
-		thID = ((REUIdentifier)REThreadInternal::mainThreadID);
+		thID = ((uintptr_t)REThreadInternal::mainThreadID);
 #endif
 		return thID;
 	}
@@ -477,7 +477,7 @@ namespace FayeCpp {
 #if defined(HAVE_PTHREAD_H)
 		thID = ((uintptr_t)pthread_self());
 #elif defined(__RE_USING_WINDOWS_THREADS__)
-		thID = ((REUIdentifier)GetCurrentThreadId());
+		thID = ((uintptr_t)GetCurrentThreadId());
 #endif
 		return thID;
 	}
