@@ -34,6 +34,8 @@
 #include "REMutex.h"
 #include "REBuffer.h"
 
+#include <libwebsockets.h>
+
 namespace FayeCpp {
 	
 	class WebSocket : protected REThread, public Transport
