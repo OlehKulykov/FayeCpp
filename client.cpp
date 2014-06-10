@@ -40,7 +40,13 @@ namespace FayeCpp {
 	unsigned long long Client::nextMessageId()
 	{
 		_messageId++;
+
+#if defined(ULONG_LONG_MAX)		
 		if (_messageId == ULONG_LONG_MAX) _messageId = 1;
+#elif defined(ULLONG_MAX)
+		if (_messageId == ULLONG_MAX) _messageId = 1;
+#endif
+
 		return _messageId;
 	}
 	

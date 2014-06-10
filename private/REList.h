@@ -122,7 +122,7 @@ namespace FayeCpp {
 				return _node->value;
 			}
 			
-			Iterator(const REList<T>::Iterator & it) :
+			Iterator(const Iterator & it) :
 			_head(it._head),
 			_node(NULL)
 			{
@@ -137,9 +137,9 @@ namespace FayeCpp {
 			}
 		};
 		
-		REList<T>::Iterator iterator() const
+		Iterator iterator() const
 		{
-			return REList<T>::Iterator(this->_castHead);
+			return Iterator(this->_castHead);
 		}
 		
 		REBOOL isEmpty() const

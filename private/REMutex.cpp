@@ -157,7 +157,9 @@ namespace FayeCpp {
 	_successfulLocks(0)
 #endif
 	{
+#if defined(HAVE_PTHREAD_H)
 		memset(&_pthreadMutex, 0, sizeof(pthread_mutex_t));
+#endif
 	}
 	
 	REMutexInternal::~REMutexInternal()

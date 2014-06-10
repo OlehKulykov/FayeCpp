@@ -37,7 +37,7 @@
 #elif defined(__RE_OS_WINDOWS__)
 /* Use Windows threading */
 #ifndef __RE_USING_WINDOWS_THREADS__
-#define __RE_USING_WINDOWS_THREADS__
+#define __RE_USING_WINDOWS_THREADS__ 1
 #endif
 #include <Windows.h>
 #endif /* __RE_OS_WINDOWS__ */
@@ -97,8 +97,9 @@ namespace FayeCpp {
 		parent(p),
 		invokeFunction(NULL)
 		{
-			
-#if !defined(HAVE_FUNCTION_PTHREAD_CANCEL)
+
+	
+#if !defined(HAVE_FUNCTION_PTHREAD_CANCEL) && defined(HAVE_PTHREAD_H)
 			static bool needSetup = true;
 			if (needSetup)
 			{
@@ -111,6 +112,8 @@ namespace FayeCpp {
 				sigaction(SIGUSR2,&actions,NULL);
 			}
 #endif
+
+
 			if (!_internalsMutex.isInitialized())
 			{
 				_internalsMutex.init(REMutexTypeRecursive);
@@ -171,7 +174,6 @@ namespace FayeCpp {
 			{
 				REThreadInternal::isMultiThreaded = true;
 				_reThreadThread = hThread;
-				this->addState(REThreadStateCreated);
 				return true;
 			}
 #endif
@@ -179,7 +181,7 @@ namespace FayeCpp {
 			return false;
 		}
 		
-#if !defined(HAVE_FUNCTION_PTHREAD_CANCEL)
+#if !defined(HAVE_FUNCTION_PTHREAD_CANCEL) && defined(HAVE_PTHREAD_H)
 		static void thread_exit_handler(int sig)
 		{
 			pthread_exit(0);
@@ -232,7 +234,6 @@ namespace FayeCpp {
 				}
 				CloseHandle(_reThreadThread);
 				_reThreadThread = (HANDLE)0;
-				_reThreadStates = 0;
 				return true;
 			}
 #endif
@@ -349,12 +350,12 @@ namespace FayeCpp {
 		return th;
 	}
 #elif defined(__RE_USING_WINDOWS_THREADS__)
-	DWORD REThreadInternal::mainThreadID = (DWORD)0;
+	DWORD REThreadInternal::mainThreadID = 0;
 	DWORD REThreadInternal::threadProc(LPVOID lpParameter)
 	{
 		if (lpParameter)
 		{
-			REThreadInternal * reThread = REPtrCast<REThreadInternal, LPVOID>(lpParameter);
+			REThreadInternal * reThread = REPtrCast<REThreadInternal, void>(lpParameter);
 			reThread->threadBody();
 		}
 		return 0;
@@ -434,7 +435,7 @@ namespace FayeCpp {
 			REThreadInternal::mainPThread = pthread_self();
 		}
 #elif defined(__RE_USING_WINDOWS_THREADS__)
-		if (REThreadInternal::mainThreadID == (HANDLE)0)
+		if (REThreadInternal::mainThreadID == 0)
 		{
 			REThreadInternal::mainThreadID = GetCurrentThreadId();
 		}
@@ -465,7 +466,7 @@ namespace FayeCpp {
 		{
 			REThreadInternal::mainThreadID = GetCurrentThreadId();
 		}
-		thID = ((REUIdentifier)REThreadInternal::mainPThread);
+		thID = ((REUIdentifier)REThreadInternal::mainThreadID);
 #endif
 		return thID;
 	}
@@ -484,7 +485,7 @@ namespace FayeCpp {
 	void REThread::uSleep(const REUInt32 microseconds)
 	{
 #if defined(__RE_OS_WINDOWS__)
-		LARGE_INTEGER time1 = 0, time2 = 0, sysFreq = 0;
+		LARGE_INTEGER time1, time2, sysFreq;
 		
 		QueryPerformanceCounter(&time1);
 		QueryPerformanceFrequency(&sysFreq);
@@ -492,7 +493,8 @@ namespace FayeCpp {
 		{
 			QueryPerformanceCounter(&time2);
 		}
-		while((time2 - time1) < microseconds);
+
+		while((time2.QuadPart - time1.QuadPart) < microseconds);
 #endif
 		
 #if defined(HAVE_FUNCTION_USLEEP)

@@ -18,12 +18,42 @@
 #ifndef __FAYECPP_COMMON_H__
 #define __FAYECPP_COMMON_H__
 
-#include <inttypes.h>
-#include <stdlib.h> 
+#include <stdlib.h>
+#include <stdio.h>
+#include <stdint.h>
+#include <limits.h>
 #include <string>
 #include <vector>
 #include <list>
 #include <map>
+
+
+#if ( (!defined(__RE_OS_WINDOWS__)) && (!defined(__RE_OS_IPHONE__)) && (!defined(__RE_OS_MACOSX__)) && (!defined(__RE_OS_LINUX__)) && (!defined(__RE_OS_ANDROID__)) && (!defined(__RE_OS_BADA__)) )
+/* No manualy selected, try to auto select */
+
+#if (defined(WIN32) || defined(_WIN32) || defined(WIN32_LEAN_AND_MEAN) || defined(_WIN64) || defined(WIN64))
+
+#define __RE_OS_WINDOWS__ 1
+
+
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN /* Exclude rarely-used stuff from Windows headers */
+#endif /* WIN32_LEAN_AND_MEAN */
+
+
+#endif /* END CHECKING WINDOWS PLATFORM  */
+/***********************************************************************************/
+
+#endif
+
+#ifndef MIN
+#define MIN(a,b) ((a) < (b) ? (a) : (b))
+#endif
+
+#ifndef MAX
+#define MAX(a,b) ((a) > (b) ? (a) : (b))
+#endif
+
 
 #define __RE_PUBLIC_CLASS_API__ 
 

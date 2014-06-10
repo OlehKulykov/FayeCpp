@@ -19,7 +19,6 @@
 #define __FAYECPP_VARIANT_H__
 
 #include "common.h"
-#include <inttypes.h>
 
 namespace FayeCpp
 {
