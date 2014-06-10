@@ -634,26 +634,149 @@ namespace FayeCpp {
 		 */
 		const std::vector<unsigned char> & data() const;
 
+
+		/**
+		 @brief Setter for message type.
+		 @param type The new message type.
+		 @return This message address.
+		 */
 		Message & setType(MessageType type);
+
+
+		/**
+		 @brief Setter for client ID.
+		 @param value - New client ID value.
+		 @return This message address.
+		 */
 		Message & setClientId(const std::string & value);
+
+
+		/**
+		 @brief Setter for channel.
+		 @param value - New channel value.
+		 @return This message address.
+		 */
 		Message & setChannel(const std::string & value);
+
+
+		/**
+		 @brief Setter for channel type.
+		 @param value - New channel type value.
+		 @return This message address.
+		 */
 		Message & setChannelType(const ChannelType type);
+
+
+		/**
+		 @brief Setter for subscription.
+		 @param value - New subscription value.
+		 @return This message address.
+		 */
 		Message & setSubscription(const std::string & value);
+
+
+		/**
+		 @brief Setter for successful flag.
+		 @param value - New successful flag value.
+		 @return This message address.
+		 */
 		Message & setSuccessfully(bool value);
+
+
+		/**
+		 @brief Setter for error string.
+		 @param value - New error string value.
+		 @return This message address.
+		 */
 		Message & setErrorString(const std::string & value);
+
+
+		/**
+		 @brief Setter for version string.
+		 @param value - New version string value.
+		 @return This message address.
+		 */
 		Message & setVersion(const std::string & value);
+
+
+		/**
+		 @brief Add connection type to message.
+		 @param value - Connection type string.
+		 @return This message address.
+		 */
 		Message & addConnectionType(const std::string & connectionType);
+
+
+		/**
+		 @brief Setter for minimum version string.
+		 @param value - New minimum version value.
+		 @return This message address.
+		 */
 		Message & setMinimumVersion(const std::string & value);
+
+
+		/**
+		 @brief Setter for connection type string.
+		 @param value - New connection type value.
+		 @return This message address.
+		 */
 		Message & setConnectionType(const std::string & value);
 
+
+		/**
+		 @brief Check empty message.
+		 @return True if empty, otherwice false.
+		 */
 		bool isEmpty() const;
+
+
+		/**
+		 @brief Convert message to JSON data.
+		 @return Vector with JSON data.
+		 */
 		std::vector<unsigned char> toJsonData() const;
+
+
+		/**
+		 @brief Convert message to JSON string.
+		 @return JSON string.
+		 */
 		std::string toJsonString() const;
+
+
+		/**
+		 @brief Default constructor.
+		 */
 		Message();
+
+
+		/**
+		 @brief Constructor.
+		 @param jsonString - JSON string with message params.
+		 */
 		Message(const std::string & jsonString);
+
+
+		/**
+		 @brief Constructor.
+		 @param jsonData - JSON data with message params.
+		 */
 		Message(const std::vector<unsigned char> & jsonData);
 
+
+		/**
+		 @brief Convert channel type string to it's type.
+		 @param typeString - Channel type string.
+		 @return Channel type enum value.
+		 */
 		static ChannelType stringToType(const std::string & typeString);
+
+
+		/**
+		 @brief Convert channel type to string.
+		 @param type - Channel type enum value.
+		 @return String with channel type.
+		 */
 		static std::string typeToString(const ChannelType type);
 	};
 
