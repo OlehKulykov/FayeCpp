@@ -169,7 +169,7 @@ namespace FayeCpp {
 		
 		this->writeLock();
 		
-		REBuffer * buffer = new REBuffer(data, (REUInt32)dataSize);
+		REBuffer * buffer = new REBuffer(data, (uint32_t)dataSize);
 		if (buffer && buffer->size() == dataSize)
 		{
 			buffer->setTag((int)type);
