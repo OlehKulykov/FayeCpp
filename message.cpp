@@ -15,7 +15,7 @@
  */
 
 
-#include "message.h"
+#include "fayecpp.h"
 
 #if defined(HAVE_FAYECPP_CONFIG_H)
 #include "fayecpp_config.h"

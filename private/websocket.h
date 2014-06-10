@@ -19,7 +19,7 @@
 #define __FAYECPP_FAYE_CLIENT_H__
 
 
-#include "../common.h"
+#include "../fayecpp.h"
 
 #if defined(HAVE_FAYECPP_CONFIG_H)
 #include "fayecpp_config.h"

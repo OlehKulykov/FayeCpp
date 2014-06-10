@@ -3,8 +3,7 @@
 
 #ifdef HAVE_SUITABLE_QT_VERSION
 
-#include "../client.h"
-#include "../message.h"
+#include "../fayecpp.h"
 
 namespace FayeCpp {
 

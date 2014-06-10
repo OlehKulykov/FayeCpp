@@ -19,8 +19,6 @@
 
 #if !defined(HAVE_SUITABLE_QT_VERSION) && defined(HAVE_LIBWEBSOCKETS_H)
 
-#include "../client.h"
-#include "../message.h"
 #include "REThread.h"
 #include "REMutex.h"
 #include "REBuffer.h"

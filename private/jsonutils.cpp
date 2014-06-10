@@ -16,7 +16,7 @@
 
 
 #include "jsonutils.h"
-#include "../variant.h"
+#include "../fayecpp.h"
 
 #include <jansson.h>
 

@@ -18,7 +18,7 @@
 #ifndef __REPTR_H__
 #define __REPTR_H__
 
-#include "../common.h"
+#include "../fayecpp.h"
 
 namespace FayeCpp {
 	

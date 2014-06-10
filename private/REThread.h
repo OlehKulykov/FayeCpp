@@ -18,7 +18,7 @@
 #ifndef __RETHREAD_H__
 #define __RETHREAD_H__
 
-#include "../common.h"
+#include "../fayecpp.h"
 #include "REPtr.h"
 
 namespace FayeCpp {

@@ -32,6 +32,18 @@ add_subdirectory(jansson)
 include_directories(${CMAKE_BINARY_DIR}/jansson/include)
 
 
+if (MSVC)
+   if (STATIC_CRT)
+      set(CMAKE_C_FLAGS_RELEASE "/MT")
+      set(CMAKE_C_FLAGS_DEBUG "/MTd")
+   endif(STATIC_CRT)
+endif(MSVC)
+
+if (NOT WIN32 AND (CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX))
+   set(CMAKE_C_FLAGS "-fPIC")
+endif() 
+
+
 CHECK_INCLUDE_FILE("libwebsockets.h" HAVE_LIBWEBSOCKETS_H)
 
 CHECK_INCLUDE_FILE("stdlib.h" HAVE_STDLIB_H)
@@ -408,6 +420,14 @@ check_function_exists(dispatch_after HAVE_FUNCTION_DISPATCH_AFTER)
 
 SET(__FAYECPP_HAVE_CONFIG__ 1)
 
+
+if(NOT DEFINED CMAKE_INSTALL_LIBDIR)
+	set(CMAKE_INSTALL_LIBDIR lib)
+endif(NOT DEFINED CMAKE_INSTALL_LIBDIR)
+
+set(prefix ${CMAKE_INSTALL_PREFIX})
+set(libdir ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR})
+
 configure_file("${PROJECT_SOURCE_DIR}/fayecpp_config.h.in" 
 				"${PROJECT_BINARY_DIR}/fayecpp_config.h")
 
@@ -430,11 +450,6 @@ set(FAYECPP_SOURCES	private/REBuffer.cpp
 				
 
 set(FAYECPP_HEADERS 	fayecpp.h
-				client.h
-				common.h
-				delegate.h
-				message.h
-				variant.h
 				fayecpp_config.h)
 
 add_definitions(-DHAVE_FAYECPP_CONFIG_H)
@@ -444,4 +459,7 @@ ADD_LIBRARY(fayecpp STATIC ${FAYECPP_SOURCES} ${FAYECPP_HEADERS})
 add_dependencies(fayecpp jansson)
 
 target_link_libraries(fayecpp jansson)
+
+install(TARGETS fayecpp DESTINATION lib)
+install(FILES fayecpp.h DESTINATION include)
 

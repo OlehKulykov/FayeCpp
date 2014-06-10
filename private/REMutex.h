@@ -18,7 +18,7 @@
 #ifndef __REMUTEX_H__
 #define __REMUTEX_H__
 
-#include "../common.h"
+#include "../fayecpp.h"
 
 namespace FayeCpp {
 

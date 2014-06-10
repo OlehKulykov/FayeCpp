@@ -18,7 +18,7 @@
 #ifndef __REBUFFER_H__
 #define __REBUFFER_H__
 
-#include "../common.h"
+#include "../fayecpp.h"
 
 namespace FayeCpp {
 	

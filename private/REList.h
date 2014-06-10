@@ -18,7 +18,7 @@
 #ifndef __RELIST_H__
 #define __RELIST_H__
 
-#include "../common.h"
+#include "../fayecpp.h"
 
 #include <assert.h>
 

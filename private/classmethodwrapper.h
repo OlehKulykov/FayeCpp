@@ -18,7 +18,7 @@
 #ifndef __FAYECPP_CLASS_METHOD_WRAPPER_H__
 #define __FAYECPP_CLASS_METHOD_WRAPPER_H__
 
-#include "../common.h"
+#include "../fayecpp.h"
 
 namespace FayeCpp {
 

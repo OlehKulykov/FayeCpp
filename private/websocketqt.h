@@ -18,7 +18,7 @@
 #ifndef __FAYECPP_WEBSOCKETQT_H__
 #define __FAYECPP_WEBSOCKETQT_H__
 
-#include "../common.h"
+#include "../fayecpp.h"
 
 #ifdef HAVE_SUITABLE_QT_VERSION
 

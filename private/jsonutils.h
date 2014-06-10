@@ -18,7 +18,7 @@
 #ifndef __FAYECPP_JSON_UTILS_H__
 #define __FAYECPP_JSON_UTILS_H__
 
-#include "../common.h"
+#include "../fayecpp.h"
 
 namespace FayeCpp {
 	

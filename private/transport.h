@@ -18,8 +18,7 @@
 #ifndef __FAYECPP_TRANSPORT_H__
 #define __FAYECPP_TRANSPORT_H__
 
-#include "../common.h"
-#include "../delegate.h"
+#include "../fayecpp.h"
 #include "classmethodwrapper.h"
 
 namespace FayeCpp {

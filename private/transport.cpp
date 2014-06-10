@@ -16,8 +16,7 @@
 
 
 #include "transport.h"
-#include "../message.h"
-#include "../client.h"
+#include "../fayecpp.h"
 #include "REThread.h"
 
 #include <assert.h>
