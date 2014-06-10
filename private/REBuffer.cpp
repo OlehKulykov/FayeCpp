@@ -30,7 +30,7 @@ namespace FayeCpp {
 		_tag = t;
 	}
 	
-	void * REBuffer::defaultMalloc(const REUInt32 size)
+	void * REBuffer::defaultMalloc(const uint32_t size)
 	{
 		return malloc((size_t)size);
 	}
@@ -40,7 +40,7 @@ namespace FayeCpp {
 		free(mem);
 	}
 	
-	void * REBuffer::mallocNewMemory(const REUInt32 size)
+	void * REBuffer::mallocNewMemory(const uint32_t size)
 	{
 		return REBuffer::defaultMalloc(size);
 	}
@@ -50,7 +50,7 @@ namespace FayeCpp {
 		REBuffer::defaultFree(mem);
 	}
 	
-	REBOOL REBuffer::isEqualToBuffer(const REBuffer & anotherBuffer) const
+	bool REBuffer::isEqualToBuffer(const REBuffer & anotherBuffer) const
 	{
 		if (_size == anotherBuffer._size)
 		{
@@ -64,12 +64,12 @@ namespace FayeCpp {
 		return _buff;
 	}
 	
-	REUInt32 REBuffer::size() const
+	uint32_t REBuffer::size() const
 	{
 		return _size;
 	}
 	
-	REBOOL REBuffer::resize(const REUInt32 newSize, REBOOL isCopyPrevData)
+	bool REBuffer::resize(const uint32_t newSize, bool isCopyPrevData)
 	{
 		if (_size == newSize)
 		{
@@ -83,7 +83,7 @@ namespace FayeCpp {
 			{
 				if (isCopyPrevData)
 				{
-					const REUInt32 copySize = MIN(newSize, _size);
+					const uint32_t copySize = MIN(newSize, _size);
 					if (copySize)
 					{
 						memcpy(newBuff, _buff, (size_t)copySize);
@@ -112,7 +112,7 @@ namespace FayeCpp {
 		}
 	}
 	
-	REBOOL REBuffer::set(const void * buff, const REUInt32 buffSize)
+	bool REBuffer::set(const void * buff, const uint32_t buffSize)
 	{
 		this->clear();
 		
@@ -131,11 +131,11 @@ namespace FayeCpp {
 		return false;
 	}
 	
-	REBOOL REBuffer::append(const void * buff, const REUInt32 buffSize)
+	bool REBuffer::append(const void * buff, const uint32_t buffSize)
 	{
 		if (_size && _buff)
 		{
-			const REUInt32 newSize = _size + buffSize;
+			const uint32_t newSize = _size + buffSize;
 			char * newBuff = (char *)this->mallocNewMemory(newSize);
 			if (newBuff)
 			{
@@ -151,7 +151,7 @@ namespace FayeCpp {
 		return this->set(buff, buffSize);
 	}
 	
-	REBOOL REBuffer::append(const REBuffer & anotherBuff)
+	bool REBuffer::append(const REBuffer & anotherBuff)
 	{
 		return this->append(anotherBuff.buffer(), anotherBuff.size());
 	}
@@ -176,7 +176,7 @@ namespace FayeCpp {
 		this->set(anotherBuff._buff, anotherBuff._size);
 	}
 	
-	REBuffer::REBuffer(const void * buff, const REUInt32 buffSize) :
+	REBuffer::REBuffer(const void * buff, const uint32_t buffSize) :
 		_buff(NULL),
 		_size(0),
 		_tag(0)
@@ -184,7 +184,7 @@ namespace FayeCpp {
 		this->set(buff, buffSize);
 	}
 	
-	REBuffer::REBuffer(const REUInt32 buffSize) :
+	REBuffer::REBuffer(const uint32_t buffSize) :
 		_buff(NULL),
 		_size(0),
 		_tag(0)

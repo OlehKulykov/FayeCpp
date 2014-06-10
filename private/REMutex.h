@@ -76,32 +76,32 @@ public:
 	 @brief Checks is mutex initialized.
 	 @return True if initialized otherwice false.
 	 */
-	REBOOL isInitialized() const;
+	bool isInitialized() const;
 	
 	/**
 	 @brief Initializes mutex with selected type.
 	 @param type required mutex type.
 	 @return Returns true if successfuly initialized or allready initialized.
 	 */
-	REBOOL init(const REMutexType type);
+	bool init(const REMutexType type);
 	
 	/**
 	 @brief Locks mutex.
 	 @return Returns 'true' if success and 'false' - if fail or not initialized.
 	 */
-	REBOOL lock();
+	bool lock();
 	
 	/**
 	 @brief Unlocks mutex.
 	 @return Returns 'true' if success and 'false' - if fail or not initialized.
 	 */
-	REBOOL unlock();
+	bool unlock();
 	
 	/**
 	 @brief Checks is mutex locked.
 	 @return Returns value indicated that mutex is successfuly locked.
 	 */
-	REBOOL isLocked() const;
+	bool isLocked() const;
 	
 	REMutex();
 	virtual ~REMutex();

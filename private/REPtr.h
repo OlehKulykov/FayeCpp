@@ -27,7 +27,7 @@ namespace FayeCpp {
 	{
 	private:
 		PointerType* _object;
-		REInt32* _referenceCount;
+		int32_t* _referenceCount;
 		
 		void retain()
 		{
@@ -47,17 +47,17 @@ namespace FayeCpp {
 		}
 		
 	public:
-		REBOOL isEmpty() const
+		bool isEmpty() const
 		{
 			return (_object == NULL);
 		}
 		
-		REBOOL isNotEmpty() const
+		bool isNotEmpty() const
 		{
 			return (_object != NULL);
 		}
 		
-		REBOOL isSingleOwner() const
+		bool isSingleOwner() const
 		{
 			return _referenceCount ? ((*_referenceCount) <= 1) : false;
 		}
@@ -128,7 +128,7 @@ namespace FayeCpp {
 		{
 			if (_object)
 			{
-				REInt32 * count = (REInt32 *)malloc(sizeof(REInt32 *));
+				int32_t * count = (int32_t *)malloc(sizeof(int32_t *));
 				if (count)
 				{
 					*count = 1;

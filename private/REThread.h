@@ -32,7 +32,7 @@ namespace FayeCpp {
 	{
 	private:
 		REThreadInternal * _t;
-		REBOOL _isTaskFinished;
+		bool _isTaskFinished;
 		
 		static void invokeThreadBody(REThread * thread);
 		
@@ -42,40 +42,40 @@ namespace FayeCpp {
 	public:
 		typedef void(*PerformFunction)(void * userData);
 		
-		REBOOL isTaskFinished() const;
+		bool isTaskFinished() const;
 		
 		/// Returns working thread priority. Value in range: [0.0f, 1.0f]
-		REFloat32 priority() const;
+		float priority() const;
 		
 		/// Setting working thread priority. Value must be in range: [0.0f, 1.0f]
-		REBOOL setPriority(const REFloat32 newPriority);
+		bool setPriority(const float newPriority);
 				
 		/// Start thread's work
-		REBOOL start();
+		bool start();
 		
 		/// Cancels thread
-		REBOOL cancel();
+		bool cancel();
 		
 		REThread();
 		virtual ~REThread();
 		
 		/// Checking is executing in main thread.
-		static REBOOL isMainThread();
+		static bool isMainThread();
 		
 		/// If at least one aditional thread is created.
-		static REBOOL isMultiThreaded();
+		static bool isMultiThreaded();
 		
 		/// Returns identifier of main thread.
-		static REUIdentifier mainThreadIdentifier();
+		static uintptr_t mainThreadIdentifier();
 		
 		/// Returns identifier of current thread. Mean thread from which was called this method.
-		static REUIdentifier currentThreadIdentifier();
+		static uintptr_t currentThreadIdentifier();
 		
 		/// Sleps current thread for time in micro seconds.
-		static void uSleep(const REUInt32 microseconds);
+		static void uSleep(const uint32_t microseconds);
 		
 		/// Sleps current thread for time in micro seconds.
-		static void uSleepInSeconds(const RETimeInterval seconds);
+		static void uSleepInSeconds(const double seconds);
 	};
 	
 }

@@ -27,45 +27,45 @@ namespace FayeCpp {
 	{
 	protected:
 		void * _buff;
-		REUInt32 _size;
+		uint32_t _size;
 		int _tag;
 		
-		static void * defaultMalloc(const REUInt32 size);
+		static void * defaultMalloc(const uint32_t size);
 		static void defaultFree(void * mem);
 		
-		virtual void * mallocNewMemory(const REUInt32 size);
+		virtual void * mallocNewMemory(const uint32_t size);
 		virtual void freeMemory(void * mem);
 	public:
 		int tag() const;
 		void setTag(const int t);
 		
 		/// Checks is buffer equal with another buffer.
-		REBOOL isEqualToBuffer(const REBuffer & anotherBuffer) const;
+		bool isEqualToBuffer(const REBuffer & anotherBuffer) const;
 		
 		/// Returns void pointer to memory buffer or NULL.
 		void * buffer() const;
 		
 		/// Returns size of memory byffer.
-		REUInt32 size() const;
+		uint32_t size() const;
 		
 		/// Resizes memory buffer with new size with copying prev data.
 		/// Returns true if memory was resized to 'newSize', or false if new memory not created.
-		REBOOL resize(const REUInt32 newSize, REBOOL isCopyPrevData);
+		bool resize(const uint32_t newSize, bool isCopyPrevData);
 		
 		/// Cleares memory buffer.
 		void clear();
 		
 		/// Set new size of memory buffer, copy from inputed buffer data with size to destination.
-		REBOOL set(const void * buff, const REUInt32 buffSize);
+		bool set(const void * buff, const uint32_t buffSize);
 		
 		/// Setes memory beffer from another buffer.
 		REBuffer & operator=(const REBuffer & anotherBuff);
 		
 		/// Appends new memory with size
-		REBOOL append(const void * buff, const REUInt32 buffSize);
+		bool append(const void * buff, const uint32_t buffSize);
 		
 		/// Appends with another buffer object.
-		REBOOL append(const REBuffer & anotherBuff);
+		bool append(const REBuffer & anotherBuff);
 		
 		/// Appends with another buffer object.
 		REBuffer & operator+=(const REBuffer & anotherBuff);
@@ -74,10 +74,10 @@ namespace FayeCpp {
 		REBuffer(const REBuffer & anotherBuff);
 		
 		/// Constructs buffer object with content from another buffer with size.
-		REBuffer(const void * buff, const REUInt32 buffSize);
+		REBuffer(const void * buff, const uint32_t buffSize);
 		
 		/// Constructs buffer object with memory size.
-		REBuffer(const REUInt32 buffSize);
+		REBuffer(const uint32_t buffSize);
 		
 		/// Constructs empty buffer object.
 		REBuffer();

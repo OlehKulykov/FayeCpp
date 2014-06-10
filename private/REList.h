@@ -142,7 +142,7 @@ namespace FayeCpp {
 			return Iterator(this->_castHead);
 		}
 		
-		REBOOL isEmpty() const
+		bool isEmpty() const
 		{
 			return (this->_head->next == this->_head);
 		}
@@ -198,7 +198,7 @@ namespace FayeCpp {
 			return NULL;
 		}
 		
-		REBOOL isContaines(const T & value)
+		bool isContaines(const T & value)
 		{
 			return this->findNode(value) ? true : false;
 		}
@@ -216,7 +216,7 @@ namespace FayeCpp {
 			return this->_castHead;
 		}
 		
-		REBOOL add(const T & newValue)
+		bool add(const T & newValue)
 		{
 			Node * newNode = _createNode(newValue);
 			if (newNode)

@@ -45,17 +45,17 @@ namespace FayeCpp {
 #elif defined(__RE_USING_WINDOWS_THREADS__)
 		HANDLE _mutexHANDLE;
 #endif
-		REUInt32 _successfulLocks;
+		uint32_t _successfulLocks;
 	public:
-		REBOOL init(const REMutexType type);
-		REBOOL lock();
-		REBOOL unlock();
-		REBOOL isLocked() const;
+		bool init(const REMutexType type);
+		bool lock();
+		bool unlock();
+		bool isLocked() const;
 		REMutexInternal();
 		~REMutexInternal();
 	};
 	
-	REBOOL REMutexInternal::init(const REMutexType type)
+	bool REMutexInternal::init(const REMutexType type)
 	{
 #if defined(HAVE_PTHREAD_H)
 		
@@ -74,7 +74,7 @@ namespace FayeCpp {
 				default:
 					break;
 			}
-			REBOOL isInit = false;
+			bool isInit = false;
 			if (setTypeResult == 0)
 			{
 				if (pthread_mutex_init(&_pthreadMutex, &attr) == 0)
@@ -100,7 +100,7 @@ namespace FayeCpp {
 		return false;
 	}
 	
-	REBOOL REMutexInternal::unlock()
+	bool REMutexInternal::unlock()
 	{
 #if defined(HAVE_PTHREAD_H)
 		if (pthread_mutex_unlock(&_pthreadMutex) == 0)
@@ -121,7 +121,7 @@ namespace FayeCpp {
 		return false;
 	}
 	
-	REBOOL REMutexInternal::lock()
+	bool REMutexInternal::lock()
 	{
 #if defined(HAVE_PTHREAD_H)
 		if (pthread_mutex_lock(&_pthreadMutex) == 0)
@@ -143,7 +143,7 @@ namespace FayeCpp {
 		return false;
 	}
 	
-	REBOOL REMutexInternal::isLocked() const
+	bool REMutexInternal::isLocked() const
 	{
 		return (_successfulLocks > 0);
 	}
@@ -175,7 +175,7 @@ namespace FayeCpp {
 	}
 	
 	
-	REBOOL REMutex::init(const REMutexType type)
+	bool REMutex::init(const REMutexType type)
 	{
 		if (_m)
 		{
@@ -195,22 +195,22 @@ namespace FayeCpp {
 		return false;
 	}
 	
-	REBOOL REMutex::lock()
+	bool REMutex::lock()
 	{
 		return (_m) ? _m->lock() : false;
 	}
 	
-	REBOOL REMutex::unlock()
+	bool REMutex::unlock()
 	{
 		return (_m) ? _m->unlock() : false;
 	}
 	
-	REBOOL REMutex::isLocked() const
+	bool REMutex::isLocked() const
 	{
 		return (_m) ? _m->isLocked() : false;
 	}
 	
-	REBOOL REMutex::isInitialized() const
+	bool REMutex::isInitialized() const
 	{
 		return (_m) ? true : false;
 	}

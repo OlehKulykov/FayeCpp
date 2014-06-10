@@ -65,9 +65,9 @@ namespace FayeCpp {
 	class REThreadInternal
 	{
 	private:
-		REBOOL _isTaskFinished;
+		bool _isTaskFinished;
 	public:
-		REBOOL isTaskFinished() const { return _isTaskFinished; }
+		bool isTaskFinished() const { return _isTaskFinished; }
 #if defined(HAVE_PTHREAD_H)
 		pthread_t _reThreadThread;
 #elif defined(__RE_USING_WINDOWS_THREADS__)
@@ -125,7 +125,7 @@ namespace FayeCpp {
 			this->cancel();
 		}
 		
-		REBOOL start()
+		bool start()
 		{
 #if defined(HAVE_PTHREAD_H)
 			if (_reThreadThread) { return false; }
@@ -156,7 +156,7 @@ namespace FayeCpp {
 #endif
 			}
 			
-			REBOOL isCreated = false;
+			bool isCreated = false;
 			pthread_t newThread = (pthread_t)0;
 			if (pthread_create(&newThread, &threadAttr, REThreadInternal::threadFunction, REPtrCast<void, REThreadInternal>(this)) == 0)
 			{
@@ -188,12 +188,12 @@ namespace FayeCpp {
 		}
 #endif
 		
-		REBOOL cancel()
+		bool cancel()
 		{
 #if defined(HAVE_PTHREAD_H)
 			if (_reThreadThread)
 			{
-				REBOOL res = false;
+				bool res = false;
 				pthread_t th = _reThreadThread;
 				
 				pthread_kill(th, SIGUSR2);
@@ -240,7 +240,7 @@ namespace FayeCpp {
 			return true;
 		}
 		
-		REFloat32 priority() const
+		float priority() const
 		{
 #if defined(HAVE_PTHREAD_H)
 			if (_reThreadThread)
@@ -253,7 +253,7 @@ namespace FayeCpp {
 					pthread_t thisThread = _reThreadThread;
 					if ( pthread_getschedparam(thisThread, &policy, &p) == 0 )
 					{
-						return ((REFloat32)p.sched_priority / (REFloat32)maxPrior);
+						return ((float)p.sched_priority / (float)maxPrior);
 					}
 				}
 			}
@@ -269,7 +269,7 @@ namespace FayeCpp {
 			return 0.0f;
 		}
 		
-		REBOOL setPriority(const REFloat32 newPriority)
+		bool setPriority(const float newPriority)
 		{
 			if ((newPriority <= 0.0f) || (newPriority > 1.0f)) return false;
 #if defined(HAVE_PTHREAD_H)
@@ -307,7 +307,7 @@ namespace FayeCpp {
 		static DWORD mainThreadID;
 		static DWORD WINAPI threadProc(LPVOID lpParameter);
 #endif
-		static REBOOL isMultiThreaded;
+		static bool isMultiThreaded;
 		static void onDone(REThreadInternal * t);
 		
 	private:
@@ -361,10 +361,10 @@ namespace FayeCpp {
 		return 0;
 	}
 #endif
-	REBOOL REThreadInternal::isMultiThreaded = false;
+	bool REThreadInternal::isMultiThreaded = false;
 	
 	
-	REBOOL REThread::start()
+	bool REThread::start()
 	{
 		if (_t)
 		{
@@ -382,11 +382,11 @@ namespace FayeCpp {
 		return false;
 	}
 	
-	REBOOL REThread::cancel()
+	bool REThread::cancel()
 	{
 		if (_t)
 		{
-			const REBOOL r = _t->cancel();
+			const bool r = _t->cancel();
 			delete _t;
 			_t = NULL;
 			return r;
@@ -394,17 +394,17 @@ namespace FayeCpp {
 		return true;
 	}
 	
-	REBOOL REThread::isTaskFinished() const
+	bool REThread::isTaskFinished() const
 	{
 		return _isTaskFinished;
 	}
 	
-	REFloat32 REThread::priority() const
+	float REThread::priority() const
 	{
 		return (_t) ? _t->priority() : 0.0f;
 	}
 	
-	REBOOL REThread::setPriority(const REFloat32 newPriority)
+	bool REThread::setPriority(const float newPriority)
 	{
 		return (_t) ? _t->setPriority(newPriority) : false;
 	}
@@ -447,20 +447,20 @@ namespace FayeCpp {
 		this->cancel();
 	}
 	
-	REBOOL REThread::isMultiThreaded()
+	bool REThread::isMultiThreaded()
 	{
 		return REThreadInternal::isMultiThreaded;
 	}
 	
-	REUIdentifier REThread::mainThreadIdentifier()
+	uintptr_t REThread::mainThreadIdentifier()
 	{
-		REUIdentifier thID = 0;
+		uintptr_t thID = 0;
 #if defined(HAVE_PTHREAD_H)
 		if (REThreadInternal::mainPThread == (pthread_t)0)
 		{
 			REThreadInternal::mainPThread = pthread_self();
 		}
-		thID = ((REUIdentifier)REThreadInternal::mainPThread);
+		thID = ((uintptr_t)REThreadInternal::mainPThread);
 #elif defined(__RE_USING_WINDOWS_THREADS__)
 		if (REThreadInternal::mainThreadID == 0)
 		{
@@ -471,18 +471,18 @@ namespace FayeCpp {
 		return thID;
 	}
 	
-	REUIdentifier REThread::currentThreadIdentifier()
+	uintptr_t REThread::currentThreadIdentifier()
 	{
-		REUIdentifier thID = 0;
+		uintptr_t thID = 0;
 #if defined(HAVE_PTHREAD_H)
-		thID = ((REUIdentifier)pthread_self());
+		thID = ((uintptr_t)pthread_self());
 #elif defined(__RE_USING_WINDOWS_THREADS__)
 		thID = ((REUIdentifier)GetCurrentThreadId());
 #endif
 		return thID;
 	}
 	
-	void REThread::uSleep(const REUInt32 microseconds)
+	void REThread::uSleep(const uint32_t microseconds)
 	{
 #if defined(__RE_OS_WINDOWS__)
 		LARGE_INTEGER time1, time2, sysFreq;
@@ -504,22 +504,22 @@ namespace FayeCpp {
 	
 #include <math.h>
 	
-	const REUInt64 __convertSecondsToMicroseconds(const RETimeInterval seconds)
+	const uint64_t __convertSecondsToMicroseconds(const double seconds)
 	{
 		double fullSeconds = 0.0;
 		const double fractSecond = modf(seconds, &fullSeconds);
-		const REUInt64 fullIntMicrosec = (REUInt64)fullSeconds * 1000000;
-		const REUInt64 fractIntMicrosec = (REUInt64)fractSecond * 1000000;
+		const uint64_t fullIntMicrosec = (uint64_t)fullSeconds * 1000000;
+		const uint64_t fractIntMicrosec = (uint64_t)fractSecond * 1000000;
 		return (fullIntMicrosec + fractIntMicrosec);
 	}
 	
 	/// Sleps current thread for time in micro seconds.
-	void REThread::uSleepInSeconds(const RETimeInterval seconds)
+	void REThread::uSleepInSeconds(const double seconds)
 	{
-		REThread::uSleep((REUInt32)__convertSecondsToMicroseconds(seconds));
+		REThread::uSleep((uint32_t)__convertSecondsToMicroseconds(seconds));
 	}
 	
-	REBOOL REThread::isMainThread()
+	bool REThread::isMainThread()
 	{
 #if defined(HAVE_PTHREAD_H)
 		pthread_t curThread = pthread_self();
