@@ -27,7 +27,7 @@ namespace FayeCpp {
 
     class Transport;
 
-    class Client
+    class __RE_PUBLIC_CLASS_API__ Client
     {
     private:
         Transport * _transport;

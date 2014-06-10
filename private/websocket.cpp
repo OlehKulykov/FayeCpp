@@ -17,7 +17,7 @@
 
 #include "websocket.h"
 
-#ifndef HAVE_SUITABLE_QT_VERSION
+#if !defined(HAVE_SUITABLE_QT_VERSION) && defined(HAVE_LIBWEBSOCKETS_H)
 
 #include "../client.h"
 #include "../message.h"

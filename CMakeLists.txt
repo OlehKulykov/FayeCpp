@@ -26,25 +26,25 @@ INCLUDE(CheckTypeSize)
 INCLUDE(CheckSymbolExists)
 INCLUDE(CheckIncludeFileCXX)
 
+# Allow the developer to select if Dynamic or Static libraries are built
+OPTION (BUILD_SHARED_LIBS "Build Shared Libraries" OFF)
+# Set the LIB_TYPE variable to STATIC
+SET (LIB_TYPE STATIC)
+IF (BUILD_SHARED_LIBS)
+  # User wants to build Dynamic Libraries, so change the LIB_TYPE variable to CMake keyword 'SHARED'
+  SET (LIB_TYPE SHARED)
+ENDIF (BUILD_SHARED_LIBS)
+
+
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-
-MESSAGE(CMAKE_BINARY_DIR "=" ${CMAKE_BINARY_DIR}) 
-
-add_subdirectory(libwebsockets)
-include_directories(libwebsockets/lib)
-include_directories(${CMAKE_BINARY_DIR}/libwebsockets)
-
 
 add_subdirectory(jansson)
 include_directories(${CMAKE_BINARY_DIR}/jansson/include)
 
-MESSAGE(include_directories "=" ${CMAKE_BINARY_DIR}/jansson/include) 
 
+CHECK_INCLUDE_FILE("libwebsockets.h" HAVE_LIBWEBSOCKETS_H)
 
-
-
-
-check_include_file("stdlib.h" HAVE_STDLIB_H)
+CHECK_INCLUDE_FILE("stdlib.h" HAVE_STDLIB_H)
 if(HAVE_STDLIB_H)
 	LIST(APPEND CMAKE_EXTRA_INCLUDE_FILES stdlib.h)
 endif(HAVE_STDLIB_H)
@@ -451,19 +451,11 @@ add_definitions(-DHAVE_FAYECPP_CONFIG_H)
 
 #add_dependencies(fayecpp jansson libwebsockets)
 
-include_directories(${CMAKE_BINARY_DIR}/libwebsockets)
 
-#MESSAGE(CMAKE_LIBRARY_PATH "=" ${CMAKE_LIBRARY_PATH})
-#set(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} ${CMAKE_BINARY_DIR}/libwebsockets/lib)
-#LINK_DIRECTORIES(${CMAKE_BINARY_DIR}/libwebsockets/lib)
-#MESSAGE(CMAKE_LIBRARY_PATH "=" ${CMAKE_LIBRARY_PATH})
+ADD_LIBRARY(fayecpp ${LIB_TYPE} ${FAYECPP_SOURCES} ${FAYECPP_HEADERS})
+#ADD_LIBRARY(fayecpp ${FAYECPP_SOURCES} ${FAYECPP_HEADERS})
 
-
-#ADD_LIBRARY(fayecpp SHARED ${FAYECPP_SOURCES} ${FAYECPP_HEADERS})
-ADD_LIBRARY(fayecpp ${FAYECPP_SOURCES} ${FAYECPP_HEADERS})
-
-#add_dependencies(fayecpp jansson libwebsockets)
+add_dependencies(fayecpp jansson)
 
 target_link_libraries(fayecpp jansson)
-target_link_libraries(fayecpp libwebsockets)
 

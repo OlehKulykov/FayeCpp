@@ -46,16 +46,27 @@
 
 #endif
 
+
 #ifndef MIN
 #define MIN(a,b) ((a) < (b) ? (a) : (b))
 #endif
+
 
 #ifndef MAX
 #define MAX(a,b) ((a) > (b) ? (a) : (b))
 #endif
 
 
+#if defined(__RE_OS_WINDOWS__) 
+#if defined(fayecpp_EXPORTS)
+#define __RE_PUBLIC_CLASS_API__ __declspec(dllexport)
+#else
+#define __RE_PUBLIC_CLASS_API__ __declspec(dllimport)
+#endif /* fayecpp_EXPORTS */
+#else /* defined(__RE_OS_WINDOWS__) */
 #define __RE_PUBLIC_CLASS_API__ 
+#endif
+
 
 /**
  @brief 8 bit unsigned byte type.

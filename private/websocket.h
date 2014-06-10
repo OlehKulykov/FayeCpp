@@ -21,12 +21,15 @@
 
 #include "../common.h"
 
-#ifndef HAVE_SUITABLE_QT_VERSION
+#if defined(HAVE_FAYECPP_CONFIG_H)
+#include "fayecpp_config.h"
+#endif
+
+#if !defined(HAVE_SUITABLE_QT_VERSION) && defined(HAVE_LIBWEBSOCKETS_H)
 
 #include "../delegate.h"
 #include "classmethodwrapper.h"
 #include "transport.h"
-#include <libwebsockets.h>
 #include "REThread.h"
 #include "REMutex.h"
 #include "REBuffer.h"

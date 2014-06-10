@@ -113,7 +113,7 @@ namespace FayeCpp {
 	/**
 	 @brief Message class for internal logic communication.
 	 */
-	class Message
+	class __RE_PUBLIC_CLASS_API__ Message
 	{
 	private:
 		std::string _clientId;

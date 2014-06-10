@@ -386,7 +386,7 @@ namespace FayeCpp {
 		
 #ifdef HAVE_SUITABLE_QT_VERSION
 		_transport = new WebSocketQt(new ClassMethodWrapper<Client, void(Client::*)(Message*), Message>(this, &Client::processMessage));
-#else
+#elif defined(HAVE_LIBWEBSOCKETS_H)
 		_transport = new WebSocket(new ClassMethodWrapper<Client, void(Client::*)(Message*), Message>(this, &Client::processMessage));
 #endif
         assert(_transport);
@@ -404,7 +404,7 @@ namespace FayeCpp {
 		
 #ifdef HAVE_SUITABLE_QT_VERSION
         types.push_back(WebSocketQt::transportName());
-#else
+#elif defined(HAVE_LIBWEBSOCKETS_H)
         types.push_back(WebSocket::transportName());
 #endif
 		
