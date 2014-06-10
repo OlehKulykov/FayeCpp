@@ -67,7 +67,7 @@ namespace FayeCpp {
 		return _buff;
 	}
 	
-	const REUInt32 REBuffer::size() const
+	REUInt32 REBuffer::size() const
 	{
 		return _size;
 	}

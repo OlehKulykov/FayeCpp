@@ -30,12 +30,13 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 MESSAGE(CMAKE_BINARY_DIR "=" ${CMAKE_BINARY_DIR}) 
 
-add_subdirectory(jansson)
-include_directories(${CMAKE_BINARY_DIR}/jansson/include)
-
 add_subdirectory(libwebsockets)
 include_directories(libwebsockets/lib)
 include_directories(${CMAKE_BINARY_DIR}/libwebsockets)
+
+
+add_subdirectory(jansson)
+include_directories(${CMAKE_BINARY_DIR}/jansson/include)
 
 MESSAGE(include_directories "=" ${CMAKE_BINARY_DIR}/jansson/include) 
 
