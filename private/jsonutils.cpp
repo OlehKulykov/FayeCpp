@@ -158,5 +158,15 @@ namespace FayeCpp {
         }
         return std::string();
     }
+	
+	char * JsonUtils::toJsonCString(const std::map<std::string, Variant> & message)
+	{
+		return __JsonUtils__jsonStringFromMap(message);
+	}
+	
+	char * JsonUtils::toJsonCString(const std::list<Variant> & message)
+	{
+		return __JsonUtils__jsonStringFromList(message);
+	}
 }
 
