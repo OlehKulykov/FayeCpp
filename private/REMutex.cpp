@@ -47,7 +47,7 @@ namespace FayeCpp {
 #endif
 		uint32_t _successfulLocks;
 	public:
-		bool init(const REMutexType type);
+        bool init(const REMutex::REMutexType type);
 		bool lock();
 		bool unlock();
 		bool isLocked() const;
@@ -55,7 +55,7 @@ namespace FayeCpp {
 		~REMutexInternal();
 	};
 	
-	bool REMutexInternal::init(const REMutexType type)
+    bool REMutexInternal::init(const REMutex::REMutexType type)
 	{
 #if defined(HAVE_PTHREAD_H)
 		
@@ -65,10 +65,10 @@ namespace FayeCpp {
 			int setTypeResult = -1;
 			switch (type)
 			{
-				case REMutexTypeNormal:
+                case REMutex::REMutexTypeNormal:
 					setTypeResult = pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_NORMAL);
 					break;
-				case REMutexTypeRecursive:
+                case REMutex::REMutexTypeRecursive:
 					setTypeResult = pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);
 					break;
 				default:
@@ -175,7 +175,7 @@ namespace FayeCpp {
 	}
 	
 	
-	bool REMutex::init(const REMutexType type)
+    bool REMutex::init(const REMutex::REMutexType type)
 	{
 		if (_m)
 		{

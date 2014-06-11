@@ -17,19 +17,23 @@
 
 #include "websocket.h"
 
+#if defined(HAVE_FAYECPP_CONFIG_H)
+#include "fayecpp_config.h"
+#endif
+
+
 #if !defined(HAVE_SUITABLE_QT_VERSION) && defined(HAVE_LIBWEBSOCKETS_H)
 
 #include "REThread.h"
 #include "REMutex.h"
 #include "REBuffer.h"
 
-#if defined(HAVE_FAYECPP_CONFIG_H)
-#include "fayecpp_config.h"
-#endif
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include <libwebsockets.h>
+
 
 namespace FayeCpp {
 	
@@ -335,7 +339,7 @@ namespace FayeCpp {
 		memset(&_info, 0, sizeof(struct lws_context_creation_info));
 		
 		assert(_writeMutex);
-		_writeMutex->init(REMutexTypeRecursive);
+        _writeMutex->init(REMutex::REMutexTypeRecursive);
 		
 		REThread::isMainThread();
 	}

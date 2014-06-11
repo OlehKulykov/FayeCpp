@@ -26,7 +26,7 @@
 namespace FayeCpp {
 	
 
-	MessageType Message::type() const
+    Message::MessageType Message::type() const
 	{
 		return _type;
 	}
@@ -41,7 +41,7 @@ namespace FayeCpp {
 		return _channel;
 	}
 	
-	ChannelType Message::channelType() const
+    Message::ChannelType Message::channelType() const
 	{
 		return Message::stringToType(_channel);
 	}
@@ -86,7 +86,7 @@ namespace FayeCpp {
 		return _data;
 	}
 	
-	Message & Message::setType(MessageType type)
+    Message & Message::setType(Message::MessageType type)
 	{
 		_type = type;
 		return *this;
@@ -104,7 +104,7 @@ namespace FayeCpp {
 		return *this;
 	}
 	
-	Message & Message::setChannelType(const ChannelType type)
+    Message & Message::setChannelType(const Message::ChannelType type)
 	{
 		_channel = Message::typeToString(type);
 		return *this;
@@ -308,25 +308,25 @@ namespace FayeCpp {
 #define SUBSCRIBE_CHANNEL "/meta/subscribe"
 #define UNSUBSCRIBE_CHANNEL "/meta/unsubscribe"
 	
-	ChannelType Message::stringToType(const std::string & typeString)
+    Message::ChannelType Message::stringToType(const std::string & typeString)
 	{
-		if (typeString == HANDSHAKE_CHANNEL) return ChannelTypeHandshake;
-		else if (typeString == CONNECT_CHANNEL) return ChannelTypeConnect;
-		else if (typeString == DISCONNECT_CHANNEL) return ChannelTypeDisconnect;
-		else if (typeString == SUBSCRIBE_CHANNEL) return ChannelTypeSubscribe;
-		else if (typeString == UNSUBSCRIBE_CHANNEL) return ChannelTypeUnsubscribe;
-		return ChannelTypeNone;
+        if (typeString == HANDSHAKE_CHANNEL) return Message::ChannelTypeHandshake;
+        else if (typeString == CONNECT_CHANNEL) return Message::ChannelTypeConnect;
+        else if (typeString == DISCONNECT_CHANNEL) return Message::ChannelTypeDisconnect;
+        else if (typeString == SUBSCRIBE_CHANNEL) return Message::ChannelTypeSubscribe;
+        else if (typeString == UNSUBSCRIBE_CHANNEL) return Message::ChannelTypeUnsubscribe;
+        return Message::ChannelTypeNone;
 	}
 	
-	std::string Message::typeToString(const ChannelType type)
+    std::string Message::typeToString(const Message::ChannelType type)
 	{
 		switch (type)
 		{
-			case ChannelTypeHandshake: return std::string(HANDSHAKE_CHANNEL); break;
-			case ChannelTypeConnect: return std::string(CONNECT_CHANNEL); break;
-			case ChannelTypeDisconnect: return std::string(DISCONNECT_CHANNEL); break;
-			case ChannelTypeSubscribe: return std::string(SUBSCRIBE_CHANNEL); break;
-			case ChannelTypeUnsubscribe: return std::string(UNSUBSCRIBE_CHANNEL); break;
+            case Message::ChannelTypeHandshake: return std::string(HANDSHAKE_CHANNEL); break;
+            case Message::ChannelTypeConnect: return std::string(CONNECT_CHANNEL); break;
+            case Message::ChannelTypeDisconnect: return std::string(DISCONNECT_CHANNEL); break;
+            case Message::ChannelTypeSubscribe: return std::string(SUBSCRIBE_CHANNEL); break;
+            case Message::ChannelTypeUnsubscribe: return std::string(UNSUBSCRIBE_CHANNEL); break;
 			default: break;
 		}
 		return std::string();

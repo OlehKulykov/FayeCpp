@@ -21,11 +21,6 @@
 #include "fayecpp_config.h"
 #endif
 
-#ifdef HAVE_SUITABLE_QT_VERSION
-#include "private/websocketqt.h"
-#else
-#include "private/websocket.h"
-#endif
 
 #include "private/transport.h"
 #include "private/classmethodwrapper.h"
@@ -51,14 +46,14 @@ namespace FayeCpp {
 	
 	void Client::processMessage(Message * message)
 	{
-		if (message->isSuccessfully() && message->type() != MessageTypeNone)
+        if (message->isSuccessfully() && message->type() != Message::MessageTypeNone)
 		{
 			switch (message->type())
 			{
-				case MessageTypeTransportConnected: this->onTransportConnected(message); break;
-				case MessageTypeTransportDisconnected: this->onTransportDisconnected(message);  break;
-				case MessageTypeTransportError: this->onClientError(message); break;
-				case MessageTypeServerResponce: this->onClientMessageReceived(message); break;
+                case Message::MessageTypeTransportConnected: this->onTransportConnected(message); break;
+                case Message::MessageTypeTransportDisconnected: this->onTransportDisconnected(message);  break;
+                case Message::MessageTypeTransportError: this->onClientError(message); break;
+                case Message::MessageTypeServerResponce: this->onClientMessageReceived(message); break;
 				default: break;
 			}
 		}
@@ -97,11 +92,11 @@ namespace FayeCpp {
 		if (_delegate) _delegate->onFayeClientWillReceiveMessage(this, message);
 		switch (message->channelType())
 		{
-			case ChannelTypeHandshake: this->onHandshakeDone(message); break;
-			case ChannelTypeConnect: this->onConnectFayeDone(message); break;
-			case ChannelTypeDisconnect: this->onDisconnectFayeDone(message); break;
-			case ChannelTypeSubscribe: this->onSubscriptionDone(message); break;
-			case ChannelTypeUnsubscribe: this->onUnsubscribingDone(message); break;
+            case Message::ChannelTypeHandshake: this->onHandshakeDone(message); break;
+            case Message::ChannelTypeConnect: this->onConnectFayeDone(message); break;
+            case Message::ChannelTypeDisconnect: this->onDisconnectFayeDone(message); break;
+            case Message::ChannelTypeSubscribe: this->onSubscriptionDone(message); break;
+            case Message::ChannelTypeUnsubscribe: this->onUnsubscribingDone(message); break;
 			default:
 				if (this->isSubscribedToChannel(message->channel()) && !message->data().empty())
 				{
@@ -223,7 +218,7 @@ namespace FayeCpp {
         Message message;
         message.addConnectionType(this->currentTransportName());
         //    message.addConnectionType("long-polling").addConnectionType("callback-polling").addConnectionType("iframe");
-        message.setChannelType(ChannelTypeHandshake);
+        message.setChannelType(Message::ChannelTypeHandshake);
         message.setVersion("1.0");
         message.setMinimumVersion("1.0beta");
         if (_delegate) _delegate->onFayeClientWillSendMessage(this, &message);
@@ -247,7 +242,7 @@ namespace FayeCpp {
         qDebug() << "Client:" << "connect faye start ...";
 #endif
 		Message message;
-		message.setChannelType(ChannelTypeConnect);
+        message.setChannelType(Message::ChannelTypeConnect);
 		message.setClientId(_clientId);
 		message.setConnectionType(this->currentTransportName());
 		if (_delegate) _delegate->onFayeClientWillSendMessage(this, &message);
@@ -260,7 +255,7 @@ namespace FayeCpp {
         qDebug() << "Client:" << "disconnect faye start ...";
 #endif
 		Message message;
-		message.setChannelType(ChannelTypeDisconnect);
+        message.setChannelType(Message::ChannelTypeDisconnect);
 		message.setClientId(_clientId);
 		if (_delegate) _delegate->onFayeClientWillSendMessage(this, &message);
         _transport->sendText(message.toJsonString());
@@ -319,7 +314,7 @@ namespace FayeCpp {
 				for (std::list<std::string>::iterator i = arr.begin(); i != arr.end(); ++i)
 				{
 					Message message;
-					message.setChannelType(ChannelTypeSubscribe).setClientId(_clientId).setSubscription(*i);
+                    message.setChannelType(Message::ChannelTypeSubscribe).setClientId(_clientId).setSubscription(*i);
 					if (_delegate) _delegate->onFayeClientWillSendMessage(this, &message);
                     _transport->sendText(message.toJsonString());
 				}
@@ -343,7 +338,7 @@ namespace FayeCpp {
 		if (!this->isSubscribedToChannel(channel) || std::find(_pendingSubscriptions.begin(), _pendingSubscriptions.end(), channel) == _pendingSubscriptions.end()) return false;
 		
 		Message message;
-		message.setChannelType(ChannelTypeUnsubscribe).setClientId(_clientId).setSubscription(channel);
+        message.setChannelType(Message::ChannelTypeUnsubscribe).setClientId(_clientId).setSubscription(channel);
 		if (_delegate) _delegate->onFayeClientWillSendMessage(this, &message);
         _transport->sendText(message.toJsonString());
 		return true;
@@ -383,11 +378,7 @@ namespace FayeCpp {
 	{
 		REThread::mainThreadIdentifier();
 		
-#ifdef HAVE_SUITABLE_QT_VERSION
-		_transport = new WebSocketQt(new ClassMethodWrapper<Client, void(Client::*)(Message*), Message>(this, &Client::processMessage));
-#elif defined(HAVE_LIBWEBSOCKETS_H)
-		_transport = new WebSocket(new ClassMethodWrapper<Client, void(Client::*)(Message*), Message>(this, &Client::processMessage));
-#endif
+        _transport = Transport::createNewTransport(new ClassMethodWrapper<Client, void(Client::*)(Message*), Message>(this, &Client::processMessage));
         assert(_transport);
 	}
 	
@@ -399,15 +390,7 @@ namespace FayeCpp {
 	
 	std::list<std::string> Client::availableConnectionTypes()
 	{
-		std::list<std::string> types;
-		
-#ifdef HAVE_SUITABLE_QT_VERSION
-        types.push_back(WebSocketQt::transportName());
-#elif defined(HAVE_LIBWEBSOCKETS_H)
-        types.push_back(WebSocket::transportName());
-#endif
-		
-		return types;
+        return Transport::availableConnectionTypes();
 	}
 	
 }

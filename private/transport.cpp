@@ -19,6 +19,12 @@
 #include "../fayecpp.h"
 #include "REThread.h"
 
+#ifdef HAVE_SUITABLE_QT_VERSION
+#include "private/websocketqt.h"
+#else
+#include "private/websocket.h"
+#endif
+
 #include <assert.h>
 
 
@@ -38,7 +44,7 @@ namespace FayeCpp {
 	{
 		_isConnected = true;
 		Message message;
-		message.setType(MessageTypeTransportConnected).setSuccessfully(true);
+        message.setType(Message::MessageTypeTransportConnected).setSuccessfully(true);
 		_processMethod->invokeWithPointer(&message);
 	}
 	
@@ -46,21 +52,21 @@ namespace FayeCpp {
 	{
 		_isConnected = false;
 		Message message;
-		message.setType(MessageTypeTransportDisconnected).setSuccessfully(true);
+        message.setType(Message::MessageTypeTransportDisconnected).setSuccessfully(true);
 		_processMethod->invokeWithPointer(&message);
 	}
 	
 	void Transport::onTextReceived(const std::string & text)
 	{
 		Message message(text);
-		message.setType(MessageTypeServerResponce);
+        message.setType(Message::MessageTypeServerResponce);
 		_processMethod->invokeWithPointer(&message);
 	}
 	
 	void Transport::onDataReceived(const std::vector<unsigned char> & data)
 	{
 		Message message(data);
-		message.setType(MessageTypeServerResponce);
+        message.setType(Message::MessageTypeServerResponce);
 		_processMethod->invokeWithPointer(&message);
 	}
 	
@@ -171,6 +177,31 @@ namespace FayeCpp {
 	
 	Transport::~Transport()
 	{
-		
+        delete _processMethod;
 	}
+
+    Transport * Transport::createNewTransport(ClassMethodWrapper<Client, void(Client::*)(Message*), Message> * processMethod)
+    {
+        if (processMethod)
+        {
+#ifdef HAVE_SUITABLE_QT_VERSION
+        return new WebSocketQt(processMethod));
+#elif defined(HAVE_LIBWEBSOCKETS_H)
+        return new WebSocket(processMethod);
+#endif
+        }
+        return NULL;
+    }
+
+    std::list<std::string> Transport::availableConnectionTypes()
+    {
+        std::list<std::string> types;
+
+#ifdef HAVE_SUITABLE_QT_VERSION
+        types.push_back(WebSocketQt::transportName());
+#elif defined(HAVE_LIBWEBSOCKETS_H)
+        types.push_back(WebSocket::transportName());
+#endif
+        return types;
+    }
 }
