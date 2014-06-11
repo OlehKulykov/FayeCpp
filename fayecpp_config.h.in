@@ -25,8 +25,13 @@
 #define __FAYECPP_CONFIG_H__ 
 
 
+
 /* libwebsockets.h */
 #cmakedefine HAVE_LIBWEBSOCKETS_H @HAVE_LIBWEBSOCKETS_H@ 
+
+
+/* jansson.h */
+#cmakedefine HAVE_JANSSON_H @HAVE_JANSSON_H@ 
 
 
 /* stdlib.h */

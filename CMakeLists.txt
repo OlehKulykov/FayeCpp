@@ -26,11 +26,43 @@ INCLUDE(CheckTypeSize)
 INCLUDE(CheckSymbolExists)
 INCLUDE(CheckIncludeFileCXX)
 
+add_definitions(-DCMAKE_BUILD)
+
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
-add_subdirectory(jansson)
-include_directories(${CMAKE_BINARY_DIR}/jansson/include)
+message("Looking for libwebsockets...")
+find_package(LIBWEBSOCKETS QUIET)
+if(NOT LIBWEBSOCKETS_FOUND)
+message("libwebsockets not found, using bundled copy.")
+add_subdirectory(libwebsockets)
+list(APPEND LIBWEBSOCKETS_INCLUDE_DIRS
+			${CMAKE_CURRENT_SOURCE_DIR}/libwebsockets/lib
+			${CMAKE_BINARY_DIR}/libwebsockets/lib
+			${CMAKE_BINARY_DIR}/libwebsockets
+)
+set(LIBWEBSOCKETS_FOUND 1)
+endif()
+message("libwebsockets include dirs: ${LIBWEBSOCKETS_INCLUDE_DIRS}")
+message("libwebsockets libraries: ${LIBWEBSOCKETS_LIBRARIES}")
+include_directories(${LIBWEBSOCKETS_INCLUDE_DIRS})
+set(HAVE_LIBWEBSOCKETS_H 1)
 
+
+message("Looking for jansson...")
+find_package(JANSSON QUIET)
+if(NOT JANSSON_FOUND)
+message("jansson not found, using bundled copy.")
+add_subdirectory(jansson)
+list(APPEND JANSSON_INCLUDE_DIRS
+			${CMAKE_CURRENT_SOURCE_DIR}/jansson/src
+			${CMAKE_BINARY_DIR}/jansson/include
+)
+set(JANSSON_FOUND 1)
+endif()
+message("jansson include dirs: ${JANSSON_INCLUDE_DIRS}")
+message("jansson libraries: ${JANSSON_LIBRARIES}")
+include_directories(${JANSSON_INCLUDE_DIRS})
+set(HAVE_JANSSON_H 1)
 
 if (MSVC)
    if (STATIC_CRT)
@@ -44,7 +76,6 @@ if (NOT WIN32 AND (CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX))
 endif() 
 
 
-CHECK_INCLUDE_FILE("libwebsockets.h" HAVE_LIBWEBSOCKETS_H)
 
 CHECK_INCLUDE_FILE("stdlib.h" HAVE_STDLIB_H)
 if(HAVE_STDLIB_H)
@@ -454,12 +485,16 @@ set(FAYECPP_HEADERS 	fayecpp.h
 
 add_definitions(-DHAVE_FAYECPP_CONFIG_H)
 
-ADD_LIBRARY(fayecpp STATIC ${FAYECPP_SOURCES} ${FAYECPP_HEADERS})
 
-add_dependencies(fayecpp jansson)
+#ADD_LIBRARY(fayecpp STATIC ${FAYECPP_SOURCES} ${FAYECPP_HEADERS})
+ADD_LIBRARY(fayecpp SHARED ${FAYECPP_SOURCES} ${FAYECPP_HEADERS})
 
+add_dependencies(fayecpp websockets jansson)
+
+target_link_libraries(fayecpp websockets)
 target_link_libraries(fayecpp jansson)
 
 install(TARGETS fayecpp DESTINATION lib)
 install(FILES fayecpp.h DESTINATION include)
+
 
