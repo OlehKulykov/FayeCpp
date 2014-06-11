@@ -102,13 +102,6 @@
 #endif
 
 
-#ifdef HAVE_SUITABLE_QT_VERSION
-#include <QDebug>
-#ifdef DEBUG
-#define DEBUG_QT 1
-#endif
-#endif
-
 namespace FayeCpp {
 
     class Client;
