@@ -36,7 +36,7 @@
 #include <libwebsockets.h>
 
 namespace FayeCpp {
-	
+
 	class WebSocket : protected REThread, public Transport
 	{
 	private:

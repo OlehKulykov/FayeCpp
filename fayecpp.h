@@ -18,17 +18,6 @@
 #ifndef __FAYECPP_FAYECPP_H__
 #define __FAYECPP_FAYECPP_H__
 
-
-#include <stdlib.h>
-#include <stdio.h>
-#include <stdint.h>
-#include <limits.h>
-#include <string>
-#include <vector>
-#include <list>
-#include <map>
-
-
 #if !defined(__RE_OS_WINDOWS__)
 /* No manualy selected, try to auto select */
 
@@ -49,32 +38,49 @@
 
 
 #if defined(__RE_OS_WINDOWS__)
+#include <windows.h>
 
 #if defined(CMAKE_BUILD) || defined(__BUILDING_RECORE_DYNAMIC_LIBRARY__)
-#	if defined(_MSC_VER) 
-#		define __RE_PUBLIC_CLASS_API__ __declspec(dllexport) 
-#	elif defined(__GNUC__) 
-#		define __RE_PUBLIC_CLASS_API__ __attribute__((dllexport)) 
-#	endif 
+#	if defined(_MSC_VER)
+#		define __RE_PUBLIC_CLASS_API__ __declspec(dllexport)
+#       define __RE_EXPORT_IMPLEMENTATION_TEMPLATE__
+#	elif defined(__GNUC__)
+#		define __RE_PUBLIC_CLASS_API__ __attribute__((dllexport))
+#	endif
 #else
-#	if defined(_MSC_VER) 
-#		define __RE_PUBLIC_CLASS_API__ __declspec(dllimport) 
-#	elif defined(__GNUC__) 
-#		define __RE_PUBLIC_CLASS_API__ __attribute__((dllimport))  
-#	endif 
-#endif 
+#	if defined(_MSC_VER)
+#		define __RE_PUBLIC_CLASS_API__ __declspec(dllimport)
+#       define __RE_EXPORT_IMPLEMENTATION_TEMPLATE__ extern
+#	elif defined(__GNUC__)
+#		define __RE_PUBLIC_CLASS_API__ __attribute__((dllimport))
+#	endif
+#endif
 
 #endif /* __RE_OS_WINDOWS__ */
 
-
-#if __GNUC__ >= 4 
-#	define __RE_PUBLIC_CLASS_API__ __attribute__ ((visibility("default"))) 
-#endif 
+#if __GNUC__ >= 4
+#	define __RE_PUBLIC_CLASS_API__ __attribute__ ((visibility("default")))
+#endif
 
 
 #ifndef __RE_PUBLIC_CLASS_API__
-#define __RE_PUBLIC_CLASS_API__ 
+#define __RE_PUBLIC_CLASS_API__
 #endif
+
+
+#ifndef __RE_EXPORT_IMPLEMENTATION_TEMPLATE__
+#define __RE_EXPORT_IMPLEMENTATION_TEMPLATE__
+#endif
+
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <stdint.h>
+#include <limits.h>
+#include <string>
+#include <vector>
+#include <list>
+#include <map>
 
 
 #ifndef MIN
@@ -103,12 +109,20 @@
 #endif
 #endif
 
-
 namespace FayeCpp {
 
-	class Client;
-	class Message;
-	class Variant;
+    class Client;
+    class Message;
+    class Variant;
+
+
+#if defined(__RE_OS_WINDOWS__) && defined(_MSC_VER)
+__RE_EXPORT_IMPLEMENTATION_TEMPLATE__ template class __RE_PUBLIC_CLASS_API__ std::allocator<char>;
+__RE_EXPORT_IMPLEMENTATION_TEMPLATE__ template class __RE_PUBLIC_CLASS_API__ std::basic_string<char>;
+__RE_EXPORT_IMPLEMENTATION_TEMPLATE__ template class __RE_PUBLIC_CLASS_API__ std::list<std::string>;
+__RE_EXPORT_IMPLEMENTATION_TEMPLATE__ template class __RE_PUBLIC_CLASS_API__ std::map<std::string, FayeCpp::Variant>;
+__RE_EXPORT_IMPLEMENTATION_TEMPLATE__ template class __RE_PUBLIC_CLASS_API__ std::vector<unsigned char>;
+#endif
 
 	class __RE_PUBLIC_CLASS_API__ Delegate
 	{
@@ -195,7 +209,7 @@ namespace FayeCpp {
 
 
 
-	class Transport;
+    class Transport;
 
 	class __RE_PUBLIC_CLASS_API__ Client
 	{
@@ -364,98 +378,97 @@ namespace FayeCpp {
 	};
 
 
-	/**
-	 @brief Type of Faye channel
-	 */
-	typedef enum _channelType
-	{
-		/**
-		 @brief Undefined Faye channel
-		 */
-		ChannelTypeNone = 0,
-
-
-		/**
-		 @brief Handshake Faye channel
-		 */
-		ChannelTypeHandshake,
-
-
-		/**
-		 @brief Connect Faye channel
-		 */
-		ChannelTypeConnect,
-
-
-		/**
-		 @brief Disconnect Faye channel
-		 */
-		ChannelTypeDisconnect,
-
-
-		/**
-		 @brief Subscribe Faye channel
-		 */
-		ChannelTypeSubscribe,
-
-
-		/**
-		 @brief Unsubscribe Faye channel
-		 */
-		ChannelTypeUnsubscribe
-	}
-	/**
-	 @brief Type of Faye channel
-	 */
-	ChannelType;
-
-
-
-	/**
-	 @brief Faye message type.
-	 */
-	typedef enum _messageType
-	{
-		/**
-		 @brief Undefined, default type.
-		 */
-		MessageTypeNone = 0,
-
-
-		/**
-		 @brief Faye transport protocol connected to server.
-		 */
-		MessageTypeTransportConnected,
-
-
-		/**
-		 @brief Faye transport protocol disconnected from server.
-		 */
-		MessageTypeTransportDisconnected,
-
-
-		/**
-		 @brief Faye transport protocol error.
-		 */
-		MessageTypeTransportError,
-
-
-		/**
-		 @brief Faye transport protocol received message.
-		 */
-		MessageTypeServerResponce
-	}
-	/**
-	 @brief Faye message type.
-	 */
-	MessageType;
-
 
 	/**
 	 @brief Message class for internal logic communication.
 	 */
 	class __RE_PUBLIC_CLASS_API__ Message
 	{
+    public:
+        /**
+         @brief Type of Faye channel
+         */
+        typedef enum _channelType
+        {
+            /**
+             @brief Undefined Faye channel
+             */
+            ChannelTypeNone = 0,
+
+
+            /**
+             @brief Handshake Faye channel
+             */
+            ChannelTypeHandshake,
+
+
+            /**
+             @brief Connect Faye channel
+             */
+            ChannelTypeConnect,
+
+
+            /**
+             @brief Disconnect Faye channel
+             */
+            ChannelTypeDisconnect,
+
+
+            /**
+             @brief Subscribe Faye channel
+             */
+            ChannelTypeSubscribe,
+
+
+            /**
+             @brief Unsubscribe Faye channel
+             */
+            ChannelTypeUnsubscribe
+        }
+        /**
+         @brief Type of Faye channel
+         */
+        ChannelType;
+
+        /**
+         @brief Faye message type.
+         */
+        typedef enum _messageType
+        {
+            /**
+             @brief Undefined, default type.
+             */
+            MessageTypeNone = 0,
+
+
+            /**
+             @brief Faye transport protocol connected to server.
+             */
+            MessageTypeTransportConnected,
+
+
+            /**
+             @brief Faye transport protocol disconnected from server.
+             */
+            MessageTypeTransportDisconnected,
+
+
+            /**
+             @brief Faye transport protocol error.
+             */
+            MessageTypeTransportError,
+
+
+            /**
+             @brief Faye transport protocol received message.
+             */
+            MessageTypeServerResponce
+        }
+        /**
+         @brief Faye message type.
+         */
+        MessageType;
+
 	private:
 		std::string _clientId;
 		std::string _channel;
@@ -477,7 +490,7 @@ namespace FayeCpp {
 		 @brief Getter for message type.
 		 @return Enum type.
 		 */
-		MessageType type() const;
+        Message::MessageType type() const;
 
 
 		/**
@@ -498,7 +511,7 @@ namespace FayeCpp {
 		 @brief Getter for channel type.
 		 @return Enum type.
 		 */
-		ChannelType channelType() const;
+        Message::ChannelType channelType() const;
 
 
 		/**
@@ -562,7 +575,7 @@ namespace FayeCpp {
 		 @param type The new message type.
 		 @return This message address.
 		 */
-		Message & setType(MessageType type);
+        Message & setType(Message::MessageType type);
 
 
 		/**
@@ -586,7 +599,7 @@ namespace FayeCpp {
 		 @param value - New channel type value.
 		 @return This message address.
 		 */
-		Message & setChannelType(const ChannelType type);
+        Message & setChannelType(const Message::ChannelType type);
 
 
 		/**
@@ -691,7 +704,7 @@ namespace FayeCpp {
 		 @param typeString - Channel type string.
 		 @return Channel type enum value.
 		 */
-		static ChannelType stringToType(const std::string & typeString);
+        static Message::ChannelType stringToType(const std::string & typeString);
 
 
 		/**
@@ -699,7 +712,7 @@ namespace FayeCpp {
 		 @param type - Channel type enum value.
 		 @return String with channel type.
 		 */
-		static std::string typeToString(const ChannelType type);
+        static std::string typeToString(const Message::ChannelType type);
 	};
 
 
@@ -716,7 +729,8 @@ namespace FayeCpp {
 			TypeString,
 			TypeMap,
 			TypeList
-		} VariantType;
+        }
+        VariantType;
 
 	protected:
 		typedef union _variantUnion
@@ -793,8 +807,6 @@ namespace FayeCpp {
 	};
 
 }
-
-
 
 
 #endif /* __FAYECPP_VARIANT_H__ */

@@ -22,44 +22,6 @@
 
 namespace FayeCpp {
 
-/**
- @brief Enums type of mutexes.
- @detailed Enums type of mutexes.
- */
-typedef enum _reMutexType
-{
-	/**
-	 @brief Mutex is not initialized.
-	 @detailed Mutex is not initialized.
-	 */
-	REMutexTypeNone = 0,
-	
-	/**
-	 @brief Normal mutex type.
-	 @detailed This type of mutex does not detect deadlock. 
-	 An attempt to relock this mutex without first unlocking it deadlocks.
-	 Attempting to unlock a mutex locked by a different thread results in undefined behavior. 
-	 Attempting to unlock an unlocked mutex results in undefined behavior.
-	 */
-	REMutexTypeNormal = 1,
-	
-	/**
-	 @brief Recursive mutex type.
-	 @detailed A thread attempting to relock this mutex without first unlocking it succeeds in locking the mutex. 
-	 The relocking deadlock that can occur with mutexes of type NORMAL cannot occur with this type of mutex. 
-	 Multiple locks of this mutex require the same number of unlocks to release the mutex before another thread can acquire the mutex. 
-	 An attempt to unlock a mutex that another thread has locked returns with an error. 
-	 An attempt to unlock an unlocked mutex returns with an error.
-	 */
-	REMutexTypeRecursive = 2
-	
-} 
-/**
- @brief Enums type of mutexes.
- @detailed Enums type of mutexes.
- */
-REMutexType;
-
 class REMutexInternal;
 
 /**
@@ -68,6 +30,45 @@ class REMutexInternal;
  */
 class REMutex
 {
+public:
+    /**
+     @brief Enums type of mutexes.
+     @detailed Enums type of mutexes.
+     */
+    typedef enum _reMutexType
+    {
+        /**
+         @brief Mutex is not initialized.
+         @detailed Mutex is not initialized.
+         */
+        REMutexTypeNone = 0,
+
+        /**
+         @brief Normal mutex type.
+         @detailed This type of mutex does not detect deadlock.
+         An attempt to relock this mutex without first unlocking it deadlocks.
+         Attempting to unlock a mutex locked by a different thread results in undefined behavior.
+         Attempting to unlock an unlocked mutex results in undefined behavior.
+         */
+        REMutexTypeNormal = 1,
+
+        /**
+         @brief Recursive mutex type.
+         @detailed A thread attempting to relock this mutex without first unlocking it succeeds in locking the mutex.
+         The relocking deadlock that can occur with mutexes of type NORMAL cannot occur with this type of mutex.
+         Multiple locks of this mutex require the same number of unlocks to release the mutex before another thread can acquire the mutex.
+         An attempt to unlock a mutex that another thread has locked returns with an error.
+         An attempt to unlock an unlocked mutex returns with an error.
+         */
+        REMutexTypeRecursive = 2
+
+    }
+    /**
+     @brief Enums type of mutexes.
+     @detailed Enums type of mutexes.
+     */
+    REMutexType;
+
 private:
 	REMutexInternal * _m;
 	
@@ -83,7 +84,7 @@ public:
 	 @param type required mutex type.
 	 @return Returns true if successfuly initialized or allready initialized.
 	 */
-	bool init(const REMutexType type);
+    bool init(const REMutex::REMutexType type);
 	
 	/**
 	 @brief Locks mutex.

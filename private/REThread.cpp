@@ -116,7 +116,7 @@ namespace FayeCpp {
 
 			if (!_internalsMutex.isInitialized())
 			{
-				_internalsMutex.init(REMutexTypeRecursive);
+                _internalsMutex.init(REMutex::REMutexTypeRecursive);
 			}
 		}
 		
