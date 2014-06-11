@@ -23,6 +23,7 @@
 # Xcode
 #
 build/
+project.xcworkspace
 *.xcuserdatad
 *.xcuserdata
 *.pbxuser
