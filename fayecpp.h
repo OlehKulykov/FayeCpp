@@ -48,6 +48,35 @@
 #endif
 
 
+#if defined(__RE_OS_WINDOWS__)
+
+#if defined(CMAKE_BUILD) || defined(__BUILDING_RECORE_DYNAMIC_LIBRARY__)
+#	if defined(_MSC_VER) 
+#		define __RE_PUBLIC_CLASS_API__ __declspec(dllexport) 
+#	elif defined(__GNUC__) 
+#		define __RE_PUBLIC_CLASS_API__ __attribute__((dllexport)) 
+#	endif 
+#else
+#	if defined(_MSC_VER) 
+#		define __RE_PUBLIC_CLASS_API__ __declspec(dllimport) 
+#	elif defined(__GNUC__) 
+#		define __RE_PUBLIC_CLASS_API__ __attribute__((dllimport))  
+#	endif 
+#endif 
+
+#endif /* __RE_OS_WINDOWS__ */
+
+
+#if __GNUC__ >= 4 
+#	define __RE_PUBLIC_CLASS_API__ __attribute__ ((visibility("default"))) 
+#endif 
+
+
+#ifndef __RE_PUBLIC_CLASS_API__
+#define __RE_PUBLIC_CLASS_API__ 
+#endif
+
+
 #ifndef MIN
 #define MIN(a,b) ((a) < (b) ? (a) : (b))
 #endif
@@ -81,7 +110,7 @@ namespace FayeCpp {
 	class Message;
 	class Variant;
 
-	class Delegate
+	class __RE_PUBLIC_CLASS_API__ Delegate
 	{
 	public:
 		/**
@@ -168,7 +197,7 @@ namespace FayeCpp {
 
 	class Transport;
 
-	class Client
+	class __RE_PUBLIC_CLASS_API__ Client
 	{
 	private:
 		Transport * _transport;
@@ -425,7 +454,7 @@ namespace FayeCpp {
 	/**
 	 @brief Message class for internal logic communication.
 	 */
-	class Message
+	class __RE_PUBLIC_CLASS_API__ Message
 	{
 	private:
 		std::string _clientId;
@@ -674,7 +703,7 @@ namespace FayeCpp {
 	};
 
 
-	class Variant
+	class __RE_PUBLIC_CLASS_API__ Variant
 	{
 	public:
 		typedef enum _variantType
