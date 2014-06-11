@@ -354,6 +354,11 @@ namespace FayeCpp {
 		return channel.empty() ? false : (std::find(_subscribedChannels.begin(), _subscribedChannels.end(), channel) != _subscribedChannels.end());
 	}
 	
+	bool Client::isPendingChannel(const std::string & channel) const
+	{
+		return channel.empty() ? false : (std::find(_pendingSubscriptions.begin(), _pendingSubscriptions.end(), channel) != _pendingSubscriptions.end());
+	}
+	
 	void Client::onSubscriptionDone(Message * message)
 	{
 		const std::string channel = message->subscription();
@@ -445,8 +450,14 @@ namespace FayeCpp {
 	
 	bool Client::subscribeToChannel(const std::string & channel)
 	{
-		if (channel.empty()) return false;
-		if (this->isSubscribedToChannel(channel) || std::find(_pendingSubscriptions.begin(), _pendingSubscriptions.end(), channel) != _pendingSubscriptions.end()) return true;
+		if (channel.empty()) 
+		{
+			return false;
+		}
+		if (this->isSubscribedToChannel(channel) || this->isPendingChannel(channel)) 
+		{
+			return true;
+		}
 		
 		_pendingSubscriptions.push_back(channel);
 		this->subscribePendingSubscriptions();
@@ -455,8 +466,14 @@ namespace FayeCpp {
 	
 	bool Client::unsubscribeFromChannel(const std::string & channel)
 	{
-		if (channel.empty()) return false;
-		if (!this->isSubscribedToChannel(channel) || std::find(_pendingSubscriptions.begin(), _pendingSubscriptions.end(), channel) == _pendingSubscriptions.end()) return false;
+		if (channel.empty())
+		{
+			return false;
+		}
+		if (!this->isSubscribedToChannel(channel) || this->isPendingChannel(channel)) 
+		{
+			return false;
+		}
 		
 		Message message;
         message.setChannelType(Message::ChannelTypeUnsubscribe).setClientId(_clientId).setSubscription(channel);

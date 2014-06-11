@@ -240,6 +240,8 @@ __RE_EXPORT_IMPLEMENTATION_TEMPLATE__ template class __RE_PUBLIC_CLASS_API__ std
 		void onUnsubscribingDone(Message * message);
 		void onDisconnectFayeDone(Message * message);
 
+		bool isPendingChannel(const std::string & channel) const;
+		
 		static unsigned long long _messageId;
 		static unsigned long long nextMessageId();
 
