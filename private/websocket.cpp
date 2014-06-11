@@ -200,9 +200,9 @@ namespace FayeCpp {
 	
 	void WebSocket::sendData(const std::vector<unsigned char> & data)
 	{
-		if (data.size() > 0)
+		if (!data.empty() && data.size() > 0)
 		{
-			this->addWriteBufferData(data.data(), data.size(), LWS_WRITE_BINARY);
+			this->addWriteBufferData(&data.front(), data.size(), LWS_WRITE_BINARY);
 		}
 	}
 	
@@ -216,10 +216,11 @@ namespace FayeCpp {
 	
 	void WebSocket::sendText(const std::string & text)
 	{
-		if (text.size() > 0)
+		if (!text.empty() && text.size() > 0)
 		{
 			// NO NULL terminated char
-			this->addWriteBufferData((const unsigned char *)text.data(), text.size(), LWS_WRITE_TEXT);
+			const char * s = text.data();
+			this->addWriteBufferData((const unsigned char *)s, strlen(s), LWS_WRITE_TEXT);
 		}
 	}
 	
@@ -278,7 +279,9 @@ namespace FayeCpp {
 		info.port = CONTEXT_PORT_NO_LISTEN;
 		info.iface = NULL;
 		info.protocols = WebSocket::protocols;
+#ifndef LWS_NO_EXTENSIONS
 		info.extensions = libwebsocket_get_internal_extensions();
+#endif
 		
 		info.gid = -1;
 		info.uid = -1;

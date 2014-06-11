@@ -288,7 +288,8 @@ namespace FayeCpp {
 	{
 		if (!jsonString.empty())
 		{
-			this->fromJsonDataBuff(jsonString.data(), jsonString.size());
+			const char * s = jsonString.data();
+			this->fromJsonDataBuff(s, strlen(s));
 		}
 	}
 	
@@ -298,7 +299,7 @@ namespace FayeCpp {
 	{
 		if (!jsonData.empty())
 		{
-			this->fromJsonDataBuff((const char *)jsonData.data(), jsonData.size());
+			this->fromJsonDataBuff((const char *)&jsonData.front(), jsonData.size());
 		}
 	}
 	
