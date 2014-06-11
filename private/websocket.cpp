@@ -279,7 +279,9 @@ namespace FayeCpp {
 		info.port = CONTEXT_PORT_NO_LISTEN;
 		info.iface = NULL;
 		info.protocols = WebSocket::protocols;
+#ifndef LWS_NO_EXTENSIONS
 		info.extensions = libwebsocket_get_internal_extensions();
+#endif
 		
 		info.gid = -1;
 		info.uid = -1;

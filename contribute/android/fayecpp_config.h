@@ -246,7 +246,7 @@
 
 
 /* getrlimit */
-//#define HAVE_FUNCTION_GETRLIMIT 1
+//#define HAVE_FUNCTION_GETRLIMIT 1 
 
 
 /* pthread_attr_setscope */
@@ -374,19 +374,19 @@
 
 
 /* dispatch_sync */
-//#define HAVE_FUNCTION_DISPATCH_SYNC 1
+#define HAVE_FUNCTION_DISPATCH_SYNC 1
 
 
 /* dispatch_async */
-//#define HAVE_FUNCTION_DISPATCH_ASYNC 1
+#define HAVE_FUNCTION_DISPATCH_ASYNC 1
 
 
 /* dispatch_get_global_queue */
-//#define HAVE_FUNCTION_DISPATCH_GET_GLOBAL_QUEUE 1
+#define HAVE_FUNCTION_DISPATCH_GET_GLOBAL_QUEUE 1
 
 
 /* dispatch_after */
-//#define HAVE_FUNCTION_DISPATCH_AFTER 1
+#define HAVE_FUNCTION_DISPATCH_AFTER 1
 
 
 #endif /* __FAYECPP_CONFIG_H__ */
