@@ -23,13 +23,23 @@
 namespace FayeCpp {
 	
 	class JsonUtils
-	{		
+	{
 	public:
         static std::vector<unsigned char> toJsonData(const std::map<std::string, Variant> & message);
         static std::vector<unsigned char> toJsonData(const std::list<Variant> & message);
 
         static std::string toJsonString(const std::map<std::string, Variant> & message);
         static std::string toJsonString(const std::list<Variant> & message);
+		
+		/**
+		 @return Free C string after using.
+		 */
+		static char * toJsonCString(const std::map<std::string, Variant> & message);
+		
+		/**
+		 @return Free C string after using.
+		 */
+        static char * toJsonCString(const std::list<Variant> & message);
 	};
 	
 }

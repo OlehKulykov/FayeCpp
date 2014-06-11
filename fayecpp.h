@@ -476,8 +476,7 @@ __RE_EXPORT_IMPLEMENTATION_TEMPLATE__ template class __RE_PUBLIC_CLASS_API__ std
 		bool _isSuccessfully;
 
 		void fromJsonDataBuff(const char * jsonData, const size_t dataSize);
-		char * jsonString() const;
-
+		
 	public:
 		/**
 		 @brief Getter for message type.
@@ -657,7 +656,14 @@ __RE_EXPORT_IMPLEMENTATION_TEMPLATE__ template class __RE_PUBLIC_CLASS_API__ std
 		 */
 		bool isEmpty() const;
 
+		
+		/**
+		 @brief Convert message to JSON C string.
+		 @return JSON C string or NULL. Should free after using.
+		 */
+		char * jsonCString() const;
 
+		
 		/**
 		 @brief Convert message to JSON data.
 		 @return Vector with JSON data.

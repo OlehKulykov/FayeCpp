@@ -216,18 +216,18 @@ namespace FayeCpp {
 		return _clientId.empty() && _channel.empty() && _subscription.empty() && _errorString.empty();
 	}
 	
-    char * Message::jsonString() const
+    char * Message::jsonCString() const
     {
         char * jsonString = NULL;
         json_t * json = json_object();
         if (json)
         {
             if (!_channel.empty()) json_object_set_new(json, "channel", json_string(_channel.c_str()));
-            if (!_clientId.empty())json_object_set_new(json, "clientId", json_string(_clientId.c_str()));
-            if (!_subscription.empty())json_object_set_new(json, "subscription", json_string(_subscription.c_str()));
-            if (!_version.empty())json_object_set_new(json, "version", json_string(_version.c_str()));
-            if (!_minimumVersion.empty())json_object_set_new(json, "minimumVersion", json_string(_minimumVersion.c_str()));
-            if (!_connectionType.empty())json_object_set_new(json, "connectionType", json_string(_connectionType.c_str()));
+            if (!_clientId.empty()) json_object_set_new(json, "clientId", json_string(_clientId.c_str()));
+            if (!_subscription.empty()) json_object_set_new(json, "subscription", json_string(_subscription.c_str()));
+            if (!_version.empty()) json_object_set_new(json, "version", json_string(_version.c_str()));
+            if (!_minimumVersion.empty()) json_object_set_new(json, "minimumVersion", json_string(_minimumVersion.c_str()));
+            if (!_connectionType.empty()) json_object_set_new(json, "connectionType", json_string(_connectionType.c_str()));
             if (!_connectionTypes.empty())
             {
                 json_t * types = json_array();
@@ -253,7 +253,7 @@ namespace FayeCpp {
 
     std::vector<unsigned char> Message::toJsonData() const
 	{
-        char * jsonString = this->jsonString();
+        char * jsonString = this->jsonCString();
         if (jsonString)
         {
             std::vector<unsigned char> data(jsonString, jsonString + strlen(jsonString) + 1);
@@ -265,7 +265,7 @@ namespace FayeCpp {
 	
     std::string Message::toJsonString() const
     {
-        char * jsonString = this->jsonString();
+        char * jsonString = this->jsonCString();
         if (jsonString)
         {
             std::string strng(jsonString);

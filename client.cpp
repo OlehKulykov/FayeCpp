@@ -96,7 +96,7 @@ namespace FayeCpp {
 	
 	void Client::onClientError(Message * message)
 	{
-		if (_delegate) _delegate->onFayeErrorString(this, message->errorString().c_str());
+		if (_delegate) _delegate->onFayeErrorString(this, message->errorString());
 	}
 	
 	void Client::onClientMessageReceived(Message * message)
@@ -245,8 +245,13 @@ namespace FayeCpp {
         message.setChannelType(Message::ChannelTypeHandshake);
         message.setVersion("1.0");
         message.setMinimumVersion("1.0beta");
-        if (_delegate) _delegate->onFayeClientWillSendMessage(this, &message);
-        _transport->sendText(message.toJsonString());
+		char * jsonCString = message.jsonCString();
+		if (jsonCString) 
+		{
+			if (_delegate) _delegate->onFayeClientWillSendMessage(this, &message);
+			_transport->sendText(jsonCString, strlen(jsonCString));
+			free(jsonCString);
+		}
 	}
 	
 	void Client::onConnectFayeDone(Message * message)
@@ -257,7 +262,7 @@ namespace FayeCpp {
 			if (_delegate) _delegate->onFayeClientConnected(this);
 			this->subscribePendingSubscriptions();
 		}
-		message = NULL;
+		(void)message;
 	}
 	
 	void Client::connectFaye()
@@ -273,8 +278,13 @@ namespace FayeCpp {
         message.setChannelType(Message::ChannelTypeConnect);
 		message.setClientId(_clientId);
 		message.setConnectionType(this->currentTransportName());
-		if (_delegate) _delegate->onFayeClientWillSendMessage(this, &message);
-        _transport->sendText(message.toJsonString());
+		char * jsonCString = message.jsonCString();
+		if (jsonCString) 
+		{
+			if (_delegate) _delegate->onFayeClientWillSendMessage(this, &message);
+			_transport->sendText(jsonCString, strlen(jsonCString));
+			free(jsonCString);
+		}
 	}
 	
 	void Client::disconnect()
@@ -289,8 +299,14 @@ namespace FayeCpp {
 		Message message;
         message.setChannelType(Message::ChannelTypeDisconnect);
 		message.setClientId(_clientId);
-		if (_delegate) _delegate->onFayeClientWillSendMessage(this, &message);
-        _transport->sendText(message.toJsonString());
+		
+		char * jsonCString = message.jsonCString();
+		if (jsonCString) 
+		{
+			if (_delegate) _delegate->onFayeClientWillSendMessage(this, &message);
+			_transport->sendText(jsonCString, strlen(jsonCString));
+			free(jsonCString);
+		}
 	}
 	
 	bool Client::isSubscribedToChannel(const std::string & channel) const
@@ -337,7 +353,7 @@ namespace FayeCpp {
 		_pendingSubscriptions.clear();
 		_isFayeConnected = false;
 		if (_delegate) _delegate->onFayeClientDisconnected(this);
-		message = NULL;
+		(void)message;
 	}
 	
 	void Client::subscribePendingSubscriptions()
@@ -351,8 +367,13 @@ namespace FayeCpp {
 				{
 					Message message;
                     message.setChannelType(Message::ChannelTypeSubscribe).setClientId(_clientId).setSubscription(*i);
-					if (_delegate) _delegate->onFayeClientWillSendMessage(this, &message);
-                    _transport->sendText(message.toJsonString());
+					char * jsonCString = message.jsonCString();
+					if (jsonCString) 
+					{
+						if (_delegate) _delegate->onFayeClientWillSendMessage(this, &message);
+						_transport->sendText(jsonCString, strlen(jsonCString));
+						free(jsonCString);
+					}
 				}
 			}
 		}
@@ -375,9 +396,15 @@ namespace FayeCpp {
 		
 		Message message;
         message.setChannelType(Message::ChannelTypeUnsubscribe).setClientId(_clientId).setSubscription(channel);
-		if (_delegate) _delegate->onFayeClientWillSendMessage(this, &message);
-        _transport->sendText(message.toJsonString());
-		return true;
+		char * jsonCString = message.jsonCString();
+		if (jsonCString)
+		{
+			if (_delegate) _delegate->onFayeClientWillSendMessage(this, &message);
+			_transport->sendText(jsonCString, strlen(jsonCString));
+			free(jsonCString);
+			return true;
+		}
+		return false;
 	}
 	
 	void Client::unsubscribeAllChannels()
@@ -405,8 +432,13 @@ namespace FayeCpp {
 			mes["clientId"] = _clientId;
 			mes["data"] = message;
 			mes["id"] = Client::nextMessageId();
-            _transport->sendText(JsonUtils::toJsonString(mes));
-			return true;
+			char * jsonCString = JsonUtils::toJsonCString(mes);
+			if (jsonCString)
+			{
+				_transport->sendText(jsonCString, strlen(jsonCString));
+				free(jsonCString);
+				return true;
+			}
 		}
 		return false;
 	}
