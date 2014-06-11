@@ -27,6 +27,9 @@
 
 #include <assert.h>
 
+#if defined(HAVE_SUITABLE_QT_VERSION) && defined(FAYECPP_DEBUG_MESSAGES)
+#include <QDebug>
+#endif
 
 namespace FayeCpp {
 	
@@ -72,8 +75,12 @@ namespace FayeCpp {
 	
 	void Transport::onError(const std::string & error)
 	{
-#ifdef DEBUG
+#ifdef FAYECPP_DEBUG_MESSAGES
+#ifdef HAVE_SUITABLE_QT_VERSION
+		qDebug() << "TRANSPORT ERROR:" << error.c_str();
+#else		
 		fprintf(stderr, "TRANSPORT ERROR: %s\n", error.c_str());
+#endif		
 #endif
 	}
 	

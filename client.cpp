@@ -28,6 +28,10 @@
 #include "private/REThread.h"
 #include <assert.h>
 
+#if defined(HAVE_SUITABLE_QT_VERSION) && defined(FAYECPP_DEBUG_MESSAGES)
+#include <QDebug>
+#endif
+
 namespace FayeCpp {
 	
 	unsigned long long Client::_messageId = 0;
@@ -65,8 +69,12 @@ namespace FayeCpp {
 	
 	void Client::onTransportConnected(Message * message)
 	{
-#ifdef DEBUG_QT
+#ifdef FAYECPP_DEBUG_MESSAGES
+#ifdef DEBUG_QT		
         qDebug() << "Client:" << "onTransportConnected.";
+#else
+		fprintf(stderr, "Client: onTransportConnected\n");
+#endif		
 #endif
 		if (_delegate) _delegate->onFayeTransportConnected(this);
 		this->handshake();
@@ -75,8 +83,12 @@ namespace FayeCpp {
 	
 	void Client::onTransportDisconnected(Message * message)
 	{
+#ifdef FAYECPP_DEBUG_MESSAGES		
 #ifdef DEBUG_QT
-        qDebug() << "Client:" << "onTransportConnected.";
+        qDebug() << "Client:" << "onTransportDisconnected.";
+#else
+		fprintf(stderr, "Client: onTransportDisconnected\n");
+#endif		
 #endif
 		if (_delegate) _delegate->onFayeTransportDisconnected(this);
         (void)message;
@@ -168,15 +180,23 @@ namespace FayeCpp {
 	
 	void Client::onHandshakeDone(Message * message)
 	{
+#ifdef FAYECPP_DEBUG_MESSAGES
 #ifdef DEBUG_QT
         qDebug() << "Client:" << "onHandshakeDone.";
+#else
+		fprintf(stderr, "Client: onHandshakeDone\n");
 #endif
+#endif		
 		_clientId = message->clientId();
 		if (!_clientId.empty())
 		{
+#ifdef FAYECPP_DEBUG_MESSAGES			
 #ifdef DEBUG_QT
 			qDebug() << "Client:" << "clientId=" << _clientId.c_str();
+#else	
+			fprintf(stderr, "Client: clientId=%s\n", _clientId.c_str());
 #endif
+#endif			
 			std::list<std::string> availableTypes = Client::availableConnectionTypes();
 			std::list<std::string> supportedTypes = message->connectionTypes();
 			const std::string currentType = this->currentTransportName();
@@ -212,9 +232,13 @@ namespace FayeCpp {
 	
 	void Client::handshake()
 	{
+#ifdef FAYECPP_DEBUG_MESSAGES				
 #ifdef DEBUG_QT
         qDebug() << "Client:" << "handshake start...";
+#else
+		fprintf(stderr, "Client: handshake start...\n");
 #endif
+#endif		
         Message message;
         message.addConnectionType(this->currentTransportName());
         //    message.addConnectionType("long-polling").addConnectionType("callback-polling").addConnectionType("iframe");
@@ -238,8 +262,12 @@ namespace FayeCpp {
 	
 	void Client::connectFaye()
 	{
+#ifdef FAYECPP_DEBUG_MESSAGES	
 #ifdef DEBUG_QT
         qDebug() << "Client:" << "connect faye start ...";
+#else
+		fprintf(stderr, "Client: connect faye start ...\n");
+#endif		
 #endif
 		Message message;
         message.setChannelType(Message::ChannelTypeConnect);
@@ -251,9 +279,13 @@ namespace FayeCpp {
 	
 	void Client::disconnect()
 	{
+#ifdef FAYECPP_DEBUG_MESSAGES			
 #ifdef DEBUG_QT
         qDebug() << "Client:" << "disconnect faye start ...";
+#else
+		fprintf(stderr, "Client: disconnect faye start ...\n");
 #endif
+#endif		
 		Message message;
         message.setChannelType(Message::ChannelTypeDisconnect);
 		message.setClientId(_clientId);
@@ -278,9 +310,13 @@ namespace FayeCpp {
 				_isFayeConnected = true;
 				if (_delegate) _delegate->onFayeClientConnected(this);
 			}
+#ifdef FAYECPP_DEBUG_MESSAGES					
 #ifdef DEBUG_QT
 			qDebug() << "Client:" << "Subscribed to channel:" << channel.c_str();
+#else
+			fprintf(stderr, "Client: Subscribed to channel: %s\n", channel.c_str());
 #endif
+#endif			
 			if (_delegate) _delegate->onFayeClientSubscribedToChannel(this, channel);
 		}
 	}
@@ -357,9 +393,13 @@ namespace FayeCpp {
 	{
 		if (_isFayeConnected && !message.empty() && this->isSubscribedToChannel(channel))
 		{
+#ifdef FAYECPP_DEBUG_MESSAGES				
 #ifdef DEBUG_QT
 			qDebug() << "Client:" << "Send message to channel:" << channel.c_str();
+#else
+			fprintf(stderr, "Client: Send message to channel: %s\n", channel.c_str());
 #endif
+#endif			
 			std::map<std::string, Variant> mes;
 			mes["channel"] = channel;
 			mes["clientId"] = _clientId;
