@@ -175,6 +175,7 @@ __RE_EXPORT_IMPLEMENTATION_TEMPLATE__ template class __RE_PUBLIC_CLASS_API__ std
 
 		/**
 		 @brief Called before message will be sended. You can modify this message if needed.
+		 @detailed Can be called from other(work) thread.
 		 @param client Faye client object.
 		 @param message Message object.
 		 */
@@ -183,6 +184,7 @@ __RE_EXPORT_IMPLEMENTATION_TEMPLATE__ template class __RE_PUBLIC_CLASS_API__ std
 
 		/**
 		 @brief Called before message will be processed by the client object.
+		 @detailed Can be called from other(work) thread.
 		 @param client Faye client object.
 		 @param message Message object.
 		 */
@@ -322,6 +324,7 @@ __RE_EXPORT_IMPLEMENTATION_TEMPLATE__ template class __RE_PUBLIC_CLASS_API__ std
 
 		/**
 		 @brief Start send message to subscribed channel via connected faye.
+		 @detailed Clent will NOT inform delegate for this user message.
 		 @param message Non empty message for send.
 		 @param channel Non empty, subscribed channel.
 		 @return True - if connected and parameters non empty and sended, othervice false.

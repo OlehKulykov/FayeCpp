@@ -177,7 +177,7 @@ namespace FayeCpp {
 		{
 			buffer->setTag((int)type);
 #ifdef FAYECPP_DEBUG_MESSAGES
-			fprintf(stdout, "WILL WRITE: %s\n", (char *)buffer->buffer());
+			fprintf(stdout, "WILL WRITE %i bytes: %s\n", (int)buffer->size(), (char *)buffer->buffer());
 #endif
 			_writeBuffers.push_back(buffer);
 		}

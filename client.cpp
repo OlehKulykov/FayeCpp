@@ -21,7 +21,6 @@
 #include "fayecpp_config.h"
 #endif
 
-
 #include "private/transport.h"
 #include "private/classmethodwrapper.h"
 #include "private/jsonutils.h"
@@ -30,6 +29,10 @@
 
 #if defined(HAVE_SUITABLE_QT_VERSION) && defined(FAYECPP_DEBUG_MESSAGES)
 #include <QDebug>
+#endif
+
+#if defined(HAVE_DISPATCH_DISPATCH_H)
+#include <dispatch/dispatch.h>
 #endif
 
 namespace FayeCpp {
@@ -76,9 +79,16 @@ namespace FayeCpp {
 		fprintf(stderr, "Client: onTransportConnected\n");
 #endif		
 #endif
+		
+#if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)
+		dispatch_async(dispatch_get_main_queue(), ^{
+#endif
 		if (_delegate) _delegate->onFayeTransportConnected(this);
+#if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)			
+		});
+#endif			
 		this->handshake();
-		message = NULL;
+		(void)message;
 	}
 	
 	void Client::onTransportDisconnected(Message * message)
@@ -90,13 +100,26 @@ namespace FayeCpp {
 		fprintf(stderr, "Client: onTransportDisconnected\n");
 #endif		
 #endif
+		
+#if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)
+		dispatch_async(dispatch_get_main_queue(), ^{
+#endif
 		if (_delegate) _delegate->onFayeTransportDisconnected(this);
+#if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)			
+		});
+#endif
         (void)message;
 	}
 	
 	void Client::onClientError(Message * message)
 	{
+#if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)
+		dispatch_async(dispatch_get_main_queue(), ^{
+#endif
 		if (_delegate) _delegate->onFayeErrorString(this, message->errorString());
+#if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)			
+		});
+#endif
 	}
 	
 	void Client::onClientMessageReceived(Message * message)
@@ -112,7 +135,13 @@ namespace FayeCpp {
 			default:
 				if (this->isSubscribedToChannel(message->channel()) && !message->data().empty())
 				{
+#if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)
+					dispatch_async(dispatch_get_main_queue(), ^{
+#endif
 					if (_delegate) _delegate->onFayeClientReceivedDataFromChannel(this, message->data(), message->channel());
+#if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)			
+					});
+#endif
 				}
 				break;
 		}
@@ -224,7 +253,13 @@ namespace FayeCpp {
 						index++;
 					}
 					error.append("]");
+#if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)
+					dispatch_async(dispatch_get_main_queue(), ^{
+#endif					
 					_delegate->onFayeErrorString(this, error);
+#if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)			
+					});
+#endif
 				}
 			}
 		}
@@ -245,10 +280,10 @@ namespace FayeCpp {
         message.setChannelType(Message::ChannelTypeHandshake);
         message.setVersion("1.0");
         message.setMinimumVersion("1.0beta");
+		if (_delegate) _delegate->onFayeClientWillSendMessage(this, &message);
 		char * jsonCString = message.jsonCString();
 		if (jsonCString) 
 		{
-			if (_delegate) _delegate->onFayeClientWillSendMessage(this, &message);
 			_transport->sendText(jsonCString, strlen(jsonCString));
 			free(jsonCString);
 		}
@@ -259,7 +294,13 @@ namespace FayeCpp {
 		if (!_isFayeConnected)
 		{
 			_isFayeConnected = true;
+#if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)
+			dispatch_async(dispatch_get_main_queue(), ^{
+#endif					
 			if (_delegate) _delegate->onFayeClientConnected(this);
+#if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)			
+			});
+#endif
 			this->subscribePendingSubscriptions();
 		}
 		(void)message;
@@ -278,10 +319,10 @@ namespace FayeCpp {
         message.setChannelType(Message::ChannelTypeConnect);
 		message.setClientId(_clientId);
 		message.setConnectionType(this->currentTransportName());
+		if (_delegate) _delegate->onFayeClientWillSendMessage(this, &message);
 		char * jsonCString = message.jsonCString();
 		if (jsonCString) 
 		{
-			if (_delegate) _delegate->onFayeClientWillSendMessage(this, &message);
 			_transport->sendText(jsonCString, strlen(jsonCString));
 			free(jsonCString);
 		}
@@ -299,11 +340,10 @@ namespace FayeCpp {
 		Message message;
         message.setChannelType(Message::ChannelTypeDisconnect);
 		message.setClientId(_clientId);
-		
+		if (_delegate) _delegate->onFayeClientWillSendMessage(this, &message);
 		char * jsonCString = message.jsonCString();
 		if (jsonCString) 
 		{
-			if (_delegate) _delegate->onFayeClientWillSendMessage(this, &message);
 			_transport->sendText(jsonCString, strlen(jsonCString));
 			free(jsonCString);
 		}
@@ -324,7 +364,13 @@ namespace FayeCpp {
 			if (!_isFayeConnected)
 			{
 				_isFayeConnected = true;
+#if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)
+				dispatch_async(dispatch_get_main_queue(), ^{
+#endif	
 				if (_delegate) _delegate->onFayeClientConnected(this);
+#if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)			
+				});
+#endif
 			}
 #ifdef FAYECPP_DEBUG_MESSAGES					
 #ifdef DEBUG_QT
@@ -333,7 +379,13 @@ namespace FayeCpp {
 			fprintf(stderr, "Client: Subscribed to channel: %s\n", channel.c_str());
 #endif
 #endif			
+#if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)
+			dispatch_async(dispatch_get_main_queue(), ^{
+#endif	
 			if (_delegate) _delegate->onFayeClientSubscribedToChannel(this, channel);
+#if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)			
+			});
+#endif
 		}
 	}
 	
@@ -343,7 +395,13 @@ namespace FayeCpp {
 		{
 			_pendingSubscriptions.remove(message->subscription());
 			_subscribedChannels.remove(message->subscription());
+#if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)
+			dispatch_async(dispatch_get_main_queue(), ^{
+#endif	
 			if (_delegate) _delegate->onFayeClientUnsubscribedFromChannel(this, message->subscription());
+#if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)			
+			});
+#endif
 		}
 	}
 	
@@ -352,7 +410,13 @@ namespace FayeCpp {
 		_subscribedChannels.clear();
 		_pendingSubscriptions.clear();
 		_isFayeConnected = false;
+#if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)
+		dispatch_async(dispatch_get_main_queue(), ^{
+#endif	
 		if (_delegate) _delegate->onFayeClientDisconnected(this);
+#if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)			
+		});
+#endif
 		(void)message;
 	}
 	
@@ -367,10 +431,10 @@ namespace FayeCpp {
 				{
 					Message message;
                     message.setChannelType(Message::ChannelTypeSubscribe).setClientId(_clientId).setSubscription(*i);
+					if (_delegate) _delegate->onFayeClientWillSendMessage(this, &message);
 					char * jsonCString = message.jsonCString();
 					if (jsonCString) 
 					{
-						if (_delegate) _delegate->onFayeClientWillSendMessage(this, &message);
 						_transport->sendText(jsonCString, strlen(jsonCString));
 						free(jsonCString);
 					}
@@ -396,10 +460,10 @@ namespace FayeCpp {
 		
 		Message message;
         message.setChannelType(Message::ChannelTypeUnsubscribe).setClientId(_clientId).setSubscription(channel);
+		if (_delegate) _delegate->onFayeClientWillSendMessage(this, &message);
 		char * jsonCString = message.jsonCString();
 		if (jsonCString)
 		{
-			if (_delegate) _delegate->onFayeClientWillSendMessage(this, &message);
 			_transport->sendText(jsonCString, strlen(jsonCString));
 			free(jsonCString);
 			return true;
