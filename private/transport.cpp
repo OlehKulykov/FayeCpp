@@ -82,6 +82,9 @@ namespace FayeCpp {
 		fprintf(stderr, "TRANSPORT ERROR: %s\n", error.c_str());
 #endif		
 #endif
+		Message message;
+        message.setType(Message::MessageTypeTransportError).setSuccessfully(true).setErrorString(error);
+		_processMethod->invokeWithPointer(&message);
 	}
 	
 	const std::string & Transport::url() const
