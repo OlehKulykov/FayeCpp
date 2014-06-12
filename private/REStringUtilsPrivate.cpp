@@ -346,8 +346,7 @@ namespace FayeCpp {
 																	   const char * comp)
 	{
 #ifdef __RE_OS_WINDOWS__
-#error "make separator windows logic"
-	TODO: make separator windows logic
+	//TODO: make separator windows logic
 #endif
 		
 		REBOOL rep2 = false;
