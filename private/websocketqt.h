@@ -20,7 +20,7 @@
 
 #include "../fayecpp.h"
 
-#ifdef HAVE_SUITABLE_QT_VERSION
+#if defined(HAVE_SUITABLE_QT_VERSION)
 
 #include "transport.h"
 

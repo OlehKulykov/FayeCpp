@@ -116,12 +116,18 @@ namespace FayeCpp {
 		if (urlString.find("http://") == 0)
 		{
 			urlString.erase(0, 7);
+#if defined(HAVE_SUITABLE_QT_VERSION)
+			_url.replace(0, 7, "ws://");
+#endif
 			_isUseSSL = false;
 		}
 		
 		if (urlString.find("https://") == 0)
 		{
 			urlString.erase(0, 8);
+#if defined(HAVE_SUITABLE_QT_VERSION)
+			_url.replace(0, 8, "wss://");
+#endif
 			_isUseSSL = true;
 		}
 		
@@ -195,7 +201,7 @@ namespace FayeCpp {
         if (processMethod)
         {
 #ifdef HAVE_SUITABLE_QT_VERSION
-        return new WebSocketQt(processMethod));
+		return new WebSocketQt(processMethod);
 #elif defined(HAVE_LIBWEBSOCKETS_H)
         return new WebSocket(processMethod);
 #endif

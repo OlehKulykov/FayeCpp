@@ -291,6 +291,7 @@ __RE_EXPORT_IMPLEMENTATION_TEMPLATE__ template class __RE_PUBLIC_CLASS_API__ std
 
 		/**
 		 @brief Setter for faye url.
+		 @detailed If faye using with Qt: "http" scheme will be replaced with "ws" and "https" - with "wss".
 		 @param url Faye server url string.
 		 */
 		void setUrl(const std::string & url);
