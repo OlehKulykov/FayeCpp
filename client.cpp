@@ -116,7 +116,7 @@ namespace FayeCpp {
 #if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)
 		dispatch_async(dispatch_get_main_queue(), ^{
 #endif
-		if (_delegate) _delegate->onFayeErrorString(this, message->errorString());
+		if (_delegate) _delegate->onFayeErrorString(this, message->errorString().c_str());
 #if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)			
 		});
 #endif
@@ -138,7 +138,7 @@ namespace FayeCpp {
 #if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)
 					dispatch_async(dispatch_get_main_queue(), ^{
 #endif
-					if (_delegate) _delegate->onFayeClientReceivedDataFromChannel(this, message->data(), message->channel());
+					if (_delegate) _delegate->onFayeClientReceivedDataFromChannel(this, message->data(), message->channel().c_str());
 #if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)			
 					});
 #endif
@@ -256,7 +256,7 @@ namespace FayeCpp {
 #if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)
 					dispatch_async(dispatch_get_main_queue(), ^{
 #endif					
-					_delegate->onFayeErrorString(this, error);
+					_delegate->onFayeErrorString(this, error.c_str());
 #if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)			
 					});
 #endif
@@ -387,7 +387,7 @@ namespace FayeCpp {
 #if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)
 			dispatch_async(dispatch_get_main_queue(), ^{
 #endif	
-			if (_delegate) _delegate->onFayeClientSubscribedToChannel(this, channel);
+			if (_delegate) _delegate->onFayeClientSubscribedToChannel(this, channel.c_str());
 #if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)			
 			});
 #endif
@@ -403,7 +403,7 @@ namespace FayeCpp {
 #if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)
 			dispatch_async(dispatch_get_main_queue(), ^{
 #endif	
-			if (_delegate) _delegate->onFayeClientUnsubscribedFromChannel(this, message->subscription());
+			if (_delegate) _delegate->onFayeClientUnsubscribedFromChannel(this, message->subscription().c_str());
 #if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)			
 			});
 #endif
