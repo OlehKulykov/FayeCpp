@@ -66,6 +66,11 @@ namespace FayeCpp {
 		return (*this);
 	}
 	
+	bool REString::operator==(const REString & s) const
+	{
+		return this->isEqual(s); 
+	}
+	
 	REMutableString REString::mutableString() const
 	{
 		return REMutableString( REStringUtilsPrivate::makeCopy(_p) );

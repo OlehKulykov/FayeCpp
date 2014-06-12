@@ -17,7 +17,6 @@
 
 #include "REThread.h"
 #include "REMutex.h"
-#include "REList.h"
 
 #ifdef __RE_DEBUG_MODE__
 #include "../../include/recore/RELog.h"

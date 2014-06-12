@@ -225,14 +225,14 @@ namespace FayeCpp {
         return NULL;
     }
 
-    std::list<std::string> Transport::availableConnectionTypes()
+    REStringList Transport::availableConnectionTypes()
     {
-        std::list<std::string> types;
+        REStringList types;
 
 #ifdef HAVE_SUITABLE_QT_VERSION
-		types.push_back(std::string(WebSocketQt::transportName().UTF8String()));
+		types.add(WebSocketQt::transportName());
 #elif defined(HAVE_LIBWEBSOCKETS_H)
-		types.push_back(std::string(WebSocket::transportName().UTF8String()));
+		types.add(WebSocket::transportName());
 #endif
         return types;
     }

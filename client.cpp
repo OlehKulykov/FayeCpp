@@ -157,12 +157,12 @@ namespace FayeCpp {
 		_delegate = delegate;
 	}
 	
-	const std::list<std::string> & Client::subscribedChannels() const
+	const REStringList & Client::subscribedChannels() const
 	{
 		return _subscribedChannels;
 	}
 	
-	const std::list<std::string> & Client::supportedTransportNames() const
+	const REStringList & Client::supportedTransportNames() const
 	{
 		return _supportedConnectionTypes;
 	}
@@ -226,16 +226,21 @@ namespace FayeCpp {
 			fprintf(stderr, "Client: clientId=%s\n", _clientId.UTF8String());
 #endif
 #endif			
-			std::list<std::string> availableTypes = Client::availableConnectionTypes();
-			std::list<std::string> supportedTypes = message->connectionTypes();
+			REStringList availableTypes = Client::availableConnectionTypes();
+			REStringList supportedTypes = message->connectionTypes();
 			const REString currentType = this->currentTransportName();
 			bool isCurrentTypeFound = false;
-			for (std::list<std::string>::const_iterator i = supportedTypes.begin(); i != supportedTypes.end(); ++i)
+			
+			REStringList::Iterator i = supportedTypes.iterator();
+			while (i.next()) 
 			{
-				//TODO: ...
-//				if (std::find(availableTypes.begin(), availableTypes.end(), *i) != availableTypes.end())
-//					if (currentType.compare(*i) == 0) isCurrentTypeFound = true;
-				isCurrentTypeFound = true;
+				if (availableTypes.isContaines(i.value())) 
+				{
+					if (currentType.isEqual(i.value())) 
+					{
+						isCurrentTypeFound = true;
+					}
+				}
 			}
 			if (isCurrentTypeFound)
 			{
@@ -246,19 +251,20 @@ namespace FayeCpp {
 			{
 				if (_delegate)
 				{
-					std::string error("Can't find implemented faye transport protocol type from supported by the server: [");
+					REMutableString error("Can't find implemented faye transport protocol type from supported by the server: [");
 					unsigned int index = 0;
-					for (std::list<std::string>::iterator i = supportedTypes.begin(); i != supportedTypes.end(); ++i)
+					REStringList::Iterator i = supportedTypes.iterator();
+					while (i.next()) 
 					{
 						if (index) error.append(", ");
-						error.append(*i);
+						error.append(i.value());
 						index++;
 					}
 					error.append("]");
 #if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)
 					dispatch_async(dispatch_get_main_queue(), ^{
 #endif					
-					_delegate->onFayeErrorString(this, error.c_str());
+					_delegate->onFayeErrorString(this, error);
 #if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)			
 					});
 #endif
@@ -353,21 +359,23 @@ namespace FayeCpp {
 	
 	bool Client::isSubscribedToChannel(const char * channel) const
 	{
-		return channel ? false : (std::find(_subscribedChannels.begin(), _subscribedChannels.end(), std::string(channel)) != _subscribedChannels.end());
+		return channel ? _subscribedChannels.isContaines(REString(channel)) : false;
 	}
 	
 	bool Client::isPendingChannel(const char * channel) const
 	{
-		return channel ? false : (std::find(_pendingSubscriptions.begin(), _pendingSubscriptions.end(), std::string(channel)) != _pendingSubscriptions.end());
+		return channel ? _pendingSubscriptions.isContaines(REString(channel)) : false;
 	}
 	
 	void Client::onSubscriptionDone(Message * message)
-	{
-		const std::string channel = message->subscription().UTF8String();
-		if (std::find(_pendingSubscriptions.begin(), _pendingSubscriptions.end(), channel) != _pendingSubscriptions.end())
+	{		
+		if (_pendingSubscriptions.isContaines(message->subscription())) 
 		{
-			_pendingSubscriptions.remove(channel);
-			_subscribedChannels.push_back(channel);
+			REStringList::Node * node = _pendingSubscriptions.findNode(message->subscription());
+			if (node) _pendingSubscriptions.removeNode(node);
+			
+			_subscribedChannels.add(message->subscription());
+			
 			if (!_isFayeConnected)
 			{
 				_isFayeConnected = true;
@@ -381,15 +389,15 @@ namespace FayeCpp {
 			}
 #ifdef FAYECPP_DEBUG_MESSAGES					
 #ifdef HAVE_SUITABLE_QT_VERSION
-			qDebug() << "Client:" << "Subscribed to channel:" << channel.c_str();
+			qDebug() << "Client:" << "Subscribed to channel:" << message->subscription().UTF8String();
 #else
-			fprintf(stderr, "Client: Subscribed to channel: %s\n", channel.c_str());
+			fprintf(stderr, "Client: Subscribed to channel: %s\n", message->subscription().UTF8String());
 #endif
 #endif			
 #if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)
 			dispatch_async(dispatch_get_main_queue(), ^{
 #endif	
-			if (_delegate) _delegate->onFayeClientSubscribedToChannel(this, channel.c_str());
+			if (_delegate) _delegate->onFayeClientSubscribedToChannel(this, message->subscription());
 #if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)			
 			});
 #endif
@@ -400,12 +408,16 @@ namespace FayeCpp {
 	{
 		if (message->subscription().isNotEmpty())
 		{
-			_pendingSubscriptions.remove(message->subscription().UTF8String());
-			_subscribedChannels.remove(message->subscription().UTF8String());
+			REStringList::Node * node = _pendingSubscriptions.findNode(message->subscription());
+			if (node) _pendingSubscriptions.removeNode(node);
+			
+			node = _subscribedChannels.findNode(message->subscription());
+			if (node) _subscribedChannels.removeNode(node);
+			
 #if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)
 			dispatch_async(dispatch_get_main_queue(), ^{
 #endif	
-			if (_delegate) _delegate->onFayeClientUnsubscribedFromChannel(this, message->subscription().UTF8String());
+			if (_delegate) _delegate->onFayeClientUnsubscribedFromChannel(this, message->subscription());
 #if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)			
 			});
 #endif
@@ -429,15 +441,16 @@ namespace FayeCpp {
 	
 	void Client::subscribePendingSubscriptions()
 	{
-		if (!_pendingSubscriptions.empty() && this->isTransportConnected())
+		if (!_pendingSubscriptions.isEmpty() && this->isTransportConnected())
 		{
 			if (_clientId.isNotEmpty() || _isFayeConnected)
 			{
-				std::list<std::string> arr = _pendingSubscriptions;
-				for (std::list<std::string>::iterator i = arr.begin(); i != arr.end(); ++i)
+				REStringList arr = _pendingSubscriptions;
+				REStringList::Iterator i = arr.iterator();
+				while (i.next()) 
 				{
 					Message message;
-                    message.setChannelType(Message::ChannelTypeSubscribe).setClientId(_clientId).setSubscription((*i).c_str());
+                    message.setChannelType(Message::ChannelTypeSubscribe).setClientId(_clientId).setSubscription(i.value().UTF8String());
 					if (_delegate) _delegate->onFayeClientWillSendMessage(this, &message);
 					char * jsonCString = message.jsonCString();
 					if (jsonCString) 
@@ -461,7 +474,7 @@ namespace FayeCpp {
 			return true;
 		}
 		
-		_pendingSubscriptions.push_back(channel);
+		_pendingSubscriptions.add(REString(channel));
 		this->subscribePendingSubscriptions();
 		return true;
 	}
@@ -493,9 +506,10 @@ namespace FayeCpp {
 	void Client::unsubscribeAllChannels()
 	{
 		_pendingSubscriptions.clear();
-		for (std::list<std::string>::iterator i = _subscribedChannels.begin(); i != _subscribedChannels.end(); ++i)
+		REStringList::Iterator i = _subscribedChannels.iterator();
+		while (i.next()) 
 		{
-			this->unsubscribeFromChannel((*i).c_str());
+			this->unsubscribeFromChannel(i.value().UTF8String());
 		}
 	}
 	
@@ -543,7 +557,7 @@ namespace FayeCpp {
 		delete _transport;
 	}
 	
-	std::list<std::string> Client::availableConnectionTypes()
+	REStringList Client::availableConnectionTypes()
 	{
         return Transport::availableConnectionTypes();
 	}

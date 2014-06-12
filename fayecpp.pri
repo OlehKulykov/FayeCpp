@@ -21,6 +21,7 @@ SOURCES += $$PWD/client.cpp \
            $$PWD/private/REMutex.cpp \
            $$PWD/private/REString.cpp \
            $$PWD/private/REStringBase.cpp \
+           $$PWD/private/REStringList.cpp \
            $$PWD/private/REStringUtilsPrivate.cpp \
            $$PWD/private/REThread.cpp \
            $$PWD/private/REWideString.cpp \

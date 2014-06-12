@@ -73,7 +73,7 @@ namespace FayeCpp {
 		virtual ~Transport();
 
         static Transport * createNewTransport(ClassMethodWrapper<Client, void(Client::*)(Message*), Message> * processMethod);
-        static std::list<std::string> availableConnectionTypes();
+        static REStringList availableConnectionTypes();
 	};
 	
 }
