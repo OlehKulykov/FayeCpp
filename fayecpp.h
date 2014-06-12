@@ -153,7 +153,8 @@ __RE_EXPORT_IMPLEMENTATION_TEMPLATE__ template class __RE_PUBLIC_CLASS_API__ std
 		 @param client Faye client object.
 		 @param channel Channel name.
 		 */
-		virtual void onFayeClientSubscribedToChannel(FayeCpp::Client * client, const std::string & channel) = 0;
+		virtual void onFayeClientSubscribedToChannel(FayeCpp::Client * client, 
+													 const char * channel) = 0;
 
 
 		/**
@@ -161,7 +162,8 @@ __RE_EXPORT_IMPLEMENTATION_TEMPLATE__ template class __RE_PUBLIC_CLASS_API__ std
 		 @param client Faye client object.
 		 @param channel Target channel name.
 		 */
-		virtual void onFayeClientUnsubscribedFromChannel(FayeCpp::Client * client, const std::string & channel) = 0;
+		virtual void onFayeClientUnsubscribedFromChannel(FayeCpp::Client * client, 
+														 const char * channel) = 0;
 
 
 		/**
@@ -170,7 +172,9 @@ __RE_EXPORT_IMPLEMENTATION_TEMPLATE__ template class __RE_PUBLIC_CLASS_API__ std
 		 @param data Received non empty responce data.
 		 @param channel Subscribed channel which received message data.
 		 */
-		virtual void onFayeClientReceivedDataFromChannel(FayeCpp::Client * client, const std::vector<unsigned char> & data, const std::string & channel) = 0;
+		virtual void onFayeClientReceivedDataFromChannel(FayeCpp::Client * client, 
+														 const std::vector<unsigned char> & data, 
+														 const char * channel) = 0;
 
 
 		/**
@@ -179,7 +183,8 @@ __RE_EXPORT_IMPLEMENTATION_TEMPLATE__ template class __RE_PUBLIC_CLASS_API__ std
 		 @param client Faye client object.
 		 @param message Message object.
 		 */
-		virtual void onFayeClientWillSendMessage(FayeCpp::Client * client, FayeCpp::Message * message) = 0;
+		virtual void onFayeClientWillSendMessage(FayeCpp::Client * client, 
+												 FayeCpp::Message * message) = 0;
 
 
 		/**
@@ -188,7 +193,8 @@ __RE_EXPORT_IMPLEMENTATION_TEMPLATE__ template class __RE_PUBLIC_CLASS_API__ std
 		 @param client Faye client object.
 		 @param message Message object.
 		 */
-		virtual void onFayeClientWillReceiveMessage(FayeCpp::Client * client, FayeCpp::Message * message) = 0;
+		virtual void onFayeClientWillReceiveMessage(FayeCpp::Client * client, 
+													FayeCpp::Message * message) = 0;
 
 
 		/**
@@ -196,7 +202,8 @@ __RE_EXPORT_IMPLEMENTATION_TEMPLATE__ template class __RE_PUBLIC_CLASS_API__ std
 		 @param client Faye client object.
 		 @param errorString Readable error string.
 		 */
-		virtual void onFayeErrorString(FayeCpp::Client * client, const std::string & errorString) = 0;
+		virtual void onFayeErrorString(FayeCpp::Client * client, 
+									   const char * errorString) = 0;
 
 
 		virtual ~Delegate() { }
