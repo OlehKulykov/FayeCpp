@@ -297,11 +297,18 @@ namespace FayeCpp {
 			
 			char error[1024] = { 0 };
 #if defined(HAVE_FUNCTION_SPRINTF_S)	
-			sprintf_s(error, 1024, "Failed to connect to %s:%i", this->host().c_str(), this->port());
+			const int writed = sprintf_s(error, 1024, "Failed to connect to %s:%i", this->host().UTF8String(), this->port());
 #else			
-			sprintf(error, "Failed to connect to %s:%i", this->host().UTF8String(), this->port());
+			const int writed = sprintf(error, "Failed to connect to %s:%i", this->host().UTF8String(), this->port());
 #endif			
-			this->onError(error);
+			if (writed > 0) 
+			{
+				this->onError(REString(error, (REUInt32)writed));
+			}
+			else
+			{
+				this->onError(REString("Failed to connect "));
+			}
 			return;
 		}
 		
