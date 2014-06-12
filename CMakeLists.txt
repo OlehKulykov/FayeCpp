@@ -468,6 +468,11 @@ include_directories(${PROJECT_BINARY_DIR})
 
 
 set(FAYECPP_SOURCES	private/REBuffer.cpp
+				private/REMutableString.cpp
+				private/REString.cpp
+				private/REStringBase.cpp
+				private/REStringUtilsPrivate.cpp
+				private/REWideString.cpp
 				private/REMutex.cpp
 				private/REThread.cpp
 				private/transport.cpp

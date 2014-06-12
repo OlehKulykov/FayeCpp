@@ -32,6 +32,11 @@ LOCAL_SRC_FILES := \
 	../../../jansson/src/value.c \
 	../../../private/jsonutils.cpp \
 	../../../private/REBuffer.cpp \
+	../../../private/REMutableString.cpp \
+	../../../private/REString.cpp \
+	../../../private/REStringBase.cpp \
+	../../../private/REStringUtilsPrivate.cpp \
+	../../../private/REWideString.cpp \
 	../../../private/REMutex.cpp \
 	../../../private/REThread.cpp \
 	../../../private/transport.cpp \
