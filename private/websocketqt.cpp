@@ -1,7 +1,7 @@
 
 #include "websocketqt.h"
 
-#ifdef HAVE_SUITABLE_QT_VERSION
+#if defined(HAVE_SUITABLE_QT_VERSION)
 
 #include "../fayecpp.h"
 
@@ -9,7 +9,7 @@ namespace FayeCpp {
 
 void WebSocketQt::connected()
 {
-#ifdef DEBUG_QT
+#ifdef FAYECPP_DEBUG_MESSAGES
     qDebug() << "SocketQt:" << "connected";
 #endif
     this->onConnected();
@@ -17,7 +17,7 @@ void WebSocketQt::connected()
 
 void WebSocketQt::disconnected()
 {
-#ifdef DEBUG_QT
+#ifdef FAYECPP_DEBUG_MESSAGES
     qDebug() << "SocketQt:" << "disconnected";
 #endif
     this->onDisconnected();
@@ -26,7 +26,7 @@ void WebSocketQt::disconnected()
 //    void stateChanged(QAbstractSocket::SocketState state);
 void WebSocketQt::textMessageReceived(const QString & message)
 {
-#ifdef DEBUG_QT
+#ifdef FAYECPP_DEBUG_MESSAGES
     qDebug() << "SocketQt:" << "received text:" << message;
 #endif
     this->onTextReceived(message.toStdString());
@@ -34,7 +34,7 @@ void WebSocketQt::textMessageReceived(const QString & message)
 
 void WebSocketQt::binaryMessageReceived(const QByteArray & message)
 {
-#ifdef DEBUG_QT
+#ifdef FAYECPP_DEBUG_MESSAGES
     qDebug() << "SocketQt:" << "received bin:" << (const char *)message.data();
 #endif
     this->onDataReceived(std::vector<unsigned char>(message.data(), message.data() + message.size()));
@@ -42,16 +42,24 @@ void WebSocketQt::binaryMessageReceived(const QByteArray & message)
 
 void WebSocketQt::error(QAbstractSocket::SocketError error)
 {
-#ifdef DEBUG_QT
+#ifdef FAYECPP_DEBUG_MESSAGES
     qDebug() << "SocketQt:" << "ERROR:" << error;
 #endif
-    this->onError("TODO: unprocessed qt socket error");
+	const QString err(_socket->errorString());
+	if (err.isEmpty())
+	{
+		this->onError("TODO: unprocessed qt socket error");
+	}
+	else
+	{
+		this->onError(err.toStdString());
+	}
     (void)error;
 }
 
 void WebSocketQt::sendData(const std::vector<unsigned char> & data)
 {
-#ifdef DEBUG_QT
+#ifdef FAYECPP_DEBUG_MESSAGES
     qDebug() << "SocketQt:" << "send bin:" << (const char*)data.data();
 #endif
     _socket->sendBinaryMessage(QByteArray((char*)data.data(), data.size()));
@@ -59,7 +67,7 @@ void WebSocketQt::sendData(const std::vector<unsigned char> & data)
 
 void WebSocketQt::sendData(const unsigned char * data, const size_t dataSize)
 {
-#ifdef DEBUG_QT
+#ifdef FAYECPP_DEBUG_MESSAGES
 	qDebug() << "SocketQt:" << "send bin:" << (const char*)data;
 #endif
 	_socket->sendBinaryMessage(QByteArray((char*)data, (int)dataSize));
@@ -67,7 +75,7 @@ void WebSocketQt::sendData(const unsigned char * data, const size_t dataSize)
 
 void WebSocketQt::sendText(const std::string & text)
 {
-#ifdef DEBUG_QT
+#ifdef FAYECPP_DEBUG_MESSAGES
     qDebug() << "SocketQt:" << "send text:" << text.c_str();
 #endif
     _socket->sendTextMessage(QString(text.c_str()));
@@ -75,7 +83,7 @@ void WebSocketQt::sendText(const std::string & text)
 
 void WebSocketQt::sendText(const char * text, const size_t textSize)
 {
-#ifdef DEBUG_QT
+#ifdef FAYECPP_DEBUG_MESSAGES
 	qDebug() << "SocketQt:" << "send text:" << text;
 #endif
 	(void)textSize;
@@ -84,7 +92,7 @@ void WebSocketQt::sendText(const char * text, const size_t textSize)
 
 void WebSocketQt::connectToServer()
 {
-#ifdef DEBUG_QT
+#ifdef FAYECPP_DEBUG_MESSAGES
     qDebug() << "SocketQT:" << "start connect url:" << this->url().c_str();
 #endif
     _socket->open(QUrl(this->url().c_str()));

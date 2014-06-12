@@ -73,7 +73,7 @@ namespace FayeCpp {
 	void Client::onTransportConnected(Message * message)
 	{
 #ifdef FAYECPP_DEBUG_MESSAGES
-#ifdef DEBUG_QT		
+#ifdef HAVE_SUITABLE_QT_VERSION
         qDebug() << "Client:" << "onTransportConnected.";
 #else
 		fprintf(stderr, "Client: onTransportConnected\n");
@@ -94,7 +94,7 @@ namespace FayeCpp {
 	void Client::onTransportDisconnected(Message * message)
 	{
 #ifdef FAYECPP_DEBUG_MESSAGES		
-#ifdef DEBUG_QT
+#ifdef HAVE_SUITABLE_QT_VERSION
         qDebug() << "Client:" << "onTransportDisconnected.";
 #else
 		fprintf(stderr, "Client: onTransportDisconnected\n");
@@ -210,7 +210,7 @@ namespace FayeCpp {
 	void Client::onHandshakeDone(Message * message)
 	{
 #ifdef FAYECPP_DEBUG_MESSAGES
-#ifdef DEBUG_QT
+#ifdef HAVE_SUITABLE_QT_VERSION
         qDebug() << "Client:" << "onHandshakeDone.";
 #else
 		fprintf(stderr, "Client: onHandshakeDone\n");
@@ -220,7 +220,7 @@ namespace FayeCpp {
 		if (!_clientId.empty())
 		{
 #ifdef FAYECPP_DEBUG_MESSAGES			
-#ifdef DEBUG_QT
+#ifdef HAVE_SUITABLE_QT_VERSION
 			qDebug() << "Client:" << "clientId=" << _clientId.c_str();
 #else	
 			fprintf(stderr, "Client: clientId=%s\n", _clientId.c_str());
@@ -268,7 +268,7 @@ namespace FayeCpp {
 	void Client::handshake()
 	{
 #ifdef FAYECPP_DEBUG_MESSAGES				
-#ifdef DEBUG_QT
+#ifdef HAVE_SUITABLE_QT_VERSION
         qDebug() << "Client:" << "handshake start...";
 #else
 		fprintf(stderr, "Client: handshake start...\n");
@@ -309,7 +309,7 @@ namespace FayeCpp {
 	void Client::connectFaye()
 	{
 #ifdef FAYECPP_DEBUG_MESSAGES	
-#ifdef DEBUG_QT
+#ifdef HAVE_SUITABLE_QT_VERSION
         qDebug() << "Client:" << "connect faye start ...";
 #else
 		fprintf(stderr, "Client: connect faye start ...\n");
@@ -331,7 +331,7 @@ namespace FayeCpp {
 	void Client::disconnect()
 	{
 #ifdef FAYECPP_DEBUG_MESSAGES			
-#ifdef DEBUG_QT
+#ifdef HAVE_SUITABLE_QT_VERSION
         qDebug() << "Client:" << "disconnect faye start ...";
 #else
 		fprintf(stderr, "Client: disconnect faye start ...\n");
@@ -378,7 +378,7 @@ namespace FayeCpp {
 #endif
 			}
 #ifdef FAYECPP_DEBUG_MESSAGES					
-#ifdef DEBUG_QT
+#ifdef HAVE_SUITABLE_QT_VERSION
 			qDebug() << "Client:" << "Subscribed to channel:" << channel.c_str();
 #else
 			fprintf(stderr, "Client: Subscribed to channel: %s\n", channel.c_str());
@@ -502,7 +502,7 @@ namespace FayeCpp {
 		if (_isFayeConnected && !message.empty() && this->isSubscribedToChannel(channel))
 		{
 #ifdef FAYECPP_DEBUG_MESSAGES				
-#ifdef DEBUG_QT
+#ifdef HAVE_SUITABLE_QT_VERSION
 			qDebug() << "Client:" << "Send message to channel:" << channel.c_str();
 #else
 			fprintf(stderr, "Client: Send message to channel: %s\n", channel.c_str());
