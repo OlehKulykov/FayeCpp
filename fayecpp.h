@@ -677,6 +677,216 @@ namespace FayeCpp {
 		}
 	};
 	
+	template <typename TK, typename TV>
+	class REMap
+	{
+	public:
+		class Node;
+		
+	private:
+		class NodeBase
+		{
+		public:
+			Node * next;
+			Node * previous;
+			NodeBase() : next(NULL), previous(NULL) { }
+		};
+		
+	public:
+		class Node : public NodeBase
+		{
+		public:
+			TK key;
+			TV value;
+			Node(const TK & newKey, const TV & newValue) : NodeBase(), key(newKey), value(newValue) { }
+		};
+		
+		typedef Node * NodePtr;
+		typedef NodePtr (*CreateNodeCallback)(const TK & newKey, const TV & newValue);
+		typedef void (*ReleaseNodeCallback)(NodePtr);
+	private:
+		CreateNodeCallback _createNode;
+		ReleaseNodeCallback _releaseNode;
+		union
+		{
+			NodeBase * _head;
+			Node * _castHead;
+		};
+	protected:
+		Node * addNewNodeWithKeyValue(const TK & newKey, const TV & newValue)
+		{
+			Node * newNode = _createNode(newKey, newValue);
+			if (newNode)
+			{
+				newNode->previous = _head->previous;
+				newNode->previous->next = newNode;
+				_head->previous = newNode;
+				newNode->next = _castHead;
+			}
+			return newNode;
+		}
+	public:
+		static NodePtr newNode(const TK & newKey, const TV & newValue)
+		{
+			return (new Node(newKey, newValue));
+		}
+		
+		static void deleteNode(NodePtr node)
+		{
+			delete node;
+		}
+		
+		static NodePtr allocateNode(const TK & newKey, const TV & newValue)
+		{
+			NodePtr node = (NodePtr)malloc(sizeof(Node));
+			if (node)
+			{
+				node->key = newKey;
+				node->value = newValue;
+			}
+			return node;
+		}
+		
+		static void freeNode(NodePtr node)
+		{
+			free(node);
+		}
+		
+	public:
+		class Iterator
+		{
+		private:
+			Node * _head;
+			Node * _node;
+		public:
+			bool next()
+			{
+				_node = _node ? _node->next : this->_head->next;
+				return _node != this->_head;
+			}
+			
+			Node * node() const
+			{
+				return _node;
+			}
+			
+			const TK & key() const
+			{
+				return _node->key;
+			}
+			
+			const TK & value() const
+			{
+				return _node->value;
+			}
+			
+			Iterator(const Iterator & it) :
+			_head(it._head),
+			_node(NULL)
+			{
+				
+			}
+			
+			Iterator(Node * listHead) :
+			_head(listHead),
+			_node(NULL)
+			{
+				
+			}
+		};
+		
+		Iterator iterator() const
+		{
+			return Iterator(this->_castHead);
+		}
+		
+		bool isEmpty() const
+		{
+			return (this->_head->next == this->_head);
+		}
+		
+		void clear()
+		{
+			Node * node = this->_head->next;
+			while (node != this->_head)
+			{
+				node = this->removeNode(node);
+			}
+		}
+		
+		Node * findNode(const TK & key) const
+		{
+			Node * next = this->_head->next;
+			while (next != this->_head)
+			{
+				if (next->key == key)
+				{
+					return next;
+				}
+				next = next->next;
+			}
+			return NULL;
+		}
+		
+		bool isContainesKey(const TK & key) const
+		{
+			return this->findNode(key) ? true : false;
+		}
+		
+		Node * removeNode(Node * node)
+		{
+			if (node != this->_head)
+			{
+				Node * next = node->next;
+				node->previous->next = node->next;
+				node->next->previous = node->previous;
+				_releaseNode(node);
+				return next;
+			}
+			return this->_castHead;
+		}
+		
+		bool setKeyValue(const TK & newKey, const TV & newValue)
+		{
+			Node * node = this->findNode(newKey);
+			if (node)
+			{
+				node->value = newValue;
+				return true;
+			}
+			return this->add(newKey, newValue);
+		}
+		
+		bool add(const TK & newKey, const TV & newValue)
+		{
+			return this->addNewNodeWithKeyValue(newKey, newValue) ? true : false;
+		}
+		
+		REMap(CreateNodeCallback nodeCreator = &newNode,
+			   ReleaseNodeCallback nodeReleaser = &deleteNode) :
+		_createNode(nodeCreator),
+		_releaseNode(nodeReleaser),
+		_head(NULL)
+		{
+			NodeBase * newHead = (NodeBase *)malloc(sizeof(NodeBase));
+			if (newHead)
+			{
+				this->_head = newHead;
+				this->_head->next = this->_castHead;
+				this->_head->previous = this->_castHead;
+			}
+		}
+		
+		virtual ~REMap()
+		{
+			this->clear();
+			if (this->_head)
+			{
+				free(this->_head);
+			}
+		}
+	};
+	
 	class REString;
 	
 	/// Class of memory buffer.
@@ -1648,6 +1858,27 @@ namespace FayeCpp {
 		~Variant();
 	};
 	
+	class __RE_PUBLIC_CLASS_API__ VariantMap : public REMap<REString, Variant>
+	{
+	public:
+		const Variant & operator[](const char * key) const;
+		const Variant & operator[](const REString & key) const;
+		Variant & operator[](const char * key);
+		Variant & operator[](const REString & key);
+		VariantMap & operator=(const VariantMap & map);
+		VariantMap(const VariantMap & map);
+		VariantMap();
+		virtual ~VariantMap();
+	};
+	
+	class __RE_PUBLIC_CLASS_API__ VariantList : public REList<Variant>
+	{
+	public:
+		VariantList & operator=(const VariantList & list);
+		VariantList(const VariantList & list);
+		VariantList();
+		virtual ~VariantList();
+	};
 }
 
 
