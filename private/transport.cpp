@@ -59,35 +59,35 @@ namespace FayeCpp {
 		_processMethod->invokeWithPointer(&message);
 	}
 	
-	void Transport::onTextReceived(const std::string & text)
+	void Transport::onTextReceived(const char * text)
 	{
 		Message message(text);
         message.setType(Message::MessageTypeServerResponce);
 		_processMethod->invokeWithPointer(&message);
 	}
 	
-	void Transport::onDataReceived(const std::vector<unsigned char> & data)
+	void Transport::onDataReceived(const unsigned char * data, const size_t dataSize)
 	{
-		Message message(data);
+		Message message(data, dataSize);
         message.setType(Message::MessageTypeServerResponce);
 		_processMethod->invokeWithPointer(&message);
 	}
 	
-	void Transport::onError(const std::string & error)
+	void Transport::onError(const REString & error)
 	{
 #ifdef FAYECPP_DEBUG_MESSAGES
 #ifdef HAVE_SUITABLE_QT_VERSION
-		qDebug() << "TRANSPORT ERROR:" << error.c_str();
+		qDebug() << "TRANSPORT ERROR:" << error.UTF8String();
 #else		
-		fprintf(stderr, "TRANSPORT ERROR: %s\n", error.c_str());
+		fprintf(stderr, "TRANSPORT ERROR: %s\n", error.UTF8String());
 #endif		
 #endif
 		Message message;
-        message.setType(Message::MessageTypeTransportError).setSuccessfully(true).setErrorString(error);
+        message.setType(Message::MessageTypeTransportError).setSuccessfully(true).setErrorString(error.UTF8String());
 		_processMethod->invokeWithPointer(&message);
 	}
 	
-	const std::string & Transport::url() const
+	const REString & Transport::url() const
 	{
 		return _url;
 	}
@@ -97,67 +97,83 @@ namespace FayeCpp {
 		return _isConnected;
 	}
 	
-	void Transport::setUrl(const std::string & url)
+	void Transport::setUrl(const char * url)
 	{
 		_url = url;
-		std::string urlString = url;
-		if (urlString.find("ws://") == 0)
+		REMutableString urlString(url);
+		if (urlString.isContaines("ws://"))
 		{
-			urlString.erase(0, 5);
+			urlString.replace("ws://");
 			_isUseSSL = false;
 		}
 		
-		if (urlString.find("wss://") == 0)
+		if (urlString.isContaines("wss://"))
 		{
-			urlString.erase(0, 6);
+			urlString.replace("wss://");
 			_isUseSSL = true;
 		}
 		
-		if (urlString.find("http://") == 0)
+		if (urlString.isContaines("http://"))
 		{
-			urlString.erase(0, 7);
+			urlString.replace("http://");
 #if defined(HAVE_SUITABLE_QT_VERSION)
-			_url.replace(0, 7, "ws://");
+			REMutableString u(url);
+			u.replace("http://", "ws://");
+			_url = u.UTF8String();
 #endif
 			_isUseSSL = false;
 		}
 		
-		if (urlString.find("https://") == 0)
+		if (urlString.isContaines("https://"))
 		{
-			urlString.erase(0, 8);
+			urlString.replace("https://");
 #if defined(HAVE_SUITABLE_QT_VERSION)
-			_url.replace(0, 8, "wss://");
+			REMutableString u(url);
+			u.replace("https://", "wss://");
+			_url = u.UTF8String();
 #endif
 			_isUseSSL = true;
 		}
 		
-		size_t pos = urlString.find(":");
-		if (pos > 0)
+		const char * sub = strstr(urlString.UTF8String(), ":");
+		if (sub)
 		{
-			_port = atoi(urlString.substr(pos + 1, urlString.size()).c_str());
+			int port = -1;
+			if (sscanf(++sub, "%i", &port) == 1)
+			{
+				_port = port;
+			}
 		}
 		
-		pos = urlString.find("/", pos);
-		_path = "/";
-		if(pos > 0)
+		sub = strstr(urlString.UTF8String(), "/");
+		if (sub) 
 		{
-			_path += urlString.substr(pos + 1, urlString.size());
+			_path = sub;
 		}
-		
-		pos = urlString.find(":");
-		if(pos > 0)
+		else 
 		{
-			urlString.erase(pos, urlString.size());
+			_path = "/";
 		}
-		_host = urlString;
+	
+		sub = strstr(urlString.UTF8String(), ":");
+		if (!sub) sub = strstr(urlString.UTF8String(), "/");
+		if (sub) 
+		{
+			const REUInt32 len = (REUInt32)(sub - urlString.UTF8String());
+			_host = REString(urlString.UTF8String(), len);
+		}
+		else
+		{
+			_host = urlString.UTF8String();
+		}
 	}
 	
-	const std::string & Transport::host() const
+	const REString & Transport::host() const
 	{
 		return _host;
 	}
 	
-	const std::string & Transport::path() const
+	const REString & Transport::path() const
 	{
 		return _path;
 	}
@@ -214,9 +230,9 @@ namespace FayeCpp {
         std::list<std::string> types;
 
 #ifdef HAVE_SUITABLE_QT_VERSION
-        types.push_back(WebSocketQt::transportName());
+		types.push_back(std::string(WebSocketQt::transportName().UTF8String()));
 #elif defined(HAVE_LIBWEBSOCKETS_H)
-        types.push_back(WebSocket::transportName());
+		types.push_back(std::string(WebSocket::transportName().UTF8String()));
 #endif
         return types;
     }

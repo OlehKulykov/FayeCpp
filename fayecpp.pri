@@ -17,8 +17,13 @@ SOURCES += $$PWD/client.cpp \
            $$PWD/variant.cpp \
            $$PWD/private/jsonutils.cpp \
            $$PWD/private/REBuffer.cpp \
+           $$PWD/private/REMutableString.cpp \
            $$PWD/private/REMutex.cpp \
+           $$PWD/private/REString.cpp \
+           $$PWD/private/REStringBase.cpp \
+           $$PWD/private/REStringUtilsPrivate.cpp \
            $$PWD/private/REThread.cpp \
+           $$PWD/private/REWideString.cpp \
            $$PWD/private/transport.cpp \
            $$PWD/private/websocketqt.cpp
 

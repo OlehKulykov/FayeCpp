@@ -47,12 +47,9 @@ private slots:
     void error(QAbstractSocket::SocketError error);
 
 public:
-    virtual const std::string name() const;
+	virtual const REString name() const;
 
-    virtual void sendData(const std::vector<unsigned char> & data);
 	virtual void sendData(const unsigned char * data, const size_t dataSize);
-
-    virtual void sendText(const std::string & text);
 	virtual void sendText(const char * text, const size_t textSize);
 
     virtual void connectToServer();
@@ -60,7 +57,7 @@ public:
     WebSocketQt(ClassMethodWrapper<Client, void(Client::*)(Message*), Message> * processMethod);
     virtual ~WebSocketQt();
 
-    static std::string transportName();
+	static REString transportName();
 };
 
 }
