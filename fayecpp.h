@@ -288,9 +288,6 @@ namespace FayeCpp {
 	
 	
 #if defined(__RE_OS_WINDOWS__) && defined(_MSC_VER)
-	__RE_EXPORT_IMPLEMENTATION_TEMPLATE__ template class __RE_PUBLIC_CLASS_API__ std::allocator<char>;
-	__RE_EXPORT_IMPLEMENTATION_TEMPLATE__ template class __RE_PUBLIC_CLASS_API__ std::basic_string<char>;
-	__RE_EXPORT_IMPLEMENTATION_TEMPLATE__ template class __RE_PUBLIC_CLASS_API__ std::list<std::string>;
 	__RE_EXPORT_IMPLEMENTATION_TEMPLATE__ template class __RE_PUBLIC_CLASS_API__ std::map<std::string, FayeCpp::Variant>;
 #endif
 	
@@ -447,6 +444,239 @@ namespace FayeCpp {
 		return static_cast<const resultType*>( static_cast<const void*>(sourcePointer) );
 	}
 	
+	template <typename T>
+	class REList
+	{
+	public:
+		class Node;
+		
+	private:
+		class NodeBase
+		{
+		public:
+			Node * next;
+			Node * previous;
+			NodeBase() : next(NULL), previous(NULL) { }
+		};
+		
+	public:
+		class Node : public NodeBase
+		{
+		public:
+			T value;
+			Node(const T & newValue) : NodeBase(), value(newValue) { }
+		};
+		
+		typedef enum
+		{
+			Descending = -1,
+			Same = 0,
+			Ascending = 1
+		} ValueCompareResult;
+		
+		typedef Node * NodePtr;
+		typedef NodePtr (*CreateNodeCallback)(const T & newValue);
+		typedef void (*ReleaseNodeCallback)(NodePtr);
+		typedef ValueCompareResult (*NodeValuesComparator)(const T * left, const T * right);
+		typedef ValueCompareResult (*CustomNodeValueComparator)(const T * nodeValue, void * customValue);
+	private:
+		CreateNodeCallback _createNode;
+		ReleaseNodeCallback _releaseNode;
+		union
+		{
+			NodeBase * _head;
+			Node * _castHead;
+		};
+		
+	public:
+		static NodePtr newNode(const T & newValue)
+		{
+			return (new Node(newValue));
+		}
+		
+		static void deleteNode(NodePtr node)
+		{
+			delete node;
+		}
+		
+		static NodePtr allocateNode(const T & newValue)
+		{
+			NodePtr node = (NodePtr)malloc(sizeof(Node));
+			if (node)
+			{
+				node->value = newValue;
+			}
+			return node;
+		}
+		
+		static void freeNode(NodePtr node)
+		{
+			free(node);
+		}
+		
+	public:
+		class Iterator
+		{
+		private:
+			Node * _head;
+			Node * _node;
+		public:
+			bool next()
+			{
+				_node = _node ? _node->next : this->_head->next;
+				return _node != this->_head;
+			}
+			
+			//		bool next() const
+			//		{
+			//			Node ** n = const_cast<Node **>(&_node);
+			//			*n = _node ? _node->next : this->_head->next;
+			//			return _node != this->_head;
+			//		}
+			
+			Node * node() const
+			{
+				return _node;
+			}
+			
+			const T & value() const
+			{
+				return _node->value;
+			}
+			
+			Iterator(const Iterator & it) :
+			_head(it._head),
+			_node(NULL)
+			{
+				
+			}
+			
+			Iterator(Node * listHead) :
+			_head(listHead),
+			_node(NULL)
+			{
+				
+			}
+		};
+		
+		Iterator iterator() const
+		{
+			return Iterator(this->_castHead);
+		}
+		
+		bool isEmpty() const
+		{
+			return (this->_head->next == this->_head);
+		}
+		
+		void clear()
+		{
+			Node * node = this->_head->next;
+			while (node != this->_head)
+			{
+				node = this->removeNode(node);
+			}
+		}
+		
+		Node * findNode(void * customValue, CustomNodeValueComparator comparator) const
+		{
+			Node * next = this->_head->next;
+			while (next != this->_head)
+			{
+				if (comparator(&next->value, customValue) == Same)
+				{
+					return next;
+				}
+				next = next->next;
+			}
+			return NULL;
+		}
+		
+		Node * findNode(const T & value, NodeValuesComparator comparator) const
+		{
+			Node * next = this->_head->next;
+			while (next != this->_head)
+			{
+				if (comparator(&next->value, &value) == Same)
+				{
+					return next;
+				}
+				next = next->next;
+			}
+			return NULL;
+		}
+		
+		Node * findNode(const T & value) const
+		{
+			Node * next = this->_head->next;
+			while (next != this->_head)
+			{
+				if (next->value == value)
+				{
+					return next;
+				}
+				next = next->next;
+			}
+			return NULL;
+		}
+		
+		bool isContaines(const T & value) const
+		{
+			return this->findNode(value) ? true : false;
+		}
+		
+		Node * removeNode(Node * node)
+		{
+			if (node != this->_head)
+			{
+				Node * next = node->next;
+				node->previous->next = node->next;
+				node->next->previous = node->previous;
+				_releaseNode(node);
+				return next;
+			}
+			return this->_castHead;
+		}
+		
+		bool add(const T & newValue)
+		{
+			Node * newNode = _createNode(newValue);
+			if (newNode)
+			{
+				newNode->previous = _head->previous;
+				newNode->previous->next = newNode;
+				_head->previous = newNode;
+				newNode->next = _castHead;
+				return true;
+			}
+			return false;
+		}
+		
+		REList(CreateNodeCallback nodeCreator = &newNode,
+			   ReleaseNodeCallback nodeReleaser = &deleteNode) :
+		_createNode(nodeCreator),
+		_releaseNode(nodeReleaser),
+		_head(NULL)
+		{
+			NodeBase * newHead = (NodeBase *)malloc(sizeof(NodeBase));
+			if (newHead) 
+			{
+				this->_head = newHead;
+				this->_head->next = this->_castHead;
+				this->_head->previous = this->_castHead;
+			}
+		}
+		
+		virtual ~REList()
+		{
+			this->clear();
+			if (this->_head)
+			{
+				free(this->_head);
+			}
+		}
+	};
+	
 	class REString;
 	
 	/// Class of memory buffer.
@@ -542,6 +772,8 @@ namespace FayeCpp {
 							   const REUInt32 wideStringLength = RENotFound,
 							   const REStringType toType = REStringTypeUTF8);
 		
+		bool operator==(const REStringBase & s) const;
+		
 		REStringBase();
 		
 		REStringBase(const char * utf8String,
@@ -589,6 +821,8 @@ namespace FayeCpp {
 		REString & operator=(const REWideString & anotherString);
 		REString & operator=(const REString & anotherString);
 		REString & operator=(const REMutableString & anotherString);
+		
+		bool operator==(const REString & s) const;
 		
 		operator const char* () { return this->UTF8String(); }
 		operator const char* () const { return this->UTF8String(); }
@@ -714,6 +948,14 @@ namespace FayeCpp {
 		virtual ~REMutableString();
 	};
 	
+	class __RE_PUBLIC_CLASS_API__ REStringList : public REList<REString>
+	{
+	public:
+		REStringList & operator=(const REStringList & list);
+		REStringList(const REStringList & list);
+		REStringList();
+		virtual ~REStringList();
+	};
 	
 	class __RE_PUBLIC_CLASS_API__ Delegate
 	{
@@ -816,9 +1058,9 @@ namespace FayeCpp {
 		Delegate * _delegate;
 		REString _clientId;
 		
-		std::list<std::string> _subscribedChannels;
-		std::list<std::string> _pendingSubscriptions;
-		std::list<std::string> _supportedConnectionTypes;
+		REStringList _subscribedChannels;
+		REStringList _pendingSubscriptions;
+		REStringList _supportedConnectionTypes;
 		
 		bool _isFayeConnected;
 		
@@ -852,13 +1094,13 @@ namespace FayeCpp {
 		/**
 		 @return List of subscribed channels.
 		 */
-		const std::list<std::string> & subscribedChannels() const;
+		const REStringList & subscribedChannels() const;
 		
 		
 		/**
 		 @return List of supported connection names. Based on server responce(handshake) and on implemented types.
 		 */
-		const std::list<std::string> & supportedTransportNames() const;
+		const REStringList & supportedTransportNames() const;
 		
 		
 		/**
@@ -976,7 +1218,7 @@ namespace FayeCpp {
 		 * @brief List with implemented/available connection types.
 		 * @return Type strings list.
 		 */
-		static std::list<std::string> availableConnectionTypes();
+		static REStringList availableConnectionTypes();
 	};
 	
 	
@@ -1079,7 +1321,7 @@ namespace FayeCpp {
 		REString _version;
 		REString _minimumVersion;
 		REString _connectionType;
-		std::list<std::string> _connectionTypes;
+		REStringList _connectionTypes;
 		REBuffer _data;
 		MessageType _type;
 		bool _isSuccessfully;
@@ -1161,7 +1403,7 @@ namespace FayeCpp {
 		 @brief Getter for list of connection type strings.
 		 @return Std list with connection types strings.
 		 */
-		const std::list<std::string> & connectionTypes() const;
+		const REStringList & connectionTypes() const;
 		
 		
 		/**

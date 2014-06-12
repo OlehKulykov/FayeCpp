@@ -35,6 +35,7 @@ LOCAL_SRC_FILES := \
 	../../../private/REMutableString.cpp \
 	../../../private/REString.cpp \
 	../../../private/REStringBase.cpp \
+	../../../private/REStringList.cpp \
 	../../../private/REStringUtilsPrivate.cpp \
 	../../../private/REWideString.cpp \
 	../../../private/REMutex.cpp \

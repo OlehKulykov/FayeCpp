@@ -18,6 +18,7 @@
 		3D39684E1949E83B0073A7E8 /* REWideString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D3968411949E83B0073A7E8 /* REWideString.cpp */; };
 		3D39684F1949E83B0073A7E8 /* transport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D3968431949E83B0073A7E8 /* transport.cpp */; };
 		3D3968501949E83B0073A7E8 /* websocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D3968451949E83B0073A7E8 /* websocket.cpp */; };
+		3D3968541949FF4C0073A7E8 /* REStringList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D3968531949FF4C0073A7E8 /* REStringList.cpp */; };
 		3D8CB880194898B400943B53 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D8CB87F194898B400943B53 /* Foundation.framework */; };
 		3D8CB8B71948994500943B53 /* base64-decode.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CB8A61948994500943B53 /* base64-decode.c */; };
 		3D8CB8B81948994500943B53 /* client-handshake.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CB8A71948994500943B53 /* client-handshake.c */; };
@@ -69,7 +70,6 @@
 		3D3968341949E83B0073A7E8 /* jsonutils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = jsonutils.h; path = ../../private/jsonutils.h; sourceTree = "<group>"; };
 		3D3968351949E83B0073A7E8 /* jsonutils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = jsonutils.cpp; path = ../../private/jsonutils.cpp; sourceTree = "<group>"; };
 		3D3968361949E83B0073A7E8 /* REBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REBuffer.cpp; path = ../../private/REBuffer.cpp; sourceTree = "<group>"; };
-		3D3968371949E83B0073A7E8 /* REList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = REList.h; path = ../../private/REList.h; sourceTree = "<group>"; };
 		3D3968381949E83B0073A7E8 /* REMutableString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REMutableString.cpp; path = ../../private/REMutableString.cpp; sourceTree = "<group>"; };
 		3D3968391949E83B0073A7E8 /* REMutex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = REMutex.h; path = ../../private/REMutex.h; sourceTree = "<group>"; };
 		3D39683A1949E83B0073A7E8 /* REMutex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REMutex.cpp; path = ../../private/REMutex.cpp; sourceTree = "<group>"; };
@@ -84,6 +84,7 @@
 		3D3968431949E83B0073A7E8 /* transport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = transport.cpp; path = ../../private/transport.cpp; sourceTree = "<group>"; };
 		3D3968441949E83B0073A7E8 /* websocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = websocket.h; path = ../../private/websocket.h; sourceTree = "<group>"; };
 		3D3968451949E83B0073A7E8 /* websocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = websocket.cpp; path = ../../private/websocket.cpp; sourceTree = "<group>"; };
+		3D3968531949FF4C0073A7E8 /* REStringList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REStringList.cpp; path = ../../private/REStringList.cpp; sourceTree = "<group>"; };
 		3D8CB87C194898B400943B53 /* libfayecpp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libfayecpp.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D8CB87F194898B400943B53 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3D8CB890194898B400943B53 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -222,12 +223,12 @@
 				3D3968341949E83B0073A7E8 /* jsonutils.h */,
 				3D3968351949E83B0073A7E8 /* jsonutils.cpp */,
 				3D3968361949E83B0073A7E8 /* REBuffer.cpp */,
-				3D3968371949E83B0073A7E8 /* REList.h */,
 				3D3968381949E83B0073A7E8 /* REMutableString.cpp */,
 				3D3968391949E83B0073A7E8 /* REMutex.h */,
 				3D39683A1949E83B0073A7E8 /* REMutex.cpp */,
 				3D39683B1949E83B0073A7E8 /* REString.cpp */,
 				3D39683C1949E83B0073A7E8 /* REStringBase.cpp */,
+				3D3968531949FF4C0073A7E8 /* REStringList.cpp */,
 				3D39683D1949E83B0073A7E8 /* REStringUtilsPrivate.h */,
 				3D39683E1949E83B0073A7E8 /* REStringUtilsPrivate.cpp */,
 				3D39683F1949E83B0073A7E8 /* REThread.h */,
@@ -320,6 +321,7 @@
 				3D8CB8DB1948996200943B53 /* strbuffer.c in Sources */,
 				3D39684E1949E83B0073A7E8 /* REWideString.cpp in Sources */,
 				3D8CB8C51948994500943B53 /* pollfd.c in Sources */,
+				3D3968541949FF4C0073A7E8 /* REStringList.cpp in Sources */,
 				3D8CB8BC1948994500943B53 /* extension-deflate-frame.c in Sources */,
 				3D8CB8C71948994500943B53 /* sha-1.c in Sources */,
 				3D8CB8D61948996200943B53 /* hashtable.c in Sources */,

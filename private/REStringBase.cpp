@@ -86,6 +86,11 @@ namespace FayeCpp {
 		}
 	}
 	
+	bool REStringBase::operator==(const REStringBase & s) const
+	{
+		return REStringUtilsPrivate::isBuffersEqual(_p, s._p);
+	}
+	
 	REStringBase::REStringBase()
 	{
 		

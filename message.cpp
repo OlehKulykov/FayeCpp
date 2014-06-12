@@ -76,7 +76,7 @@ namespace FayeCpp {
 		return _connectionType;
 	}
 	
-	const std::list<std::string> & Message::connectionTypes() const
+	const REStringList & Message::connectionTypes() const
 	{
 		return _connectionTypes;
 	}
@@ -138,7 +138,7 @@ namespace FayeCpp {
 	{
 		if (connectionType)
 		{
-			_connectionTypes.push_back(std::string(connectionType));
+			_connectionTypes.add(REString(connectionType));
 		}
 		return *this;
 	}
@@ -198,8 +198,11 @@ namespace FayeCpp {
 									const char * typePtr = json_string_value(t);
 									if (typePtr)
 									{
-										std::string typeString(typePtr);
-										if (!typeString.empty()) _connectionTypes.push_back(typeString);
+										REString typeString(typePtr);
+										if (typeString.isNotEmpty())
+										{
+											_connectionTypes.add(typeString);
+										}
 									}
 								}
 							}
@@ -228,18 +231,19 @@ namespace FayeCpp {
             if (!_version.isEmpty()) json_object_set_new(json, "version", json_string(_version.UTF8String()));
             if (!_minimumVersion.isEmpty()) json_object_set_new(json, "minimumVersion", json_string(_minimumVersion.UTF8String()));
             if (!_connectionType.isEmpty()) json_object_set_new(json, "connectionType", json_string(_connectionType.UTF8String()));
-            if (!_connectionTypes.empty())
+            if (!_connectionTypes.isEmpty())
             {
                 json_t * types = json_array();
                 if (types)
                 {
-                    for (std::list<std::string>::const_iterator i = _connectionTypes.begin(); i != _connectionTypes.end(); ++i)
-                    {
-                        if (!(*i).empty())
-                        {
-                            json_array_append_new(types, json_string((*i).c_str()));
-                        }
-                    }
+					REStringList::Iterator i = _connectionTypes.iterator();
+					while (i.next()) 
+					{
+						if (i.value().isNotEmpty()) 
+						{
+							json_array_append_new(types, json_string(i.value().UTF8String()));
+						}
+					}
                 }
                 json_object_set(json, "supportedConnectionTypes", types);
                 json_decref(types);
