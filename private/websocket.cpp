@@ -26,7 +26,6 @@
 
 #include "REThread.h"
 #include "REMutex.h"
-#include "REBuffer.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -62,11 +61,11 @@ namespace FayeCpp {
 		char * str = (char *)input;
 		if (strlen(str) == len)
 		{
-			this->onTextReceived(std::string(str));
+			this->onTextReceived(str);
 		}
 		else
 		{
-			this->onDataReceived(std::vector<unsigned char>((unsigned char*)input, (unsigned char*)input + len));
+			this->onDataReceived((const unsigned char *)input, (REUInt32)len);
 		}
 	}
 	
@@ -120,7 +119,7 @@ namespace FayeCpp {
 									  struct libwebsocket * connection,
 									  EchoSessionData * pss)
 	{
-		REBuffer * buffer = NULL;
+		WriteBuffer * buffer = NULL;
 		
 		this->writeLock();
 		if (!_writeBuffers.empty())
@@ -132,7 +131,7 @@ namespace FayeCpp {
 		
 		if (!buffer) return 0;
 		
-		const enum libwebsocket_write_protocol type = (enum libwebsocket_write_protocol)buffer->tag();
+		const enum libwebsocket_write_protocol type = (enum libwebsocket_write_protocol)buffer->tag;
 		
 //		pss->len = sprintf((char *)&pss->buf[LWS_SEND_BUFFER_PRE_PADDING],
 //						   "%s",
@@ -172,10 +171,10 @@ namespace FayeCpp {
 		
 		this->writeLock();
 		
-		REBuffer * buffer = new REBuffer(data, (uint32_t)dataSize);
+		WriteBuffer * buffer = new WriteBuffer(data, (REUInt32)dataSize);
 		if (buffer && buffer->size() == dataSize)
 		{
-			buffer->setTag((int)type);
+			buffer->tag = (int)type;
 #ifdef FAYECPP_DEBUG_MESSAGES
 			fprintf(stdout, "WILL WRITE %i bytes: %s\n", (int)buffer->size(), (char *)buffer->buffer());
 #endif
@@ -198,29 +197,11 @@ namespace FayeCpp {
 		}
 	}
 	
-	void WebSocket::sendData(const std::vector<unsigned char> & data)
-	{
-		if (!data.empty() && data.size() > 0)
-		{
-			this->addWriteBufferData(&data.front(), data.size(), LWS_WRITE_BINARY);
-		}
-	}
-	
 	void WebSocket::sendData(const unsigned char * data, const size_t dataSize)
 	{
 		if (data && dataSize > 0)
 		{
 			this->addWriteBufferData(data, dataSize, LWS_WRITE_BINARY);
-		}
-	}
-	
-	void WebSocket::sendText(const std::string & text)
-	{
-		if (!text.empty() && text.size() > 0)
-		{
-			// NO NULL terminated char
-			const char * s = text.data();
-			this->addWriteBufferData((const unsigned char *)s, strlen(s), LWS_WRITE_TEXT);
 		}
 	}
 	
@@ -233,7 +214,7 @@ namespace FayeCpp {
 		}
 	}
 	
-	const std::string WebSocket::name() const 
+	const REString WebSocket::name() const 
 	{
 		return WebSocket::transportName(); 
 	}
@@ -257,9 +238,9 @@ namespace FayeCpp {
 		}
 		_connection = NULL;
 		
-		for (std::list<REBuffer *>::iterator i = _writeBuffers.begin(); i != _writeBuffers.end(); ++i)
+		for (std::list<WriteBuffer *>::iterator i = _writeBuffers.begin(); i != _writeBuffers.end(); ++i)
 		{
-			REBuffer * b = *i;
+			WriteBuffer * b = *i;
 			delete b;
 		}
 		_writeBuffers.clear();
@@ -296,12 +277,16 @@ namespace FayeCpp {
 			return;
 		}
 		
+#ifdef FAYECPP_DEBUG_MESSAGES
+		fprintf(stdout, "Start connecting to host[%s] port[%i] path[%s]\n", this->host().UTF8String(), this->port(), this->path().UTF8String());
+#endif
+		
 		_connection = libwebsocket_client_connect(_context,
-												  this->host().c_str(),
+												  this->host().UTF8String(),
 												  this->port(),
 												  this->isUseSSL() ? 2 : 0,
-												  this->path().c_str(),
-												  this->host().c_str(),
+												  this->path().UTF8String(),
+												  this->host().UTF8String(),
 												  "origin",
 												  NULL,
 												  -1);
@@ -314,7 +299,7 @@ namespace FayeCpp {
 #if defined(HAVE_FUNCTION_SPRINTF_S)	
 			sprintf_s(error, 1024, "Failed to connect to %s:%i", this->host().c_str(), this->port());
 #else			
-			sprintf(error, "Failed to connect to %s:%i", this->host().c_str(), this->port());
+			sprintf(error, "Failed to connect to %s:%i", this->host().UTF8String(), this->port());
 #endif			
 			this->onError(error);
 			return;
@@ -359,9 +344,9 @@ namespace FayeCpp {
 		this->cleanup();
 	}
 	
-	std::string WebSocket::transportName() 
+	REString WebSocket::transportName() 
 	{
-		return std::string("websocket");
+		return REString("websocket");
 	}
 }
 

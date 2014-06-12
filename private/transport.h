@@ -26,9 +26,9 @@ namespace FayeCpp {
 	class Transport
 	{
 	private:
-		std::string _url;
-		std::string _host;
-		std::string _path;
+		REString _url;
+		REString _host;
+		REString _path;
 		ClassMethodWrapper<Client, void(Client::*)(Message*), Message> * _processMethod;
 		int _port;
 		bool _isUseSSL;
@@ -42,30 +42,27 @@ namespace FayeCpp {
 	protected:
 		void onConnected();
 		void onDisconnected();
-		void onTextReceived(const std::string & text);
-		void onDataReceived(const std::vector<unsigned char> & data);
-		void onError(const std::string & error);
+		void onTextReceived(const char * text);
+		void onDataReceived(const unsigned char * data, const size_t dataSize);
+		void onError(const REString & error);
 		
 	public:
 		bool isConnected() const;
-		void setUrl(const std::string & url);
+		void setUrl(const char * url);
 		
-		const std::string & url() const;
-		const std::string & host() const;
+		const REString & url() const;
+		const REString & host() const;
 		
 		/**
 		 @brief Should start with '/'
 		 */
-		const std::string & path() const;
+		const REString & path() const;
 		int port() const;
 		bool isUseSSL() const;
 		
-		virtual const std::string name() const = 0;
+		virtual const REString name() const = 0;
 
-		virtual void sendData(const std::vector<unsigned char> & data) = 0;
 		virtual void sendData(const unsigned char * data, const size_t dataSize) = 0;
-
-		virtual void sendText(const std::string & text) = 0;
 		virtual void sendText(const char * text, const size_t textSize) = 0;
 
 		virtual void connectToServer() = 0;

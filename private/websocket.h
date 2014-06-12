@@ -31,7 +31,6 @@
 #include "transport.h"
 #include "REThread.h"
 #include "REMutex.h"
-#include "REBuffer.h"
 
 #include <libwebsockets.h>
 
@@ -40,7 +39,15 @@ namespace FayeCpp {
 	class WebSocket : protected REThread, public Transport
 	{
 	private:
-		std::list<REBuffer *> _writeBuffers;
+		class WriteBuffer : public REBuffer
+		{
+		public:
+			int tag;
+			WriteBuffer(const void * buff, const REUInt32 buffSize) : REBuffer(buff, buffSize), tag(0) { }
+			virtual ~WriteBuffer() { }
+		};
+		
+		std::list<WriteBuffer *> _writeBuffers;
 		struct lws_context_creation_info _info;
 		struct libwebsocket_context * _context;
 		struct libwebsocket * _connection;
@@ -80,12 +87,9 @@ namespace FayeCpp {
 		virtual void threadBody();
 		
 	public:
-		virtual const std::string name() const;
+		virtual const REString name() const;
 		
-		virtual void sendData(const std::vector<unsigned char> & data);
-		virtual void sendData(const unsigned char * data, const size_t dataSize);
-		
-		virtual void sendText(const std::string & text);
+		virtual void sendData(const unsigned char * data, const size_t dataSize);		
 		virtual void sendText(const char * text, const size_t textSize);
 		
 		virtual void connectToServer();
@@ -93,7 +97,7 @@ namespace FayeCpp {
 		WebSocket(ClassMethodWrapper<Client, void(Client::*)(Message*), Message> * processMethod);
 		virtual ~WebSocket();
 		
-		static std::string transportName();
+		static REString transportName();
 	};
 	
 }

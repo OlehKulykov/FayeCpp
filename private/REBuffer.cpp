@@ -1,5 +1,5 @@
 /*
- *   Copyright 2012 - 2013 Kulykov Oleh
+ *   Copyright 2012 - 2014 Kulykov Oleh
  *
  *   Licensed under the Apache License, Version 2.0 (the "License");
  *   you may not use this file except in compliance with the License.
@@ -15,22 +15,18 @@
  */
 
 
-#include "REBuffer.h"
+#include "../fayecpp.h"
+
+
+#ifdef __RE_RECORE_CAN_INITIALIZE_FROM_URL_STRING__
+#include "../../include/renetwork.h"
+#include "../../include/recore/REData.h"
+#endif
 
 namespace FayeCpp {
 	
-
-	int REBuffer::tag() const
-	{
-		return _tag;
-	}
 	
-	void REBuffer::setTag(const int t)
-	{
-		_tag = t;
-	}
-	
-	void * REBuffer::defaultMalloc(const uint32_t size)
+	void * REBuffer::defaultMalloc(const REUInt32 size)
 	{
 		return malloc((size_t)size);
 	}
@@ -40,7 +36,7 @@ namespace FayeCpp {
 		free(mem);
 	}
 	
-	void * REBuffer::mallocNewMemory(const uint32_t size)
+	void * REBuffer::mallocNewMemory(const REUInt32 size)
 	{
 		return REBuffer::defaultMalloc(size);
 	}
@@ -50,7 +46,7 @@ namespace FayeCpp {
 		REBuffer::defaultFree(mem);
 	}
 	
-	bool REBuffer::isEqualToBuffer(const REBuffer & anotherBuffer) const
+	REBOOL REBuffer::isEqualToBuffer(const REBuffer & anotherBuffer) const
 	{
 		if (_size == anotherBuffer._size)
 		{
@@ -64,27 +60,27 @@ namespace FayeCpp {
 		return _buff;
 	}
 	
-	uint32_t REBuffer::size() const
+	REUInt32 REBuffer::size() const
 	{
 		return _size;
 	}
 	
-	bool REBuffer::resize(const uint32_t newSize, bool isCopyPrevData)
+	REBOOL REBuffer::resize(const REUInt32 newSize, REBOOL isCopyPrevData)
 	{
-		if (_size == newSize)
+		if (_size == newSize) 
 		{
-			return true;
+			return true; 
 		}
 		
 		void * newBuff = this->mallocNewMemory(newSize);
-		if (newBuff)
+		if (newBuff) 
 		{
-			if (_buff)
+			if (_buff) 
 			{
-				if (isCopyPrevData)
+				if (isCopyPrevData) 
 				{
-					const uint32_t copySize = MIN(newSize, _size);
-					if (copySize)
+					const REUInt32 copySize = MIN(newSize, _size);
+					if (copySize) 
 					{
 						memcpy(newBuff, _buff, (size_t)copySize);
 					}
@@ -104,7 +100,7 @@ namespace FayeCpp {
 	
 	void REBuffer::clear()
 	{
-		if (_buff)
+		if (_buff) 
 		{
 			this->freeMemory(_buff);
 			_buff = NULL;
@@ -112,14 +108,14 @@ namespace FayeCpp {
 		}
 	}
 	
-	bool REBuffer::set(const void * buff, const uint32_t buffSize)
+	REBOOL REBuffer::set(const void * buff, const REUInt32 buffSize)
 	{
 		this->clear();
 		
-		if (buff && buffSize)
+		if (buff && buffSize) 
 		{
 			void * newBuff = this->mallocNewMemory(buffSize);
-			if (newBuff)
+			if (newBuff) 
 			{
 				memcpy(newBuff, buff, (size_t)buffSize);
 				_buff = newBuff;
@@ -131,13 +127,13 @@ namespace FayeCpp {
 		return false;
 	}
 	
-	bool REBuffer::append(const void * buff, const uint32_t buffSize)
+	REBOOL REBuffer::append(const void * buff, const REUInt32 buffSize)
 	{
 		if (_size && _buff)
 		{
-			const uint32_t newSize = _size + buffSize;
+			const REUInt32 newSize = _size + buffSize;
 			char * newBuff = (char *)this->mallocNewMemory(newSize);
-			if (newBuff)
+			if (newBuff) 
 			{
 				memcpy(newBuff, _buff, (size_t)_size);
 				memcpy(&newBuff[_size], buff, (size_t)buffSize);
@@ -151,7 +147,7 @@ namespace FayeCpp {
 		return this->set(buff, buffSize);
 	}
 	
-	bool REBuffer::append(const REBuffer & anotherBuff)
+	REBOOL REBuffer::append(const REBuffer & anotherBuff)
 	{
 		return this->append(anotherBuff.buffer(), anotherBuff.size());
 	}
@@ -168,31 +164,28 @@ namespace FayeCpp {
 		return (*this);
 	}
 	
-	REBuffer::REBuffer(const REBuffer & anotherBuff) :
-		_buff(NULL),
-		_size(0),
-		_tag(0)
+	REBuffer::REBuffer(const REBuffer & anotherBuff) : 
+	_buff(NULL), 
+	_size(0)
 	{
 		this->set(anotherBuff._buff, anotherBuff._size);
 	}
 	
-	REBuffer::REBuffer(const void * buff, const uint32_t buffSize) :
-		_buff(NULL),
-		_size(0),
-		_tag(0)
+	REBuffer::REBuffer(const void * buff, const REUInt32 buffSize) : 
+	_buff(NULL), 
+	_size(0)
 	{
 		this->set(buff, buffSize);
 	}
 	
-	REBuffer::REBuffer(const uint32_t buffSize) :
-		_buff(NULL),
-		_size(0),
-		_tag(0)
+	REBuffer::REBuffer(const REUInt32 buffSize) : 
+	_buff(NULL), 
+	_size(0)
 	{
-		if (buffSize)
+		if (buffSize) 
 		{
 			void * newBuff = this->mallocNewMemory(buffSize);
-			if (newBuff)
+			if (newBuff) 
 			{
 				_buff = newBuff;
 				_size = buffSize;
@@ -200,10 +193,9 @@ namespace FayeCpp {
 		}
 	}
 	
-	REBuffer::REBuffer():
-		_buff(NULL),
-		_size(0),
-		_tag(0)
+	REBuffer::REBuffer(): 
+	_buff(NULL), 
+	_size(0)
 	{
 		
 	}
@@ -218,8 +210,46 @@ namespace FayeCpp {
 		}
 	}
 	
+	/// __RE_RECORE_CAN_INITIALIZE_FROM_URL_STRING__
+	REBOOL REBuffer::initFromURLString(const REString & urlString)
+	{
+		this->clear();
+		
+#ifdef __RE_RECORE_CAN_INITIALIZE_FROM_URL_STRING__
+		REURL url(urlString);
+		if (url.IsFileURL()) 
+		{
+			REString hiPart(url.GetHierarchicalPart());
+			REData data;
+			if (data.InitFromPath(hiPart)) 
+			{
+				return this->Set(data.GetBytes(), data.GetSize());
+			}
+		}
+		else
+		{
+			REURLRequestObject * request = REURLRequestObject::CreateWithURL(url);
+			if (request) 
+			{
+				REBuffer downlBuff;
+				const REBOOL isSended = REURLConnectionObject::SendRequest(request, &downlBuff, NULL);
+				request->release();
+				if (isSended)
+				{
+					if (downlBuff.GetSize()) 
+					{
+						return this->Set(downlBuff.GetBuffer(), downlBuff.GetSize());
+					}
+					return true;
+				}
+			}
+		}
+#endif	
+		return false;
+	}
 	
 }
+
 
 
 

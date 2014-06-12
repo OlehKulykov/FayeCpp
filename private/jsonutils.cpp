@@ -111,54 +111,6 @@ namespace FayeCpp {
 		}
 	}
 	
-    std::vector<unsigned char> JsonUtils::toJsonData(const std::map<std::string, Variant> & message)
-    {
-        char * jsonString = __JsonUtils__jsonStringFromMap(message);
-        if (jsonString)
-        {
-            std::vector<unsigned char> data(jsonString, jsonString + strlen(jsonString) + 1);
-            free(jsonString);
-            return data;
-        }
-        return std::vector<unsigned char>();
-    }
-	
-    std::vector<unsigned char> JsonUtils::toJsonData(const std::list<Variant> & message)
-	{
-        char * jsonString = __JsonUtils__jsonStringFromList(message);
-        if (jsonString)
-		{
-			std::vector<unsigned char> data(jsonString, jsonString + strlen(jsonString) + 1);
-			free(jsonString);
-			return data;
-		}
-		return std::vector<unsigned char>();
-	}
-
-    std::string JsonUtils::toJsonString(const std::map<std::string, Variant> & message)
-    {
-        char * jsonString = __JsonUtils__jsonStringFromMap(message);
-        if (jsonString)
-        {
-            std::string strng(jsonString);
-            free(jsonString);
-            return strng;
-        }
-        return std::string();
-    }
-
-    std::string JsonUtils::toJsonString(const std::list<Variant> & message)
-    {
-        char * jsonString = __JsonUtils__jsonStringFromList(message);
-        if (jsonString)
-        {
-            std::string strng(jsonString);
-            free(jsonString);
-            return strng;
-        }
-        return std::string();
-    }
-	
 	char * JsonUtils::toJsonCString(const std::map<std::string, Variant> & message)
 	{
 		return __JsonUtils__jsonStringFromMap(message);

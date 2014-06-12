@@ -31,12 +31,12 @@ namespace FayeCpp {
 		return _type;
 	}
 	
-	const std::string & Message::clientId() const
+	const REString & Message::clientId() const
 	{
 		return _clientId;
 	}
 	
-	const std::string & Message::channel() const
+	const REString & Message::channel() const
 	{
 		return _channel;
 	}
@@ -46,12 +46,12 @@ namespace FayeCpp {
 		return Message::stringToType(_channel);
 	}
 	
-	const std::string & Message::subscription() const
+	const REString & Message::subscription() const
 	{
 		return _subscription;
 	}
 	
-	const std::string & Message::errorString() const
+	const REString & Message::errorString() const
 	{
 		return _errorString;
 	}
@@ -61,17 +61,17 @@ namespace FayeCpp {
 		return _isSuccessfully;
 	}
 	
-	const std::string & Message::version() const
+	const REString & Message::version() const
 	{
 		return _version;
 	}
 	
-	const std::string & Message::minimumVersion() const
+	const REString & Message::minimumVersion() const
 	{
 		return _minimumVersion;
 	}
 	
-	const std::string & Message::connectionType() const
+	const REString & Message::connectionType() const
 	{
 		return _connectionType;
 	}
@@ -81,7 +81,7 @@ namespace FayeCpp {
 		return _connectionTypes;
 	}
 	
-	const std::vector<unsigned char> & Message::data() const
+	const REBuffer & Message::data() const
 	{
 		return _data;
 	}
@@ -92,13 +92,13 @@ namespace FayeCpp {
 		return *this;
 	}
 	
-	Message & Message::setClientId(const std::string & value)
+	Message & Message::setClientId(const char * value)
 	{
 		_clientId = value;
 		return *this;
 	}
 	
-	Message & Message::setChannel(const std::string & value)
+	Message & Message::setChannel(const char * value)
 	{
 		_channel = value;
 		return *this;
@@ -110,7 +110,7 @@ namespace FayeCpp {
 		return *this;
 	}
 	
-	Message & Message::setSubscription(const std::string & value)
+	Message & Message::setSubscription(const char * value)
 	{
 		_subscription = value;
 		return *this;
@@ -122,34 +122,34 @@ namespace FayeCpp {
 		return *this;
 	}
 	
-	Message & Message::setErrorString(const std::string & value)
+	Message & Message::setErrorString(const char * value)
 	{
 		_errorString = value;
 		return *this;
 	}
 	
-	Message & Message::setVersion(const std::string & value)
+	Message & Message::setVersion(const char * value)
 	{
 		_version = value;
 		return *this;
 	}
 	
-	Message & Message::addConnectionType(const std::string & connectionType)
+	Message & Message::addConnectionType(const char * connectionType)
 	{
-		if (!connectionType.empty())
+		if (connectionType)
 		{
-			_connectionTypes.push_back(connectionType);
+			_connectionTypes.push_back(std::string(connectionType));
 		}
 		return *this;
 	}
 	
-	Message & Message::setMinimumVersion(const std::string & value)
+	Message & Message::setMinimumVersion(const char * value)
 	{
 		_minimumVersion = value;
 		return *this;
 	}
 	
-	Message & Message::setConnectionType(const std::string & value)
+	Message & Message::setConnectionType(const char * value)
 	{
 		_connectionType = value;
 		return *this;
@@ -213,7 +213,7 @@ namespace FayeCpp {
 	
 	bool Message::isEmpty() const
 	{
-		return _clientId.empty() && _channel.empty() && _subscription.empty() && _errorString.empty();
+		return _clientId.isEmpty() && _channel.isEmpty() && _subscription.isEmpty() && _errorString.isEmpty();
 	}
 	
     char * Message::jsonCString() const
@@ -222,12 +222,12 @@ namespace FayeCpp {
         json_t * json = json_object();
         if (json)
         {
-            if (!_channel.empty()) json_object_set_new(json, "channel", json_string(_channel.c_str()));
-            if (!_clientId.empty()) json_object_set_new(json, "clientId", json_string(_clientId.c_str()));
-            if (!_subscription.empty()) json_object_set_new(json, "subscription", json_string(_subscription.c_str()));
-            if (!_version.empty()) json_object_set_new(json, "version", json_string(_version.c_str()));
-            if (!_minimumVersion.empty()) json_object_set_new(json, "minimumVersion", json_string(_minimumVersion.c_str()));
-            if (!_connectionType.empty()) json_object_set_new(json, "connectionType", json_string(_connectionType.c_str()));
+            if (!_channel.isEmpty()) json_object_set_new(json, "channel", json_string(_channel.UTF8String()));
+            if (!_clientId.isEmpty()) json_object_set_new(json, "clientId", json_string(_clientId.UTF8String()));
+            if (!_subscription.isEmpty()) json_object_set_new(json, "subscription", json_string(_subscription.UTF8String()));
+            if (!_version.isEmpty()) json_object_set_new(json, "version", json_string(_version.UTF8String()));
+            if (!_minimumVersion.isEmpty()) json_object_set_new(json, "minimumVersion", json_string(_minimumVersion.UTF8String()));
+            if (!_connectionType.isEmpty()) json_object_set_new(json, "connectionType", json_string(_connectionType.UTF8String()));
             if (!_connectionTypes.empty())
             {
                 json_t * types = json_array();
@@ -251,28 +251,16 @@ namespace FayeCpp {
         return jsonString;
     }
 
-    std::vector<unsigned char> Message::toJsonData() const
-	{
-        char * jsonString = this->jsonCString();
-        if (jsonString)
-        {
-            std::vector<unsigned char> data(jsonString, jsonString + strlen(jsonString) + 1);
-            free(jsonString);
-            return data;
-        }
-        return std::vector<unsigned char>();
-	}
-	
-    std::string Message::toJsonString() const
+    REString Message::toJsonString() const
     {
         char * jsonString = this->jsonCString();
         if (jsonString)
         {
-            std::string strng(jsonString);
+            REString strng(jsonString);
             free(jsonString);
             return strng;
         }
-        return std::string();
+        return REString();
     }
 
 	Message::Message() :
@@ -282,24 +270,23 @@ namespace FayeCpp {
 		
 	}
 	
-	Message::Message(const std::string & jsonString) :
+	Message::Message(const char * jsonString) :
 		_type(MessageTypeNone),
 		_isSuccessfully(false)
 	{
-		if (!jsonString.empty())
+		if (jsonString)
 		{
-			const char * s = jsonString.data();
-			this->fromJsonDataBuff(s, strlen(s));
+			this->fromJsonDataBuff(jsonString, strlen(jsonString));
 		}
 	}
 	
-	Message::Message(const std::vector<unsigned char> & jsonData) :
+	Message::Message(const unsigned char * data, const size_t dataSize) :
 		_type(MessageTypeNone),
 		_isSuccessfully(false)
 	{
-		if (!jsonData.empty())
+		if (data && dataSize > 0)
 		{
-			this->fromJsonDataBuff((const char *)&jsonData.front(), jsonData.size());
+			this->fromJsonDataBuff((const char *)data, dataSize);
 		}
 	}
 	
@@ -309,28 +296,31 @@ namespace FayeCpp {
 #define SUBSCRIBE_CHANNEL "/meta/subscribe"
 #define UNSUBSCRIBE_CHANNEL "/meta/unsubscribe"
 	
-    Message::ChannelType Message::stringToType(const std::string & typeString)
+    Message::ChannelType Message::stringToType(const char * typeString)
 	{
-        if (typeString == HANDSHAKE_CHANNEL) return Message::ChannelTypeHandshake;
-        else if (typeString == CONNECT_CHANNEL) return Message::ChannelTypeConnect;
-        else if (typeString == DISCONNECT_CHANNEL) return Message::ChannelTypeDisconnect;
-        else if (typeString == SUBSCRIBE_CHANNEL) return Message::ChannelTypeSubscribe;
-        else if (typeString == UNSUBSCRIBE_CHANNEL) return Message::ChannelTypeUnsubscribe;
+		if (typeString)
+		{
+			if (strcmp(typeString, HANDSHAKE_CHANNEL) == 0) return Message::ChannelTypeHandshake;
+			else if (strcmp(typeString, CONNECT_CHANNEL) == 0) return Message::ChannelTypeConnect;
+			else if (strcmp(typeString, DISCONNECT_CHANNEL) == 0) return Message::ChannelTypeDisconnect;
+			else if (strcmp(typeString, SUBSCRIBE_CHANNEL) == 0) return Message::ChannelTypeSubscribe;
+			else if (strcmp(typeString, UNSUBSCRIBE_CHANNEL) == 0) return Message::ChannelTypeUnsubscribe;
+		}
         return Message::ChannelTypeNone;
 	}
 	
-    std::string Message::typeToString(const Message::ChannelType type)
+    const char * Message::typeToString(const Message::ChannelType type)
 	{
 		switch (type)
 		{
-            case Message::ChannelTypeHandshake: return std::string(HANDSHAKE_CHANNEL); break;
-            case Message::ChannelTypeConnect: return std::string(CONNECT_CHANNEL); break;
-            case Message::ChannelTypeDisconnect: return std::string(DISCONNECT_CHANNEL); break;
-            case Message::ChannelTypeSubscribe: return std::string(SUBSCRIBE_CHANNEL); break;
-            case Message::ChannelTypeUnsubscribe: return std::string(UNSUBSCRIBE_CHANNEL); break;
+            case Message::ChannelTypeHandshake: return HANDSHAKE_CHANNEL; break;
+            case Message::ChannelTypeConnect: return CONNECT_CHANNEL; break;
+            case Message::ChannelTypeDisconnect: return DISCONNECT_CHANNEL; break;
+            case Message::ChannelTypeSubscribe: return SUBSCRIBE_CHANNEL; break;
+            case Message::ChannelTypeUnsubscribe: return UNSUBSCRIBE_CHANNEL; break;
 			default: break;
 		}
-		return std::string();
+		return "";
 	}
 }
 
