@@ -18,6 +18,10 @@
 #include "transport.h"
 #include "REThread.h"
 
+#if defined(HAVE_FAYECPP_CONFIG_H)
+#include "fayecpp_config.h"
+#endif
+
 #ifdef HAVE_SUITABLE_QT_VERSION
 #include "websocketqt.h"
 #else

@@ -22,6 +22,10 @@
 #include "recore_sdk_config.h"
 #endif
 
+#if defined(HAVE_FAYECPP_CONFIG_H)
+#include "fayecpp_config.h"
+#endif
+
 #if defined(HAVE_STDARG_H)
 #include <stdarg.h>
 #endif
