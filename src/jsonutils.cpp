@@ -68,9 +68,8 @@ namespace FayeCpp {
 					json_decref(object);
 				}
 			}
-			return array;
 		}
-		return NULL;
+		return array;
 	}
 	
     static json_t * __JsonUtils__jsonObjectFromValue(const Variant & value)
@@ -110,7 +109,6 @@ namespace FayeCpp {
 				json_object_set(json, i.key().UTF8String(), object);
 				json_decref(object);
 			}
-
 		}
 	}
 	
