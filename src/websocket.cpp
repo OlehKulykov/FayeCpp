@@ -1,17 +1,23 @@
 /*
- *   Copyright 2014 Kulykov Oleh
+ *   Copyright (c) 2014 Kulykov Oleh <nonamedemail@gmail.com>
  *
- *   Licensed under the Apache License, Version 2.0 (the "License");
- *   you may not use this file except in compliance with the License.
- *   You may obtain a copy of the License at
+ *   Permission is hereby granted, free of charge, to any person obtaining a copy
+ *   of this software and associated documentation files (the "Software"), to deal
+ *   in the Software without restriction, including without limitation the rights
+ *   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *   copies of the Software, and to permit persons to whom the Software is
+ *   furnished to do so, subject to the following conditions:
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *   The above copyright notice and this permission notice shall be included in
+ *   all copies or substantial portions of the Software.
  *
- *   Unless required by applicable law or agreed to in writing, software
- *   distributed under the License is distributed on an "AS IS" BASIS,
- *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *   See the License for the specific language governing permissions and
- *   limitations under the License.
+ *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ *   THE SOFTWARE.
  */
 
 
@@ -106,7 +112,7 @@ namespace FayeCpp {
 	void WebSocket::onCallbackEstablished()
 	{
 #ifdef FAYECPP_DEBUG_MESSAGES
-		fprintf(stderr, "CALLBACK CONNECTION ESTABLISHED\n");
+		RELog::log("CALLBACK CONNECTION ESTABLISHED");
 #endif
 		this->onConnected();
 	}
@@ -114,7 +120,7 @@ namespace FayeCpp {
 	void WebSocket::onCallbackConnectionError()
 	{
 #ifdef FAYECPP_DEBUG_MESSAGES
-		fprintf(stderr, "CALLBACK CONNECTION ERROR\n");
+		RELog::log("CALLBACK CONNECTION ERROR");
 #endif
 		//TODO: error string
 		this->onError("");
@@ -151,14 +157,14 @@ namespace FayeCpp {
 		if (writed < 0)
 		{
 #ifdef FAYECPP_DEBUG_MESSAGES
-			fprintf(stderr, "ERROR %d writing to socket, hanging up\n", writed);
+			RELog::log("ERROR %d writing to socket, hanging up", writed);
 #endif
 			return -1;
 		}
 		if (writed < pss->len)
 		{
 #ifdef FAYECPP_DEBUG_MESSAGES
-			fprintf(stderr, "Partial write\n");
+			RELog::log("Partial write");
 #endif
 			return -1;
 		}
@@ -182,7 +188,7 @@ namespace FayeCpp {
 		{
 			buffer->tag = (int)type;
 #ifdef FAYECPP_DEBUG_MESSAGES
-			fprintf(stdout, "WILL WRITE %i bytes: %s\n", (int)buffer->size(), (char *)buffer->buffer());
+			RELog::log("WILL WRITE %i bytes: %s", (int)buffer->size(), (char *)buffer->buffer());
 #endif
 			_writeBuffers.add(buffer);
 		}
@@ -285,7 +291,7 @@ namespace FayeCpp {
 		}
 		
 #ifdef FAYECPP_DEBUG_MESSAGES
-		fprintf(stdout, "Start connecting to host[%s] port[%i] path[%s]\n", this->host().UTF8String(), this->port(), this->path().UTF8String());
+		RELog::log("Start connecting to host[%s] port[%i] path[%s]", this->host().UTF8String(), this->port(), this->path().UTF8String());
 #endif
 		
 		_connection = libwebsocket_client_connect(_context,
@@ -332,7 +338,7 @@ namespace FayeCpp {
 		_context = NULL;
 	}
 	
-	WebSocket::WebSocket(ClassMethodWrapper<Client, void(Client::*)(Message*), Message> * processMethod) : REThread(), Transport(processMethod),
+	WebSocket::WebSocket(ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * processMethod) : REThread(), Transport(processMethod),
 		_context(NULL),
 		_connection(NULL),
 		_writeMutex(new REMutex())

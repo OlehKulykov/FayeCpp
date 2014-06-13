@@ -1,17 +1,23 @@
 /*
- *   Copyright 2014 Kulykov Oleh
+ *   Copyright (c) 2014 Kulykov Oleh <nonamedemail@gmail.com>
  *
- *   Licensed under the Apache License, Version 2.0 (the "License");
- *   you may not use this file except in compliance with the License.
- *   You may obtain a copy of the License at
+ *   Permission is hereby granted, free of charge, to any person obtaining a copy
+ *   of this software and associated documentation files (the "Software"), to deal
+ *   in the Software without restriction, including without limitation the rights
+ *   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *   copies of the Software, and to permit persons to whom the Software is
+ *   furnished to do so, subject to the following conditions:
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *   The above copyright notice and this permission notice shall be included in
+ *   all copies or substantial portions of the Software.
  *
- *   Unless required by applicable law or agreed to in writing, software
- *   distributed under the License is distributed on an "AS IS" BASIS,
- *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *   See the License for the specific language governing permissions and
- *   limitations under the License.
+ *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ *   THE SOFTWARE.
  */
 
 
@@ -304,7 +310,7 @@ typedef REFloat64 RETimeInterval;
 namespace FayeCpp {
 	
     class Client;
-    class Message;
+	class Responce;
 	class VariantList;
 	class VariantMap;
 	class Variant;
@@ -911,6 +917,17 @@ namespace FayeCpp {
 		}
 	};
 	
+	/// Class using for logining text messages.
+	class __RE_PUBLIC_CLASS_API__ RELog
+	{
+	public:
+		/// Log message with arguments.
+		static void log(const char * logString, ...);
+		
+		/// Log message with arguments.
+		static void logA(const char * logString, va_list arguments);
+	};
+	
 	class REString;
 	
 	/// Class of memory buffer.
@@ -1271,32 +1288,22 @@ namespace FayeCpp {
 		/**
 		 @brief Called when faye client received non empty data from server responce using subscribed channel.
 		 @param client Faye client object.
-		 @param data Received non empty responce data.
+		 @param message Received non empty responce message map.
 		 @param channel Subscribed channel which received message data.
 		 */
-		virtual void onFayeClientReceivedDataFromChannel(FayeCpp::Client * client, 
-														 const FayeCpp::REBuffer & data, 
-														 const FayeCpp::REString & channel) = 0;
+		virtual void onFayeClientReceivedMessageFromChannel(FayeCpp::Client * client, 
+															const FayeCpp::VariantMap & message, 
+															const FayeCpp::REString & channel) = 0;
 		
 		
 		/**
 		 @brief Called before message will be sended. You can modify this message if needed.
 		 @detailed Can be called from other(work) thread.
 		 @param client Faye client object.
-		 @param message Message object.
+		 @param message Message map.
 		 */
 		virtual void onFayeClientWillSendMessage(FayeCpp::Client * client, 
-												 FayeCpp::Message * message) = 0;
-		
-		
-		/**
-		 @brief Called before message will be processed by the client object.
-		 @detailed Can be called from other(work) thread.
-		 @param client Faye client object.
-		 @param message Message object.
-		 */
-		virtual void onFayeClientWillReceiveMessage(FayeCpp::Client * client, 
-													FayeCpp::Message * message) = 0;
+												 FayeCpp::VariantMap & message) = 0;
 		
 		
 		/**
@@ -1326,26 +1333,30 @@ namespace FayeCpp {
 		
 		bool _isFayeConnected;
 		
-		void processMessage(Message * message);
+		void processMessage(Responce * responce);
 		
-		void onTransportConnected(Message * message);
-		void onTransportDisconnected(Message * message);
+		void onTransportConnected();
+		void onTransportDisconnected();
 		
-		void onClientMessageReceived(Message * message);
+		void onClientResponceMessageReceived(const VariantMap & message);
+		void onClientResponceMessagesListReceived(const VariantList & messagesList);
+		void onClientResponceReceived(Responce * responce);
 		
-		void onClientError(Message * message);
+		void onReceivedMessageOnChannel(const VariantMap & message, const REString & channel);
 		
-		void onHandshakeDone(Message * message);
+		void onClientError(Responce * responce);
+		
+		void onHandshakeDone(const VariantMap & message);
 		void handshake();
 		
-		void onConnectFayeDone(Message * message);
+		void onConnectFayeDone(const VariantMap & message);
 		void connectFaye();
 		
-		void onSubscriptionDone(Message * message);
+		void onSubscriptionDone(const VariantMap & message);
 		void subscribePendingSubscriptions();
 		
-		void onUnsubscribingDone(Message * message);
-		void onDisconnectFayeDone(Message * message);
+		void onUnsubscribingDone(const VariantMap & message);
+		void onDisconnectFayeDone(const VariantMap & message);
 		
 		bool isPendingChannel(const char * channel) const;
 		
@@ -1483,342 +1494,6 @@ namespace FayeCpp {
 		static REStringList availableConnectionTypes();
 	};
 	
-	
-	
-	/**
-	 @brief Message class for internal logic communication.
-	 */
-	class __RE_PUBLIC_CLASS_API__ Message
-	{
-    public:
-        /**
-         @brief Type of Faye channel
-         */
-        typedef enum _channelType
-        {
-            /**
-             @brief Undefined Faye channel
-             */
-            ChannelTypeNone = 0,
-			
-			
-            /**
-             @brief Handshake Faye channel
-             */
-            ChannelTypeHandshake,
-			
-			
-            /**
-             @brief Connect Faye channel
-             */
-            ChannelTypeConnect,
-			
-			
-            /**
-             @brief Disconnect Faye channel
-             */
-            ChannelTypeDisconnect,
-			
-			
-            /**
-             @brief Subscribe Faye channel
-             */
-            ChannelTypeSubscribe,
-			
-			
-            /**
-             @brief Unsubscribe Faye channel
-             */
-            ChannelTypeUnsubscribe
-        }
-        /**
-         @brief Type of Faye channel
-         */
-        ChannelType;
-		
-        /**
-         @brief Faye message type.
-         */
-        typedef enum _messageType
-        {
-            /**
-             @brief Undefined, default type.
-             */
-            MessageTypeNone = 0,
-			
-			
-            /**
-             @brief Faye transport protocol connected to server.
-             */
-            MessageTypeTransportConnected,
-			
-			
-            /**
-             @brief Faye transport protocol disconnected from server.
-             */
-            MessageTypeTransportDisconnected,
-			
-			
-            /**
-             @brief Faye transport protocol error.
-             */
-            MessageTypeTransportError,
-			
-			
-            /**
-             @brief Faye transport protocol received message.
-             */
-            MessageTypeServerResponce
-        }
-        /**
-         @brief Faye message type.
-         */
-        MessageType;
-		
-	private:
-		REString _clientId;
-		REString _channel;
-		REString _subscription;
-		REString _errorString;
-		REString _version;
-		REString _minimumVersion;
-		REString _connectionType;
-		REStringList _connectionTypes;
-		REBuffer _data;
-		MessageType _type;
-		bool _isSuccessfully;
-		
-		void fromJsonDataBuff(const char * jsonData, const size_t dataSize);
-		
-	public:
-		/**
-		 @brief Getter for message type.
-		 @return Enum type.
-		 */
-        Message::MessageType type() const;
-		
-		
-		/**
-		 @brief Getter for client ID.
-		 @return Std string with client ID.
-		 */
-		const REString & clientId() const;
-		
-		
-		/**
-		 @brief Getter for channel.
-		 @return Std string with channel name.
-		 */
-		const REString & channel() const;
-		
-		
-		/**
-		 @brief Getter for channel type.
-		 @return Enum type.
-		 */
-        Message::ChannelType channelType() const;
-		
-		
-		/**
-		 @brief Getter for subscription.
-		 @return Std string with subscription.
-		 */
-		const REString & subscription() const;
-		
-		
-		/**
-		 @brief Getter for error string.
-		 @return Std string with error.
-		 */
-		const REString & errorString() const;
-		
-		
-		/**
-		 @brief Getter for success flag.
-		 @return Boolen value of success.
-		 */
-		bool isSuccessfully() const;
-		
-		
-		/**
-		 @brief Getter for version string.
-		 @return Std string with version.
-		 */
-		const REString & version() const;
-		
-		
-		/**
-		 @brief Getter for minimum version string.
-		 @return Std string with minimum version.
-		 */
-		const REString & minimumVersion() const;
-		
-		
-		/**
-		 @brief Getter for connection type string.
-		 @return Std string with connection type.
-		 */
-		const REString & connectionType() const;
-		
-		
-		/**
-		 @brief Getter for list of connection type strings.
-		 @return Std list with connection types strings.
-		 */
-		const REStringList & connectionTypes() const;
-		
-		
-		/**
-		 @brief Getter for message data.
-		 @return Buffer with message data.
-		 */
-		const REBuffer & data() const;
-		
-		
-		/**
-		 @brief Setter for message type.
-		 @param type The new message type.
-		 @return This message address.
-		 */
-        Message & setType(Message::MessageType type);
-		
-		
-		/**
-		 @brief Setter for client ID.
-		 @param value - New client ID value.
-		 @return This message address.
-		 */
-		Message & setClientId(const char * value);
-		
-		
-		/**
-		 @brief Setter for channel.
-		 @param value - New channel value.
-		 @return This message address.
-		 */
-		Message & setChannel(const char * value);
-		
-		
-		/**
-		 @brief Setter for channel type.
-		 @param value - New channel type value.
-		 @return This message address.
-		 */
-        Message & setChannelType(const Message::ChannelType type);
-		
-		
-		/**
-		 @brief Setter for subscription.
-		 @param value - New subscription value.
-		 @return This message address.
-		 */
-		Message & setSubscription(const char * value);
-		
-		
-		/**
-		 @brief Setter for successful flag.
-		 @param value - New successful flag value.
-		 @return This message address.
-		 */
-		Message & setSuccessfully(bool value);
-		
-		
-		/**
-		 @brief Setter for error string.
-		 @param value - New error string value.
-		 @return This message address.
-		 */
-		Message & setErrorString(const char * value);
-		
-		
-		/**
-		 @brief Setter for version string.
-		 @param value - New version string value.
-		 @return This message address.
-		 */
-		Message & setVersion(const char * value);
-		
-		
-		/**
-		 @brief Add connection type to message.
-		 @param value - Connection type string.
-		 @return This message address.
-		 */
-		Message & addConnectionType(const char * connectionType);
-		
-		
-		/**
-		 @brief Setter for minimum version string.
-		 @param value - New minimum version value.
-		 @return This message address.
-		 */
-		Message & setMinimumVersion(const char * value);
-		
-		
-		/**
-		 @brief Setter for connection type string.
-		 @param value - New connection type value.
-		 @return This message address.
-		 */
-		Message & setConnectionType(const char * value);
-		
-		
-		/**
-		 @brief Check empty message.
-		 @return True if empty, otherwice false.
-		 */
-		bool isEmpty() const;
-		
-		
-		/**
-		 @brief Convert message to JSON C string.
-		 @return JSON C string or NULL. Should free after using.
-		 */
-		char * jsonCString() const;	
-		
-		/**
-		 @brief Convert message to JSON string.
-		 @return JSON string.
-		 */
-		REString toJsonString() const;
-		
-		
-		/**
-		 @brief Default constructor.
-		 */
-		Message();
-		
-		
-		/**
-		 @brief Constructor.
-		 @param jsonString - JSON string with message params.
-		 */
-		Message(const char * jsonString);
-		
-		
-		/**
-		 @brief Constructor.
-		 @param jsonData - JSON data with message params.
-		 */
-		Message(const unsigned char * data, const size_t dataSize);
-		
-		
-		/**
-		 @brief Convert channel type string to it's type.
-		 @param typeString - Channel type string.
-		 @return Channel type enum value.
-		 */
-        static Message::ChannelType stringToType(const char * typeString);
-		
-		
-		/**
-		 @brief Convert channel type to string.
-		 @param type - Channel type enum value.
-		 @return String with channel type.
-		 */
-        static const char * typeToString(const Message::ChannelType type);
-	};
-	
 	class __RE_PUBLIC_CLASS_API__ Variant
 	{
 	public:
@@ -1851,6 +1526,8 @@ namespace FayeCpp {
 		void clean();
 		
 	public:
+		bool isNULL() const;
+		
 		VariantType type() const;
 		
 		int toInt() const;
@@ -1880,17 +1557,17 @@ namespace FayeCpp {
 		
 		Variant & operator=(const Variant & v);
 		
-		const REString & string() const;
+		const REString & toString() const;
 		
-		const VariantMap & map() const;
+		const VariantMap & toMap() const;
 		
-		const VariantList & list() const;
+		const VariantList & toList() const;
 		
-		REString & string();
+		REString & toString();
 		
-		VariantMap & map();
+		VariantMap & toMap();
 		
-		VariantList & list();
+		VariantList & toList();
 		
 		Variant();
 		
@@ -1914,6 +1591,9 @@ namespace FayeCpp {
 	class __RE_PUBLIC_CLASS_API__ VariantMap : public REMap<REString, Variant>
 	{
 	public:
+		Variant * findTypedValue(const char * key, const Variant::VariantType type) const;
+		Variant * findTypedValue(const wchar_t * key, const Variant::VariantType type) const;
+		Variant * findTypedValue(const REString & key, const Variant::VariantType type) const;
 		const Variant operator[](const char * key) const;
 		const Variant operator[](const wchar_t * key) const;
 		const Variant operator[](const REString & key) const;
@@ -1934,6 +1614,73 @@ namespace FayeCpp {
 		VariantList();
 		virtual ~VariantList();
 	};
+	
+	/**
+	 @brief Message class for internal logic communication.
+	 */
+	class __RE_PUBLIC_CLASS_API__ Responce
+	{
+    public:
+        /**
+         @brief Faye message type.
+         */
+		typedef enum _responceType
+        {
+            /**
+             @brief Undefined, default type.
+             */
+			ResponceNone = 0,
+			
+			
+            /**
+             @brief Faye transport protocol connected to server.
+             */
+			ResponceTransportConnected,
+			
+			
+            /**
+             @brief Faye transport protocol disconnected from server.
+             */
+			ResponceTransportDisconnected,
+			
+			
+            /**
+             @brief Faye transport protocol error.
+             */
+			ResponceTransportError,
+			
+			
+            /**
+             @brief Faye transport protocol received message.
+             */
+			ResponceMessage
+        }
+        /**
+         @brief Faye message type.
+         */
+		ResponceType;
+		
+	private:
+		VariantList * _messageList;
+		VariantMap * _messageMap;
+		REBuffer * _messageBuffer;
+		REString * _errorString;
+		ResponceType _type;
+		
+	public:
+		REString * errorString() const;
+		VariantList * messageList() const;
+		VariantMap * messageMap() const;
+		REBuffer * messageBuffer() const;
+		Responce::ResponceType type() const;
+		Responce & setType(Responce::ResponceType type);
+		Responce & setErrorString(const char * value);
+		Responce & setMessageText(const char * text);
+		Responce & setMessageData(const unsigned char * data, const size_t dataSize);
+		Responce();
+		~Responce();
+	};
+
 }
 
 

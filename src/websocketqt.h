@@ -54,7 +54,7 @@ public:
 
     virtual void connectToServer();
     virtual void disconnectFromServer();
-    WebSocketQt(ClassMethodWrapper<Client, void(Client::*)(Message*), Message> * processMethod);
+    WebSocketQt(ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * processMethod);
     virtual ~WebSocketQt();
 
 	static REString transportName();

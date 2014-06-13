@@ -1,17 +1,23 @@
 /*
- *   Copyright 2014 Kulykov Oleh
+ *   Copyright (c) 2014 Kulykov Oleh <nonamedemail@gmail.com>
  *
- *   Licensed under the Apache License, Version 2.0 (the "License");
- *   you may not use this file except in compliance with the License.
- *   You may obtain a copy of the License at
+ *   Permission is hereby granted, free of charge, to any person obtaining a copy
+ *   of this software and associated documentation files (the "Software"), to deal
+ *   in the Software without restriction, including without limitation the rights
+ *   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *   copies of the Software, and to permit persons to whom the Software is
+ *   furnished to do so, subject to the following conditions:
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *   The above copyright notice and this permission notice shall be included in
+ *   all copies or substantial portions of the Software.
  *
- *   Unless required by applicable law or agreed to in writing, software
- *   distributed under the License is distributed on an "AS IS" BASIS,
- *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *   See the License for the specific language governing permissions and
- *   limitations under the License.
+ *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ *   THE SOFTWARE.
  */
 
 
@@ -30,13 +36,15 @@
 #include <assert.h>
 #endif
 
-#if defined(HAVE_SUITABLE_QT_VERSION) && defined(FAYECPP_DEBUG_MESSAGES)
-#include <QDebug>
-#endif
-
 #if defined(HAVE_DISPATCH_DISPATCH_H)
 #include <dispatch/dispatch.h>
 #endif
+
+#define HANDSHAKE_CHANNEL "/meta/handshake"
+#define CONNECT_CHANNEL "/meta/connect"
+#define DISCONNECT_CHANNEL "/meta/disconnect"
+#define SUBSCRIBE_CHANNEL "/meta/subscribe"
+#define UNSUBSCRIBE_CHANNEL "/meta/unsubscribe"
 
 namespace FayeCpp {
 	
@@ -54,54 +62,32 @@ namespace FayeCpp {
 		return _messageId;
 	}
 	
-	void Client::processMessage(Message * message)
+	void Client::processMessage(Responce * responce)
 	{
-        if (message->isSuccessfully() && message->type() != Message::MessageTypeNone)
+		switch (responce->type())
 		{
-			switch (message->type())
-			{
-                case Message::MessageTypeTransportConnected: this->onTransportConnected(message); break;
-                case Message::MessageTypeTransportDisconnected: this->onTransportDisconnected(message);  break;
-                case Message::MessageTypeTransportError: this->onClientError(message); break;
-                case Message::MessageTypeServerResponce: this->onClientMessageReceived(message); break;
-				default: break;
-			}
-		}
-		else
-		{
-			this->onClientError(message);
+			case Responce::ResponceTransportConnected: this->onTransportConnected(); break;
+			case Responce::ResponceTransportDisconnected: this->onTransportDisconnected();  break;
+			case Responce::ResponceTransportError: this->onClientError(responce); break;
+			case Responce::ResponceMessage: this->onClientResponceReceived(responce); break;
+			default: this->onClientError(responce); break;
 		}
 	}
 	
-	void Client::onTransportConnected(Message * message)
+	void Client::onTransportConnected()
 	{
 #ifdef FAYECPP_DEBUG_MESSAGES
-#ifdef HAVE_SUITABLE_QT_VERSION
-        qDebug() << "Client:" << "onTransportConnected.";
-#else
-		fprintf(stderr, "Client: onTransportConnected\n");
-#endif		
+		RELog::log("Client: onTransportConnected");
 #endif
-		
-#if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)
-		dispatch_async(dispatch_get_main_queue(), ^{
-#endif
+
 		if (_delegate) _delegate->onFayeTransportConnected(this);
-#if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)			
-		});
-#endif			
 		this->handshake();
-		(void)message;
 	}
 	
-	void Client::onTransportDisconnected(Message * message)
+	void Client::onTransportDisconnected()
 	{
-#ifdef FAYECPP_DEBUG_MESSAGES		
-#ifdef HAVE_SUITABLE_QT_VERSION
-        qDebug() << "Client:" << "onTransportDisconnected.";
-#else
-		fprintf(stderr, "Client: onTransportDisconnected\n");
-#endif		
+#ifdef FAYECPP_DEBUG_MESSAGES
+		RELog::log("Client: onTransportDisconnected");
 #endif
 		
 #if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)
@@ -111,42 +97,97 @@ namespace FayeCpp {
 #if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)			
 		});
 #endif
-        (void)message;
 	}
 	
-	void Client::onClientError(Message * message)
+	void Client::onClientError(Responce * message)
 	{
-#if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)
-		dispatch_async(dispatch_get_main_queue(), ^{
-#endif
-		if (_delegate) _delegate->onFayeErrorString(this, message->errorString().UTF8String());
-#if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)			
-		});
-#endif
-	}
-	
-	void Client::onClientMessageReceived(Message * message)
-	{
-		if (_delegate) _delegate->onFayeClientWillReceiveMessage(this, message);
-		switch (message->channelType())
+		if (_delegate)
 		{
-            case Message::ChannelTypeHandshake: this->onHandshakeDone(message); break;
-            case Message::ChannelTypeConnect: this->onConnectFayeDone(message); break;
-            case Message::ChannelTypeDisconnect: this->onDisconnectFayeDone(message); break;
-            case Message::ChannelTypeSubscribe: this->onSubscriptionDone(message); break;
-            case Message::ChannelTypeUnsubscribe: this->onUnsubscribingDone(message); break;
-			default:
-				if (this->isSubscribedToChannel(message->channel()) && message->data().size() > 0)
+			if (message->errorString())	_delegate->onFayeErrorString(this, *message->errorString());
+			else _delegate->onFayeErrorString(this, REStaticString("Internal application error."));
+		}
+	}
+	
+	void Client::onReceivedMessageOnChannel(const VariantMap & message, const REString & channel)
+	{
+		if (_delegate) 
+		{
+			Variant * data = message.findTypedValue("data", Variant::TypeMap);
+			if (data) 
+			{
+				_delegate->onFayeClientReceivedMessageFromChannel(this, data->toMap(), channel);
+			}
+		}
+	}
+	
+	void Client::onClientResponceMessageReceived(const VariantMap & message)
+	{
+		VariantMap::Iterator i = message.iterator();
+		while (i.next()) 
+		{
+			if (i.key().isEqual("channel")) 
+			{
+				REString channel = i.value().toString();
+				if (channel.isEqual(HANDSHAKE_CHANNEL)) 
 				{
-#if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)
-					dispatch_async(dispatch_get_main_queue(), ^{
-#endif
-					if (_delegate) _delegate->onFayeClientReceivedDataFromChannel(this, message->data(), message->channel());
-#if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)			
-					});
-#endif
+					this->onHandshakeDone(message);
 				}
-				break;
+				else if (channel.isEqual(CONNECT_CHANNEL)) 
+				{
+					this->onConnectFayeDone(message);
+				}
+				else if (channel.isEqual(DISCONNECT_CHANNEL)) 
+				{
+					this->onDisconnectFayeDone(message);
+				}
+				else if (channel.isEqual(SUBSCRIBE_CHANNEL)) 
+				{
+					this->onSubscriptionDone(message);
+				}
+				else if (channel.isEqual(UNSUBSCRIBE_CHANNEL)) 
+				{
+					this->onUnsubscribingDone(message);
+				}
+				else if (_subscribedChannels.isContaines(channel))
+				{
+					this->onReceivedMessageOnChannel(message, channel);
+				}
+			}
+		}
+	}
+
+	void Client::onClientResponceMessagesListReceived(const VariantList & messagesList)
+	{
+		VariantList::Iterator i = messagesList.iterator();
+		while (i.next()) 
+		{
+			switch (i.value().type()) 
+			{
+				case Variant::TypeMap:
+					this->onClientResponceMessageReceived(i.value().toMap());
+					break;
+				case Variant::TypeList:
+					this->onClientResponceMessagesListReceived(i.value().toList());
+					break;
+				default:
+					break;
+			}
+		}
+	}
+	
+	void Client::onClientResponceReceived(Responce * responce)
+	{
+		if (responce->messageMap()) 
+		{
+			this->onClientResponceMessageReceived(*responce->messageMap());
+		}
+		if (responce->messageList())
+		{
+			this->onClientResponceMessagesListReceived(*responce->messageList());
+		}
+		if (responce->messageBuffer())
+		{
+			//TODO: process unknown buffer data.
 		}
 	}
 	
@@ -210,154 +251,133 @@ namespace FayeCpp {
 		return _isFayeConnected;
 	}
 	
-	void Client::onHandshakeDone(Message * message)
+	void Client::onHandshakeDone(const VariantMap & message)
 	{
 #ifdef FAYECPP_DEBUG_MESSAGES
-#ifdef HAVE_SUITABLE_QT_VERSION
-        qDebug() << "Client:" << "onHandshakeDone.";
-#else
-		fprintf(stderr, "Client: onHandshakeDone\n");
+		RELog::log("Client: onHandshakeDone");
 #endif
-#endif		
-		_clientId = message->clientId();
-		if (_clientId.isNotEmpty())
+		
+		VariantMap::Iterator i = message.iterator();
+		while (i.next()) 
 		{
-#ifdef FAYECPP_DEBUG_MESSAGES			
-#ifdef HAVE_SUITABLE_QT_VERSION
-			qDebug() << "Client:" << "clientId=" << _clientId.UTF8String();
-#else	
-			fprintf(stderr, "Client: clientId=%s\n", _clientId.UTF8String());
-#endif
-#endif			
-			REStringList availableTypes = Client::availableConnectionTypes();
-			REStringList supportedTypes = message->connectionTypes();
-			const REString currentType = this->currentTransportName();
-			bool isCurrentTypeFound = false;
-			
-			REStringList::Iterator i = supportedTypes.iterator();
-			while (i.next()) 
+			if (i.key().isEqual("clientId"))
 			{
-				if (availableTypes.isContaines(i.value())) 
+				if (i.value().type() == Variant::TypeString) _clientId = i.value().toString();
+			}
+			else if (i.key().isEqual("supportedConnectionTypes"))
+			{
+				if (i.value().type() == Variant::TypeList) 
 				{
-					if (currentType.isEqual(i.value())) 
-					{
-						isCurrentTypeFound = true;
-					}
+					VariantList::Iterator j = i.value().toList().iterator();
+					while (j.next()) _supportedConnectionTypes.add(j.value().toString());
 				}
 			}
-			if (isCurrentTypeFound)
-			{
-				this->connectFaye();
-				this->subscribePendingSubscriptions();
-			}
-			else
-			{
-				if (_delegate)
-				{
-					REMutableString error("Can't find implemented faye transport protocol type from supported by the server: [");
-					unsigned int index = 0;
-					REStringList::Iterator i = supportedTypes.iterator();
-					while (i.next()) 
-					{
-						if (index) error.append(", ");
-						error.append(i.value());
-						index++;
-					}
-					error.append("]");
-#if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)
-					dispatch_async(dispatch_get_main_queue(), ^{
-#endif					
-					_delegate->onFayeErrorString(this, error);
-#if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)			
-					});
+		}
+		
+		if (_clientId.isEmpty()) 
+		{
+			if (_delegate) _delegate->onFayeErrorString(this, REStaticString("Handshake clientId is empty."));
+			return;
+		}
+		
+#ifdef FAYECPP_DEBUG_MESSAGES
+		RELog::log("Client: clientId=%s", _clientId.UTF8String());
 #endif
+		
+		if (_supportedConnectionTypes.isEmpty()) 
+		{
+			if (_delegate) _delegate->onFayeErrorString(this, REStaticString("Handshake supported connection types is empty."));
+			return;
+		}
+		
+		REStringList availableTypes = Client::availableConnectionTypes();
+		const REString currentType = this->currentTransportName();
+		bool isCurrentTypeFound = false;
+		REStringList::Iterator j = _supportedConnectionTypes.iterator();
+		while (!isCurrentTypeFound && j.next()) 
+		{
+			isCurrentTypeFound = availableTypes.isContaines(j.value()) && currentType.isEqual(j.value());
+		}
+		
+		if (isCurrentTypeFound)
+		{
+			this->connectFaye();
+			this->subscribePendingSubscriptions();
+		}
+		else
+		{
+			if (_delegate)
+			{
+				REMutableString error("Can't find implemented faye transport protocol type from supported by the server: [");
+				unsigned int index = 0;
+				j = _supportedConnectionTypes.iterator();
+				while (i.next()) 
+				{
+					if (index) error.append(", ");
+					error.append(i.value().toString());
+					index++;
 				}
+				error.append("]");
+				_delegate->onFayeErrorString(this, error);
 			}
 		}
 	}
 	
 	void Client::handshake()
 	{
-#ifdef FAYECPP_DEBUG_MESSAGES				
-#ifdef HAVE_SUITABLE_QT_VERSION
-        qDebug() << "Client:" << "handshake start...";
-#else
-		fprintf(stderr, "Client: handshake start...\n");
+#ifdef FAYECPP_DEBUG_MESSAGES
+		RELog::log("Client: handshake start...");
 #endif
-#endif		
-        Message message;
-        message.addConnectionType(this->currentTransportName());
-        //    message.addConnectionType("long-polling").addConnectionType("callback-polling").addConnectionType("iframe");
-        message.setChannelType(Message::ChannelTypeHandshake);
-        message.setVersion("1.0");
-        message.setMinimumVersion("1.0beta");
-		if (_delegate) _delegate->onFayeClientWillSendMessage(this, &message);
-		char * jsonCString = message.jsonCString();
-		if (jsonCString) 
-		{
-			_transport->sendText(jsonCString, strlen(jsonCString));
-			free(jsonCString);
-		}
+		VariantMap message;
+		VariantList connectionTypes;
+		connectionTypes.add(this->currentTransportName());
+		message["supportedConnectionTypes"] = connectionTypes;
+		message["minimumVersion"] = "1.0beta";
+		message["channel"] = HANDSHAKE_CHANNEL;
+		message["version"] = "1.0";
+		if (_delegate) _delegate->onFayeClientWillSendMessage(this, message);
+		
+		JsonGenerator generator(message);
+		if (generator.string()) _transport->sendText(generator.string(), strlen(generator.string()));
 	}
 	
-	void Client::onConnectFayeDone(Message * message)
+	void Client::onConnectFayeDone(const VariantMap & message)
 	{
 		if (!_isFayeConnected)
 		{
 			_isFayeConnected = true;
-#if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)
-			dispatch_async(dispatch_get_main_queue(), ^{
-#endif					
 			if (_delegate) _delegate->onFayeClientConnected(this);
-#if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)			
-			});
-#endif
 			this->subscribePendingSubscriptions();
 		}
-		(void)message;
 	}
 	
 	void Client::connectFaye()
 	{
-#ifdef FAYECPP_DEBUG_MESSAGES	
-#ifdef HAVE_SUITABLE_QT_VERSION
-        qDebug() << "Client:" << "connect faye start ...";
-#else
-		fprintf(stderr, "Client: connect faye start ...\n");
-#endif		
+#ifdef FAYECPP_DEBUG_MESSAGES
+		RELog::log("Client: connect faye start ...");
 #endif
-		Message message;
-        message.setChannelType(Message::ChannelTypeConnect);
-		message.setClientId(_clientId);
-		message.setConnectionType(this->currentTransportName());
-		if (_delegate) _delegate->onFayeClientWillSendMessage(this, &message);
-		char * jsonCString = message.jsonCString();
-		if (jsonCString) 
-		{
-			_transport->sendText(jsonCString, strlen(jsonCString));
-			free(jsonCString);
-		}
+		VariantMap message;
+		message["channel"] = CONNECT_CHANNEL;
+		message["clientId"] = _clientId;
+		message["connectionType"] = this->currentTransportName();
+		if (_delegate) _delegate->onFayeClientWillSendMessage(this, message);
+		
+		JsonGenerator generator(message);
+		if (generator.string()) _transport->sendText(generator.string(), strlen(generator.string()));
 	}
 	
 	void Client::disconnect()
 	{
-#ifdef FAYECPP_DEBUG_MESSAGES			
-#ifdef HAVE_SUITABLE_QT_VERSION
-        qDebug() << "Client:" << "disconnect faye start ...";
-#else
-		fprintf(stderr, "Client: disconnect faye start ...\n");
+#ifdef FAYECPP_DEBUG_MESSAGES
+		RELog::log("Client: disconnect faye start ...");
 #endif
-#endif		
-		Message message;
-        message.setChannelType(Message::ChannelTypeDisconnect);
-		message.setClientId(_clientId);
-		if (_delegate) _delegate->onFayeClientWillSendMessage(this, &message);
-		char * jsonCString = message.jsonCString();
-		if (jsonCString) 
-		{
-			_transport->sendText(jsonCString, strlen(jsonCString));
-			free(jsonCString);
-		}
+		VariantMap message;
+		message["channel"] = DISCONNECT_CHANNEL;
+		message["clientId"] = _clientId;
+		if (_delegate) _delegate->onFayeClientWillSendMessage(this, message);
+		
+		JsonGenerator generator(message);
+		if (generator.string()) _transport->sendText(generator.string(), strlen(generator.string()));
 	}
 	
 	bool Client::isSubscribedToChannel(const char * channel) const
@@ -370,76 +390,60 @@ namespace FayeCpp {
 		return channel ? _pendingSubscriptions.isContaines(REString(channel)) : false;
 	}
 	
-	void Client::onSubscriptionDone(Message * message)
-	{		
-		if (_pendingSubscriptions.isContaines(message->subscription())) 
+	void Client::onSubscriptionDone(const VariantMap & message)
+	{
+		Variant * channel = message.findTypedValue("subscription", Variant::TypeString);
+		if (!channel) 
 		{
-			REStringList::Node * node = _pendingSubscriptions.findNode(message->subscription());
+			//TODO: error;
+			return;
+		}
+		
+		if (_pendingSubscriptions.isContaines(channel->toString())) 
+		{
+			REStringList::Node * node = _pendingSubscriptions.findNode(channel->toString());
 			if (node) _pendingSubscriptions.removeNode(node);
 			
-			_subscribedChannels.add(message->subscription());
+			_subscribedChannels.add(channel->toString());
 			
 			if (!_isFayeConnected)
 			{
 				_isFayeConnected = true;
-#if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)
-				dispatch_async(dispatch_get_main_queue(), ^{
-#endif	
 				if (_delegate) _delegate->onFayeClientConnected(this);
-#if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)			
-				});
-#endif
 			}
-#ifdef FAYECPP_DEBUG_MESSAGES					
-#ifdef HAVE_SUITABLE_QT_VERSION
-			qDebug() << "Client:" << "Subscribed to channel:" << message->subscription().UTF8String();
-#else
-			fprintf(stderr, "Client: Subscribed to channel: %s\n", message->subscription().UTF8String());
+			
+#ifdef FAYECPP_DEBUG_MESSAGES
+			RELog::log("Client: Subscribed to channel: %s", channel->toString().UTF8String());
 #endif
-#endif			
-#if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)
-			dispatch_async(dispatch_get_main_queue(), ^{
-#endif	
-			if (_delegate) _delegate->onFayeClientSubscribedToChannel(this, message->subscription());
-#if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)			
-			});
-#endif
+			if (_delegate) _delegate->onFayeClientSubscribedToChannel(this, channel->toString());
 		}
 	}
 	
-	void Client::onUnsubscribingDone(Message * message)
+	void Client::onUnsubscribingDone(const VariantMap & message)
 	{
-		if (message->subscription().isNotEmpty())
+		Variant * channel = message.findTypedValue("subscription", Variant::TypeString);
+		if (!channel) 
 		{
-			REStringList::Node * node = _pendingSubscriptions.findNode(message->subscription());
-			if (node) _pendingSubscriptions.removeNode(node);
-			
-			node = _subscribedChannels.findNode(message->subscription());
-			if (node) _subscribedChannels.removeNode(node);
-			
-#if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)
-			dispatch_async(dispatch_get_main_queue(), ^{
-#endif	
-			if (_delegate) _delegate->onFayeClientUnsubscribedFromChannel(this, message->subscription());
-#if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)			
-			});
-#endif
+			//TODO: error;
+			return;
 		}
+		
+		REStringList::Node * node = _pendingSubscriptions.findNode(channel->toString());
+		if (node) _pendingSubscriptions.removeNode(node);
+		
+		node = _subscribedChannels.findNode(channel->toString());
+		if (node) _subscribedChannels.removeNode(node);
+		
+		if (_delegate) _delegate->onFayeClientUnsubscribedFromChannel(this, channel->toString());
 	}
 	
-	void Client::onDisconnectFayeDone(Message * message)
+	void Client::onDisconnectFayeDone(const VariantMap & message)
 	{
 		_subscribedChannels.clear();
 		_pendingSubscriptions.clear();
 		_isFayeConnected = false;
-#if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)
-		dispatch_async(dispatch_get_main_queue(), ^{
-#endif	
+		
 		if (_delegate) _delegate->onFayeClientDisconnected(this);
-#if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)			
-		});
-#endif
-		(void)message;
 	}
 	
 	void Client::subscribePendingSubscriptions()
@@ -452,15 +456,14 @@ namespace FayeCpp {
 				REStringList::Iterator i = arr.iterator();
 				while (i.next()) 
 				{
-					Message message;
-                    message.setChannelType(Message::ChannelTypeSubscribe).setClientId(_clientId).setSubscription(i.value().UTF8String());
-					if (_delegate) _delegate->onFayeClientWillSendMessage(this, &message);
-					char * jsonCString = message.jsonCString();
-					if (jsonCString) 
-					{
-						_transport->sendText(jsonCString, strlen(jsonCString));
-						free(jsonCString);
-					}
+					VariantMap message;
+					message["channel"] = SUBSCRIBE_CHANNEL;
+					message["clientId"] = _clientId;
+					message["subscription"] = i.value();
+					if (_delegate) _delegate->onFayeClientWillSendMessage(this, message);
+					
+					JsonGenerator generator(message);
+					if (generator.string()) _transport->sendText(generator.string(), strlen(generator.string()));
 				}
 			}
 		}
@@ -493,14 +496,16 @@ namespace FayeCpp {
 			return false;
 		}
 		
-		Message message;
-        message.setChannelType(Message::ChannelTypeUnsubscribe).setClientId(_clientId).setSubscription(channel);
-		if (_delegate) _delegate->onFayeClientWillSendMessage(this, &message);
-		char * jsonCString = message.jsonCString();
-		if (jsonCString)
+		VariantMap message;
+		message["channel"] = UNSUBSCRIBE_CHANNEL;
+		message["clientId"] = _clientId;
+		message["subscription"] = channel;
+		if (_delegate) _delegate->onFayeClientWillSendMessage(this, message);
+		
+		JsonGenerator generator(message);
+		if (generator.string()) 
 		{
-			_transport->sendText(jsonCString, strlen(jsonCString));
-			free(jsonCString);
+			_transport->sendText(generator.string(), strlen(generator.string()));
 			return true;
 		}
 		return false;
@@ -520,23 +525,19 @@ namespace FayeCpp {
 	{
 		if (_isFayeConnected && !message.isEmpty() && this->isSubscribedToChannel(channel))
 		{
-#ifdef FAYECPP_DEBUG_MESSAGES				
-#ifdef HAVE_SUITABLE_QT_VERSION
-			qDebug() << "Client:" << "Send message to channel:" << channel;
-#else
-			fprintf(stderr, "Client: Send message to channel: %s\n", channel);
+#ifdef FAYECPP_DEBUG_MESSAGES	
+			RELog::log("Client: Send message to channel: %s", channel);
 #endif
-#endif			
 			VariantMap mes;
 			mes["channel"] = channel;
 			mes["clientId"] = _clientId;
 			mes["data"] = message;
 			mes["id"] = Client::nextMessageId();
-			char * jsonCString = JsonUtils::toJsonCString(mes);
-			if (jsonCString)
+			
+			JsonGenerator generator(mes);
+			if (generator.string()) 
 			{
-				_transport->sendText(jsonCString, strlen(jsonCString));
-				free(jsonCString);
+				_transport->sendText(generator.string(), strlen(generator.string()));
 				return true;
 			}
 		}
@@ -550,7 +551,7 @@ namespace FayeCpp {
 	{
 		REThread::mainThreadIdentifier();
 		
-        _transport = Transport::createNewTransport(new ClassMethodWrapper<Client, void(Client::*)(Message*), Message>(this, &Client::processMessage));
+        _transport = Transport::createNewTransport(new ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce>(this, &Client::processMessage));
 #if defined(HAVE_ASSERT_H)		
         assert(_transport);
 #endif		

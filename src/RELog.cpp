@@ -23,37 +23,55 @@
 
 #include "../fayecpp.h"
 
+#if defined(HAVE_RECORE_SDK_CONFIG_H) 
+#include "recore_sdk_config.h"
+#endif
+
+#if defined(HAVE_FAYECPP_CONFIG_H)
+#include "fayecpp_config.h"
+#endif
+
+#if defined(HAVE_STDARG_H)
+#include <stdarg.h>
+#endif
+
+#if defined(HAVE_ANDROID_LOG_H)
+#include <android/log.h>
+#define LOG_TAG "RECore"
+#endif
+
 namespace FayeCpp {
 	
-	REStringList & REStringList::operator=(const REStringList & list)
+	void RELog::log(const char * logString, ...)
 	{
-		this->clear();
-		REStringList::Iterator iter = list.iterator();
-		while (iter.next())
+		if (logString)
 		{
-			this->add(iter.value());
+			va_list args;
+			va_start(args, logString);
+			
+#if defined(HAVE_ANDROID_LOG_H)
+			__android_log_vprint(ANDROID_LOG_INFO, LOG_TAG, logString, args);
+#else
+			RELog::logA(logString, args);
+#endif
+			
+			va_end(args);
 		}
-		return *this;
 	}
 	
-	REStringList::REStringList(const REStringList & list) : REList<REString>()
-	{
-		*this = list; 
-	}
 	
-	REStringList::REStringList() : REList<REString>() 
+	void RELog::logA(const char * logString, va_list arguments)
 	{
-		
-	}
-	
-	REStringList::~REStringList() 
-	{
-		
+		if (logString)
+		{
+#if defined(HAVE_ANDROID_LOG_H)
+			__android_log_vprint(ANDROID_LOG_INFO, LOG_TAG, logString, arguments);
+#else
+			fprintf(stdout, "\n");
+			vfprintf(stdout, logString, arguments);
+#endif		
+		}
 	}
 	
 }
-
-
-
-
 

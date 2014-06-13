@@ -1,17 +1,23 @@
 /*
- *   Copyright 2014 Kulykov Oleh
+ *   Copyright (c) 2014 Kulykov Oleh <nonamedemail@gmail.com>
  *
- *   Licensed under the Apache License, Version 2.0 (the "License");
- *   you may not use this file except in compliance with the License.
- *   You may obtain a copy of the License at
+ *   Permission is hereby granted, free of charge, to any person obtaining a copy
+ *   of this software and associated documentation files (the "Software"), to deal
+ *   in the Software without restriction, including without limitation the rights
+ *   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *   copies of the Software, and to permit persons to whom the Software is
+ *   furnished to do so, subject to the following conditions:
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *   The above copyright notice and this permission notice shall be included in
+ *   all copies or substantial portions of the Software.
  *
- *   Unless required by applicable law or agreed to in writing, software
- *   distributed under the License is distributed on an "AS IS" BASIS,
- *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *   See the License for the specific language governing permissions and
- *   limitations under the License.
+ *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ *   THE SOFTWARE.
  */
 
 
@@ -39,6 +45,11 @@ namespace FayeCpp {
 		_t = TypeNone;
 	}
 
+	bool Variant::isNULL() const
+	{
+		return _u.pointerValue ? false : true;
+	}
+	
 	Variant::VariantType Variant::type() const
 	{
 		return _t;
@@ -57,6 +68,16 @@ namespace FayeCpp {
 			case TypeUnsignedInteger: return (int64_t)_u.uint64Value; break;
 			case TypeReal: return (int64_t)_u.doubleValue; break;
 			case TypeBool: return _u.boolValue ? (int64_t)1 : (int64_t)0; break;
+			case TypeString:
+			{
+				if (this->toString().isDigit())
+				{
+					REBOOL isOk = false;
+					const REInt64 parsedValue = this->toString().integerValue(&isOk);
+					if (isOk) return (int64_t)parsedValue;
+				}
+			}
+				break;
 			default: break;
 		}
 		return 0;
@@ -70,6 +91,16 @@ namespace FayeCpp {
 			case TypeUnsignedInteger: return _u.uint64Value; break;
 			case TypeReal: return (uint64_t)_u.doubleValue; break;
 			case TypeBool: return _u.boolValue ? (uint64_t)1 : (uint64_t)0; break;
+			case TypeString:
+			{
+				if (this->toString().isDigit())
+				{
+					REBOOL isOk = false;
+					const REInt64 parsedValue = this->toString().integerValue(&isOk);
+					if (isOk) return (uint64_t)parsedValue;
+				}
+			}
+				break;
 			default: break;
 		}
 		return 0;
@@ -83,6 +114,16 @@ namespace FayeCpp {
 			case TypeUnsignedInteger: return (double)_u.uint64Value; break;
 			case TypeReal: return (double)_u.doubleValue; break;
 			case TypeBool: return _u.boolValue ? (double)1 : (double)0; break;
+			case TypeString:
+			{
+				if (this->toString().isDigit())
+				{
+					REBOOL isOk = false;
+					const REFloat64 parsedValue = this->toString().floatValue(&isOk);
+					if (isOk) return (double)parsedValue;
+				}
+			}
+				break;
 			default: break;
 		}
 		return 0;
@@ -96,6 +137,13 @@ namespace FayeCpp {
 			case TypeUnsignedInteger: return _u.uint64Value == 0 ? false: true; break;
 			case TypeReal: return _u.doubleValue == 0 ? false : true; break;
 			case TypeBool: return _u.boolValue; break;
+			case TypeString:
+			{
+				REMutableString s = this->toString().mutableString();
+				s.toLower();
+				if (s.isEqual("true")) return true;
+			}
+				break;
 			default: break;
 		}
 		return false;
@@ -212,40 +260,40 @@ namespace FayeCpp {
 	{
 		switch (v._t)
 		{
-			case TypeString: *this = v.string(); break;
-			case TypeMap: *this = v.map(); break;
-			case TypeList: *this = v.list(); break;
+			case TypeString: *this = v.toString(); break;
+			case TypeMap: *this = v.toMap(); break;
+			case TypeList: *this = v.toList(); break;
 			default: _t = v._t; _u = v._u; break;
 		}
 		return *this;
 	}
-	
-	const REString & Variant::string() const
+
+	const REString & Variant::toString() const
 	{
 		return *(const REString *)_u.pointerValue;
 	}
 	
-	const VariantMap & Variant::map() const
+	const VariantMap & Variant::toMap() const
 	{
 		return *(const VariantMap *)_u.pointerValue;
 	}
 	
-	const VariantList & Variant::list() const
+	const VariantList & Variant::toList() const
 	{
 		return *((VariantList *)_u.pointerValue);
 	}
 	
-	REString & Variant::string()
+	REString & Variant::toString()
 	{
 		return *(REString *)_u.pointerValue;
 	}
 	
-	VariantMap & Variant::map()
+	VariantMap & Variant::toMap()
 	{
-		return *((VariantMap *)_u.pointerValue);
+		return *(VariantMap *)_u.pointerValue;
 	}
 	
-	VariantList & Variant::list()
+	VariantList & Variant::toList()
 	{
 		return *((VariantList *)_u.pointerValue);
 	}

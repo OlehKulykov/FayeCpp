@@ -1,17 +1,23 @@
 /*
- *   Copyright 2014 Kulykov Oleh
+ *   Copyright (c) 2014 Kulykov Oleh <nonamedemail@gmail.com>
  *
- *   Licensed under the Apache License, Version 2.0 (the "License");
- *   you may not use this file except in compliance with the License.
- *   You may obtain a copy of the License at
+ *   Permission is hereby granted, free of charge, to any person obtaining a copy
+ *   of this software and associated documentation files (the "Software"), to deal
+ *   in the Software without restriction, including without limitation the rights
+ *   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *   copies of the Software, and to permit persons to whom the Software is
+ *   furnished to do so, subject to the following conditions:
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *   The above copyright notice and this permission notice shall be included in
+ *   all copies or substantial portions of the Software.
  *
- *   Unless required by applicable law or agreed to in writing, software
- *   distributed under the License is distributed on an "AS IS" BASIS,
- *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *   See the License for the specific language governing permissions and
- *   limitations under the License.
+ *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ *   THE SOFTWARE.
  */
 
 
@@ -30,9 +36,6 @@
 
 #include <assert.h>
 
-#if defined(HAVE_SUITABLE_QT_VERSION) && defined(FAYECPP_DEBUG_MESSAGES)
-#include <QDebug>
-#endif
 
 namespace FayeCpp {
 	
@@ -49,44 +52,43 @@ namespace FayeCpp {
 	void Transport::onConnected()
 	{
 		_isConnected = true;
-		Message message;
-        message.setType(Message::MessageTypeTransportConnected).setSuccessfully(true);
+		Responce message;
+        message.setType(Responce::ResponceTransportConnected);
 		_processMethod->invokeWithPointer(&message);
 	}
 	
 	void Transport::onDisconnected()
 	{
 		_isConnected = false;
-		Message message;
-        message.setType(Message::MessageTypeTransportDisconnected).setSuccessfully(true);
+		Responce message;
+        message.setType(Responce::ResponceTransportDisconnected);
 		_processMethod->invokeWithPointer(&message);
 	}
 	
 	void Transport::onTextReceived(const char * text)
 	{
-		Message message(text);
-        message.setType(Message::MessageTypeServerResponce);
+#ifdef FAYECPP_DEBUG_MESSAGES
+		RELog::log("TRANSPORT RECEIVED: %s", text);
+#endif
+		Responce message;
+        message.setMessageText(text).setType(Responce::ResponceMessage);
 		_processMethod->invokeWithPointer(&message);
 	}
 	
 	void Transport::onDataReceived(const unsigned char * data, const size_t dataSize)
 	{
-		Message message(data, dataSize);
-        message.setType(Message::MessageTypeServerResponce);
+		Responce message;
+        message.setMessageData(data, dataSize).setType(Responce::ResponceMessage);
 		_processMethod->invokeWithPointer(&message);
 	}
 	
 	void Transport::onError(const REString & error)
 	{
 #ifdef FAYECPP_DEBUG_MESSAGES
-#ifdef HAVE_SUITABLE_QT_VERSION
-		qDebug() << "TRANSPORT ERROR:" << error.UTF8String();
-#else		
-		fprintf(stderr, "TRANSPORT ERROR: %s\n", error.UTF8String());
-#endif		
+		RELog::log("TRANSPORT ERROR: %s", error.UTF8String());
 #endif
-		Message message;
-        message.setType(Message::MessageTypeTransportError).setSuccessfully(true).setErrorString(error.UTF8String());
+		Responce message;
+        message.setType(Responce::ResponceTransportError).setErrorString(error.UTF8String());
 		_processMethod->invokeWithPointer(&message);
 	}
 	
@@ -200,7 +202,7 @@ namespace FayeCpp {
 		
 	}
 	
-	Transport::Transport(ClassMethodWrapper<Client, void(Client::*)(Message*), Message> * processMethod) :
+	Transport::Transport(ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * processMethod) :
 		_processMethod(processMethod),
 		_port(-1),
 		_isUseSSL(false),
@@ -215,7 +217,7 @@ namespace FayeCpp {
         delete _processMethod;
 	}
 
-    Transport * Transport::createNewTransport(ClassMethodWrapper<Client, void(Client::*)(Message*), Message> * processMethod)
+    Transport * Transport::createNewTransport(ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * processMethod)
     {
         if (processMethod)
         {
