@@ -12,27 +12,29 @@ INCLUDEPATH += $$PWD/jansson/src/
 DEPENDPATH += $$PWD
 
 ## FayeCpp sources
-SOURCES += $$PWD/client.cpp \
-           $$PWD/message.cpp \
-           $$PWD/variant.cpp \
-           $$PWD/private/jsonutils.cpp \
-           $$PWD/private/REBuffer.cpp \
-           $$PWD/private/REMutableString.cpp \
-           $$PWD/private/REMutex.cpp \
-           $$PWD/private/REString.cpp \
-           $$PWD/private/REStringBase.cpp \
-           $$PWD/private/REStringList.cpp \
-           $$PWD/private/REStringUtilsPrivate.cpp \
-           $$PWD/private/REThread.cpp \
-           $$PWD/private/REWideString.cpp \
-           $$PWD/private/transport.cpp \
-           $$PWD/private/variantlist.cpp \
-           $$PWD/private/variantmap.cpp \
-           $$PWD/private/websocketqt.cpp
+SOURCES += $$PWD/src/client.cpp \
+           $$PWD/src/jsonutils.cpp \
+           $$PWD/src/message.cpp \
+           $$PWD/src/REBuffer.cpp \
+           $$PWD/src/REBufferNoCopy.cpp \
+           $$PWD/src/REMutableString.cpp \
+           $$PWD/src/REMutex.cpp \
+           $$PWD/src/REStaticString.cpp \
+           $$PWD/src/REString.cpp \
+           $$PWD/src/REStringBase.cpp \
+           $$PWD/src/REStringList.cpp \
+           $$PWD/src/REStringUtilsPrivate.cpp \
+           $$PWD/src/REThread.cpp \
+           $$PWD/src/REWideString.cpp \
+           $$PWD/src/transport.cpp \
+           $$PWD/src/variant.cpp \
+           $$PWD/src/variantlist.cpp \
+           $$PWD/src/variantmap.cpp \
+           $$PWD/src/websocketqt.cpp
 
 ## FayeCpp headers
 HEADERS += $$PWD/fayecpp.h \
-           $$PWD/private/websocketqt.h
+           $$PWD/src/websocketqt.h
 
 ## jansson sources
 SOURCES += $$PWD/jansson/src/dump.c \
