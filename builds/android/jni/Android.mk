@@ -29,7 +29,7 @@ LOCAL_SRC_FILES := \
 	../../../jansson/src/strbuffer.c \
 	../../../jansson/src/strconv.c \
 	../../../jansson/src/utf.c \
-	../../../jansson/src/value.c \	
+	../../../jansson/src/value.c \
 	../../../src/client.cpp \
 	../../../src/jsonutils.cpp \
 	../../../src/message.cpp \

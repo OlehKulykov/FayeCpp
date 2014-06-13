@@ -90,6 +90,10 @@
 #define HAVE_LOCALE_H 1
 
 
+/* assert.h */
+#define HAVE_ASSERT_H 1
+
+
 /* sys/stat.h */
 #define HAVE_SYS_STAT_H 1
 
