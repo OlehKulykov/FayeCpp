@@ -15,17 +15,20 @@
  */
 
 
-#include "fayecpp.h"
+#include "../fayecpp.h"
 
 #if defined(HAVE_FAYECPP_CONFIG_H)
 #include "fayecpp_config.h"
 #endif
 
-#include "private/transport.h"
-#include "private/classmethodwrapper.h"
-#include "private/jsonutils.h"
-#include "private/REThread.h"
+#include "transport.h"
+#include "classmethodwrapper.h"
+#include "jsonutils.h"
+#include "REThread.h"
+
+#if defined(HAVE_ASSERT_H)
 #include <assert.h>
+#endif
 
 #if defined(HAVE_SUITABLE_QT_VERSION) && defined(FAYECPP_DEBUG_MESSAGES)
 #include <QDebug>
@@ -513,9 +516,9 @@ namespace FayeCpp {
 		}
 	}
 	
-	bool Client::sendMessageToChannel(const std::map<std::string, Variant> & message, const char * channel)
+	bool Client::sendMessageToChannel(const VariantMap & message, const char * channel)
 	{
-		if (_isFayeConnected && !message.empty() && this->isSubscribedToChannel(channel))
+		if (_isFayeConnected && !message.isEmpty() && this->isSubscribedToChannel(channel))
 		{
 #ifdef FAYECPP_DEBUG_MESSAGES				
 #ifdef HAVE_SUITABLE_QT_VERSION
@@ -524,7 +527,7 @@ namespace FayeCpp {
 			fprintf(stderr, "Client: Send message to channel: %s\n", channel);
 #endif
 #endif			
-			std::map<std::string, Variant> mes;
+			VariantMap mes;
 			mes["channel"] = channel;
 			mes["clientId"] = _clientId;
 			mes["data"] = message;
@@ -548,7 +551,9 @@ namespace FayeCpp {
 		REThread::mainThreadIdentifier();
 		
         _transport = Transport::createNewTransport(new ClassMethodWrapper<Client, void(Client::*)(Message*), Message>(this, &Client::processMessage));
+#if defined(HAVE_ASSERT_H)		
         assert(_transport);
+#endif		
 	}
 	
 	Client::~Client()

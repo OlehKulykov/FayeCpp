@@ -27,12 +27,13 @@
 
 #if !defined(HAVE_SUITABLE_QT_VERSION) && defined(HAVE_LIBWEBSOCKETS_H)
 
-#include "classmethodwrapper.h"
 #include "transport.h"
 #include "REThread.h"
 #include "REMutex.h"
 
 #include <libwebsockets.h>
+
+#include "classmethodwrapper.h"
 
 namespace FayeCpp {
 
@@ -47,7 +48,7 @@ namespace FayeCpp {
 			virtual ~WriteBuffer() { }
 		};
 		
-		std::list<WriteBuffer *> _writeBuffers;
+		REList<WriteBuffer *> _writeBuffers;
 		struct lws_context_creation_info _info;
 		struct libwebsocket_context * _context;
 		struct libwebsocket * _connection;

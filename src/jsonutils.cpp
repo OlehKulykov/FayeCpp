@@ -22,13 +22,13 @@
 
 namespace FayeCpp {
 	
-    static json_t * __JsonUtils__jsonObjectFromList(const std::list<Variant> & list);
+    static json_t * __JsonUtils__jsonObjectFromList(const VariantList & list);
     static json_t * __JsonUtils__jsonObjectFromValue(const Variant & value);
-    static void __JsonUtils__addMapToJson(const std::map<std::string, Variant> & map, json_t * json);
-    static char * __JsonUtils__jsonStringFromMap(const std::map<std::string, Variant> & message);
-    static char * __JsonUtils__jsonStringFromList(const std::list<Variant> & message);
+    static void __JsonUtils__addMapToJson(const VariantMap & map, json_t * json);
+    static char * __JsonUtils__jsonStringFromMap(const VariantMap & message);
+    static char * __JsonUtils__jsonStringFromList(const VariantList & message);
 
-    static char * __JsonUtils__jsonStringFromMap(const std::map<std::string, Variant> & message)
+    static char * __JsonUtils__jsonStringFromMap(const VariantMap & message)
     {
         char * jsonString = NULL;
         json_t * json = json_object();
@@ -41,7 +41,7 @@ namespace FayeCpp {
         return jsonString;
     }
 
-    static char * __JsonUtils__jsonStringFromList(const std::list<Variant> & message)
+    static char * __JsonUtils__jsonStringFromList(const VariantList & message)
     {
         char * jsonString = NULL;
         json_t * json = __JsonUtils__jsonObjectFromList(message);
@@ -53,14 +53,15 @@ namespace FayeCpp {
         return jsonString;
     }
 
-    static json_t * __JsonUtils__jsonObjectFromList(const std::list<Variant> & list)
+    static json_t * __JsonUtils__jsonObjectFromList(const VariantList & list)
 	{
 		json_t * array = json_array();
 		if (array)
 		{
-			for (std::list<Variant>::const_iterator i = list.begin(); i != list.end(); ++i)
+			VariantList::Iterator i = list.iterator();
+			while (i.next()) 
 			{
-                json_t * object = __JsonUtils__jsonObjectFromValue(*i);
+				json_t * object = __JsonUtils__jsonObjectFromValue(i.value());
 				if (object)
 				{
 					json_array_append(array, object);
@@ -80,7 +81,7 @@ namespace FayeCpp {
 			case Variant::TypeUnsignedInteger: return json_integer(value.toUInt64()); break;
 			case Variant::TypeReal: return json_real(value.toDouble()); break;
 			case Variant::TypeBool: return value.toBool() ? json_true() : json_false(); break;
-			case Variant::TypeString: return json_string(value.string().c_str()); break;
+			case Variant::TypeString: return json_string(value.string()); break;
 			case Variant::TypeMap:
 			{
 				json_t * subMapJson = json_object();
@@ -98,25 +99,27 @@ namespace FayeCpp {
 		return NULL;
 	}
 	
-    static void __JsonUtils__addMapToJson(const std::map<std::string, Variant> & map, json_t * json)
+    static void __JsonUtils__addMapToJson(const VariantMap & map, json_t * json)
 	{
-		for (std::map<std::string, Variant>::const_iterator i = map.begin(); i != map.end(); ++i)
+		VariantMap::Iterator i = map.iterator();
+		while (i.next()) 
 		{
-            json_t * object = __JsonUtils__jsonObjectFromValue(i->second);
+			json_t * object = __JsonUtils__jsonObjectFromValue(i.value());
 			if (object)
 			{
-				json_object_set(json, i->first.c_str(), object);
+				json_object_set(json, i.key().UTF8String(), object);
 				json_decref(object);
 			}
+
 		}
 	}
 	
-	char * JsonUtils::toJsonCString(const std::map<std::string, Variant> & message)
+	char * JsonUtils::toJsonCString(const VariantMap & message)
 	{
 		return __JsonUtils__jsonStringFromMap(message);
 	}
 	
-	char * JsonUtils::toJsonCString(const std::list<Variant> & message)
+	char * JsonUtils::toJsonCString(const VariantList & message)
 	{
 		return __JsonUtils__jsonStringFromList(message);
 	}

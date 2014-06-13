@@ -16,13 +16,12 @@
 
 
 #include "transport.h"
-#include "../fayecpp.h"
 #include "REThread.h"
 
 #ifdef HAVE_SUITABLE_QT_VERSION
-#include "private/websocketqt.h"
+#include "websocketqt.h"
 #else
-#include "private/websocket.h"
+#include "websocket.h"
 #endif
 
 #include <assert.h>
