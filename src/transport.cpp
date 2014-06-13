@@ -49,30 +49,37 @@ namespace FayeCpp {
 	void Transport::onConnected()
 	{
 		_isConnected = true;
-		Message message;
-        message.setType(Message::MessageTypeTransportConnected).setSuccessfully(true);
+		Responce message;
+        message.setType(Responce::ResponceTransportConnected);
 		_processMethod->invokeWithPointer(&message);
 	}
 	
 	void Transport::onDisconnected()
 	{
 		_isConnected = false;
-		Message message;
-        message.setType(Message::MessageTypeTransportDisconnected).setSuccessfully(true);
+		Responce message;
+        message.setType(Responce::ResponceTransportDisconnected);
 		_processMethod->invokeWithPointer(&message);
 	}
 	
 	void Transport::onTextReceived(const char * text)
 	{
-		Message message(text);
-        message.setType(Message::MessageTypeServerResponce);
+#ifdef FAYECPP_DEBUG_MESSAGES
+#ifdef HAVE_SUITABLE_QT_VERSION
+		qDebug() << "TRANSPORT RECEIVED:" << text;
+#else		
+		fprintf(stderr, "TRANSPORT RECEIVED: %s\n", text);
+#endif		
+#endif
+		Responce message;
+        message.setMessageText(text).setType(Responce::ResponceMessage);
 		_processMethod->invokeWithPointer(&message);
 	}
 	
 	void Transport::onDataReceived(const unsigned char * data, const size_t dataSize)
 	{
-		Message message(data, dataSize);
-        message.setType(Message::MessageTypeServerResponce);
+		Responce message;
+        message.setMessageData(data, dataSize).setType(Responce::ResponceMessage);
 		_processMethod->invokeWithPointer(&message);
 	}
 	
@@ -85,8 +92,8 @@ namespace FayeCpp {
 		fprintf(stderr, "TRANSPORT ERROR: %s\n", error.UTF8String());
 #endif		
 #endif
-		Message message;
-        message.setType(Message::MessageTypeTransportError).setSuccessfully(true).setErrorString(error.UTF8String());
+		Responce message;
+        message.setType(Responce::ResponceTransportError).setErrorString(error.UTF8String());
 		_processMethod->invokeWithPointer(&message);
 	}
 	
@@ -200,7 +207,7 @@ namespace FayeCpp {
 		
 	}
 	
-	Transport::Transport(ClassMethodWrapper<Client, void(Client::*)(Message*), Message> * processMethod) :
+	Transport::Transport(ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * processMethod) :
 		_processMethod(processMethod),
 		_port(-1),
 		_isUseSSL(false),
@@ -215,7 +222,7 @@ namespace FayeCpp {
         delete _processMethod;
 	}
 
-    Transport * Transport::createNewTransport(ClassMethodWrapper<Client, void(Client::*)(Message*), Message> * processMethod)
+    Transport * Transport::createNewTransport(ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * processMethod)
     {
         if (processMethod)
         {

@@ -332,7 +332,7 @@ namespace FayeCpp {
 		_context = NULL;
 	}
 	
-	WebSocket::WebSocket(ClassMethodWrapper<Client, void(Client::*)(Message*), Message> * processMethod) : REThread(), Transport(processMethod),
+	WebSocket::WebSocket(ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * processMethod) : REThread(), Transport(processMethod),
 		_context(NULL),
 		_connection(NULL),
 		_writeMutex(new REMutex())

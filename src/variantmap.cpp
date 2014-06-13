@@ -27,6 +27,29 @@
 
 namespace FayeCpp {
 	
+	Variant * VariantMap::findTypedValue(const char * key, const Variant::VariantType type) const
+	{
+		return this->findTypedValue(REStaticString(key), type);
+	}
+	
+	Variant * VariantMap::findTypedValue(const wchar_t * key, const Variant::VariantType type) const
+	{
+		return this->findTypedValue(REStaticString(key), type);
+	}
+	
+	Variant * VariantMap::findTypedValue(const REString & key, const Variant::VariantType type) const
+	{
+		Node * node = this->findNode(key);
+		if (node)
+		{
+			if (node->value.type() == type) 
+			{
+				return &node->value;
+			}
+		}
+		return NULL;
+	}
+	
 	const Variant VariantMap::operator[](const char * key) const
 	{
 		return (*this)[REStaticString(key)];
@@ -40,8 +63,7 @@ namespace FayeCpp {
 	const Variant VariantMap::operator[](const REString & key) const
 	{
 		Node * node = this->findNode(key);
-		if (node) return node->value;
-		return Variant();
+		return node ? node->value : Variant();
 	}
 	
     Variant & VariantMap::operator[](const char * key)

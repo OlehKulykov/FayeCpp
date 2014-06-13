@@ -95,7 +95,7 @@ namespace FayeCpp {
 		
 		virtual void connectToServer();
 		virtual void disconnectFromServer();
-		WebSocket(ClassMethodWrapper<Client, void(Client::*)(Message*), Message> * processMethod);
+		WebSocket(ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * processMethod);
 		virtual ~WebSocket();
 		
 		static REString transportName();

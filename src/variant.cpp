@@ -39,6 +39,11 @@ namespace FayeCpp {
 		_t = TypeNone;
 	}
 
+	bool Variant::isNULL() const
+	{
+		return _u.pointerValue ? false : true;
+	}
+	
 	Variant::VariantType Variant::type() const
 	{
 		return _t;
@@ -59,10 +64,10 @@ namespace FayeCpp {
 			case TypeBool: return _u.boolValue ? (int64_t)1 : (int64_t)0; break;
 			case TypeString:
 			{
-				if (this->string().isDigit())
+				if (this->toString().isDigit())
 				{
 					REBOOL isOk = false;
-					const REInt64 parsedValue = this->string().integerValue(&isOk);
+					const REInt64 parsedValue = this->toString().integerValue(&isOk);
 					if (isOk) return (int64_t)parsedValue;
 				}
 			}
@@ -82,10 +87,10 @@ namespace FayeCpp {
 			case TypeBool: return _u.boolValue ? (uint64_t)1 : (uint64_t)0; break;
 			case TypeString:
 			{
-				if (this->string().isDigit())
+				if (this->toString().isDigit())
 				{
 					REBOOL isOk = false;
-					const REInt64 parsedValue = this->string().integerValue(&isOk);
+					const REInt64 parsedValue = this->toString().integerValue(&isOk);
 					if (isOk) return (uint64_t)parsedValue;
 				}
 			}
@@ -105,10 +110,10 @@ namespace FayeCpp {
 			case TypeBool: return _u.boolValue ? (double)1 : (double)0; break;
 			case TypeString:
 			{
-				if (this->string().isDigit())
+				if (this->toString().isDigit())
 				{
 					REBOOL isOk = false;
-					const REFloat64 parsedValue = this->string().floatValue(&isOk);
+					const REFloat64 parsedValue = this->toString().floatValue(&isOk);
 					if (isOk) return (double)parsedValue;
 				}
 			}
@@ -128,7 +133,7 @@ namespace FayeCpp {
 			case TypeBool: return _u.boolValue; break;
 			case TypeString:
 			{
-				REMutableString s = this->string().mutableString();
+				REMutableString s = this->toString().mutableString();
 				s.toLower();
 				if (s.isEqual("true")) return true;
 			}
@@ -249,40 +254,40 @@ namespace FayeCpp {
 	{
 		switch (v._t)
 		{
-			case TypeString: *this = v.string(); break;
-			case TypeMap: *this = v.map(); break;
-			case TypeList: *this = v.list(); break;
+			case TypeString: *this = v.toString(); break;
+			case TypeMap: *this = v.toMap(); break;
+			case TypeList: *this = v.toList(); break;
 			default: _t = v._t; _u = v._u; break;
 		}
 		return *this;
 	}
-	
-	const REString & Variant::string() const
+
+	const REString & Variant::toString() const
 	{
 		return *(const REString *)_u.pointerValue;
 	}
 	
-	const VariantMap & Variant::map() const
+	const VariantMap & Variant::toMap() const
 	{
 		return *(const VariantMap *)_u.pointerValue;
 	}
 	
-	const VariantList & Variant::list() const
+	const VariantList & Variant::toList() const
 	{
 		return *((VariantList *)_u.pointerValue);
 	}
 	
-	REString & Variant::string()
+	REString & Variant::toString()
 	{
 		return *(REString *)_u.pointerValue;
 	}
 	
-	VariantMap & Variant::map()
+	VariantMap & Variant::toMap()
 	{
-		return *((VariantMap *)_u.pointerValue);
+		return *(VariantMap *)_u.pointerValue;
 	}
 	
-	VariantList & Variant::list()
+	VariantList & Variant::toList()
 	{
 		return *((VariantList *)_u.pointerValue);
 	}

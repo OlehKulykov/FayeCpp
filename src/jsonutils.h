@@ -20,20 +20,41 @@
 
 #include "../fayecpp.h"
 
+#include <jansson.h>
+
 namespace FayeCpp {
 	
-	class JsonUtils
+	class JsonParser
 	{
-	public:
-		/**
-		 @return Free C string after using.
-		 */
-		static char * toJsonCString(const VariantMap & message);
+	private:
+		json_t * _json;
+		static void jsonToMap(json_t * json, VariantMap & map);
+		static void jsonToList(json_t * json, VariantList & list);
 		
-		/**
-		 @return Free C string after using.
-		 */
-        static char * toJsonCString(const VariantList & message);
+	public:
+		bool isMap() const;
+		bool isList() const;
+		bool toMap(VariantMap & map);
+		bool toList(VariantList & list);
+		JsonParser(const char * text);
+		~JsonParser();
+	};
+	
+	class JsonGenerator
+	{
+	private:
+		char * _string;
+		static json_t * jsonObjectFromList(const VariantList & list);
+		static json_t * jsonObjectFromValue(const Variant & value);
+		static void addMapToJson(const VariantMap & map, json_t * json);
+		static char * jsonStringFromMap(const VariantMap & message);
+		static char * jsonStringFromList(const VariantList & message);
+		
+	public:
+		const char * string() const;
+		JsonGenerator(const VariantMap & map);
+		JsonGenerator(const VariantList & list);
+		~JsonGenerator();
 	};
 	
 }

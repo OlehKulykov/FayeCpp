@@ -29,7 +29,7 @@ namespace FayeCpp {
 		REString _url;
 		REString _host;
 		REString _path;
-		ClassMethodWrapper<Client, void(Client::*)(Message*), Message> * _processMethod;
+		ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * _processMethod;
 		int _port;
 		bool _isUseSSL;
 		bool _isConnected;
@@ -68,11 +68,11 @@ namespace FayeCpp {
 		virtual void connectToServer() = 0;
 		virtual void disconnectFromServer() = 0;
 		
-		Transport(ClassMethodWrapper<Client, void(Client::*)(Message*), Message> * processMethod);
+		Transport(ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * processMethod);
 		
 		virtual ~Transport();
 
-        static Transport * createNewTransport(ClassMethodWrapper<Client, void(Client::*)(Message*), Message> * processMethod);
+        static Transport * createNewTransport(ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * processMethod);
         static REStringList availableConnectionTypes();
 	};
 	
