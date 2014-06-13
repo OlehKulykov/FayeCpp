@@ -18,7 +18,7 @@
 #ifndef __FAYECPP_FAYECPP_H__
 #define __FAYECPP_FAYECPP_H__
 
-#if !defined(__RE_OS_WINDOWS__)
+#if !defined(__RE_OS_WINDOWS__) && !defined(__RE_OS_ANDROID__)
 /* No manualy selected, try to auto select */
 
 #if (defined(WIN32) || defined(_WIN32) || defined(WIN32_LEAN_AND_MEAN) || defined(_WIN64) || defined(WIN64))
@@ -32,6 +32,14 @@
 
 
 #endif /* END CHECKING WINDOWS PLATFORM  */
+/***********************************************************************************/
+
+
+#if defined(ANDROID_NDK) || defined(__ANDROID__) || defined(ANDROID)
+
+#define __RE_OS_ANDROID__ 1
+
+#endif /* END CHECKING ANDROID PLATFORM */
 /***********************************************************************************/
 
 #endif
@@ -73,14 +81,28 @@
 #endif
 
 
-#include <stdio.h>
+/* Standart C Library headers */
 #include <stdlib.h>
+#include <stdio.h>
 #include <stdint.h>
-#include <string.h>
 #include <limits.h>
+#include <math.h>
 #include <float.h>
+#include <string.h>
+#include <time.h>
 #include <wchar.h>
+#include <stdbool.h>
 #include <iostream>
+
+#if defined(__RE_OS_ANDROID__)
+#include <setjmp.h>
+#include <ctype.h>
+#include <cerrno>
+#include <cstddef>
+
+#include <sys/types.h>
+#include <sys/errno.h>
+#endif
 
 /**
  @brief 8 bit unsigned byte type.
