@@ -91,7 +91,7 @@
 #include <string.h>
 #include <time.h>
 #include <wchar.h>
-#include <stdbool.h>
+
 #include <iostream>
 
 #if defined(__RE_OS_ANDROID__)
