@@ -647,11 +647,7 @@ namespace FayeCpp {
 				*buff++ = sep;
 				w++;
 			}
-#if defined(HAVE_FUNCTION_SPRINTF_S)	
-			const int writed = sprintf_s(buff, "%f", *arr++);
-#else
 			const int writed = sprintf(buff, "%f", *arr++);
-#endif		
 			if (writed > 0) 
 			{ 
 				int wr = writed;
@@ -707,11 +703,7 @@ namespace FayeCpp {
 				if (buff) buff++;
 				else return w;
 			}
-#if defined(HAVE_FUNCTION_SSCANF_S)
-			const int readed = sscanf_s(buff, "%f", arr++);
-#else		
 			const int readed = sscanf(buff, "%f", arr++);
-#endif		
 			if (readed == 1)
 			{
 				w++;
