@@ -21,6 +21,10 @@
 #include "recore_sdk_config.h"
 #endif
 
+#if defined(HAVE_FAYECPP_CONFIG_H)
+#include "fayecpp_config.h"
+#endif
+
 namespace FayeCpp {
 	
 	REBuffer * REStringUtilsPrivate::newBufferWithSize(const REUInt32 newSize)
