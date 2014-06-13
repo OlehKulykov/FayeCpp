@@ -7,18 +7,25 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3D3968461949E83B0073A7E8 /* jsonutils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D3968351949E83B0073A7E8 /* jsonutils.cpp */; };
-		3D3968471949E83B0073A7E8 /* REBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D3968361949E83B0073A7E8 /* REBuffer.cpp */; };
-		3D3968481949E83B0073A7E8 /* REMutableString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D3968381949E83B0073A7E8 /* REMutableString.cpp */; };
-		3D3968491949E83B0073A7E8 /* REMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D39683A1949E83B0073A7E8 /* REMutex.cpp */; };
-		3D39684A1949E83B0073A7E8 /* REString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D39683B1949E83B0073A7E8 /* REString.cpp */; };
-		3D39684B1949E83B0073A7E8 /* REStringBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D39683C1949E83B0073A7E8 /* REStringBase.cpp */; };
-		3D39684C1949E83B0073A7E8 /* REStringUtilsPrivate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D39683E1949E83B0073A7E8 /* REStringUtilsPrivate.cpp */; };
-		3D39684D1949E83B0073A7E8 /* REThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D3968401949E83B0073A7E8 /* REThread.cpp */; };
-		3D39684E1949E83B0073A7E8 /* REWideString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D3968411949E83B0073A7E8 /* REWideString.cpp */; };
-		3D39684F1949E83B0073A7E8 /* transport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D3968431949E83B0073A7E8 /* transport.cpp */; };
-		3D3968501949E83B0073A7E8 /* websocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D3968451949E83B0073A7E8 /* websocket.cpp */; };
-		3D3968541949FF4C0073A7E8 /* REStringList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D3968531949FF4C0073A7E8 /* REStringList.cpp */; };
+		3D12B482194AF31000B8E9D9 /* client.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B467194AF31000B8E9D9 /* client.cpp */; };
+		3D12B483194AF31000B8E9D9 /* jsonutils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B468194AF31000B8E9D9 /* jsonutils.cpp */; };
+		3D12B484194AF31000B8E9D9 /* message.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B46A194AF31000B8E9D9 /* message.cpp */; };
+		3D12B485194AF31000B8E9D9 /* REBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B46B194AF31000B8E9D9 /* REBuffer.cpp */; };
+		3D12B486194AF31000B8E9D9 /* REBufferNoCopy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B46C194AF31000B8E9D9 /* REBufferNoCopy.cpp */; };
+		3D12B487194AF31000B8E9D9 /* REMutableString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B46D194AF31000B8E9D9 /* REMutableString.cpp */; };
+		3D12B488194AF31000B8E9D9 /* REMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B46E194AF31000B8E9D9 /* REMutex.cpp */; };
+		3D12B489194AF31000B8E9D9 /* REStaticString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B470194AF31000B8E9D9 /* REStaticString.cpp */; };
+		3D12B48A194AF31000B8E9D9 /* REString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B471194AF31000B8E9D9 /* REString.cpp */; };
+		3D12B48B194AF31000B8E9D9 /* REStringBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B472194AF31000B8E9D9 /* REStringBase.cpp */; };
+		3D12B48C194AF31000B8E9D9 /* REStringList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B473194AF31000B8E9D9 /* REStringList.cpp */; };
+		3D12B48D194AF31000B8E9D9 /* REStringUtilsPrivate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B474194AF31000B8E9D9 /* REStringUtilsPrivate.cpp */; };
+		3D12B48E194AF31000B8E9D9 /* REThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B476194AF31000B8E9D9 /* REThread.cpp */; };
+		3D12B48F194AF31000B8E9D9 /* REWideString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B478194AF31000B8E9D9 /* REWideString.cpp */; };
+		3D12B490194AF31000B8E9D9 /* transport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B479194AF31000B8E9D9 /* transport.cpp */; };
+		3D12B491194AF31000B8E9D9 /* variant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B47B194AF31000B8E9D9 /* variant.cpp */; };
+		3D12B492194AF31000B8E9D9 /* variantlist.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B47C194AF31000B8E9D9 /* variantlist.cpp */; };
+		3D12B493194AF31000B8E9D9 /* variantmap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B47D194AF31000B8E9D9 /* variantmap.cpp */; };
+		3D12B494194AF31000B8E9D9 /* websocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B47E194AF31000B8E9D9 /* websocket.cpp */; };
 		3D8CB880194898B400943B53 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D8CB87F194898B400943B53 /* Foundation.framework */; };
 		3D8CB8B71948994500943B53 /* base64-decode.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CB8A61948994500943B53 /* base64-decode.c */; };
 		3D8CB8B81948994500943B53 /* client-handshake.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CB8A71948994500943B53 /* client-handshake.c */; };
@@ -48,9 +55,6 @@
 		3D8CB8DC1948996200943B53 /* strconv.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CB8D11948996200943B53 /* strconv.c */; };
 		3D8CB8DD1948996200943B53 /* utf.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CB8D21948996200943B53 /* utf.c */; };
 		3D8CB8DE1948996200943B53 /* value.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CB8D31948996200943B53 /* value.c */; };
-		3D8CB8FC194899FB00943B53 /* client.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CB8F9194899FB00943B53 /* client.cpp */; };
-		3D8CB8FD194899FB00943B53 /* message.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CB8FA194899FB00943B53 /* message.cpp */; };
-		3D8CB8FE194899FB00943B53 /* variant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CB8FB194899FB00943B53 /* variant.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -66,25 +70,32 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		3D3968331949E83B0073A7E8 /* classmethodwrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = classmethodwrapper.h; path = ../../private/classmethodwrapper.h; sourceTree = "<group>"; };
-		3D3968341949E83B0073A7E8 /* jsonutils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = jsonutils.h; path = ../../private/jsonutils.h; sourceTree = "<group>"; };
-		3D3968351949E83B0073A7E8 /* jsonutils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = jsonutils.cpp; path = ../../private/jsonutils.cpp; sourceTree = "<group>"; };
-		3D3968361949E83B0073A7E8 /* REBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REBuffer.cpp; path = ../../private/REBuffer.cpp; sourceTree = "<group>"; };
-		3D3968381949E83B0073A7E8 /* REMutableString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REMutableString.cpp; path = ../../private/REMutableString.cpp; sourceTree = "<group>"; };
-		3D3968391949E83B0073A7E8 /* REMutex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = REMutex.h; path = ../../private/REMutex.h; sourceTree = "<group>"; };
-		3D39683A1949E83B0073A7E8 /* REMutex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REMutex.cpp; path = ../../private/REMutex.cpp; sourceTree = "<group>"; };
-		3D39683B1949E83B0073A7E8 /* REString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REString.cpp; path = ../../private/REString.cpp; sourceTree = "<group>"; };
-		3D39683C1949E83B0073A7E8 /* REStringBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REStringBase.cpp; path = ../../private/REStringBase.cpp; sourceTree = "<group>"; };
-		3D39683D1949E83B0073A7E8 /* REStringUtilsPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = REStringUtilsPrivate.h; path = ../../private/REStringUtilsPrivate.h; sourceTree = "<group>"; };
-		3D39683E1949E83B0073A7E8 /* REStringUtilsPrivate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REStringUtilsPrivate.cpp; path = ../../private/REStringUtilsPrivate.cpp; sourceTree = "<group>"; };
-		3D39683F1949E83B0073A7E8 /* REThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = REThread.h; path = ../../private/REThread.h; sourceTree = "<group>"; };
-		3D3968401949E83B0073A7E8 /* REThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REThread.cpp; path = ../../private/REThread.cpp; sourceTree = "<group>"; };
-		3D3968411949E83B0073A7E8 /* REWideString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REWideString.cpp; path = ../../private/REWideString.cpp; sourceTree = "<group>"; };
-		3D3968421949E83B0073A7E8 /* transport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = transport.h; path = ../../private/transport.h; sourceTree = "<group>"; };
-		3D3968431949E83B0073A7E8 /* transport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = transport.cpp; path = ../../private/transport.cpp; sourceTree = "<group>"; };
-		3D3968441949E83B0073A7E8 /* websocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = websocket.h; path = ../../private/websocket.h; sourceTree = "<group>"; };
-		3D3968451949E83B0073A7E8 /* websocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = websocket.cpp; path = ../../private/websocket.cpp; sourceTree = "<group>"; };
-		3D3968531949FF4C0073A7E8 /* REStringList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REStringList.cpp; path = ../../private/REStringList.cpp; sourceTree = "<group>"; };
+		3D12B466194AF31000B8E9D9 /* classmethodwrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = classmethodwrapper.h; path = ../../src/classmethodwrapper.h; sourceTree = "<group>"; };
+		3D12B467194AF31000B8E9D9 /* client.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = client.cpp; path = ../../src/client.cpp; sourceTree = "<group>"; };
+		3D12B468194AF31000B8E9D9 /* jsonutils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = jsonutils.cpp; path = ../../src/jsonutils.cpp; sourceTree = "<group>"; };
+		3D12B469194AF31000B8E9D9 /* jsonutils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = jsonutils.h; path = ../../src/jsonutils.h; sourceTree = "<group>"; };
+		3D12B46A194AF31000B8E9D9 /* message.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = message.cpp; path = ../../src/message.cpp; sourceTree = "<group>"; };
+		3D12B46B194AF31000B8E9D9 /* REBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REBuffer.cpp; path = ../../src/REBuffer.cpp; sourceTree = "<group>"; };
+		3D12B46C194AF31000B8E9D9 /* REBufferNoCopy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REBufferNoCopy.cpp; path = ../../src/REBufferNoCopy.cpp; sourceTree = "<group>"; };
+		3D12B46D194AF31000B8E9D9 /* REMutableString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REMutableString.cpp; path = ../../src/REMutableString.cpp; sourceTree = "<group>"; };
+		3D12B46E194AF31000B8E9D9 /* REMutex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REMutex.cpp; path = ../../src/REMutex.cpp; sourceTree = "<group>"; };
+		3D12B46F194AF31000B8E9D9 /* REMutex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = REMutex.h; path = ../../src/REMutex.h; sourceTree = "<group>"; };
+		3D12B470194AF31000B8E9D9 /* REStaticString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REStaticString.cpp; path = ../../src/REStaticString.cpp; sourceTree = "<group>"; };
+		3D12B471194AF31000B8E9D9 /* REString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REString.cpp; path = ../../src/REString.cpp; sourceTree = "<group>"; };
+		3D12B472194AF31000B8E9D9 /* REStringBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REStringBase.cpp; path = ../../src/REStringBase.cpp; sourceTree = "<group>"; };
+		3D12B473194AF31000B8E9D9 /* REStringList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REStringList.cpp; path = ../../src/REStringList.cpp; sourceTree = "<group>"; };
+		3D12B474194AF31000B8E9D9 /* REStringUtilsPrivate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REStringUtilsPrivate.cpp; path = ../../src/REStringUtilsPrivate.cpp; sourceTree = "<group>"; };
+		3D12B475194AF31000B8E9D9 /* REStringUtilsPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = REStringUtilsPrivate.h; path = ../../src/REStringUtilsPrivate.h; sourceTree = "<group>"; };
+		3D12B476194AF31000B8E9D9 /* REThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REThread.cpp; path = ../../src/REThread.cpp; sourceTree = "<group>"; };
+		3D12B477194AF31000B8E9D9 /* REThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = REThread.h; path = ../../src/REThread.h; sourceTree = "<group>"; };
+		3D12B478194AF31000B8E9D9 /* REWideString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REWideString.cpp; path = ../../src/REWideString.cpp; sourceTree = "<group>"; };
+		3D12B479194AF31000B8E9D9 /* transport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = transport.cpp; path = ../../src/transport.cpp; sourceTree = "<group>"; };
+		3D12B47A194AF31000B8E9D9 /* transport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = transport.h; path = ../../src/transport.h; sourceTree = "<group>"; };
+		3D12B47B194AF31000B8E9D9 /* variant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = variant.cpp; path = ../../src/variant.cpp; sourceTree = "<group>"; };
+		3D12B47C194AF31000B8E9D9 /* variantlist.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = variantlist.cpp; path = ../../src/variantlist.cpp; sourceTree = "<group>"; };
+		3D12B47D194AF31000B8E9D9 /* variantmap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = variantmap.cpp; path = ../../src/variantmap.cpp; sourceTree = "<group>"; };
+		3D12B47E194AF31000B8E9D9 /* websocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = websocket.cpp; path = ../../src/websocket.cpp; sourceTree = "<group>"; };
+		3D12B47F194AF31000B8E9D9 /* websocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = websocket.h; path = ../../src/websocket.h; sourceTree = "<group>"; };
 		3D8CB87C194898B400943B53 /* libfayecpp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libfayecpp.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D8CB87F194898B400943B53 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3D8CB890194898B400943B53 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -117,9 +128,6 @@
 		3D8CB8D21948996200943B53 /* utf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = utf.c; path = ../../jansson/src/utf.c; sourceTree = "<group>"; };
 		3D8CB8D31948996200943B53 /* value.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = value.c; path = ../../jansson/src/value.c; sourceTree = "<group>"; };
 		3D8CB8F8194899FB00943B53 /* fayecpp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fayecpp.h; path = ../../fayecpp.h; sourceTree = "<group>"; };
-		3D8CB8F9194899FB00943B53 /* client.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = client.cpp; path = ../../client.cpp; sourceTree = "<group>"; };
-		3D8CB8FA194899FB00943B53 /* message.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = message.cpp; path = ../../message.cpp; sourceTree = "<group>"; };
-		3D8CB8FB194899FB00943B53 /* variant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = variant.cpp; path = ../../variant.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -207,39 +215,43 @@
 		3D8CB8DF194899A300943B53 /* fayecpp */ = {
 			isa = PBXGroup;
 			children = (
-				3D8CB8E2194899E500943B53 /* private */,
+				3D8CB8E2194899E500943B53 /* src */,
 				3D8CB8F8194899FB00943B53 /* fayecpp.h */,
-				3D8CB8F9194899FB00943B53 /* client.cpp */,
-				3D8CB8FA194899FB00943B53 /* message.cpp */,
-				3D8CB8FB194899FB00943B53 /* variant.cpp */,
 			);
 			name = fayecpp;
 			sourceTree = "<group>";
 		};
-		3D8CB8E2194899E500943B53 /* private */ = {
+		3D8CB8E2194899E500943B53 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				3D3968331949E83B0073A7E8 /* classmethodwrapper.h */,
-				3D3968341949E83B0073A7E8 /* jsonutils.h */,
-				3D3968351949E83B0073A7E8 /* jsonutils.cpp */,
-				3D3968361949E83B0073A7E8 /* REBuffer.cpp */,
-				3D3968381949E83B0073A7E8 /* REMutableString.cpp */,
-				3D3968391949E83B0073A7E8 /* REMutex.h */,
-				3D39683A1949E83B0073A7E8 /* REMutex.cpp */,
-				3D39683B1949E83B0073A7E8 /* REString.cpp */,
-				3D39683C1949E83B0073A7E8 /* REStringBase.cpp */,
-				3D3968531949FF4C0073A7E8 /* REStringList.cpp */,
-				3D39683D1949E83B0073A7E8 /* REStringUtilsPrivate.h */,
-				3D39683E1949E83B0073A7E8 /* REStringUtilsPrivate.cpp */,
-				3D39683F1949E83B0073A7E8 /* REThread.h */,
-				3D3968401949E83B0073A7E8 /* REThread.cpp */,
-				3D3968411949E83B0073A7E8 /* REWideString.cpp */,
-				3D3968421949E83B0073A7E8 /* transport.h */,
-				3D3968431949E83B0073A7E8 /* transport.cpp */,
-				3D3968441949E83B0073A7E8 /* websocket.h */,
-				3D3968451949E83B0073A7E8 /* websocket.cpp */,
+				3D12B466194AF31000B8E9D9 /* classmethodwrapper.h */,
+				3D12B467194AF31000B8E9D9 /* client.cpp */,
+				3D12B468194AF31000B8E9D9 /* jsonutils.cpp */,
+				3D12B469194AF31000B8E9D9 /* jsonutils.h */,
+				3D12B46A194AF31000B8E9D9 /* message.cpp */,
+				3D12B46B194AF31000B8E9D9 /* REBuffer.cpp */,
+				3D12B46C194AF31000B8E9D9 /* REBufferNoCopy.cpp */,
+				3D12B46D194AF31000B8E9D9 /* REMutableString.cpp */,
+				3D12B46E194AF31000B8E9D9 /* REMutex.cpp */,
+				3D12B46F194AF31000B8E9D9 /* REMutex.h */,
+				3D12B470194AF31000B8E9D9 /* REStaticString.cpp */,
+				3D12B471194AF31000B8E9D9 /* REString.cpp */,
+				3D12B472194AF31000B8E9D9 /* REStringBase.cpp */,
+				3D12B473194AF31000B8E9D9 /* REStringList.cpp */,
+				3D12B474194AF31000B8E9D9 /* REStringUtilsPrivate.cpp */,
+				3D12B475194AF31000B8E9D9 /* REStringUtilsPrivate.h */,
+				3D12B476194AF31000B8E9D9 /* REThread.cpp */,
+				3D12B477194AF31000B8E9D9 /* REThread.h */,
+				3D12B478194AF31000B8E9D9 /* REWideString.cpp */,
+				3D12B479194AF31000B8E9D9 /* transport.cpp */,
+				3D12B47A194AF31000B8E9D9 /* transport.h */,
+				3D12B47B194AF31000B8E9D9 /* variant.cpp */,
+				3D12B47C194AF31000B8E9D9 /* variantlist.cpp */,
+				3D12B47D194AF31000B8E9D9 /* variantmap.cpp */,
+				3D12B47E194AF31000B8E9D9 /* websocket.cpp */,
+				3D12B47F194AF31000B8E9D9 /* websocket.h */,
 			);
-			name = private;
+			name = src;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -293,48 +305,52 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3D3968481949E83B0073A7E8 /* REMutableString.cpp in Sources */,
+				3D12B487194AF31000B8E9D9 /* REMutableString.cpp in Sources */,
 				3D8CB8DD1948996200943B53 /* utf.c in Sources */,
 				3D8CB8D51948996200943B53 /* error.c in Sources */,
-				3D39684A1949E83B0073A7E8 /* REString.cpp in Sources */,
 				3D8CB8D81948996200943B53 /* load.c in Sources */,
 				3D8CB8BA1948994500943B53 /* client.c in Sources */,
+				3D12B48A194AF31000B8E9D9 /* REString.cpp in Sources */,
+				3D12B492194AF31000B8E9D9 /* variantlist.cpp in Sources */,
 				3D8CB8C11948994500943B53 /* libwebsockets.c in Sources */,
+				3D12B486194AF31000B8E9D9 /* REBufferNoCopy.cpp in Sources */,
 				3D8CB8BE1948994500943B53 /* extension.c in Sources */,
 				3D8CB8BD1948994500943B53 /* extension-deflate-stream.c in Sources */,
 				3D8CB8BB1948994500943B53 /* context.c in Sources */,
 				3D8CB8D71948996200943B53 /* hashtable_seed.c in Sources */,
-				3D3968461949E83B0073A7E8 /* jsonutils.cpp in Sources */,
+				3D12B48F194AF31000B8E9D9 /* REWideString.cpp in Sources */,
 				3D8CB8D41948996200943B53 /* dump.c in Sources */,
-				3D3968501949E83B0073A7E8 /* websocket.cpp in Sources */,
 				3D8CB8B81948994500943B53 /* client-handshake.c in Sources */,
-				3D3968491949E83B0073A7E8 /* REMutex.cpp in Sources */,
+				3D12B493194AF31000B8E9D9 /* variantmap.cpp in Sources */,
+				3D12B48C194AF31000B8E9D9 /* REStringList.cpp in Sources */,
+				3D12B48E194AF31000B8E9D9 /* REThread.cpp in Sources */,
+				3D12B488194AF31000B8E9D9 /* REMutex.cpp in Sources */,
 				3D8CB8D91948996200943B53 /* memory.c in Sources */,
+				3D12B484194AF31000B8E9D9 /* message.cpp in Sources */,
 				3D8CB8DC1948996200943B53 /* strconv.c in Sources */,
-				3D39684B1949E83B0073A7E8 /* REStringBase.cpp in Sources */,
+				3D12B491194AF31000B8E9D9 /* variant.cpp in Sources */,
+				3D12B490194AF31000B8E9D9 /* transport.cpp in Sources */,
+				3D12B485194AF31000B8E9D9 /* REBuffer.cpp in Sources */,
 				3D8CB8DE1948996200943B53 /* value.c in Sources */,
-				3D8CB8FD194899FB00943B53 /* message.cpp in Sources */,
 				3D8CB8C01948994500943B53 /* handshake.c in Sources */,
-				3D3968471949E83B0073A7E8 /* REBuffer.cpp in Sources */,
-				3D39684D1949E83B0073A7E8 /* REThread.cpp in Sources */,
-				3D39684F1949E83B0073A7E8 /* transport.cpp in Sources */,
+				3D12B482194AF31000B8E9D9 /* client.cpp in Sources */,
 				3D8CB8DB1948996200943B53 /* strbuffer.c in Sources */,
-				3D39684E1949E83B0073A7E8 /* REWideString.cpp in Sources */,
 				3D8CB8C51948994500943B53 /* pollfd.c in Sources */,
-				3D3968541949FF4C0073A7E8 /* REStringList.cpp in Sources */,
 				3D8CB8BC1948994500943B53 /* extension-deflate-frame.c in Sources */,
+				3D12B483194AF31000B8E9D9 /* jsonutils.cpp in Sources */,
+				3D12B48D194AF31000B8E9D9 /* REStringUtilsPrivate.cpp in Sources */,
 				3D8CB8C71948994500943B53 /* sha-1.c in Sources */,
 				3D8CB8D61948996200943B53 /* hashtable.c in Sources */,
-				3D8CB8FC194899FB00943B53 /* client.cpp in Sources */,
 				3D8CB8B71948994500943B53 /* base64-decode.c in Sources */,
-				3D39684C1949E83B0073A7E8 /* REStringUtilsPrivate.cpp in Sources */,
 				3D8CB8C31948994500943B53 /* output.c in Sources */,
+				3D12B489194AF31000B8E9D9 /* REStaticString.cpp in Sources */,
 				3D8CB8C61948994500943B53 /* service.c in Sources */,
+				3D12B494194AF31000B8E9D9 /* websocket.cpp in Sources */,
 				3D8CB8C21948994500943B53 /* lws-plat-unix.c in Sources */,
 				3D8CB8BF1948994500943B53 /* getifaddrs.c in Sources */,
 				3D8CB8C41948994500943B53 /* parsers.c in Sources */,
 				3D8CB8DA1948996200943B53 /* pack_unpack.c in Sources */,
-				3D8CB8FE194899FB00943B53 /* variant.cpp in Sources */,
+				3D12B48B194AF31000B8E9D9 /* REStringBase.cpp in Sources */,
 				3D8CB8B91948994500943B53 /* client-parser.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

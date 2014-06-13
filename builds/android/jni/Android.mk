@@ -29,22 +29,27 @@ LOCAL_SRC_FILES := \
 	../../../jansson/src/strbuffer.c \
 	../../../jansson/src/strconv.c \
 	../../../jansson/src/utf.c \
-	../../../jansson/src/value.c \
-	../../../private/jsonutils.cpp \
-	../../../private/REBuffer.cpp \
-	../../../private/REMutableString.cpp \
-	../../../private/REString.cpp \
-	../../../private/REStringBase.cpp \
-	../../../private/REStringList.cpp \
-	../../../private/REStringUtilsPrivate.cpp \
-	../../../private/REWideString.cpp \
-	../../../private/REMutex.cpp \
-	../../../private/REThread.cpp \
-	../../../private/transport.cpp \
-	../../../private/websocket.cpp \
-	../../../client.cpp \
-	../../../message.cpp \
-	../../../variant.cpp
+	../../../jansson/src/value.c \	
+	../../../src/client.cpp \
+	../../../src/jsonutils.cpp \
+	../../../src/message.cpp \
+	../../../src/REBuffer.cpp \
+	../../../src/REBufferNoCopy.cpp \
+	../../../src/REMutableString.cpp \
+	../../../src/REMutex.cpp \
+	../../../src/REStaticString.cpp \
+	../../../src/REString.cpp \
+	../../../src/REStringBase.cpp \
+	../../../src/REStringList.cpp \
+	../../../src/REStringUtilsPrivate.cpp \
+	../../../src/REThread.cpp \
+	../../../src/REWideString.cpp \
+	../../../src/transport.cpp \
+	../../../src/variant.cpp \
+	../../../src/variantlist.cpp \
+	../../../src/variantmap.cpp \
+	../../../src/websocket.cpp
+
 
 LOCAL_C_INCLUDES += \
 	$(LOCAL_PATH)/../ \

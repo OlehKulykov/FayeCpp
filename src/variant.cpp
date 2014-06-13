@@ -15,7 +15,7 @@
  */
 
 
-#include "fayecpp.h"
+#include "../fayecpp.h"
 
 #if defined(HAVE_FAYECPP_CONFIG_H)
 #include "fayecpp_config.h"
@@ -29,9 +29,9 @@ namespace FayeCpp {
 		{
 			switch (_t)
 			{
-				case TypeString: delete (std::string *)_u.pointerValue; break;
-				case TypeMap: delete (std::map<std::string, Variant> *)_u.pointerValue; break;
-				case TypeList: delete (std::list<Variant> *)_u.pointerValue; break;
+				case TypeString: delete (REString *)_u.pointerValue; break;
+				case TypeMap: delete (VariantMap *)_u.pointerValue; break;
+				case TypeList: delete (VariantList *)_u.pointerValue; break;
 				default: break;
 			}
 		}
@@ -144,10 +144,10 @@ namespace FayeCpp {
 		_t = TypeBool;
 		return *this;
 	}
-	Variant & Variant::operator=(const std::string & s)
+	Variant & Variant::operator=(const REString & s)
 	{
 		this->clean();
-		std::string * p = new std::string(s);
+		REString * p = new REString(s);
 		if (p)
 		{
 			_u.pointerValue = p;
@@ -160,7 +160,7 @@ namespace FayeCpp {
 		this->clean();
 		if (s)
 		{
-			std::string * p = new std::string(s);
+			REString * p = new REString(s);
 			if (p)
 			{
 				_u.pointerValue = p;
@@ -170,10 +170,25 @@ namespace FayeCpp {
 		return *this;
 	}
 	
-	Variant & Variant::operator=(const std::map<std::string, Variant> & m)
+	Variant & Variant::operator=(const wchar_t * s)
 	{
 		this->clean();
-		std::map<std::string, Variant> * p = new std::map<std::string, Variant>(m);
+		if (s)
+		{
+			REString * p = new REString(s);
+			if (p)
+			{
+				_u.pointerValue = p;
+				_t = TypeString;
+			}
+		}
+		return *this;
+	}
+	
+	Variant & Variant::operator=(const VariantMap & m)
+	{
+		this->clean();
+		VariantMap * p = new VariantMap(m);
 		if (p)
 		{
 			_u.pointerValue = p;
@@ -181,10 +196,10 @@ namespace FayeCpp {
 		}
 		return *this;
 	}
-	Variant & Variant::operator=(const std::list<Variant> & l)
+	Variant & Variant::operator=(const VariantList & l)
 	{
 		this->clean();
-		std::list<Variant> * p = new std::list<Variant>(l);
+		VariantList * p = new VariantList(l);
 		if (p)
 		{
 			_u.pointerValue = p;
@@ -205,34 +220,34 @@ namespace FayeCpp {
 		return *this;
 	}
 	
-	const std::string & Variant::string() const
+	const REString & Variant::string() const
 	{
-		return *(const std::string *)_u.pointerValue;
+		return *(const REString *)_u.pointerValue;
 	}
 	
-	const std::map<std::string, Variant> & Variant::map() const
+	const VariantMap & Variant::map() const
 	{
-		return *(const std::map<std::string, Variant> *)_u.pointerValue;
+		return *(const VariantMap *)_u.pointerValue;
 	}
 	
-	const std::list<Variant> & Variant::list() const
+	const VariantList & Variant::list() const
 	{
-		return *((std::list<Variant> *)_u.pointerValue);
+		return *((VariantList *)_u.pointerValue);
 	}
 	
-	std::string & Variant::string()
+	REString & Variant::string()
 	{
-		return *(std::string *)_u.pointerValue;
+		return *(REString *)_u.pointerValue;
 	}
 	
-	std::map<std::string, Variant> & Variant::map()
+	VariantMap & Variant::map()
 	{
-		return *((std::map<std::string, Variant> *)_u.pointerValue);
+		return *((VariantMap *)_u.pointerValue);
 	}
 	
-	std::list<Variant> & Variant::list()
+	VariantList & Variant::list()
 	{
-		return *((std::list<Variant> *)_u.pointerValue);
+		return *((VariantList *)_u.pointerValue);
 	}
 	
 	Variant::Variant() :
@@ -297,21 +312,28 @@ namespace FayeCpp {
 		*this = v;
 	}
 	
-	Variant::Variant(const std::string & v) :
+	Variant::Variant(const wchar_t * v) :
 		_t(TypeNone)
 	{
 		memset(&_u, 0, sizeof(VariantUnion));
 		*this = v;
 	}
 	
-	Variant::Variant(const std::map<std::string, Variant> & v) :
+	Variant::Variant(const REString & v) :
 		_t(TypeNone)
 	{
 		memset(&_u, 0, sizeof(VariantUnion));
 		*this = v;
 	}
 	
-	Variant::Variant(const std::list<Variant> & v) :
+	Variant::Variant(const VariantMap & v) :
+		_t(TypeNone)
+	{
+		memset(&_u, 0, sizeof(VariantUnion));
+		*this = v;
+	}
+	
+	Variant::Variant(const VariantList & v) :
 		_t(TypeNone)
 	{
 		memset(&_u, 0, sizeof(VariantUnion));

@@ -153,6 +153,7 @@ CHECK_INCLUDE_FILE("sys/time.h" HAVE_SYS_TIME_H)
 CHECK_INCLUDE_FILE("time.h" HAVE_TIME_H)
 CHECK_INCLUDE_FILE("sys/time.h" HAVE_SYS_TIME_H)
 CHECK_INCLUDE_FILE("locale.h" HAVE_LOCALE_H)
+CHECK_INCLUDE_FILE("assert.h" HAVE_ASSERT_H)
 CHECK_INCLUDE_FILE("sys/stat.h" HAVE_SYS_STAT_H)
 if(HAVE_SYS_STAT_H)
 	LIST(APPEND CMAKE_EXTRA_INCLUDE_FILES sys/stat.h)
@@ -467,22 +468,25 @@ include_directories(${PROJECT_BINARY_DIR})
 
 
 
-set(FAYECPP_SOURCES	private/REBuffer.cpp
-				private/REMutableString.cpp
-				private/REString.cpp
-				private/REStringBase.cpp
-				private/REStringList.cpp
-				private/REStringUtilsPrivate.cpp
-				private/REWideString.cpp
-				private/REMutex.cpp
-				private/REThread.cpp
-				private/transport.cpp
-				private/jsonutils.cpp
-				private/websocket.cpp
-				private/websocketqt.cpp
-				message.cpp
-				variant.cpp
-				client.cpp
+set(FAYECPP_SOURCES	src/client.cpp
+		src/jsonutils.cpp
+		src/message.cpp
+		src/REBuffer.cpp
+		src/REBufferNoCopy.cpp
+		src/REMutableString.cpp
+		src/REMutex.cpp
+		src/REStaticString.cpp
+		src/REString.cpp
+		src/REStringBase.cpp
+		src/REStringList.cpp
+		src/REStringUtilsPrivate.cpp
+		src/REThread.cpp
+		src/REWideString.cpp
+		src/transport.cpp
+		src/variant.cpp
+		src/variantlist.cpp
+		src/variantmap.cpp
+		src/websocket.cpp
 				)
 				
 

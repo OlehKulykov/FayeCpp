@@ -31,7 +31,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <libwebsockets.h>
+#if defined(HAVE_ASSERT_H)
+#include <assert.h>
+#endif
 
 namespace FayeCpp {
 	
@@ -122,10 +124,11 @@ namespace FayeCpp {
 		WriteBuffer * buffer = NULL;
 		
 		this->writeLock();
-		if (!_writeBuffers.empty())
+		REList<WriteBuffer *>::Iterator i = _writeBuffers.iterator();
+		while (!buffer && i.next()) 
 		{
-			buffer = _writeBuffers.front();
-			_writeBuffers.pop_front();
+			buffer = i.value();
+			_writeBuffers.removeNode(i.node());
 		}
 		this->writeUnlock();
 		
@@ -157,7 +160,7 @@ namespace FayeCpp {
 			return -1;
 		}
 		
-		if (!_writeBuffers.empty())
+		if (!_writeBuffers.isEmpty())
 		{
 			libwebsocket_callback_on_writable(context, connection);
 		}
@@ -178,7 +181,7 @@ namespace FayeCpp {
 #ifdef FAYECPP_DEBUG_MESSAGES
 			fprintf(stdout, "WILL WRITE %i bytes: %s\n", (int)buffer->size(), (char *)buffer->buffer());
 #endif
-			_writeBuffers.push_back(buffer);
+			_writeBuffers.add(buffer);
 		}
 		else
 		{
@@ -238,9 +241,10 @@ namespace FayeCpp {
 		}
 		_connection = NULL;
 		
-		for (std::list<WriteBuffer *>::iterator i = _writeBuffers.begin(); i != _writeBuffers.end(); ++i)
+		REList<WriteBuffer *>::Iterator i = _writeBuffers.iterator();
+		while (i.next()) 
 		{
-			WriteBuffer * b = *i;
+			WriteBuffer * b = i.value();
 			delete b;
 		}
 		_writeBuffers.clear();
@@ -331,8 +335,11 @@ namespace FayeCpp {
 		_writeMutex(new REMutex())
 	{
 		memset(&_info, 0, sizeof(struct lws_context_creation_info));
-		
+
+#if defined(HAVE_ASSERT_H)		
 		assert(_writeMutex);
+#endif
+		
         _writeMutex->init(REMutex::REMutexTypeRecursive);
 		
 		REThread::isMainThread();

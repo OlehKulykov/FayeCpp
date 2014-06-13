@@ -15,50 +15,27 @@
  */
 
 
-#include "../fayecpp.h"
+#ifndef __FAYECPP_JSON_UTILS_H__
+#define __FAYECPP_JSON_UTILS_H__
 
+#include "../fayecpp.h"
 
 namespace FayeCpp {
 	
-	const Variant & VariantMap::operator[](const char * key) const
+	class JsonUtils
 	{
+	public:
+		/**
+		 @return Free C string after using.
+		 */
+		static char * toJsonCString(const VariantMap & message);
 		
-	}
+		/**
+		 @return Free C string after using.
+		 */
+        static char * toJsonCString(const VariantList & message);
+	};
 	
-	const Variant & VariantMap::operator[](const REString & key) const
-	{
-		
-	}
-	
-    Variant & VariantMap::operator[](const char * key)
-	{
-		
-	}
-	
-	Variant & VariantMap::operator[](const REString & key)
-	{
-		
-	}
-	
-	VariantMap & VariantMap::operator=(const VariantMap & map)
-	{
-		
-	}
-	
-	VariantMap::VariantMap(const VariantMap & map)
-	{
-		
-	}
-	
-	VariantMap::VariantMap()
-	{
-		
-	}
-	
-	VariantMap::~VariantMap()
-	{
-		
-	}
-
 }
 
+#endif /* __FAYECPP_JSON_UTILS_H__ */

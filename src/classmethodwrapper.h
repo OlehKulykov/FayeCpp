@@ -23,7 +23,7 @@
 namespace FayeCpp {
 
 template<class T, typename MethodTypeName, class PT>
-class ClassMethodWrapper
+class __RE_PUBLIC_CLASS_API__ ClassMethodWrapper
 {
 protected:
     T * _classPointer;

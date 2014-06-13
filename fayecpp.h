@@ -73,15 +73,14 @@
 #endif
 
 
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdint.h>
+#include <string.h>
 #include <limits.h>
 #include <float.h>
-#include <string>
-#include <list>
-#include <map>
-
+#include <wchar.h>
+#include <iostream>
 
 /**
  @brief 8 bit unsigned byte type.
@@ -284,15 +283,18 @@ namespace FayeCpp {
 	
     class Client;
     class Message;
-    class Variant;
-	
-	
+	class VariantList;
+	class VariantMap;
+	class Variant;
+
+	/*
 #if defined(__RE_OS_WINDOWS__) && defined(_MSC_VER)
 	__RE_EXPORT_IMPLEMENTATION_TEMPLATE__ template class __RE_PUBLIC_CLASS_API__ std::map<std::string, FayeCpp::Variant>;
 #endif
+	*/
 	
 	template <typename PointerType>
-	class REPtr
+	class __RE_PUBLIC_CLASS_API__ REPtr
 	{
 	private:
 		PointerType* _object;
@@ -445,7 +447,7 @@ namespace FayeCpp {
 	}
 	
 	template <typename T>
-	class REList
+	class __RE_PUBLIC_CLASS_API__ REList
 	{
 	public:
 		class Node;
@@ -678,7 +680,7 @@ namespace FayeCpp {
 	};
 	
 	template <typename TK, typename TV>
-	class REMap
+	class __RE_PUBLIC_CLASS_API__ REMap
 	{
 	public:
 		class Node;
@@ -775,7 +777,7 @@ namespace FayeCpp {
 				return _node->key;
 			}
 			
-			const TK & value() const
+			const TV & value() const
 			{
 				return _node->value;
 			}
@@ -955,6 +957,24 @@ namespace FayeCpp {
 		virtual ~REBuffer();
 	};
 	
+	class __RE_PUBLIC_CLASS_API__ REBufferNoCopy : public REBuffer
+	{
+	public:
+		typedef void(*FreeOriginalBuff)(void * mem);
+		
+	private:
+		REBufferNoCopy::FreeOriginalBuff _freeOriginalBuff;
+		REBOOL _isNeedToFreeOriginalBuff;
+		
+	protected:
+		virtual void freeMemory(void * mem);
+		
+	public:
+		REBufferNoCopy(const void * originalBuff, const REUInt32 buffSize, REBufferNoCopy::FreeOriginalBuff freeOriginalBuff = REBuffer::defaultFree);
+		
+		virtual ~REBufferNoCopy();
+	};
+	
 	typedef enum _reStringType
 	{
 		REStringTypeUTF8 = 0,
@@ -1064,7 +1084,17 @@ namespace FayeCpp {
 		static REString createWithFormat(const char * format, ...);
 	};
 	
-	class REString;
+	class __RE_PUBLIC_CLASS_API__ REStaticString : public REString
+	{
+	private:
+		static void freeNonCopyBuffMem(void * m);
+	public:
+		REStaticString(const char * utf8String, const REUInt32 utf8StringLength = RENotFound);
+		REStaticString(const wchar_t * wideString, const REUInt32 wideStringLength = RENotFound);
+		
+		virtual ~REStaticString();
+	};
+	
 	class REMutableString;
 	
 	class __RE_PUBLIC_CLASS_API__ REWideString : public REStringBase
@@ -1387,7 +1417,7 @@ namespace FayeCpp {
 		 @param channel Non empty, subscribed channel.
 		 @return True - if connected and parameters non empty and sended, othervice false.
 		 */
-		bool sendMessageToChannel(const std::map<std::string, Variant> & message, const char * channel);
+		bool sendMessageToChannel(const VariantMap & message, const char * channel);
 		
 		
 		/**
@@ -1767,7 +1797,6 @@ namespace FayeCpp {
         static const char * typeToString(const Message::ChannelType type);
 	};
 	
-	
 	class __RE_PUBLIC_CLASS_API__ Variant
 	{
 	public:
@@ -1820,25 +1849,26 @@ namespace FayeCpp {
 		Variant & operator=(unsigned long long v);
 		Variant & operator=(long double v);
 		Variant & operator=(bool v);
-		Variant & operator=(const std::string & s);
+		Variant & operator=(const REString & s);
 		Variant & operator=(const char * s);
+		Variant & operator=(const wchar_t * s);
 		
-		Variant & operator=(const std::map<std::string, Variant> & m);
-		Variant & operator=(const std::list<Variant> & l);
+		Variant & operator=(const VariantMap & m);
+		Variant & operator=(const VariantList & l);
 		
 		Variant & operator=(const Variant & v);
 		
-		const std::string & string() const;
+		const REString & string() const;
 		
-		const std::map<std::string, Variant> & map() const;
+		const VariantMap & map() const;
 		
-		const std::list<Variant> & list() const;
+		const VariantList & list() const;
 		
-		std::string & string();
+		REString & string();
 		
-		std::map<std::string, Variant> & map();
+		VariantMap & map();
 		
-		std::list<Variant> & list();
+		VariantList & list();
 		
 		Variant();
 		
@@ -1850,9 +1880,10 @@ namespace FayeCpp {
 		Variant(long double v);
 		Variant(bool v);
 		Variant(const char * v);
-		Variant(const std::string & v);
-		Variant(const std::map<std::string, Variant> & v);
-		Variant(const std::list<Variant> & v);
+		Variant(const wchar_t * v);
+		Variant(const REString & v);
+		Variant(const VariantMap & v);
+		Variant(const VariantList & v);
 		Variant(const Variant & v);
 		
 		~Variant();
@@ -1861,9 +1892,11 @@ namespace FayeCpp {
 	class __RE_PUBLIC_CLASS_API__ VariantMap : public REMap<REString, Variant>
 	{
 	public:
-		const Variant & operator[](const char * key) const;
-		const Variant & operator[](const REString & key) const;
+		const Variant operator[](const char * key) const;
+		const Variant operator[](const wchar_t * key) const;
+		const Variant operator[](const REString & key) const;
 		Variant & operator[](const char * key);
+		Variant & operator[](const wchar_t * key);
 		Variant & operator[](const REString & key);
 		VariantMap & operator=(const VariantMap & map);
 		VariantMap(const VariantMap & map);

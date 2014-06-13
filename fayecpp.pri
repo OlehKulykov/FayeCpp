@@ -26,6 +26,8 @@ SOURCES += $$PWD/client.cpp \
            $$PWD/private/REThread.cpp \
            $$PWD/private/REWideString.cpp \
            $$PWD/private/transport.cpp \
+           $$PWD/private/variantlist.cpp \
+           $$PWD/private/variantmap.cpp \
            $$PWD/private/websocketqt.cpp
 
 ## FayeCpp headers

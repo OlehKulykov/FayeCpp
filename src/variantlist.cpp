@@ -15,27 +15,38 @@
  */
 
 
-#ifndef __FAYECPP_JSON_UTILS_H__
-#define __FAYECPP_JSON_UTILS_H__
-
 #include "../fayecpp.h"
+
 
 namespace FayeCpp {
 	
-	class JsonUtils
+    VariantList & VariantList::operator=(const VariantList & list)
 	{
-	public:
-		/**
-		 @return Free C string after using.
-		 */
-		static char * toJsonCString(const std::map<std::string, Variant> & message);
+		this->clear();
 		
-		/**
-		 @return Free C string after using.
-		 */
-        static char * toJsonCString(const std::list<Variant> & message);
-	};
+		VariantList::Iterator i = list.iterator();
+		while (i.next()) 
+		{
+			this->add(i.value());
+		}
+		
+		return *this;
+	}
 	
+	VariantList::VariantList(const VariantList & list)
+	{
+		*this = list;
+	}
+	
+	VariantList::VariantList()
+	{
+		
+	}
+	
+	VariantList::~VariantList()
+	{
+		
+	}
+
 }
 
-#endif /* __FAYECPP_JSON_UTILS_H__ */

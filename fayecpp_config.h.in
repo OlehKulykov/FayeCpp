@@ -90,6 +90,10 @@
 #cmakedefine HAVE_LOCALE_H @HAVE_LOCALE_H@
 
 
+/* assert.h */
+#cmakedefine HAVE_ASSERT_H @HAVE_ASSERT_H@
+
+
 /* sys/stat.h */
 #cmakedefine HAVE_SYS_STAT_H @HAVE_SYS_STAT_H@
 
