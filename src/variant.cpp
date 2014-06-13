@@ -57,6 +57,16 @@ namespace FayeCpp {
 			case TypeUnsignedInteger: return (int64_t)_u.uint64Value; break;
 			case TypeReal: return (int64_t)_u.doubleValue; break;
 			case TypeBool: return _u.boolValue ? (int64_t)1 : (int64_t)0; break;
+			case TypeString:
+			{
+				if (this->string().isDigit())
+				{
+					REBOOL isOk = false;
+					const REInt64 parsedValue = this->string().integerValue(&isOk);
+					if (isOk) return (int64_t)parsedValue;
+				}
+			}
+				break;
 			default: break;
 		}
 		return 0;
@@ -70,6 +80,16 @@ namespace FayeCpp {
 			case TypeUnsignedInteger: return _u.uint64Value; break;
 			case TypeReal: return (uint64_t)_u.doubleValue; break;
 			case TypeBool: return _u.boolValue ? (uint64_t)1 : (uint64_t)0; break;
+			case TypeString:
+			{
+				if (this->string().isDigit())
+				{
+					REBOOL isOk = false;
+					const REInt64 parsedValue = this->string().integerValue(&isOk);
+					if (isOk) return (uint64_t)parsedValue;
+				}
+			}
+				break;
 			default: break;
 		}
 		return 0;
@@ -83,6 +103,16 @@ namespace FayeCpp {
 			case TypeUnsignedInteger: return (double)_u.uint64Value; break;
 			case TypeReal: return (double)_u.doubleValue; break;
 			case TypeBool: return _u.boolValue ? (double)1 : (double)0; break;
+			case TypeString:
+			{
+				if (this->string().isDigit())
+				{
+					REBOOL isOk = false;
+					const REFloat64 parsedValue = this->string().floatValue(&isOk);
+					if (isOk) return (double)parsedValue;
+				}
+			}
+				break;
 			default: break;
 		}
 		return 0;
@@ -96,6 +126,13 @@ namespace FayeCpp {
 			case TypeUnsignedInteger: return _u.uint64Value == 0 ? false: true; break;
 			case TypeReal: return _u.doubleValue == 0 ? false : true; break;
 			case TypeBool: return _u.boolValue; break;
+			case TypeString:
+			{
+				REMutableString s = this->string().mutableString();
+				s.toLower();
+				if (s.isEqual("true")) return true;
+			}
+				break;
 			default: break;
 		}
 		return false;
