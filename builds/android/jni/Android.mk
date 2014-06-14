@@ -35,6 +35,7 @@ LOCAL_SRC_FILES := \
 	../../../src/message.cpp \
 	../../../src/REBuffer.cpp \
 	../../../src/REBufferNoCopy.cpp \
+	../../../src/RELog.cpp \
 	../../../src/REMutableString.cpp \
 	../../../src/REMutex.cpp \
 	../../../src/REStaticString.cpp \

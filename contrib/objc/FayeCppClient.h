@@ -207,7 +207,7 @@ unsubscribedFromChannel:(NSString *) channel;
 
 
 /**
- @brief GEtter for faye client delegate.
+ @brief Getter for faye client delegate.
  */
 - (id<FayeCppClientDelegate>) delegate;
 

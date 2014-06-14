@@ -917,6 +917,17 @@ namespace FayeCpp {
 		}
 	};
 	
+	/// Class using for logining text messages.
+	class __RE_PUBLIC_CLASS_API__ RELog
+	{
+	public:
+		/// Log message with arguments.
+		static void log(const char * logString, ...);
+		
+		/// Log message with arguments.
+		static void logA(const char * logString, va_list arguments);
+	};
+	
 	class REString;
 	
 	/// Class of memory buffer.

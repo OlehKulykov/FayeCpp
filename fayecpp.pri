@@ -17,6 +17,7 @@ SOURCES += $$PWD/src/client.cpp \
            $$PWD/src/message.cpp \
            $$PWD/src/REBuffer.cpp \
            $$PWD/src/REBufferNoCopy.cpp \
+           $$PWD/src/RELog.cpp \
            $$PWD/src/REMutableString.cpp \
            $$PWD/src/REMutex.cpp \
            $$PWD/src/REStaticString.cpp \

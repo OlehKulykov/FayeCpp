@@ -26,6 +26,7 @@
 		3D12B492194AF31000B8E9D9 /* variantlist.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B47C194AF31000B8E9D9 /* variantlist.cpp */; };
 		3D12B493194AF31000B8E9D9 /* variantmap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B47D194AF31000B8E9D9 /* variantmap.cpp */; };
 		3D12B494194AF31000B8E9D9 /* websocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B47E194AF31000B8E9D9 /* websocket.cpp */; };
+		3D50938B194D0AFF000EF310 /* RELog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D50938A194D0AFF000EF310 /* RELog.cpp */; };
 		3D8CB880194898B400943B53 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D8CB87F194898B400943B53 /* Foundation.framework */; };
 		3D8CB8B71948994500943B53 /* base64-decode.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CB8A61948994500943B53 /* base64-decode.c */; };
 		3D8CB8B81948994500943B53 /* client-handshake.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CB8A71948994500943B53 /* client-handshake.c */; };
@@ -96,6 +97,7 @@
 		3D12B47D194AF31000B8E9D9 /* variantmap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = variantmap.cpp; path = ../../src/variantmap.cpp; sourceTree = "<group>"; };
 		3D12B47E194AF31000B8E9D9 /* websocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = websocket.cpp; path = ../../src/websocket.cpp; sourceTree = "<group>"; };
 		3D12B47F194AF31000B8E9D9 /* websocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = websocket.h; path = ../../src/websocket.h; sourceTree = "<group>"; };
+		3D50938A194D0AFF000EF310 /* RELog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RELog.cpp; path = ../../src/RELog.cpp; sourceTree = "<group>"; };
 		3D8CB87C194898B400943B53 /* libfayecpp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libfayecpp.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D8CB87F194898B400943B53 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3D8CB890194898B400943B53 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -231,6 +233,7 @@
 				3D12B46A194AF31000B8E9D9 /* message.cpp */,
 				3D12B46B194AF31000B8E9D9 /* REBuffer.cpp */,
 				3D12B46C194AF31000B8E9D9 /* REBufferNoCopy.cpp */,
+				3D50938A194D0AFF000EF310 /* RELog.cpp */,
 				3D12B46D194AF31000B8E9D9 /* REMutableString.cpp */,
 				3D12B46E194AF31000B8E9D9 /* REMutex.cpp */,
 				3D12B46F194AF31000B8E9D9 /* REMutex.h */,
@@ -308,6 +311,7 @@
 				3D12B487194AF31000B8E9D9 /* REMutableString.cpp in Sources */,
 				3D8CB8DD1948996200943B53 /* utf.c in Sources */,
 				3D8CB8D51948996200943B53 /* error.c in Sources */,
+				3D50938B194D0AFF000EF310 /* RELog.cpp in Sources */,
 				3D8CB8D81948996200943B53 /* load.c in Sources */,
 				3D8CB8BA1948994500943B53 /* client.c in Sources */,
 				3D12B48A194AF31000B8E9D9 /* REString.cpp in Sources */,

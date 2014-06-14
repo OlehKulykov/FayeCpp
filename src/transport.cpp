@@ -36,9 +36,6 @@
 
 #include <assert.h>
 
-#if defined(HAVE_SUITABLE_QT_VERSION) && defined(FAYECPP_DEBUG_MESSAGES)
-#include <QDebug>
-#endif
 
 namespace FayeCpp {
 	
@@ -71,11 +68,7 @@ namespace FayeCpp {
 	void Transport::onTextReceived(const char * text)
 	{
 #ifdef FAYECPP_DEBUG_MESSAGES
-#ifdef HAVE_SUITABLE_QT_VERSION
-		qDebug() << "TRANSPORT RECEIVED:" << text;
-#else		
-		fprintf(stderr, "TRANSPORT RECEIVED: %s\n", text);
-#endif		
+		RELog::log("TRANSPORT RECEIVED: %s", text);
 #endif
 		Responce message;
         message.setMessageText(text).setType(Responce::ResponceMessage);
@@ -92,11 +85,7 @@ namespace FayeCpp {
 	void Transport::onError(const REString & error)
 	{
 #ifdef FAYECPP_DEBUG_MESSAGES
-#ifdef HAVE_SUITABLE_QT_VERSION
-		qDebug() << "TRANSPORT ERROR:" << error.UTF8String();
-#else		
-		fprintf(stderr, "TRANSPORT ERROR: %s\n", error.UTF8String());
-#endif		
+		RELog::log("TRANSPORT ERROR: %s", error.UTF8String());
 #endif
 		Responce message;
         message.setType(Responce::ResponceTransportError).setErrorString(error.UTF8String());

@@ -112,7 +112,7 @@ namespace FayeCpp {
 	void WebSocket::onCallbackEstablished()
 	{
 #ifdef FAYECPP_DEBUG_MESSAGES
-		fprintf(stderr, "CALLBACK CONNECTION ESTABLISHED\n");
+		RELog::log("CALLBACK CONNECTION ESTABLISHED");
 #endif
 		this->onConnected();
 	}
@@ -120,7 +120,7 @@ namespace FayeCpp {
 	void WebSocket::onCallbackConnectionError()
 	{
 #ifdef FAYECPP_DEBUG_MESSAGES
-		fprintf(stderr, "CALLBACK CONNECTION ERROR\n");
+		RELog::log("CALLBACK CONNECTION ERROR");
 #endif
 		//TODO: error string
 		this->onError("");
@@ -157,14 +157,14 @@ namespace FayeCpp {
 		if (writed < 0)
 		{
 #ifdef FAYECPP_DEBUG_MESSAGES
-			fprintf(stderr, "ERROR %d writing to socket, hanging up\n", writed);
+			RELog::log("ERROR %d writing to socket, hanging up", writed);
 #endif
 			return -1;
 		}
 		if (writed < pss->len)
 		{
 #ifdef FAYECPP_DEBUG_MESSAGES
-			fprintf(stderr, "Partial write\n");
+			RELog::log("Partial write");
 #endif
 			return -1;
 		}
@@ -188,7 +188,7 @@ namespace FayeCpp {
 		{
 			buffer->tag = (int)type;
 #ifdef FAYECPP_DEBUG_MESSAGES
-			fprintf(stdout, "WILL WRITE %i bytes: %s\n", (int)buffer->size(), (char *)buffer->buffer());
+			RELog::log("WILL WRITE %i bytes: %s", (int)buffer->size(), (char *)buffer->buffer());
 #endif
 			_writeBuffers.add(buffer);
 		}
@@ -291,7 +291,7 @@ namespace FayeCpp {
 		}
 		
 #ifdef FAYECPP_DEBUG_MESSAGES
-		fprintf(stdout, "Start connecting to host[%s] port[%i] path[%s]\n", this->host().UTF8String(), this->port(), this->path().UTF8String());
+		RELog::log("Start connecting to host[%s] port[%i] path[%s]", this->host().UTF8String(), this->port(), this->path().UTF8String());
 #endif
 		
 		_connection = libwebsocket_client_connect(_context,

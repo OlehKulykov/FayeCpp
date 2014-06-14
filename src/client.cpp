@@ -36,10 +36,6 @@
 #include <assert.h>
 #endif
 
-#if defined(HAVE_SUITABLE_QT_VERSION) && defined(FAYECPP_DEBUG_MESSAGES)
-#include <QDebug>
-#endif
-
 #if defined(HAVE_DISPATCH_DISPATCH_H)
 #include <dispatch/dispatch.h>
 #endif
@@ -81,11 +77,7 @@ namespace FayeCpp {
 	void Client::onTransportConnected()
 	{
 #ifdef FAYECPP_DEBUG_MESSAGES
-#ifdef HAVE_SUITABLE_QT_VERSION
-        qDebug() << "Client:" << "onTransportConnected.";
-#else
-		fprintf(stderr, "Client: onTransportConnected\n");
-#endif		
+		RELog::log("Client: onTransportConnected");
 #endif
 
 		if (_delegate) _delegate->onFayeTransportConnected(this);
@@ -94,12 +86,8 @@ namespace FayeCpp {
 	
 	void Client::onTransportDisconnected()
 	{
-#ifdef FAYECPP_DEBUG_MESSAGES		
-#ifdef HAVE_SUITABLE_QT_VERSION
-        qDebug() << "Client:" << "onTransportDisconnected.";
-#else
-		fprintf(stderr, "Client: onTransportDisconnected\n");
-#endif		
+#ifdef FAYECPP_DEBUG_MESSAGES
+		RELog::log("Client: onTransportDisconnected");
 #endif
 		
 #if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)
@@ -266,12 +254,9 @@ namespace FayeCpp {
 	void Client::onHandshakeDone(const VariantMap & message)
 	{
 #ifdef FAYECPP_DEBUG_MESSAGES
-#ifdef HAVE_SUITABLE_QT_VERSION
-        qDebug() << "Client:" << "onHandshakeDone.";
-#else
-		fprintf(stderr, "Client: onHandshakeDone\n");
+		RELog::log("Client: onHandshakeDone");
 #endif
-#endif		
+		
 		VariantMap::Iterator i = message.iterator();
 		while (i.next()) 
 		{
@@ -295,13 +280,9 @@ namespace FayeCpp {
 			return;
 		}
 		
-#ifdef FAYECPP_DEBUG_MESSAGES			
-#ifdef HAVE_SUITABLE_QT_VERSION
-		qDebug() << "Client:" << "clientId=" << _clientId.UTF8String();
-#else	
-		fprintf(stderr, "Client: clientId=%s\n", _clientId.UTF8String());
+#ifdef FAYECPP_DEBUG_MESSAGES
+		RELog::log("Client: clientId=%s", _clientId.UTF8String());
 #endif
-#endif	
 		
 		if (_supportedConnectionTypes.isEmpty()) 
 		{
@@ -344,13 +325,9 @@ namespace FayeCpp {
 	
 	void Client::handshake()
 	{
-#ifdef FAYECPP_DEBUG_MESSAGES				
-#ifdef HAVE_SUITABLE_QT_VERSION
-        qDebug() << "Client:" << "handshake start...";
-#else
-		fprintf(stderr, "Client: handshake start...\n");
+#ifdef FAYECPP_DEBUG_MESSAGES
+		RELog::log("Client: handshake start...");
 #endif
-#endif		
 		VariantMap message;
 		VariantList connectionTypes;
 		connectionTypes.add(this->currentTransportName());
@@ -376,12 +353,8 @@ namespace FayeCpp {
 	
 	void Client::connectFaye()
 	{
-#ifdef FAYECPP_DEBUG_MESSAGES	
-#ifdef HAVE_SUITABLE_QT_VERSION
-        qDebug() << "Client:" << "connect faye start ...";
-#else
-		fprintf(stderr, "Client: connect faye start ...\n");
-#endif		
+#ifdef FAYECPP_DEBUG_MESSAGES
+		RELog::log("Client: connect faye start ...");
 #endif
 		VariantMap message;
 		message["channel"] = CONNECT_CHANNEL;
@@ -395,13 +368,9 @@ namespace FayeCpp {
 	
 	void Client::disconnect()
 	{
-#ifdef FAYECPP_DEBUG_MESSAGES			
-#ifdef HAVE_SUITABLE_QT_VERSION
-        qDebug() << "Client:" << "disconnect faye start ...";
-#else
-		fprintf(stderr, "Client: disconnect faye start ...\n");
+#ifdef FAYECPP_DEBUG_MESSAGES
+		RELog::log("Client: disconnect faye start ...");
 #endif
-#endif		
 		VariantMap message;
 		message["channel"] = DISCONNECT_CHANNEL;
 		message["clientId"] = _clientId;
@@ -443,13 +412,9 @@ namespace FayeCpp {
 				if (_delegate) _delegate->onFayeClientConnected(this);
 			}
 			
-#ifdef FAYECPP_DEBUG_MESSAGES					
-#ifdef HAVE_SUITABLE_QT_VERSION
-			qDebug() << "Client:" << "Subscribed to channel:" << channel->toString().UTF8String();
-#else
-			fprintf(stderr, "Client: Subscribed to channel: %s\n", channel->toString().UTF8String());
+#ifdef FAYECPP_DEBUG_MESSAGES
+			RELog::log("Client: Subscribed to channel: %s", channel->toString().UTF8String());
 #endif
-#endif			
 			if (_delegate) _delegate->onFayeClientSubscribedToChannel(this, channel->toString());
 		}
 	}
@@ -560,13 +525,9 @@ namespace FayeCpp {
 	{
 		if (_isFayeConnected && !message.isEmpty() && this->isSubscribedToChannel(channel))
 		{
-#ifdef FAYECPP_DEBUG_MESSAGES				
-#ifdef HAVE_SUITABLE_QT_VERSION
-			qDebug() << "Client:" << "Send message to channel:" << channel;
-#else
-			fprintf(stderr, "Client: Send message to channel: %s\n", channel);
+#ifdef FAYECPP_DEBUG_MESSAGES	
+			RELog::log("Client: Send message to channel: %s", channel);
 #endif
-#endif			
 			VariantMap mes;
 			mes["channel"] = channel;
 			mes["clientId"] = _clientId;
