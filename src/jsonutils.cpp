@@ -228,10 +228,9 @@ namespace FayeCpp {
 			}
 				break;
             case Variant::TypeList:	return JsonGenerator::jsonObjectFromList(value.toList()); break;
-			default:
-				break;
+			default: break;
 		}
-		return NULL;
+		return json_null();
 	}
 	
     void JsonGenerator::addMapToJson(const VariantMap & map, json_t * json)
