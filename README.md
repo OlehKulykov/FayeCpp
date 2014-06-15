@@ -55,7 +55,7 @@ make
 
 
 ### Integration with Qt
-
+Just include file ```fayecpp.pri``` to your ```*.pro``` file.
 
 
 ### Integrating with Xcode iOS project
