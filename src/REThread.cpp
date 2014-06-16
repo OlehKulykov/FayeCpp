@@ -137,14 +137,14 @@ namespace FayeCpp {
 			
 			size_t stackSize = 0;
 			
-#if defined(HAVE_FUNCTION_GETRLIMIT)
-			struct rlimit limit = { 0 };
-			const int rc = getrlimit(RLIMIT_STACK, &limit);
-			if (rc == 0)
-			{
-				if (limit.rlim_cur != 0) { stackSize = (size_t)limit.rlim_cur; }
-			}
-#endif
+//#if defined(HAVE_FUNCTION_GETRLIMIT)
+//			struct rlimit limit = { 0 };
+//			const int rc = getrlimit(RLIMIT_STACK, &limit);
+//			if (rc == 0)
+//			{
+//				if (limit.rlim_cur != 0) { stackSize = (size_t)limit.rlim_cur; }
+//			}
+//#endif
 			
 			pthread_attr_t threadAttr = { 0 };
 			pthread_attr_init(&threadAttr);
