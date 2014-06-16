@@ -30,7 +30,7 @@ git submodule update
 # Building
 ----------
 
-> Use (install or update) latest [CMake] build system, need version 2.8.12 or later.
+> Use (install or update) latest [CMake] build system, need version 2.8 or later.
 
 ### Build on Unix like platforms
 
