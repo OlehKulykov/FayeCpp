@@ -25,6 +25,8 @@ INCLUDE(CheckIncludeFile)
 INCLUDE(CheckTypeSize)
 INCLUDE(CheckSymbolExists)
 INCLUDE(CheckIncludeFileCXX)
+INCLUDE(MacroCheckCCompilerFlagSSP)
+INCLUDE(CheckCCompilerFlag)
 
 add_definitions(-DCMAKE_BUILD)
 
@@ -83,6 +85,12 @@ if (${CMAKE_C_COMPILER_ID} MATCHES GNU)
 		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
 	endif (WITH_FPIC)
 endif (${CMAKE_C_COMPILER_ID} MATCHES GNU)
+
+
+if (MSVC)
+	# Suppress warning about "deprecated" functions
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -D_CRT_SECURE_NO_WARNINGS")
+endif (MSVC)
 
 
 
