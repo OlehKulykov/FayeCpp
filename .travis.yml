@@ -1,15 +1,9 @@
 language: cpp
-
-git:
-  submodules: true
-
-before_install:
-  - git submodule update --init --recursive
-  - export CC=${REAL_CC} CXX=${REAL_CXX}
-
 compiler:
-  - clang
   - gcc
-
-script:
-  - make
+  - clang
+before_script: ./.travis/configure.sh
+script: ./.travis/make.sh
+branches:
+  only:
+    - master
