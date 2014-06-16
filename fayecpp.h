@@ -30,6 +30,16 @@
  *
  */
 
+
+#if !defined(HAVE_SUITABLE_QT_VERSION) && defined(QT_VERSION) && defined(QT_VERSION_CHECK)
+
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 3, 0))
+#define HAVE_SUITABLE_QT_VERSION 1
+#endif
+
+#endif
+
+
 #if !defined(__RE_OS_WINDOWS__) && !defined(__RE_OS_ANDROID__)
 /* No manualy selected, try to auto select */
 
@@ -57,7 +67,7 @@
 #endif
 
 
-#if defined(__RE_OS_WINDOWS__)
+#if defined(__RE_OS_WINDOWS__) && !defined(HAVE_SUITABLE_QT_VERSION)
 #include <windows.h>
 
 #if defined(CMAKE_BUILD) || defined(__BUILDING_RECORE_DYNAMIC_LIBRARY__)
@@ -304,13 +314,7 @@ typedef REFloat64 RETimeInterval;
 #endif
 
 
-#if !defined(HAVE_SUITABLE_QT_VERSION) && defined(QT_VERSION) && defined(QT_VERSION_CHECK)
 
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 3, 0))
-#define HAVE_SUITABLE_QT_VERSION 1
-#endif
-
-#endif
 
 
 namespace FayeCpp {
