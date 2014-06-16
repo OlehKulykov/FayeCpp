@@ -2,7 +2,7 @@
 
 **FayeCpp** (C++) client library for desktop & mobile platforms, such as **Mac**, **Windows**, **Linux**, **iOS**, **Android**. 
 
-Library created with "Pure C++" (features provided by Standard C++), so **no STL** and **no C++11** features.
+Library created with "Pure C++" (features provided by Standard C++), without heavy **STL** and **C++11** features. 
 
 
 # Installation
@@ -271,3 +271,5 @@ THE SOFTWARE.
 [2]:https://developer.android.com/tools/sdk/ndk/index.html
 [QWebSocket]:http://qt-project.org/doc/qt-5/qwebsocket.html
 [QtWebSockets]:http://qt-project.org/doc/qt-5/qtwebsockets-index.html
+[Bayeux Protocol]:http://svn.cometd.com/trunk/bayeux/bayeux.html
+[JSON]:http://www.json.org
