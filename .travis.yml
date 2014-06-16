@@ -1,3 +1,6 @@
+env:
+  matrix:
+    - FAYECPP_BUILD_METHOD=cmake
 language: cpp
 compiler:
   - gcc
@@ -12,7 +15,4 @@ install:
 before_install:
   - git submodule update --init --recursive
 script:
-  - if [ "$JANSSON_BUILD_METHOD" = "cmake" ]; then mkdir build && cd build && cmake .. fi
-
-  
-  
+  - if [ "$FAYECPP_BUILD_METHOD" = "cmake" ]; then mkdir build && cd build && cmake .. fi
