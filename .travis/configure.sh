@@ -1,6 +1,9 @@
 #!/bin/sh
 set -e
 
+sudo apt-get update -qq
+sudo apt-get install -qq cmake
+
 # Clone all submodules
 git submodule update --init --recursive
 
