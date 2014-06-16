@@ -20,13 +20,37 @@ project(fayecpp)
 
 INCLUDE(CheckLibraryExists)
 INCLUDE(CheckFunctionExists)
+
 INCLUDE(CheckIncludeFile)
+INCLUDE(CheckIncludeFileCXX)
 
 INCLUDE(CheckTypeSize)
 INCLUDE(CheckSymbolExists)
-INCLUDE(CheckIncludeFileCXX)
-INCLUDE(MacroCheckCCompilerFlagSSP)
+
 INCLUDE(CheckCCompilerFlag)
+INCLUDE(CheckCXXCompilerFlag)
+
+
+# C with -fPIC
+check_c_compiler_flag("-fPIC" WITH_FPIC_C)
+if(WITH_FPIC_C)
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
+endif(WITH_FPIC_C)
+
+
+# CXX with -fPIC
+check_cxx_compiler_flag("-fPIC" WITH_FPIC_CXX)
+if(WITH_FPIC_CXX)
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+endif(WITH_FPIC_CXX)
+
+
+if(MSVC)
+	# Suppress warning about "deprecated" functions
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -D_CRT_SECURE_NO_WARNINGS")
+	set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -D_CRT_SECURE_NO_WARNINGS")
+endif(MSVC)
+
 
 add_definitions(-DCMAKE_BUILD)
 
@@ -66,31 +90,10 @@ message("jansson libraries: ${JANSSON_LIBRARIES}")
 include_directories(${JANSSON_INCLUDE_DIRS})
 set(HAVE_JANSSON_H 1)
 
-#if (MSVC)
-#   if (STATIC_CRT)
-#      set(CMAKE_C_FLAGS_RELEASE "/MT")
-#      set(CMAKE_C_FLAGS_DEBUG "/MTd")
-#   endif(STATIC_CRT)
-#endif(MSVC)
 
 #if (NOT WIN32 AND (CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX))
 #   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
 #endif() 
-
-
-if (${CMAKE_C_COMPILER_ID} MATCHES GNU)
-	# with -fPIC
-	check_c_compiler_flag("-fPIC" WITH_FPIC)
-	if (WITH_FPIC)
-		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
-	endif (WITH_FPIC)
-endif (${CMAKE_C_COMPILER_ID} MATCHES GNU)
-
-
-if (MSVC)
-	# Suppress warning about "deprecated" functions
-	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -D_CRT_SECURE_NO_WARNINGS")
-endif (MSVC)
 
 
 
