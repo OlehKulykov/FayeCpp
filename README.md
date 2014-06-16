@@ -131,7 +131,7 @@ public:
 														const FayeCpp::REString & channel)
 	{
 	    
-	    // Print string value for "text" key
+        // Print string value for "text" key
 		RELog::log("Print string value for \"text\" key: %s", message["text"].toString().UTF8String());
 		
 		// Iterate all message (VariantMap) pairs
@@ -145,7 +145,7 @@ public:
 		// .....
 	}
 	
-	// overide other methods
+    // overide other methods
 	
     FayeDelegate() 
     {
