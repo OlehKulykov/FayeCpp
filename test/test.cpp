@@ -1,10 +1,3 @@
-//
-//  test.c
-//  ios_test
-//
-//  Created by Resident Evil on 16.06.14.
-//  Copyright (c) 2014 Resident Evil. All rights reserved.
-//
 
 #include <stdio.h>
 
