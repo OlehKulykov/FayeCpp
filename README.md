@@ -1,6 +1,5 @@
 # FayeCpp - Faye C++ client.
 
-
 **FayeCpp** (C++) client library for desktop & mobile platforms, such as **Mac**, **Windows**, **Linux**, **iOS**, **Android**. 
 
 Library created with "Pure C++" (features provided by Standard C++), so **no STL** and **no C++11** features.
@@ -19,16 +18,17 @@ git submodule update
 ```
 
 ## Dependencies
- * [Libwebsockets] - "lightweight pure C library built to use minimal CPU and memory resources".
+ * [Libwebsockets] - "lightweight pure C library built to use minimal CPU and memory resources", or use **FayeCpp** with [Qt SDK][1] (see below).
  * [Jansson] - "C library for encoding, decoding and manipulating JSON data".
  * [pthreads] OR [Windows Threads] which used by [RECore] threads, or use **FayeCpp** with [Qt SDK][1] (see below).
 
 
-## Building
------------
+# Building
+----------
+
 > Use (install or update) latest [CMake] build system, need version 2.8.12 or later.
 
-### Build on Unix like platforms
+## Build on Unix like platforms
 
 ```sh
 cd FayeCpp
@@ -47,7 +47,7 @@ make
 > ```
 > For more options read [Libwebsockets] and [Jansson] documentation.
 
-### Build on Windows with Microsoft Visual Studio
+## Build on Windows with Microsoft Visual Studio
  * Execute **Start** -> **Microsoft Visual Studio ....** -> **Visual Studio Tools** -> **... Tools Command Prompt** with administrative permissions (Context menu: **Run as administrator** ).
  * Do the same as on **Build on Unix like platforms**, with small changes, tell [CMake] generate makefiles & use **nmake**:
  ```sh
@@ -55,7 +55,7 @@ cmake -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=Release ..
 nmake
  ```
 
-### Build for Android with [Android NDK][2]
+## Build for Android with [Android NDK][2]
  * Download and install [Android NDK][2].
  * Navigate to installed [Android NDK][2] folder.
  * Execute **ndk-build** script with project path parameter.
@@ -68,11 +68,11 @@ ndk-build NDK_PROJECT_PATH=<path_to_FayeCpp>/builds/android
 > Replace ```<path_to_FayeCpp>``` and ```<path_to_FayeCpp>``` with actual paths.
 
 
-## Integration
---------------
+# Integration
+-------------
 
 
-### Integration with [Qt SDK][1] version 5.3 and up
+## Integration with [Qt SDK][1] version 5.3 and up
 > For older versions look at **Build on Unix like platforms** section
 
 Started from **5.3** version [QtWebSockets] module and [QWebSocket] class was added. So FayeCpp will use them ignoring [Libwebsockets] library and [Libwebsockets] licence.
@@ -84,8 +84,7 @@ include(<path_to_FayeCpp>/fayecpp.pri)
 > Of cource replace ```<path_to_FayeCpp>``` with actual path relatively to ```*.pro``` file location.
 
 
-
-### Integrating with Xcode iOS project
+## Integrating with Xcode iOS project
 For easy integration there is Xcode static iOS library project ```fayecpp.xcodeproj``` located in ```builds/ios/``` folder, full path is: ```builds/ios/fayecpp.xcodeproj```. So integration is the same as any other third party static library.
  * On you **main project** use context menu ```Add Files to"<main project>"...```, locate ```fayecpp.xcodeproj``` and add. Or drag ```fayecpp.xcodeproj``` to your **main project**.
  * On **main project** target locate ```Build Phases``` and expand ```Link Binary With Libraries``` group.
@@ -98,9 +97,142 @@ For easy integration there is Xcode static iOS library project ```fayecpp.xcodep
 > When you including FayeCpp header to Objective-C code - don't forget change file extension from ```*.m``` to ```*.mm```.
 
 
-### Using with Objective-C code.
+## Using with Objective-C code
 For **Mac** & **iOS** there is **Objective-C client wrapper** located in the folder ```contrib/objc/```. Just add ```FayeCppClient.h```, ```FayeCppClient.mm``` files to your project and use. This wrapper can be used **with** or **without** Automatic Reference Counting (ARC). 
 
+
+# Working with the library
+--------------------------
+
+### Include library
+```cpp
+// Add FayeCpp library to search headers folders.
+// Include library header.
+#include <fayecpp.h>
+
+using namespace FayeCpp;
+```
+
+
+### Client delegate
+```cpp
+class FayeDelegate : public FayeCpp::Delegate
+{
+public:
+    // override all FayeCpp::Delegate methods.
+    virtual void onFayeTransportConnected(FayeCpp::Client * client)
+	{
+        // ....
+	}
+	
+	virtual void onFayeClientReceivedMessageFromChannel(FayeCpp::Client * client, 
+														const FayeCpp::VariantMap & message, 
+														const FayeCpp::REString & channel)
+	{
+	    
+	    // Print string value for "text" key
+		RELog::log("Print string value for \"text\" key: %s", message["text"].toString().UTF8String());
+		
+		// Iterate all message (VariantMap) pairs
+		VariantMap::Iterator iterator = message.iterator();
+		while (iterator.next()) 
+		{
+			iterator.key();   // get key
+			iterator.value();   // get value for key
+		}
+		
+		// .....
+	}
+	
+	// overide other methods
+	
+    FayeDelegate() 
+    {
+        // .....
+    }
+    
+	virtual ~FayeDelegate() 
+	{
+        // ......
+	}
+};
+```
+
+
+### Faye client 
+```cpp
+// define somewhere variable or field for client
+FayeCpp::Client * _client = NULL;
+
+// create & initialize client
+_client = new FayeCpp::Client();
+_client->setUrl("ws://your_faye_host:80/faye");
+_client->setDelegate(_delegatePointerHere);
+_client->connect();
+
+// subscribing or adding channels to pending subscriptions
+_client->subscribeToChannel("/faye_channel_1");
+_client->subscribeToChannel("/something/faye_channel_2");
+```
+
+### Message objects
+
+```cpp
+// Variant object can hold basic types + list and maps
+Variant value;   // create null value, value.type() is Variant::TypeNone;
+value = Variant();   // set null value, value.type() is Variant::TypeNone;
+value = "C string value";   // set C (const char *) string value, value.type() is Variant::TypeString;
+value = L"Строка";   // set wide (const wchar_t *) string value, value.type() is Variant::TypeString;
+value = 5;   // set integer value, value.type() is Variant::TypeInteger;
+value = 3.14f;   // set float value, value.type() is Variant::TypeReal;
+value = 3.14159265359;   // set double value, value.type() is Variant::TypeReal;
+value = true;   // set boolean value with true, value.type() is Variant::TypeBool;
+value = false;   // set boolean value with false, value.type() is Variant::TypeBool;
+
+// Map object (hash or dictionary), stores values by string keys
+VariantMap message;   // or FayeCpp::VariantMap message; if manespace not used.
+message["text"] = "Hello world";   // set C (const char *) string value
+message[L"wide charectes key"] = L"Hello world !!!";   // set wide (const wchar_t *) string value with wide string key.
+message[L"Сообщение"] = L"Привет мир !!!";   // set wide (const wchar_t *) string value with wide string key.
+message["integer key"] = 1;   // set integer value
+message["float key"] = 3.14f;   // set float value
+message["double key"] = 3.14159265359;   // set double value
+message["is_use_something_1"] = true;   // set boolean value with true
+message["is_use_something_2"] = false;   // set boolean value with false
+message["null key"] = Variant();   // set null value
+
+value = message;   // set map value, value.type() is Variant::TypeMap;
+
+// List object
+VariantList parameters;   // or VariantList::VariantMap message; if manespace not used.
+parameters.add("Text value");   // add C (const char *) string value
+parameters.add(L"Текстовое значение");   // add wide (const wchar_t *) string value with wide string key.
+parameters.add(2);   // add integer value
+parameters.add(3.14f);   // add float value
+parameters.add(3.14159265359);   // add double value
+parameters.add(true);   // add boolean value with true
+parameters.add(false);   // add boolean value with false
+parameters.add(Variant());   // add null value
+
+value = parameters;   // set list value, value.type() is Variant::TypeList;
+
+message["parameters"] = parameters;   // set list value for key
+```
+
+
+### Send message
+```cpp
+// Create dummy message
+VariantMap message;
+message["text"] = "Hello world";
+message[L"wide charectes key"] = L"Hello world !!!";
+message["integer key"] = 1;
+message["float key"] = 3.14f;
+message["double key"] = 3.14159265359;
+
+// Send message object to server with channel name
+_client->sendMessageToChannel(message, "/faye_channel_1");
+```
 
 # License
 ---------
