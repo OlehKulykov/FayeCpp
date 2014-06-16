@@ -9,7 +9,7 @@ Library created with "Pure C++" (features provided by Standard C++), so **no STL
 --------------
 
 
-## Getting the sources
+### Getting the sources
 ```sh
 git clone https://github.com/OlehKulykov/FayeCpp.git
 cd FayeCpp
@@ -17,7 +17,7 @@ git submodule init
 git submodule update
 ```
 
-## Dependencies
+### Dependencies
  * [Libwebsockets] - "lightweight pure C library built to use minimal CPU and memory resources", or use **FayeCpp** with [Qt SDK][1] (see below).
  * [Jansson] - "C library for encoding, decoding and manipulating JSON data".
  * [pthreads] OR [Windows Threads] which used by [RECore] threads, or use **FayeCpp** with [Qt SDK][1] (see below).
@@ -28,7 +28,7 @@ git submodule update
 
 > Use (install or update) latest [CMake] build system, need version 2.8.12 or later.
 
-## Build on Unix like platforms
+### Build on Unix like platforms
 
 ```sh
 cd FayeCpp
@@ -47,19 +47,19 @@ make
 > ```
 > For more options read [Libwebsockets] and [Jansson] documentation.
 
-## Build on Windows with Microsoft Visual Studio
+### Build on Windows with Microsoft Visual Studio
  * Execute **Start** -> **Microsoft Visual Studio ....** -> **Visual Studio Tools** -> **... Tools Command Prompt** with administrative permissions (Context menu: **Run as administrator** ).
- * Do the same as on **Build on Unix like platforms**, with small changes, tell [CMake] generate makefiles & use **nmake**:
+ * Do the same as on **Build on Unix like platforms**, with small changes, tell [CMake] **generate makefiles** and use **nmake**:
 
  ```sh
 cmake -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=Release ..
 nmake
  ```
 
-## Build for Android with [Android NDK][2]
+### Build for Android with Android NDK
  * Download and install [Android NDK][2].
  * Navigate to installed [Android NDK][2] folder.
- * Execute **ndk-build** script with project path parameter.
+ * Execute **ndk-build** script with project path parameter:
 
 ```sh
 cd <path_to_Android_NDK>
@@ -73,10 +73,10 @@ ndk-build NDK_PROJECT_PATH=<path_to_FayeCpp>/builds/android
 -------------
 
 
-## Integration with [Qt SDK][1] version 5.3 and up
+### Integration with Qt SDK version 5.3 and up
 > For older versions look at **Build on Unix like platforms** section
 
-Started from **5.3** version [QtWebSockets] module and [QWebSocket] class was added. So FayeCpp will use them ignoring [Libwebsockets] library and [Libwebsockets] licence.
+Started from [Qt SDK][1] version 5.3 [QtWebSockets] module and [QWebSocket] class was added. So, FayeCpp will use them ignoring [Libwebsockets] (library and licence).
 
 As usual, you have Qt project file with extension ```*.pro```, so include ```fayecpp.pri``` to your project:
 ```sh
@@ -85,7 +85,7 @@ include(<path_to_FayeCpp>/fayecpp.pri)
 > Of cource replace ```<path_to_FayeCpp>``` with actual path relatively to ```*.pro``` file location.
 
 
-## Integrating with Xcode iOS project
+### Integrating with Xcode iOS project
 For easy integration there is Xcode static iOS library project ```fayecpp.xcodeproj``` located in ```builds/ios/``` folder, full path is: ```builds/ios/fayecpp.xcodeproj```. So integration is the same as any other third party static library.
  * On you **main project** use context menu ```Add Files to"<main project>"...```, locate ```fayecpp.xcodeproj``` and add. Or drag ```fayecpp.xcodeproj``` to your **main project**.
  * On **main project** target locate ```Build Phases``` and expand ```Link Binary With Libraries``` group.
@@ -98,7 +98,7 @@ For easy integration there is Xcode static iOS library project ```fayecpp.xcodep
 > When you including FayeCpp header to Objective-C code - don't forget change file extension from ```*.m``` to ```*.mm```.
 
 
-## Using with Objective-C code
+### Using with Objective-C code
 For **Mac** & **iOS** there is **Objective-C client wrapper** located in the folder ```contrib/objc/```. Just add ```FayeCppClient.h```, ```FayeCppClient.mm``` files to your project and use. This wrapper can be used **with** or **without** Automatic Reference Counting (ARC). 
 
 
