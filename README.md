@@ -1,7 +1,9 @@
 # FayeCpp - Faye C++ client.
 
 
-**FayeCpp** (C++) client library for desktop & mobile platforms, such as **Mac**, **Windows**, **Linux**, **iOS**, **Android**. Library created with "Pure C++" (features provided by Standard C++), so **no STL** and **no C++11** features.
+**FayeCpp** (C++) client library for desktop & mobile platforms, such as **Mac**, **Windows**, **Linux**, **iOS**, **Android**. 
+
+Library created with "Pure C++" (features provided by Standard C++), so **no STL** and **no C++11** features.
 
 
 # Installation
@@ -19,7 +21,7 @@ git submodule update
 ## Dependencies
  * [Libwebsockets] - "lightweight pure C library built to use minimal CPU and memory resources".
  * [Jansson] - "C library for encoding, decoding and manipulating JSON data".
- * [pthreads] OR [Windows Threads] which used by [RECore] threads, or use **FayeCpp** with [Qt SDK] (see below).
+ * [pthreads] OR [Windows Threads] which used by [RECore] threads, or use **FayeCpp** with [Qt SDK][1] (see below).
 
 
 ## Building
@@ -47,15 +49,40 @@ make
 
 ### Build on Windows with Microsoft Visual Studio
  * Execute **Start** -> **Microsoft Visual Studio ....** -> **Visual Studio Tools** -> **... Tools Command Prompt** with administrative permissions (Context menu: **Run as administrator** ).
- * Do the same as on **Build on Unix like platforms**, BUT use **nmake** to build and/or install library.
+ * Do the same as on **Build on Unix like platforms**, with small changes, tell [CMake] generate makefiles & use **nmake**:
+ ```sh
+cmake -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=Release ..
+nmake
+ ```
+
+### Build for Android with [Android NDK][2]
+ * Download and install [Android NDK][2].
+ * Navigate to installed [Android NDK][2] folder.
+ * Execute **ndk-build** script with project path parameter.
+
+```sh
+cd <path_to_Android_NDK>
+ndk-build NDK_PROJECT_PATH=<path_to_FayeCpp>/builds/android
+```
+
+> Replace ```<path_to_FayeCpp>``` and ```<path_to_FayeCpp>``` with actual paths.
 
 
 ## Integration
 --------------
 
 
-### Integration with Qt
-Just include file ```fayecpp.pri``` to your ```*.pro``` file.
+### Integration with [Qt SDK][1] version 5.3 and up
+> For older versions look at **Build on Unix like platforms** section
+
+Started from **5.3** version [QtWebSockets] module and [QWebSocket] class was added. So FayeCpp will use them ignoring [Libwebsockets] library and [Libwebsockets] licence.
+
+As usual, you have Qt project file with extension ```*.pro```, so include ```fayecpp.pri``` to your project:
+```sh
+include(<path_to_FayeCpp>/fayecpp.pri)
+```
+> Of cource replace ```<path_to_FayeCpp>``` with actual path relatively to ```*.pro``` file location.
+
 
 
 ### Integrating with Xcode iOS project
@@ -106,6 +133,8 @@ THE SOFTWARE.
 [CMake]:http://www.cmake.org
 [pthreads]:https://computing.llnl.gov/tutorials/pthreads
 [Windows Threads]:http://msdn.microsoft.com/en-us/library/windows/desktop/ms686937
-[Qt SDK]:http://qt-project.org
+[1]:http://qt-project.org
 [RECore]:https://github.com/OlehKulykov/recore
-
+[2]:https://developer.android.com/tools/sdk/ndk/index.html
+[QWebSocket]:http://qt-project.org/doc/qt-5/qwebsocket.html
+[QtWebSockets]:http://qt-project.org/doc/qt-5/qtwebsockets-index.html
