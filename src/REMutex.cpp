@@ -65,7 +65,8 @@ namespace FayeCpp {
 	{
 #if defined(HAVE_PTHREAD_H)
 		
-		pthread_mutexattr_t attr = { 0 };
+		pthread_mutexattr_t attr;
+		memset(&attr, 0, sizeof(pthread_mutexattr_t));
 		if (pthread_mutexattr_init(&attr) == 0)
 		{
 			int setTypeResult = -1;

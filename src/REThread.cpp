@@ -135,24 +135,16 @@ namespace FayeCpp {
 #if defined(HAVE_PTHREAD_H)
 			if (_reThreadThread) { return false; }
 			
-			size_t stackSize = 0;
+			pthread_attr_t threadAttr;
+			memset(&threadAttr, 0, sizeof(pthread_attr_t));
 			
-//#if defined(HAVE_FUNCTION_GETRLIMIT)
-//			struct rlimit limit = { 0 };
-//			const int rc = getrlimit(RLIMIT_STACK, &limit);
-//			if (rc == 0)
-//			{
-//				if (limit.rlim_cur != 0) { stackSize = (size_t)limit.rlim_cur; }
-//			}
-//#endif
-			
-			pthread_attr_t threadAttr = { 0 };
 			pthread_attr_init(&threadAttr);
 			
 #if defined( HAVE_FUNCTION_PTHREAD_ATTR_SETSCOPE)
 			pthread_attr_setscope(&threadAttr, PTHREAD_SCOPE_SYSTEM);
 #endif
 			
+			size_t stackSize = 0;
 			pthread_attr_setdetachstate(&threadAttr, PTHREAD_CREATE_JOINABLE);
 			if (stackSize > 0)
 			{
@@ -253,7 +245,8 @@ namespace FayeCpp {
 				const int maxPrior = sched_get_priority_max(SCHED_RR);
 				if (maxPrior > 0)
 				{
-					struct sched_param p = { 0 };
+					struct sched_param p;
+					memset(&p, 0, sizeof(struct sched_param));
 					int policy = SCHED_RR;
 					pthread_t thisThread = _reThreadThread;
 					if ( pthread_getschedparam(thisThread, &policy, &p) == 0 )
@@ -283,7 +276,8 @@ namespace FayeCpp {
 				const int maxPrior = sched_get_priority_max(SCHED_RR);
 				if (maxPrior > 0)
 				{
-					struct sched_param p = { 0 };
+					struct sched_param p;
+					memset(&p, 0, sizeof(struct sched_param));
 					p.sched_priority = (int)(newPriority * maxPrior);
 					pthread_t thisThread = _reThreadThread;
 					return ( pthread_setschedparam(thisThread, SCHED_RR, &p) == 0 );
