@@ -50,6 +50,7 @@ make
 ## Build on Windows with Microsoft Visual Studio
  * Execute **Start** -> **Microsoft Visual Studio ....** -> **Visual Studio Tools** -> **... Tools Command Prompt** with administrative permissions (Context menu: **Run as administrator** ).
  * Do the same as on **Build on Unix like platforms**, with small changes, tell [CMake] generate makefiles & use **nmake**:
+
  ```sh
 cmake -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=Release ..
 nmake
