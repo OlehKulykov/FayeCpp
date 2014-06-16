@@ -1,9 +1,5 @@
 # FayeCpp - Faye C++ client.
 
-
-[![Build Status](https://travis-ci.org/OlehKulykov/FayeCpp.png)](http://travis-ci.org/OlehKulykov/FayeCpp)
-
-
 **FayeCpp** (C++) client library for desktop & mobile platforms, such as **Mac**, **Windows**, **Linux**, **iOS**, **Android**. 
 
 Library created with "Pure C++" (features provided by Standard C++), without heavy **STL** and **C++11** features. 
