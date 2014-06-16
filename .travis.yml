@@ -6,5 +6,13 @@ notifications:
   email:
     on_success: always
     on_failure: always
+install:
+  - sudo apt-get update -qq
+  - sudo apt-get install -y -qq cmake
 before_install:
-  - git submodule update --init --recursive    
+  - git submodule update --init --recursive
+script:
+  - if [ "$JANSSON_BUILD_METHOD" = "cmake" ]; then mkdir build && cd build && cmake .. fi
+
+  
+  
