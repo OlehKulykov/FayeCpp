@@ -90,13 +90,7 @@ namespace FayeCpp {
 		RELog::log("Client: onTransportDisconnected");
 #endif
 		
-#if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)
-		dispatch_async(dispatch_get_main_queue(), ^{
-#endif
 		if (_delegate) _delegate->onFayeTransportDisconnected(this);
-#if defined(HAVE_DISPATCH_DISPATCH_H) && defined(HAVE_FUNCTION_DISPATCH_ASYNC)			
-		});
-#endif
 	}
 	
 	void Client::onClientError(Responce * message)
