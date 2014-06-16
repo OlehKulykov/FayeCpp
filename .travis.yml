@@ -3,9 +3,6 @@ compiler:
   - gcc
   - clang
 before_script:
-  - sudo apt-get update -qq
-  - sudo apt-get install -qq cmake
-  - sudo apt-get upgrade cmake
   - git submodule update --init --recursive
   - mkdir build
   - cd build
