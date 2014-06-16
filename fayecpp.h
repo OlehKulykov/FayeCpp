@@ -24,6 +24,12 @@
 #ifndef __FAYECPP_FAYECPP_H__
 #define __FAYECPP_FAYECPP_H__
 
+/**
+ * Faye C++ client main and one header file.
+ * All class interfaces added to namespace, preventing include files mess.
+ *
+ */
+
 #if !defined(__RE_OS_WINDOWS__) && !defined(__RE_OS_ANDROID__)
 /* No manualy selected, try to auto select */
 
@@ -917,14 +923,24 @@ namespace FayeCpp {
 		}
 	};
 	
-	/// Class using for logining text messages.
+	
+	/**
+	 @brief Class using for logining text messages.
+	 */
 	class __RE_PUBLIC_CLASS_API__ RELog
 	{
 	public:
-		/// Log message with arguments.
+		/**
+		 @brief Log message with arguments.
+		 @param logString Format scring, same as for printf
+		 */
 		static void log(const char * logString, ...);
 		
-		/// Log message with arguments.
+		
+		/**
+		 @brief Log message with arguments list.
+		 @param logString Format scring, same as for printf
+		 */
 		static void logA(const char * logString, va_list arguments);
 	};
 	
