@@ -38,7 +38,7 @@
 
 namespace FayeCpp {
 		
-	void Transport::onSended()
+	void Transport::updateLastSendTime()
 	{
 		_lastSendTime = RETime::time();
 	}
