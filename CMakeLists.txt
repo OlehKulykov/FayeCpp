@@ -502,6 +502,7 @@ set(FAYECPP_SOURCES	src/client.cpp
 		src/REStringList.cpp
 		src/REStringUtilsPrivate.cpp
 		src/REThread.cpp
+		src/RETime.cpp
 		src/REWideString.cpp
 		src/transport.cpp
 		src/variant.cpp

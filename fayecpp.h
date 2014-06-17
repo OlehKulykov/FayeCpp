@@ -928,6 +928,51 @@ namespace FayeCpp {
 	};
 	
 	
+	/// Class using for getting time.
+	/// No matter how many instances of the class will still be used static methods.
+	class __RE_PUBLIC_CLASS_API__ RETime
+	{
+	public:
+		/// Returns current time.
+		/// Result value will be same as RETime::time();
+		const RETimeInterval getTime() const;
+		
+		/// Pausing time functionality.
+		/// Returns true if paused otherwise returns false on error of if already paused.
+		/// Result value will be same as RETime::pause();
+		REBOOL pauseTime();
+		
+		/// Resuming time functionality.
+		/// Returns true if resumed otherwise returns false on error of if already resumed or not paused.
+		/// Result value will be same as RETime::resume();
+		REBOOL resumeTime();
+		
+		/// Checks is time functionality paused.
+		/// Result value will be same as RETime::isPaused();
+		REBOOL isTimePaused() const;
+		
+		/// Returns current time.
+		static const RETimeInterval time();
+		
+		/// Pausing time functionality.
+		/// Returns true if paused otherwise returns false on error of if already paused.
+		static REBOOL pause();
+		
+		/// Resuming time functionality.
+		/// Returns true if resumed otherwise returns false on error of if already resumed or not paused.
+		static REBOOL resume();
+		
+		/// Checks is time functionality paused.
+		static REBOOL isPaused();
+		
+		/// Converts seconds to milliseconds.
+		static const REUInt64 convertSecondsToMilliseconds(const RETimeInterval seconds);
+		
+		/// Converts seconds to microseconds.
+		static const REUInt64 convertSecondsToMicroseconds(const RETimeInterval seconds);
+	};
+	
+	
 	/**
 	 @brief Class using for logining text messages.
 	 */
