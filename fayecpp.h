@@ -1350,10 +1350,7 @@ namespace FayeCpp {
 		REStringList _subscribedChannels;
 		REStringList _pendingSubscriptions;
 		REStringList _supportedConnectionTypes;
-		
-		REString _adviceReconnect;
-		
-		RETimeInterval _adviceTimeout;
+
 		bool _isFayeConnected;
 		
 		void processMessage(Responce * responce);
@@ -1382,29 +1379,11 @@ namespace FayeCpp {
 		void onDisconnectFayeDone(const VariantMap & message);
 		
 		bool isPendingChannel(const char * channel) const;
-		
+			
 		static unsigned long long _messageId;
 		static unsigned long long nextMessageId();
 		
 	public:
-		/**
-		 @brief Advice reconnect type string.
-		 @detailed Received when server successfully connected on connect channel. 
-		 By default is empty.
-		 @return Advice reconnect type string.
-		 */
-		const REString & adviceReconnect() const;
-		
-		
-		/**
-		 @brief Advice reconnect timeout in seconds.
-		 @detailed Received when server successfully connected on connect channel. 
-		 By default -1.
-		 @return Advice reconnect timeout in seconds.
-		 */
-		RETimeInterval adviceTimeout() const;
-		
-		
 		/**
 		 @return List of subscribed channels.
 		 */
@@ -1569,6 +1548,8 @@ namespace FayeCpp {
 	public:
 		bool isNULL() const;
 		
+		bool isNumber() const { return (_t == VariantType::TypeInteger) || (_t == VariantType::TypeReal); }
+		
 		VariantType type() const;
 		
 		int toInt() const;
@@ -1598,10 +1579,13 @@ namespace FayeCpp {
 		
 		Variant & operator=(const Variant & v);
 		
+		bool isString() const { return _t == VariantType::TypeString; }
 		const REString & toString() const;
 		
+		bool isMap() const { return _t == VariantType::TypeMap; }
 		const VariantMap & toMap() const;
 		
+		bool isList() const { return _t == VariantType::TypeList; }
 		const VariantList & toList() const;
 		
 		REString & toString();

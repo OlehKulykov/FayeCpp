@@ -53,6 +53,7 @@ namespace FayeCpp {
 		void onError(const REString & error);
 		
 	public:
+		void receivedAdvice(const VariantMap & advice);
 		bool isConnected() const;
 		void setUrl(const char * url);
 		

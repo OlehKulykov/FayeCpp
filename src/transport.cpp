@@ -39,6 +39,11 @@
 
 namespace FayeCpp {
 	
+	void Transport::receivedAdvice(const VariantMap & advice)
+	{
+		
+	}
+	
 	Client * Transport::client()
 	{
 		return _processMethod->classPointer();
