@@ -41,7 +41,11 @@ namespace FayeCpp {
 	
 	void Transport::receivedAdvice(const VariantMap & advice)
 	{
-		
+		VariantMap::Iterator i = advice.iterator();
+		while (i.next()) 
+		{
+			
+		}
 	}
 	
 	Client * Transport::client()

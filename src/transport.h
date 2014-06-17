@@ -31,6 +31,13 @@ namespace FayeCpp {
 	
 	class Transport
 	{
+	public:
+		typedef struct _advice
+		{
+			RETimeInterval interval;
+			RETimeInterval timeout;
+			int reconnect;
+		} Advice;
 	private:
 		REString _url;
 		REString _host;

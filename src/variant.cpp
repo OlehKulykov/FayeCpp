@@ -50,6 +50,11 @@ namespace FayeCpp {
 		return _u.pointerValue ? false : true;
 	}
 	
+	bool Variant::isNumber() const 
+	{
+		return (_t == VariantType::TypeInteger) || (_t == VariantType::TypeReal); 
+	}
+	
 	Variant::VariantType Variant::type() const
 	{
 		return _t;
@@ -268,14 +273,29 @@ namespace FayeCpp {
 		return *this;
 	}
 
+	bool Variant::isString() const
+	{
+		return _t == VariantType::TypeString; 
+	}
+	
 	const REString & Variant::toString() const
 	{
 		return *(const REString *)_u.pointerValue;
 	}
 	
+	bool Variant::isMap() const
+	{
+		return _t == VariantType::TypeMap; 
+	}
+	
 	const VariantMap & Variant::toMap() const
 	{
 		return *(const VariantMap *)_u.pointerValue;
+	}
+	
+	bool Variant::isList() const
+	{
+		return _t == VariantType::TypeList; 
 	}
 	
 	const VariantList & Variant::toList() const
