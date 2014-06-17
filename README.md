@@ -1,8 +1,7 @@
 # FayeCpp - Faye C++ client.
 
 
-[![Build Status](https://travis-ci.org/OlehKulykov/FayeCpp.svg?branch=master)](https://travis-ci.org/OlehKulykov/FayeCpp)
-
+[![Build Status](https://travis-ci.org/OlehKulykov/FayeCpp.svg?branch=master)](https://travis-ci.org/OlehKulykov/FayeCpp) [![Total views](https://sourcegraph.com/api/repos/github.com/OlehKulykov/FayeCpp/counters/views.png)](https://sourcegraph.com/github.com/OlehKulykov/FayeCpp) [![Views in the last 24 hours](https://sourcegraph.com/api/repos/github.com/OlehKulykov/FayeCpp/counters/views-24h.png)](https://sourcegraph.com/github.com/OlehKulykov/FayeCpp)
 
 **FayeCpp** (C++) client library for desktop & mobile platforms, such as **Mac**, **Windows**, **Linux**, **iOS**, **Android**. 
 
