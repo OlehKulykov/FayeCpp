@@ -1,9 +1,7 @@
-language:
-  - objective-c
-  - cpp
+language: cpp
 os:
-  - osx
   - linux
+  - osx
 compiler:
   - gcc
   - clang
@@ -18,7 +16,6 @@ script:
   - make
   - cd ..
   - rm -rf build
-  - xcodebuild -configuration Release -project builds/ios/fayecpp.xcodeproj -target fayecpp -arch i386 -sdk iphonesimulator OBJROOT=obj SYMROOT=sym clean build
 branches:
   only:
     - master
