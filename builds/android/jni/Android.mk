@@ -44,6 +44,7 @@ LOCAL_SRC_FILES := \
 	../../../src/REStringList.cpp \
 	../../../src/REStringUtilsPrivate.cpp \
 	../../../src/REThread.cpp \
+	../../../src/RETime.cpp \
 	../../../src/REWideString.cpp \
 	../../../src/transport.cpp \
 	../../../src/variant.cpp \
