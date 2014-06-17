@@ -1548,7 +1548,7 @@ namespace FayeCpp {
 	public:
 		bool isNULL() const;
 		
-		bool isNumber() const { return (_t == VariantType::TypeInteger) || (_t == VariantType::TypeReal); }
+		bool isNumber() const;
 		
 		VariantType type() const;
 		
@@ -1579,13 +1579,13 @@ namespace FayeCpp {
 		
 		Variant & operator=(const Variant & v);
 		
-		bool isString() const { return _t == VariantType::TypeString; }
+		bool isString() const;
 		const REString & toString() const;
 		
-		bool isMap() const { return _t == VariantType::TypeMap; }
+		bool isMap() const;
 		const VariantMap & toMap() const;
 		
-		bool isList() const { return _t == VariantType::TypeList; }
+		bool isList() const;
 		const VariantList & toList() const;
 		
 		REString & toString();
