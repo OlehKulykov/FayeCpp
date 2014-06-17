@@ -41,11 +41,24 @@ namespace FayeCpp {
 	
 	void Transport::receivedAdvice(const VariantMap & advice)
 	{
+		Advice a = { 0 };
 		VariantMap::Iterator i = advice.iterator();
 		while (i.next()) 
 		{
-			
+			if (i.key().isEqual("reconnect") && i.value().isString()) 
+			{
+				
+			}
+			else if (i.key().isEqual("interval") && i.value().isNumber())
+			{
+				
+			}
+			else if (i.key().isEqual("timeout") && i.value().isNumber())
+			{
+				
+			}
 		}
+		_advice = a;
 	}
 	
 	Client * Transport::client()
@@ -219,6 +232,7 @@ namespace FayeCpp {
 	{
 		assert(_processMethod);
 		assert(this->client());
+		memset(&_advice, 0, sizeof(Advice));
 	}
 	
 	Transport::~Transport()

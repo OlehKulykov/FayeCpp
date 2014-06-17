@@ -32,7 +32,7 @@ namespace FayeCpp {
 	class Transport
 	{
 	public:
-		typedef struct _advice
+		typedef struct _adviceStructure
 		{
 			RETimeInterval interval;
 			RETimeInterval timeout;
@@ -43,6 +43,7 @@ namespace FayeCpp {
 		REString _host;
 		REString _path;
 		ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * _processMethod;
+		Advice _advice;
 		int _port;
 		bool _isUseSSL;
 		bool _isConnected;
