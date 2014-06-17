@@ -71,7 +71,7 @@ namespace FayeCpp {
 		void onDataReceived(const unsigned char * data, const size_t dataSize);
 		void onError(const REString & error);
 		
-		void onSended();
+		void updateLastSendTime();
 		
 	public:
 		RETimeInterval lastSendTime() const { return _lastSendTime; }

@@ -153,8 +153,8 @@ namespace FayeCpp {
 		
 		delete buffer;
 		
-		this->onSended();
-		const int writed = libwebsocket_write(connection, &pss->buf[LWS_SEND_BUFFER_PRE_PADDING], pss->len, type);
+		this->updateLastSendTime();
+		const int writed = libwebsocket_write(connection, &pss->buf[LWS_SEND_BUFFER_PRE_PADDING], pss->len, type);		
 		if (writed < 0)
 		{
 #ifdef FAYECPP_DEBUG_MESSAGES
