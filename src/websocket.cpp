@@ -153,12 +153,14 @@ namespace FayeCpp {
 		
 		delete buffer;
 		
+		this->onSended();
 		const int writed = libwebsocket_write(connection, &pss->buf[LWS_SEND_BUFFER_PRE_PADDING], pss->len, type);
 		if (writed < 0)
 		{
 #ifdef FAYECPP_DEBUG_MESSAGES
 			RELog::log("ERROR %d writing to socket, hanging up", writed);
 #endif
+			libwebsocket_callback_on_writable(context, connection);
 			return -1;
 		}
 		if (writed < pss->len)
@@ -166,6 +168,7 @@ namespace FayeCpp {
 #ifdef FAYECPP_DEBUG_MESSAGES
 			RELog::log("Partial write");
 #endif
+			libwebsocket_callback_on_writable(context, connection);
 			return -1;
 		}
 		
