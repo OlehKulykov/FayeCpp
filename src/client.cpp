@@ -62,6 +62,16 @@ namespace FayeCpp {
 		return _messageId;
 	}
 	
+	const REString & Client::adviceReconnect() const
+	{
+		return _adviceReconnect;
+	}
+	
+	RETimeInterval Client::adviceTimeout() const
+	{
+		return _adviceTimeout;
+	}
+	
 	void Client::processMessage(Responce * responce)
 	{
 		switch (responce->type())
@@ -541,6 +551,7 @@ namespace FayeCpp {
 	Client::Client() :
 	_transport(NULL),
 	_delegate(NULL),
+	_adviceTimeout(-1),
 	_isFayeConnected(false)
 	{
 		REThread::mainThreadIdentifier();
