@@ -62,16 +62,6 @@ namespace FayeCpp {
 		return _messageId;
 	}
 	
-	const REString & Client::adviceReconnect() const
-	{
-		return _adviceReconnect;
-	}
-	
-	RETimeInterval Client::adviceTimeout() const
-	{
-		return _adviceTimeout;
-	}
-	
 	void Client::processMessage(Responce * responce)
 	{
 		switch (responce->type())
@@ -264,17 +254,14 @@ namespace FayeCpp {
 		VariantMap::Iterator i = message.iterator();
 		while (i.next()) 
 		{
-			if (i.key().isEqual("clientId"))
+			if (i.key().isEqual("clientId") && i.value().isString())
 			{
-				if (i.value().type() == Variant::TypeString) _clientId = i.value().toString();
+				_clientId = i.value().toString();
 			}
-			else if (i.key().isEqual("supportedConnectionTypes"))
+			else if (i.key().isEqual("supportedConnectionTypes") && i.value().isList())
 			{
-				if (i.value().type() == Variant::TypeList) 
-				{
-					VariantList::Iterator j = i.value().toList().iterator();
-					while (j.next()) _supportedConnectionTypes.add(j.value().toString());
-				}
+				VariantList::Iterator j = i.value().toList().iterator();
+				while (j.next()) _supportedConnectionTypes.add(j.value().toString());
 			}
 		}
 		
@@ -353,6 +340,9 @@ namespace FayeCpp {
 			if (_delegate) _delegate->onFayeClientConnected(this);
 			this->subscribePendingSubscriptions();
 		}
+		
+		Variant * advice = message.findTypedValue("advice", Variant::TypeMap);
+		if (advice && _transport) _transport->receivedAdvice(advice->toMap());
 	}
 	
 	void Client::connectFaye()
@@ -551,7 +541,6 @@ namespace FayeCpp {
 	Client::Client() :
 	_transport(NULL),
 	_delegate(NULL),
-	_adviceTimeout(-1),
 	_isFayeConnected(false)
 	{
 		REThread::mainThreadIdentifier();
