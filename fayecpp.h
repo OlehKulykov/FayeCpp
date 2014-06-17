@@ -1351,6 +1351,9 @@ namespace FayeCpp {
 		REStringList _pendingSubscriptions;
 		REStringList _supportedConnectionTypes;
 		
+		REString _adviceReconnect;
+		
+		RETimeInterval _adviceTimeout;
 		bool _isFayeConnected;
 		
 		void processMessage(Responce * responce);
@@ -1384,6 +1387,24 @@ namespace FayeCpp {
 		static unsigned long long nextMessageId();
 		
 	public:
+		/**
+		 @brief Advice reconnect type string.
+		 @detailed Received when server successfully connected on connect channel. 
+		 By default is empty.
+		 @return Advice reconnect type string.
+		 */
+		const REString & adviceReconnect() const;
+		
+		
+		/**
+		 @brief Advice reconnect timeout in seconds.
+		 @detailed Received when server successfully connected on connect channel. 
+		 By default -1.
+		 @return Advice reconnect timeout in seconds.
+		 */
+		RETimeInterval adviceTimeout() const;
+		
+		
 		/**
 		 @return List of subscribed channels.
 		 */
