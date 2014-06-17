@@ -395,6 +395,9 @@ namespace FayeCpp {
 		
 		if (_pendingSubscriptions.isContaines(channel->toString())) 
 		{
+			Variant * advice = message.findTypedValue("advice", Variant::TypeMap);
+			if (advice && _transport) _transport->receivedAdvice(advice->toMap());
+			
 			REStringList::Node * node = _pendingSubscriptions.findNode(channel->toString());
 			if (node) _pendingSubscriptions.removeNode(node);
 			
