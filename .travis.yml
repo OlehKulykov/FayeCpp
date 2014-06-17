@@ -1,9 +1,9 @@
 language:
-  - cpp
   - objective-c
+  - cpp
 os:
-  - linux
   - osx
+  - linux
 compiler:
   - gcc
   - clang
