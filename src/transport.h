@@ -26,8 +26,13 @@
 
 #include "../fayecpp.h"
 #include "classmethodwrapper.h"
+#include "REMutex.h"
 
 namespace FayeCpp {
+	
+#define ADVICE_RECONNECT_NONE 0
+#define ADVICE_RECONNECT_RETRY 1
+#define ADVICE_RECONNECT_HANDSHAKE 2
 	
 	class Transport
 	{
@@ -44,6 +49,7 @@ namespace FayeCpp {
 		REString _path;
 		ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * _processMethod;
 		Advice _advice;
+		RETimeInterval _lastSendTime;
 		int _port;
 		bool _isUseSSL;
 		bool _isConnected;
@@ -54,13 +60,21 @@ namespace FayeCpp {
 		Delegate * delegate();
 		
 	protected:
+		RETimeInterval adviceInterval() const { return _advice.interval; }
+		RETimeInterval adviceTimeout() const { return _advice.timeout; }
+		int adviceReconnect() const { return _advice.reconnect; }
+		
+		
 		void onConnected();
 		void onDisconnected();
 		void onTextReceived(const char * text);
 		void onDataReceived(const unsigned char * data, const size_t dataSize);
 		void onError(const REString & error);
 		
+		void onSended();
+		
 	public:
+		RETimeInterval lastSendTime() const { return _lastSendTime; }
 		void receivedAdvice(const VariantMap & advice);
 		bool isConnected() const;
 		void setUrl(const char * url);

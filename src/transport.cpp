@@ -36,29 +36,39 @@
 
 #include <assert.h>
 
-
 namespace FayeCpp {
+		
+	void Transport::onSended()
+	{
+		_lastSendTime = RETime::time();
+	}
 	
 	void Transport::receivedAdvice(const VariantMap & advice)
 	{
-		Advice a = { 0 };
+		Advice a;
+		a.reconnect = ADVICE_RECONNECT_NONE;
+		a.timeout = a.interval = -1;
+		
 		VariantMap::Iterator i = advice.iterator();
 		while (i.next()) 
 		{
 			if (i.key().isEqual("reconnect") && i.value().isString()) 
 			{
-				
+				if (i.value().toString().isEqual("retry")) 
+					a.reconnect = ADVICE_RECONNECT_RETRY;
+				else if (i.value().toString().isEqual("handshake"))
+					a.reconnect = ADVICE_RECONNECT_HANDSHAKE;
 			}
 			else if (i.key().isEqual("interval") && i.value().isNumber())
-			{
-				
-			}
+				a.interval = i.value().toInt64() / 1000;
 			else if (i.key().isEqual("timeout") && i.value().isNumber())
-			{
-				
-			}
+				a.timeout = i.value().toInt64() / 1000;
 		}
+		
 		_advice = a;
+		
+		Variant * thisTransportAdvice = advice.findTypedValue(this->name(), Variant::TypeMap);
+		if (thisTransportAdvice) this->receivedAdvice(thisTransportAdvice->toMap());
 	}
 	
 	Client * Transport::client()
@@ -217,22 +227,27 @@ namespace FayeCpp {
 	
 	Transport::Transport() :
 		_processMethod(NULL),
+		_lastSendTime(RETime::time()),
 		_port(-1),
 		_isUseSSL(false),
 		_isConnected(false)
 	{
-		
+		_advice.reconnect = ADVICE_RECONNECT_NONE;
+		_advice.timeout = _advice.interval = -1;
 	}
 	
 	Transport::Transport(ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * processMethod) :
 		_processMethod(processMethod),
+		_lastSendTime(RETime::time()),
 		_port(-1),
 		_isUseSSL(false),
 		_isConnected(false)
 	{
 		assert(_processMethod);
 		assert(this->client());
-		memset(&_advice, 0, sizeof(Advice));
+		
+		_advice.reconnect = ADVICE_RECONNECT_NONE;
+		_advice.timeout = _advice.interval = -1;
 	}
 	
 	Transport::~Transport()

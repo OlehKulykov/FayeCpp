@@ -68,6 +68,7 @@ namespace FayeCpp {
 #ifdef FAYECPP_DEBUG_MESSAGES
 		qDebug() << "SocketQt:" << "send bin:" << (const char*)data;
 #endif
+		this->onSended();
 		_socket->sendBinaryMessage(QByteArray((char*)data, (int)dataSize));
 	}
 
@@ -76,6 +77,7 @@ namespace FayeCpp {
 #ifdef FAYECPP_DEBUG_MESSAGES
 		qDebug() << "SocketQt:" << "send text:" << text;
 #endif
+		this->onSended();
 		_socket->sendTextMessage(QString(text));
 		(void)textSize;
 	}
