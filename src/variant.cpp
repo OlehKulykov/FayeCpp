@@ -52,7 +52,7 @@ namespace FayeCpp {
 	
 	bool Variant::isNumber() const 
 	{
-		return (_t == VariantType::TypeInteger) || (_t == VariantType::TypeReal); 
+		return (_t == TypeInteger) || (_t == TypeReal); 
 	}
 	
 	Variant::VariantType Variant::type() const
@@ -275,7 +275,7 @@ namespace FayeCpp {
 
 	bool Variant::isString() const
 	{
-		return _t == VariantType::TypeString; 
+		return _t == TypeString; 
 	}
 	
 	const REString & Variant::toString() const
@@ -285,7 +285,7 @@ namespace FayeCpp {
 	
 	bool Variant::isMap() const
 	{
-		return _t == VariantType::TypeMap; 
+		return _t == TypeMap; 
 	}
 	
 	const VariantMap & Variant::toMap() const
@@ -295,7 +295,7 @@ namespace FayeCpp {
 	
 	bool Variant::isList() const
 	{
-		return _t == VariantType::TypeList; 
+		return _t == TypeList; 
 	}
 	
 	const VariantList & Variant::toList() const
