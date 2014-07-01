@@ -1743,16 +1743,83 @@ namespace FayeCpp {
 		ResponceType _type;
 		
 	public:
+		/** 
+		 @brief Get message error string pointer.
+		 @return String pointer or NULL.
+		 */
 		REString * errorString() const;
+		
+		
+		/** 
+		 @brief Get message list pointer.
+		 @return Variant list pointer or NULL.
+		 */
 		VariantList * messageList() const;
+		
+		
+		/** 
+		 @brief Get message map pointer.
+		 @return Variant map pointer or NULL.
+		 */
 		VariantMap * messageMap() const;
+		
+		
+		/** 
+		 @brief Get message buffer.
+		 @return Buffer pointer or NULL.
+		 */
 		REBuffer * messageBuffer() const;
+		
+		
+		/** 
+		 @brief Get type of responce.
+		 @return Responce type.
+		 */
 		Responce::ResponceType type() const;
+		
+		
+		/** 
+		 @brief Setter for message responce type.
+		 @param type Type of responce.
+		 @return Address of this message object.
+		 */
 		Responce & setType(Responce::ResponceType type);
+		
+		
+		/** 
+		 @brief Setter for message error string.
+		 @param value C error string.
+		 @return Address of this message object.
+		 */
 		Responce & setErrorString(const char * value);
+		
+		
+		/** 
+		 @brief Setter for message text.
+		 @param text C string with message text.
+		 @return Address of this message object.
+		 */
 		Responce & setMessageText(const char * text);
+		
+		
+		/** 
+		 @brief Setter for message data.
+		 @param data Pointer to message data.
+		 @param dataSize Size of message data.
+		 @return Address of this message object.
+		 */
 		Responce & setMessageData(const unsigned char * data, const size_t dataSize);
+		
+		
+		/** 
+		 @brief Default contructor for the message.
+		 */
 		Responce();
+		
+		
+		/** 
+		 @brief Default destructor for the message.
+		 */
 		~Responce();
 	};
 
