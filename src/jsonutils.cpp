@@ -140,7 +140,7 @@ namespace FayeCpp {
 		{
 			json_error_t error;
 			memset(&error, 0, sizeof(json_error_t));
-			//		except that the string doesn’t need to be null-terminated
+			// except that the string doesn’t need to be null-terminated
 			json_t * json = json_loadb(text, len, 0, &error);
 			if (json)
 			{

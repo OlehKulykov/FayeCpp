@@ -144,10 +144,6 @@ namespace FayeCpp {
 		if (!buffer) return 0;
 		
 		const enum libwebsocket_write_protocol type = (enum libwebsocket_write_protocol)buffer->tag;
-		
-//		pss->len = sprintf((char *)&pss->buf[LWS_SEND_BUFFER_PRE_PADDING],
-//						   "%s",
-//						   (const char*)buffer->buffer());
 		memcpy(&pss->buf[LWS_SEND_BUFFER_PRE_PADDING], buffer->buffer(), buffer->size());
 		pss->len = buffer->size();
 		
