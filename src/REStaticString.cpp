@@ -29,6 +29,7 @@ namespace FayeCpp {
 	void REStaticString::freeNonCopyBuffMem(void * m)
 	{
 		// do not free, this is static memory
+		(void)m;
 	}
 	
 	REStaticString::REStaticString(const char * utf8String, const REUInt32 utf8StringLength /* = RENotFound */ ) : REString()

@@ -441,6 +441,7 @@ namespace FayeCpp {
 		_isFayeConnected = false;
 		
 		if (_delegate) _delegate->onFayeClientDisconnected(this);
+		(void)message;
 	}
 	
 	void Client::subscribePendingSubscriptions()

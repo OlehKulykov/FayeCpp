@@ -940,7 +940,7 @@ namespace FayeCpp {
 	public:
 		/// Returns current time.
 		/// Result value will be same as RETime::time();
-		const RETimeInterval getTime() const;
+		RETimeInterval getTime() const;
 		
 		/// Pausing time functionality.
 		/// Returns true if paused otherwise returns false on error of if already paused.
@@ -957,7 +957,7 @@ namespace FayeCpp {
 		REBOOL isTimePaused() const;
 		
 		/// Returns current time.
-		static const RETimeInterval time();
+		static RETimeInterval time();
 		
 		/// Pausing time functionality.
 		/// Returns true if paused otherwise returns false on error of if already paused.
@@ -971,10 +971,10 @@ namespace FayeCpp {
 		static REBOOL isPaused();
 		
 		/// Converts seconds to milliseconds.
-		static const REUInt64 convertSecondsToMilliseconds(const RETimeInterval seconds);
+		static REUInt64 convertSecondsToMilliseconds(const RETimeInterval seconds);
 		
 		/// Converts seconds to microseconds.
-		static const REUInt64 convertSecondsToMicroseconds(const RETimeInterval seconds);
+		static REUInt64 convertSecondsToMicroseconds(const RETimeInterval seconds);
 	};
 	
 	

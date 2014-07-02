@@ -250,6 +250,8 @@ namespace FayeCpp {
 				}
 			}
 		}
+#else
+		(void)urlString;
 #endif	
 		return false;
 	}

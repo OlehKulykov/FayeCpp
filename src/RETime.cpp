@@ -194,7 +194,7 @@ namespace FayeCpp {
 		
 	}
 	
-	const REUInt64 RETime::convertSecondsToMilliseconds(const RETimeInterval seconds)
+	REUInt64 RETime::convertSecondsToMilliseconds(const RETimeInterval seconds)
 	{
 		double fullSeconds = 0.0;
 		const double fractSecond = modf(seconds, &fullSeconds);
@@ -203,7 +203,7 @@ namespace FayeCpp {
 		return (fullIntMilisec + fractIntMilisec);
 	}
 	
-	const REUInt64 RETime::convertSecondsToMicroseconds(const RETimeInterval seconds)
+	REUInt64 RETime::convertSecondsToMicroseconds(const RETimeInterval seconds)
 	{
 		double fullSeconds = 0.0;
 		const double fractSecond = modf(seconds, &fullSeconds);
@@ -242,12 +242,12 @@ namespace FayeCpp {
 		return RETimePrivate::_time.isPaused();
 	}
 	
-	const RETimeInterval RETime::getTime() const
+	RETimeInterval RETime::getTime() const
 	{
 		return RETime::time();
 	}
 	
-	const RETimeInterval RETime::time()
+	RETimeInterval RETime::time()
 	{
 		return RETimePrivate::_time.Time();
 	}

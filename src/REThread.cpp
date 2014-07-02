@@ -503,7 +503,7 @@ namespace FayeCpp {
 	
 #include <math.h>
 	
-	const uint64_t __convertSecondsToMicroseconds(const double seconds)
+	uint64_t __convertSecondsToMicroseconds(const double seconds)
 	{
 		double fullSeconds = 0.0;
 		const double fractSecond = modf(seconds, &fullSeconds);
