@@ -59,6 +59,10 @@
 #include <dispatch/dispatch.h>
 #endif
 
+#if defined(HAVE_SIGNAL_H)
+#include <signal.h>
+#endif
+
 #if !defined(HAVE_FUNCTION_PTHREAD_CANCEL) && defined(HAVE_SIGNAL_H)
 #include <signal.h>
 #endif
