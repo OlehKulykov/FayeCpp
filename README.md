@@ -72,6 +72,16 @@ ndk-build NDK_PROJECT_PATH=<path_to_FayeCpp>/builds/android
 > Replace ```<path_to_Android_NDK>``` and ```<path_to_FayeCpp>``` with actual paths.
 
 
+### Build iOS framework
+For creating iOS framework was created script ```build_ios_framework.sh``` located in folder ```builds/ios/```.
+So when you in root directory just execute next commands:
+```sh
+cd builds/ios/
+./build_ios_framework.sh
+```
+So after finishing you will get ```FayeCpp.framework``` framework in folder ```builds/ios/``` which includes ```i386```, ```x86_64```, ```armv7```, ```armv7s``` and ```arm64``` architectures.
+
+
 # Integration
 -------------
 
