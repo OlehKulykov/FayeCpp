@@ -134,8 +134,8 @@ public:
 														const FayeCpp::REString & channel)
 	{
 	    
-        // Print string value for "text" key
-		RELog::log("Print string value for \"text\" key: %s", message["text"].toString().UTF8String());
+        // Print channel which received message
+		RELog::log("Received message from channel: \"%s\"", channel.toString().UTF8String());
 		
 		// Iterate all message (VariantMap) pairs
 		VariantMap::Iterator iterator = message.iterator();
