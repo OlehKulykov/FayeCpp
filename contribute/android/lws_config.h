@@ -165,7 +165,7 @@
 /* #undef size_t */
 
 /* Define to 1 if we have getifaddrs */
-#define HAVE_GETIFADDRS
+//#define HAVE_GETIFADDRS 1
 
 /* Define as `fork' if `vfork' does not work. */
 /* #undef vfork */

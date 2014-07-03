@@ -9,6 +9,7 @@ LOCAL_SRC_FILES := \
 	../../../libwebsockets/lib/context.c \
 	../../../libwebsockets/lib/extension-deflate-frame.c \
 	../../../libwebsockets/lib/extension-deflate-stream.c \
+	../../../libwebsockets/lib/extension.c \
 	../../../libwebsockets/lib/getifaddrs.c \
 	../../../libwebsockets/lib/handshake.c \
 	../../../libwebsockets/lib/libwebsockets.c \
@@ -39,28 +40,25 @@ LOCAL_SRC_FILES := \
 	../../../message.cpp \
 	../../../variant.cpp
 
-LOCAL_C_INCLUDES := \
+LOCAL_C_INCLUDES += \
 	$(LOCAL_PATH)/../ \
 	$(LOCAL_PATH)/../../../ \
 	$(LOCAL_PATH)/../../../libwebsockets/lib/ \
 	$(LOCAL_PATH)/../../../jansson/src/ \
 	$(LOCAL_PATH)/../../../jansson/android/
 		
-LOCAL_CFLAGS := \
+LOCAL_CFLAGS += \
+	-w \
 	-DHAVE_FAYECPP_CONFIG_H=1 \
 	-DHAVE_CONFIG_H=1 \
 	-DCMAKE_BUILD=1 \
 	-DLWS_BUILTIN_GETIFADDRS=1 \
 	-DHAVE_STDINT_H=1 \
-	-DLOG_DEBUG=7 \
-	-DLOG_ERR=3 \
-	-DLOG_WARNING=4 \
-	-DLOG_NOTICE=5 \
-	-DLOG_INFO=6
+	-DHAVE_GETIFADDRS=0
 
 LOCAL_MODULE := libfayecpp
 
-LOCAL_LDLIBS := -llog -lz
+LOCAL_LDLIBS += -lz
 
 #LOCAL_STATIC_LIBRARIES := libwebsockets
 #LOCAL_SHARED_LIBRARIES := libjansson
