@@ -1400,7 +1400,9 @@ namespace FayeCpp {
 	
 	class REString;
 	
-	/// Class of memory buffer.
+	/**
+	 @brief Class of memory buffer.
+	 */
 	class __RE_PUBLIC_CLASS_API__ REBuffer
 	{
 	protected:
