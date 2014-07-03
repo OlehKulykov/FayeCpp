@@ -49,6 +49,7 @@ rm -rf FayeCpp.framework
 mkdir -p FayeCpp.framework/Versions/A/Headers
 
 cp ../../fayecpp.h FayeCpp.framework/Versions/A/Headers/
+cp ../../contrib/objc/FayeCppClient.h FayeCpp.framework/Versions/A/Headers/
 
 mkdir -p FayeCpp.framework/Versions/A/Resources
 cp all.a FayeCpp

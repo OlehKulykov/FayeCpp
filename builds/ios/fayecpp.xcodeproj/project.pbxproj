@@ -56,6 +56,7 @@
 		3D8CB8DC1948996200943B53 /* strconv.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CB8D11948996200943B53 /* strconv.c */; };
 		3D8CB8DD1948996200943B53 /* utf.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CB8D21948996200943B53 /* utf.c */; };
 		3D8CB8DE1948996200943B53 /* value.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CB8D31948996200943B53 /* value.c */; };
+		3DA2A4BB196601C7002B7C09 /* FayeCppClient.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3DA2A4BA196601C7002B7C09 /* FayeCppClient.mm */; };
 		3DFF1BAE195069F5001CEDE1 /* RETime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF1BAD195069F5001CEDE1 /* RETime.cpp */; };
 /* End PBXBuildFile section */
 
@@ -131,6 +132,8 @@
 		3D8CB8D21948996200943B53 /* utf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = utf.c; path = ../../jansson/src/utf.c; sourceTree = "<group>"; };
 		3D8CB8D31948996200943B53 /* value.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = value.c; path = ../../jansson/src/value.c; sourceTree = "<group>"; };
 		3D8CB8F8194899FB00943B53 /* fayecpp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fayecpp.h; path = ../../fayecpp.h; sourceTree = "<group>"; };
+		3DA2A4B9196601C7002B7C09 /* FayeCppClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FayeCppClient.h; path = ../../contrib/objc/FayeCppClient.h; sourceTree = "<group>"; };
+		3DA2A4BA196601C7002B7C09 /* FayeCppClient.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = FayeCppClient.mm; path = ../../contrib/objc/FayeCppClient.mm; sourceTree = "<group>"; };
 		3DFF1BAD195069F5001CEDE1 /* RETime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RETime.cpp; path = ../../src/RETime.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -149,6 +152,7 @@
 		3D8CB873194898B400943B53 = {
 			isa = PBXGroup;
 			children = (
+				3DA2A4B8196601A4002B7C09 /* objc wraper */,
 				3D8CB8A51948993C00943B53 /* libwebsockets */,
 				3D8CB8C81948995A00943B53 /* jansson */,
 				3D8CB8DF194899A300943B53 /* fayecpp */,
@@ -260,6 +264,15 @@
 			name = src;
 			sourceTree = "<group>";
 		};
+		3DA2A4B8196601A4002B7C09 /* objc wraper */ = {
+			isa = PBXGroup;
+			children = (
+				3DA2A4B9196601C7002B7C09 /* FayeCppClient.h */,
+				3DA2A4BA196601C7002B7C09 /* FayeCppClient.mm */,
+			);
+			name = "objc wraper";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -350,6 +363,7 @@
 				3D8CB8C71948994500943B53 /* sha-1.c in Sources */,
 				3D8CB8D61948996200943B53 /* hashtable.c in Sources */,
 				3D8CB8B71948994500943B53 /* base64-decode.c in Sources */,
+				3DA2A4BB196601C7002B7C09 /* FayeCppClient.mm in Sources */,
 				3D8CB8C31948994500943B53 /* output.c in Sources */,
 				3D12B489194AF31000B8E9D9 /* REStaticString.cpp in Sources */,
 				3D8CB8C61948994500943B53 /* service.c in Sources */,
