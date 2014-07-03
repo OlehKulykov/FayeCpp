@@ -979,10 +979,16 @@ namespace FayeCpp {
 	};
 	
 
+	/**
+	 @brief Map class template.
+	 */
 	template <typename TK, typename TV>
 	class __RE_PUBLIC_CLASS_API__ REMap
 	{
 	public:
+		/**
+		 @brief Class of map node.
+		 */
 		class Node;
 		
 	private:
@@ -995,6 +1001,9 @@ namespace FayeCpp {
 		};
 		
 	public:
+		/**
+		 @brief Map node class. Containes key and value object.
+		 */
 		class Node : public NodeBase
 		{
 		public:
@@ -1003,8 +1012,25 @@ namespace FayeCpp {
 			Node(const TK & newKey, const TV & newValue) : NodeBase(), key(newKey), value(newValue) { }
 		};
 		
+
+		/**
+		 @brief Node pointer type.
+		 */
 		typedef Node * NodePtr;
+
+
+		/**
+		 @brief Node creator callback type. With key and value.
+		 @param Key value.
+		 @param Value.
+		 */
 		typedef NodePtr (*CreateNodeCallback)(const TK & newKey, const TV & newValue);
+
+
+		/**
+		 @brief Release node callback type.
+		 @param Node pointer.
+		 */
 		typedef void (*ReleaseNodeCallback)(NodePtr);
 	private:
 		CreateNodeCallback _createNode;
@@ -1028,16 +1054,37 @@ namespace FayeCpp {
 			return newNode;
 		}
 	public:
+		/**
+		 @brief Default node creator callback.
+		 @detailed Create node with "new" operator.
+		 @param newKey Node key.
+		 @param newValue Node value.
+		 @return Pointer to created node.
+		 */
 		static NodePtr newNode(const TK & newKey, const TV & newValue)
 		{
 			return (new Node(newKey, newValue));
 		}
 		
+
+		/**
+		 @brief Default node release callback.
+		 @detailed Release node with "delete" operator.
+		 @param node Node pointer.
+		 */
 		static void deleteNode(NodePtr node)
 		{
 			delete node;
 		}
 		
+
+		/**
+		 @brief Node allocator callback.
+		 @detailde Create node with "malloc" function.
+		 @param newKey Node key.
+		 @param newValue Node value.
+		 @return Pointer to created node.
+		 */
 		static NodePtr allocateNode(const TK & newKey, const TV & newValue)
 		{
 			NodePtr node = (NodePtr)malloc(sizeof(Node));
@@ -1049,39 +1096,72 @@ namespace FayeCpp {
 			return node;
 		}
 		
+
+		/**
+		 @brief Node release callback.
+		 @detailed Release node with "free" function.
+		 @param node Node pointer.
+		 */
 		static void freeNode(NodePtr node)
 		{
 			free(node);
 		}
 		
 	public:
+		/**
+		 @brief Map iterator class.
+		 */
 		class Iterator
 		{
 		private:
 			Node * _head;
 			Node * _node;
 		public:
+			/**
+			 @brief Move to next map key-pair.
+			 @return True if moved to next key-pari, othervice false.
+			 */
 			bool next()
 			{
 				_node = _node ? _node->next : this->_head->next;
 				return _node != this->_head;
 			}
 			
+
+			/**
+			 @brief Getter for current node pointer.
+			 @return Current node pointer.
+			 */
 			Node * node() const
 			{
 				return _node;
 			}
 			
+
+			/**
+			 @brief Getter for current node key object.
+			 @return Address of the key.
+			 */
 			const TK & key() const
 			{
 				return _node->key;
 			}
 			
+
+			/**
+			 @brief Getter for current node value.
+			 @return Address of the value.
+			 */
 			const TV & value() const
 			{
 				return _node->value;
 			}
 			
+
+			/**
+			 @brief Constructs iterator with another iterator object.
+			 @param it Another iterator object.
+			 */
 			Iterator(const Iterator & it) :
 			_head(it._head),
 			_node(NULL)
@@ -1089,6 +1169,11 @@ namespace FayeCpp {
 				
 			}
 			
+
+			/**
+			 @brief Contructs iterator node pointer.
+			 @param listHead Pointer to node.
+			 */
 			Iterator(Node * listHead) :
 			_head(listHead),
 			_node(NULL)
@@ -1097,16 +1182,29 @@ namespace FayeCpp {
 			}
 		};
 		
+
+		/**
+		 @brief Creates new iterator object.
+		 @return New iterator.
+		 */
 		Iterator iterator() const
 		{
 			return Iterator(this->_castHead);
 		}
-		
+
+		/**
+		 @brief Check is map has no key-pairs.
+		 @return True if there is no key-pairs, othervice false.
+		 */
 		bool isEmpty() const
 		{
 			return (this->_head->next == this->_head);
 		}
 		
+
+		/**
+		 @brief Removes all key-pairs from map.
+		 */
 		void clear()
 		{
 			Node * node = this->_head->next;
@@ -1116,6 +1214,13 @@ namespace FayeCpp {
 			}
 		}
 		
+
+		/**
+		 @brief Find node by key object.
+		 @detailed Comparing key objects using "==" operator.
+		 @param key The key object.
+		 @return Node pointer or NULL if not found.
+		 */
 		Node * findNode(const TK & key) const
 		{
 			Node * next = this->_head->next;
@@ -1130,11 +1235,25 @@ namespace FayeCpp {
 			return NULL;
 		}
 		
+
+		/**
+		 @brief Check map containes key-pair by key object.
+		 @detailed Comparing key objects using "==" operator.
+		 @param key The key object.
+		 @return True if have key-pair with the key, othervice false.
+		 */
 		bool isContainesKey(const TK & key) const
 		{
 			return this->findNode(key) ? true : false;
 		}
 		
+
+		/**
+		 @brief Removes node from map and returns next node pointer.
+		 @detailed Can be used during iterating.
+		 @param node The node pointer for remove.
+		 @return Next node pointer.
+		 */
 		Node * removeNode(Node * node)
 		{
 			if (node != this->_head)
@@ -1148,6 +1267,13 @@ namespace FayeCpp {
 			return this->_castHead;
 		}
 		
+
+		/**
+		 @brief Set new value for key-pair by key or create new key-pair.
+		 @param newKey The key.
+		 @param newValue The value.
+		 @return True if value by key is updated or successfully created and added new key-pair.
+		 */
 		bool setKeyValue(const TK & newKey, const TV & newValue)
 		{
 			Node * node = this->findNode(newKey);
@@ -1159,11 +1285,24 @@ namespace FayeCpp {
 			return this->add(newKey, newValue);
 		}
 		
+
+		/**
+		 @brief Add new key-pair to map without checking existance key-pair with specific key object.
+		 @param newKey The key.
+		 @param newValue The value.
+		 @return True if added new key-pair, othervice false.
+		 */
 		bool add(const TK & newKey, const TV & newValue)
 		{
 			return this->addNewNodeWithKeyValue(newKey, newValue) ? true : false;
 		}
 		
+
+		/**
+		 @brief Constructs new map.
+		 @param nodeCreator Map node creator callback, if no assigned - using default callback with "new" operator.
+		 @param nodeReleaser Map node release callback, if no assigned - using default callback with "new" operator.
+		 */
 		REMap(CreateNodeCallback nodeCreator = &newNode,
 			   ReleaseNodeCallback nodeReleaser = &deleteNode) :
 		_createNode(nodeCreator),
@@ -1179,6 +1318,10 @@ namespace FayeCpp {
 			}
 		}
 		
+
+		/**
+		 @brief Default map virtual desctructor.
+		 */
 		virtual ~REMap()
 		{
 			this->clear();
@@ -1323,6 +1466,10 @@ namespace FayeCpp {
 		virtual ~REBuffer();
 	};
 	
+
+	/**
+	 @brief Class of buffer which only hold pointer to buffer without copying.
+	 */
 	class __RE_PUBLIC_CLASS_API__ REBufferNoCopy : public REBuffer
 	{
 	public:
@@ -1336,17 +1483,47 @@ namespace FayeCpp {
 		virtual void freeMemory(void * mem);
 		
 	public:
+		/**
+		 @brief Contructs buffer.
+		 @param originalBuff Pointer to some buffer with data.
+		 @param buffSize Size of buffer.
+		 @param freeOriginalBuff Callback for delete buffer pointer, if not assigned than use default which do nothing.
+		 */
 		REBufferNoCopy(const void * originalBuff, const REUInt32 buffSize, REBufferNoCopy::FreeOriginalBuff freeOriginalBuff = REBuffer::defaultFree);
 		
+		/**
+		 @brief Default vitual destructor.
+		 */
 		virtual ~REBufferNoCopy();
 	};
 	
+
+	/**
+	 @brief Type of the string.
+	 */
 	typedef enum _reStringType
 	{
+		/**
+		 @brief UTF8 type. Using "char" as type.
+		 */
 		REStringTypeUTF8 = 0,
+
+
+		/**
+		 @brief Wide type. Using "whar_t" as type.
+		 */
 		REStringTypeWide = 1
-	} REStringType;
+	}
+	/**
+	 @brief Type of the string.
+	 */
+	REStringType;
 	
+
+	/**
+	 @brief Base string class. Holds autopointer to string data buffer.
+	 @detailed During data assigment strings can be converted between UTF8 and wide char presentation.
+	 */
 	class __RE_PUBLIC_CLASS_API__ REStringBase
 	{
 	protected:
@@ -1355,72 +1532,267 @@ namespace FayeCpp {
 		void * stringBuffer() const;
 		REUInt32 stringBufferSize() const;
 	public:
-		
+		/**
+		 @brief Check is string empty.
+		 @return True if string is empty, othervice false.
+		 */
 		REBOOL isEmpty() const;
+
+
+		/**
+		 @brief Check is string not empty.
+		 @return True if string not empty(has characters), othervice false.
+		 */
 		REBOOL isNotEmpty() const;
+
+
+		/**
+		 @brief Clears string. Releases string buffer.
+		 */
 		void clear();
 		
+
+		/**
+		 @brief Set string data with UTF8 string.
+		 @param utf8String The UTF8 string.
+		 @param utf8StringLength Length of the UTF8 string, don't include NULL terminated char. This is not count of the UTF8 characters.
+		 If not assigned than lenght will be calculated with "strlen" function.
+		 @param toType Type of the result string buffer type. If not assigned using UTF8 type by default.
+		 */
 		void setFromUTF8String(const char * utf8String,
 							   const REUInt32 utf8StringLength = RENotFound,
 							   const REStringType toType = REStringTypeUTF8);
 		
+
+		/**
+		 @brief Set string data with wide string.
+		 @param wideString The wide string.
+		 @param wideStringLength Length of the wide string, don't include NULL terminated char.
+		 @param toType Type of the result string buffer type. If not assigned using UTF8 type by default.
+		 */
 		void setFromWideString(const wchar_t * wideString,
 							   const REUInt32 wideStringLength = RENotFound,
 							   const REStringType toType = REStringTypeUTF8);
 		
+		/**
+		 @brief Compare byte-to-byte receiver string buffer with another string buffer.
+		 @param s Another string.
+		 @return True if both string buffers are byte-to-byte equal.
+		 */
 		bool operator==(const REStringBase & s) const;
 		
+
+		/**
+		 @brief Construct empty string object.
+		 */
 		REStringBase();
 		
+
+		/**
+		 @brief Constructs string object with UTF8 string.
+		 @param utf8String The UTF8String.
+		 @param utf8StringLength Length of the UTF8 string, don't include NULL terminated char. This is not count of the UTF8 characters.
+		 @param toType Type of the result string buffer type. If not assigned using UTF8 type by default
+		 */
 		REStringBase(const char * utf8String,
 					 const REUInt32 utf8StringLength = RENotFound,
 					 const REStringType toType = REStringTypeUTF8);
 		
+
+		/**
+		 @brief Constructs string object with wide characters string.
+		 @param wideString The wide string.
+		 @param wideStringLength Length of the wide string, don't include NULL terminated char.
+		 @param toType Type of the result string buffer type. If not assigned using UTF8 type by default.
+		 */
 		REStringBase(const wchar_t * wideString,
 					 const REUInt32 wideStringLength = RENotFound,
 					 const REStringType toType = REStringTypeUTF8);
 		
+
+		/**
+		 @brief Construct string object with autopointer object to string buffer.
+		 @detailed Useful for imutable strings basic assigment, just retain buffer without creating new and copy data.
+		 @param stringBuffer Autopinter to string buffer.
+		 */
 		REStringBase(const REPtr<REBuffer> & stringBuffer);
 		
+
+		/**
+		 @brief Default string desctructor.
+		 */
 		virtual ~REStringBase();
 	};
 	
 	class REMutableString;
 	class REWideString;
 	
+
+	/**
+	 @brief Class of the immutable string.
+	 */
 	class __RE_PUBLIC_CLASS_API__ REString : public REStringBase
 	{
 	public:
+		/**
+		 @brief Return mutable string object, string buffer will be copyed.
+		 @return New mutable string.
+		 */
 		REMutableString mutableString() const;
+
+
+		/**
+		 @brief Creates and return wide string object. During creating converting to wide string presentation could be.
+		 @return Wide string object.
+		 */
 		REWideString wideString() const;
 		
+
+		/**
+		 @brief Pointer to UTF8 string.
+		 @return Pointer to string or NULL if string is empty.
+		 */
 		const char * UTF8String() const;
+
+
+		/**
+		 @brief Length of the string.
+		 @return Length of the string, this is not count of the UTF8 characters.
+		 */
 		REUInt32 length() const;
 		
+
+		/**
+		 @brief Check is string containes non ASCII symbols.
+		 @return True if containes, othervice false.
+		 */
 		REBOOL isContainsNonASCII() const;
 		
+
+		/**
+		 @brief Check string containes UTF8 string. Case sensitive.
+		 @param utf8String The UTF8 string to search.
+		 @return True if containes, othervice false.
+		 */
 		REBOOL isContaines(const char * utf8String) const;
 		
+
+		/**
+		 @brief Check string containes wide string. Case sensitive.
+		 @detailed BEfore searching wide string will be converted to UTF8 presentation.
+		 @param wideString The wide string to search.
+		 @return True if containes, othervice false.
+		 */
 		REBOOL isContaines(const wchar_t * wideString) const;
 		
+
+		/**
+		 @brief Check is string is digit presentation.
+		 @detailed Checked for +/- and dot.
+		 @return True if digit, othervice false.
+		 */
 		REBOOL isDigit() const;
 		
+
+		/**
+		 @brief Check is string is equal to another string. Case sensitive.
+		 @param anotherString Wide string object.
+		 @return True is equal, othervice false.
+		 */
 		REBOOL isEqual(const REWideString & anotherString) const;
+
+
+		/**
+		 @brief Check is string is equal to another string. Case sensitive.
+		 @param anotherString String object.
+		 @return True is equal, othervice false.
+		 */
 		REBOOL isEqual(const REString & anotherString) const;
+
+
+		/**
+		 @brief Check is string is equal to another string. Case sensitive.
+		 @param anotherString String object.
+		 @return True is equal, othervice false.
+		 */
 		REBOOL isEqual(const REMutableString & anotherString) const;
+
+
+		/**
+		 @brief Check is string is equal to UTF8 string. Case sensitive.
+		 @param utf8String The UTF8 string.
+		 @param utf8StringLength Length of the UTF8 string, don't include NULL terminated char. This is not count of the UTF8 characters.
+		 @return True is equal, othervice false.
+		 */
 		REBOOL isEqual(const char * utf8String, const REUInt32 utf8StringLength = RENotFound) const;
+
+
+		/**
+		 @brief Check is string is equal to UTF8 string. Case sensitive.
+		 @param wideString The wide string.
+		 @param wideStringLength Length of the wide string, don't include NULL terminated char.
+		 @return True is equal, othervice false.
+		 */
 		REBOOL isEqual(const wchar_t * wideString, const REUInt32 wideStringLength = RENotFound) const;
 		
+
+		/**
+		 @brief Assign operator with UTF8 string;
+		 @param utf8String The UTF8 string.
+		 @return Address of this string.
+		 */
 		REString & operator=(const char * utf8String);
+
+
+		/**
+		 @brief Assign operator with wide string;
+		 @param wideString The wide string.
+		 @return Address of this string.
+		 */
 		REString & operator=(const wchar_t * wideString);
 		
+
+		/**
+		 @brief Assign operator with wide string object;
+		 @param anotherString The wide string object.
+		 @return Address of this string.
+		 */
 		REString & operator=(const REWideString & anotherString);
+
+
+		/**
+		 @brief Assign operator with string object;
+		 @param anotherString The string object.
+		 @return Address of this string.
+		 */
 		REString & operator=(const REString & anotherString);
+
+
+		/**
+		 @brief Assign operator with mutable string object;
+		 @param anotherString The mutable string object.
+		 @return Address of this string.
+		 */
 		REString & operator=(const REMutableString & anotherString);
 		
+
+		/**
+		 @brief Equal operator.
+		 @param s The string object for compare.
+		 @return True if equal, othervice false.
+		 */
 		bool operator==(const REString & s) const;
 		
+
+		/**
+		 @brief const char * type operator.
+		 */
 		operator const char* () { return this->UTF8String(); }
+
+
+		/**
+		 @brief const char * type operator.
+		 */
 		operator const char* () const { return this->UTF8String(); }
 		
 		/// Returns path extension.
@@ -1437,8 +1809,6 @@ namespace FayeCpp {
 		REString();
 		REString(const char * utf8String, const REUInt32 utf8StringLength = RENotFound);
 		REString(const wchar_t * wideString, const REUInt32 wideStringLength = RENotFound);
-		//		REString(const char * utf8String, const RERange & range);
-		//		REString(const wchar_t * wideString, const RERange & range);
 		REString(const REWideString & anotherString);
 		REString(const REString & anotherString);
 		REString(const REMutableString & anotherString);
