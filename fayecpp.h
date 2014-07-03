@@ -119,6 +119,7 @@
 #include <time.h>
 #include <wchar.h>
 
+/* C++ Standard Library header */
 #include <iostream>
 
 #if defined(__RE_OS_ANDROID__)
@@ -336,6 +337,10 @@ namespace FayeCpp {
 #endif
 	*/
 	
+	/**
+	 @brief Class template of autopointer.
+	 @detailed Holds created pointer and delete when it's need, usually when no referecnces to pointer.
+	*/
 	template <typename PointerType>
 	class __RE_PUBLIC_CLASS_API__ REPtr
 	{
@@ -361,21 +366,40 @@ namespace FayeCpp {
 		}
 		
 	public:
+		/**
+		 @brief Check pointer is NULL.
+		 @return True if pointer is NULL, othervice false;
+		 */
 		REBOOL isEmpty() const
 		{
 			return (_object == NULL);
 		}
 		
+
+		/**
+		 @brief Check pointer is not NULL.
+		 @return True if not NULL, othervice false.
+		 */
 		REBOOL isNotEmpty() const
 		{
 			return (_object != NULL);
 		}
 		
+
+		/**
+		 @brief Check this class is only one woner of the pointer.
+		 @return True is only one owner, othervice false.
+		 */
 		REBOOL isSingleOwner() const
 		{
 			return _referenceCount ? ((*_referenceCount) <= 1) : false;
 		}
 		
+
+		/**
+		 @brief Releases holded pointer.
+		 @detailed Decrement reference counter and if there is not references delete's pointer.
+		 */
 		void release()
 		{
 			if (_referenceCount)
@@ -394,6 +418,13 @@ namespace FayeCpp {
 			_referenceCount = NULL;
 		}
 		
+
+		/**
+		 @brief Assing operator.
+		 @detailed Releases prev. pointer reference, hold another pointer and increments it's reference.
+		 @param anotherPtr Another autopointer object.
+		 @return Address of this autopointer object.
+		 */
 		REPtr<PointerType> & operator=(const REPtr<PointerType> & anotherPtr)
 		{
 			if (this != &anotherPtr)
@@ -408,27 +439,52 @@ namespace FayeCpp {
 			}
 			return (*this);
 		}
+
 		
+		/**
+		 @brief Structure dereference operator.
+		 @return Address(pointer to pointer) to holded object.
+		 */
 		PointerType* operator->()
 		{
 			return _object;
 		}
 		
+
+		/**
+		 @brief Const variant of the structure dereference operator.
+		 @return Const address(pointer to pointer) to holded object.
+		 */
 		const PointerType* operator->() const
 		{
 			return _object;
 		}
 		
+
+		/**
+		 @brief Indirection operator.
+		 @return Returns object pointer.
+		 */
 		operator PointerType* ()
 		{
 			return _object;
 		}
 		
+
+		/**
+		 @brief Const version of indirection operator.
+		 @return Returns object const pointer.
+		 */
 		operator const PointerType* () const
 		{
 			return _object;
 		}
 		
+
+		/**
+		 @brief Default contructor.
+		 @detailed Contructs autopointer without any object pointer and reference.
+		 */
 		REPtr() :
 		_object(NULL),
 		_referenceCount(NULL)
@@ -436,6 +492,12 @@ namespace FayeCpp {
 			
 		}
 		
+
+		/**
+		 @brief Contructor with typed pointer to object.
+		 @detailed If pointer is not NULL then holds pointer and create reference to it.
+		 @param object Pointer to typed object.
+		 */
 		REPtr(PointerType* object) :
 		_object(object),
 		_referenceCount(NULL)
@@ -455,6 +517,12 @@ namespace FayeCpp {
 			}
 		}
 		
+
+		/**
+		 @brief Contructs autopointer with with another autopointer object.
+		 @detailed If another autopointer is not empty(holds pointer) than increment reference, othervice created empty autopointer object.
+		 @param anotherPtr Another autopointer object.
+		 */
 		REPtr(const REPtr<PointerType> & anotherPtr) :
 		_object(NULL),
 		_referenceCount(NULL)
@@ -470,29 +538,48 @@ namespace FayeCpp {
 			}
 		}
 		
+
+		/**
+		 @brief Default destructor.
+		 @detailed Releases holded pointer if available.
+		*/
 		~REPtr()
 		{
 			this->release();
 		}
 	};
 	
-	
+		
+	/**
+	 @brief Function template for casting objects using static_cast
+	 */
 	template <typename resultType, typename sourceType>
 	static resultType* REPtrCast(sourceType* sourcePointer)
 	{
 		return static_cast<resultType*>( static_cast<void*>(sourcePointer) );
 	}
 	
+
+	/**
+	 @brief Const version of function template for casting objects using static_cast
+	 */
 	template <typename resultType, typename sourceType>
 	static const resultType* REPtrCast(const sourceType* sourcePointer)
 	{
 		return static_cast<const resultType*>( static_cast<const void*>(sourcePointer) );
 	}
 	
+
+	/**
+	 @brief Class template for list.
+	 */
 	template <typename T>
 	class __RE_PUBLIC_CLASS_API__ REList
 	{
 	public:
+		/**
+		 @brief Class of list node.
+		 */
 		class Node;
 		
 	private:
@@ -505,6 +592,10 @@ namespace FayeCpp {
 		};
 		
 	public:
+		/**
+		 @brief Class of list node.
+		 @detailed Holds value and pointer to prev. & next nodes.
+		 */
 		class Node : public NodeBase
 		{
 		public:
@@ -512,17 +603,68 @@ namespace FayeCpp {
 			Node(const T & newValue) : NodeBase(), value(newValue) { }
 		};
 		
+
+		/**
+		 @brief Type of list values comparation results.
+		 */
 		typedef enum
 		{
+			/**
+			 @brief Left operand is lest then right.
+			 */
 			Descending = -1,
+
+
+			/**
+			 @brief Left and right operands are the same.
+			 */
 			Same = 0,
+
+
+			/**
+			 @brief Left operand is greater then right.
+			 */
 			Ascending = 1
-		} ValueCompareResult;
+		}
+		/**
+		 @brief Type of list values comparation results.
+		 */
+		ValueCompareResult;
 		
+
+		/**
+		 @brief Define pointer to list node.
+		 */
 		typedef Node * NodePtr;
+
+
+		/**
+		 @brief Define node creator callback function with defaul value.
+		 @param newValue Const address to new node value.
+		 */
 		typedef NodePtr (*CreateNodeCallback)(const T & newValue);
+
+
+		/**
+		 @brief Define node destructor callback function with node pointer.
+		 @param Pointer to list node.
+		 */
 		typedef void (*ReleaseNodeCallback)(NodePtr);
+
+
+		/**
+		 @brief Define node values comparator callback function.
+		 @param left Pointer to left value.
+		 @param right Pointer to right value.
+		 */
 		typedef ValueCompareResult (*NodeValuesComparator)(const T * left, const T * right);
+
+
+		/**
+		 @brief Define node values comparator callback function.
+		 @param left Pointer to left value.
+		 @param right Pointer to custom right value.
+		 */
 		typedef ValueCompareResult (*CustomNodeValueComparator)(const T * nodeValue, void * customValue);
 	private:
 		CreateNodeCallback _createNode;
@@ -534,16 +676,35 @@ namespace FayeCpp {
 		};
 		
 	public:
+		/**
+		 @brief Default node creator static method callback.
+		 @detailed Create node with "new" operator.
+		 @param newValue Default node value.
+		 @return Pointer to created node with value.
+		 */
 		static NodePtr newNode(const T & newValue)
 		{
 			return (new Node(newValue));
 		}
 		
+
+		/**
+		 @brief Default node destructor static method callback.
+		 @detailed Release node with "delete" operator.
+		 @param node Pointer to node.
+		 */
 		static void deleteNode(NodePtr node)
 		{
 			delete node;
 		}
 		
+
+		/**
+		 @brief Node creator static method callback.
+		 @detailed Allocate node with "malloc" function.
+		 @param newValue Default node value.
+		 @return Pointer to allocated node with value.
+		 */
 		static NodePtr allocateNode(const T & newValue)
 		{
 			NodePtr node = (NodePtr)malloc(sizeof(Node));
@@ -554,18 +715,31 @@ namespace FayeCpp {
 			return node;
 		}
 		
+
+		/**
+		 @brief Node destructor static method callback.
+		 @detailed Release node with "free" function.
+		 @param node Pointer to node.
+		 */
 		static void freeNode(NodePtr node)
 		{
 			free(node);
 		}
 		
 	public:
+		/**
+		 @brief Iterator class for list values.
+		 */
 		class Iterator
 		{
 		private:
 			Node * _head;
 			Node * _node;
 		public:
+			/**
+			 * @brief Move to next list node.
+			 * @return True if moved next, othervice false.
+			 */
 			bool next()
 			{
 				_node = _node ? _node->next : this->_head->next;
@@ -579,16 +753,31 @@ namespace FayeCpp {
 			//			return _node != this->_head;
 			//		}
 			
+
+			/**
+			 @brief Getter for node pointer.
+			 @return Pointer to current list node.
+			 */
 			Node * node() const
 			{
 				return _node;
 			}
-			
+
+
+			/**
+			 @brief Getter for current node value.
+			 @return Const address for current value.
+			 */
 			const T & value() const
 			{
 				return _node->value;
 			}
 			
+
+			/**
+			 @brief Constructs iterator with another iterator.
+			 @param it Another iterator.
+			 */
 			Iterator(const Iterator & it) :
 			_head(it._head),
 			_node(NULL)
@@ -596,6 +785,12 @@ namespace FayeCpp {
 				
 			}
 			
+
+			/**
+			 @brief Constructs iterator with pointer to list head node.
+			 @detailed Need for internal list implementation.
+			 @param listHead Pointer to list head node.
+			 */
 			Iterator(Node * listHead) :
 			_head(listHead),
 			_node(NULL)
@@ -604,16 +799,30 @@ namespace FayeCpp {
 			}
 		};
 		
+
+		/**
+		 @brief Creates new list iterator object.
+		 @return New iterator.
+		 */
 		Iterator iterator() const
 		{
 			return Iterator(this->_castHead);
 		}
 		
+
+		/**
+		 @brief Check list containes any values.
+		 @return True if there is no values, othervice false.
+		 */
 		bool isEmpty() const
 		{
 			return (this->_head->next == this->_head);
 		}
 		
+
+		/**
+		 @brief Removes all list values.
+		 */
 		void clear()
 		{
 			Node * node = this->_head->next;
@@ -623,6 +832,13 @@ namespace FayeCpp {
 			}
 		}
 		
+
+		/**
+		 @brief Locate node with same value described as void pointer.
+		 @param customValue Void pointer to searched value.
+		 @param comparator Values comparator callback
+		 @return Pointer to node contained same value or NULL if there is such values in list.
+		 */
 		Node * findNode(void * customValue, CustomNodeValueComparator comparator) const
 		{
 			Node * next = this->_head->next;
@@ -637,6 +853,13 @@ namespace FayeCpp {
 			return NULL;
 		}
 		
+
+		/**
+		 @brief Locate node with same value as parameter.
+		 @param value The value to be located in list.
+		 @param comparator Conparator callback for comparing 2 values.
+		 @return Pointer to node contained same value or NULL if there is such values in list.
+		 */
 		Node * findNode(const T & value, NodeValuesComparator comparator) const
 		{
 			Node * next = this->_head->next;
@@ -651,6 +874,12 @@ namespace FayeCpp {
 			return NULL;
 		}
 		
+
+		/**
+		 @brief Locate node with same value as parameter.
+		 @param value The value to be located in list. For comparing values used "==" operator.
+		 @return Pointer to node contained same value or NULL if there is such values in list.
+		 */
 		Node * findNode(const T & value) const
 		{
 			Node * next = this->_head->next;
@@ -665,11 +894,23 @@ namespace FayeCpp {
 			return NULL;
 		}
 		
+
+		/**
+		 @brief Check is list containes some value.
+		 @param value The value to be finded in list.
+		 @return True if such value containes in list, othervice false.
+		 */
 		bool isContaines(const T & value) const
 		{
 			return this->findNode(value) ? true : false;
 		}
 		
+
+		/**
+		 @brief Removes node from list. Can be removed during iterating.
+		 @param node The node pointer.
+		 @return Pointer to the next node.
+		 */
 		Node * removeNode(Node * node)
 		{
 			if (node != this->_head)
@@ -683,6 +924,12 @@ namespace FayeCpp {
 			return this->_castHead;
 		}
 		
+
+		/**
+		 @brief Adds value to the list.
+		 @param newValue The new value to add.
+		 @return True if value was added, othervice false.
+		 */
 		bool add(const T & newValue)
 		{
 			Node * newNode = _createNode(newValue);
@@ -697,6 +944,11 @@ namespace FayeCpp {
 			return false;
 		}
 		
+		/**
+		 @brief Construct list object
+		 @param nodeCreator Node creator callback, if no assigned will use default callback(create node with "new" operator).
+		 @param nodeReleaser Node destructor callback, if no assigned will use default callback(delete node with "delete" operator).
+		 */
 		REList(CreateNodeCallback nodeCreator = &newNode,
 			   ReleaseNodeCallback nodeReleaser = &deleteNode) :
 		_createNode(nodeCreator),
@@ -712,6 +964,10 @@ namespace FayeCpp {
 			}
 		}
 		
+
+		/**
+		 * @brief Default virtual desctructor.
+		 */
 		virtual ~REList()
 		{
 			this->clear();
@@ -722,6 +978,7 @@ namespace FayeCpp {
 		}
 	};
 	
+
 	template <typename TK, typename TV>
 	class __RE_PUBLIC_CLASS_API__ REMap
 	{
