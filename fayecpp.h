@@ -551,7 +551,7 @@ namespace FayeCpp {
 	
 		
 	/**
-	 @brief Function template for casting objects using static_cast
+	 @brief Function template for casting objects using "static_cast".
 	 */
 	template <typename resultType, typename sourceType>
 	static resultType* REPtrCast(sourceType* sourcePointer)
@@ -561,7 +561,7 @@ namespace FayeCpp {
 	
 
 	/**
-	 @brief Const version of function template for casting objects using static_cast
+	 @brief Const version of function template for casting objects using "static_cast".
 	 */
 	template <typename resultType, typename sourceType>
 	static const resultType* REPtrCast(const sourceType* sourcePointer)
