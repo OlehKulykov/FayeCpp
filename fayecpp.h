@@ -29,7 +29,7 @@
 #include <map>
 
 
-#if ( (!defined(__RE_OS_WINDOWS__)) && (!defined(__RE_OS_IPHONE__)) && (!defined(__RE_OS_MACOSX__)) && (!defined(__RE_OS_LINUX__)) && (!defined(__RE_OS_ANDROID__)) && (!defined(__RE_OS_BADA__)) )
+#if !defined(__RE_OS_WINDOWS__)
 /* No manualy selected, try to auto select */
 
 #if (defined(WIN32) || defined(_WIN32) || defined(WIN32_LEAN_AND_MEAN) || defined(_WIN64) || defined(WIN64))
