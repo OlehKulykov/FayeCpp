@@ -145,7 +145,7 @@ public:
 	{
 	    
         // Print channel which received message
-		RELog::log("Received message from channel: \"%s\"", channel.toString().UTF8String());
+		RELog::log("Received message from channel: \"%s\"", channel.UTF8String());
 		
 		// Iterate all message (VariantMap) pairs
 		VariantMap::Iterator iterator = message.iterator();
