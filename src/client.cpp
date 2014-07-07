@@ -89,8 +89,18 @@ namespace FayeCpp {
 #ifdef FAYECPP_DEBUG_MESSAGES
 		RELog::log("Client: onTransportDisconnected");
 #endif
-		
-		if (_delegate) _delegate->onFayeTransportDisconnected(this);
+		if (_isDisconnectingByUser)
+		{
+			_isDisconnectingByUser = false;
+			if (_delegate) _delegate->onFayeTransportDisconnected(this);
+		}
+		else
+		{
+#ifdef FAYECPP_DEBUG_MESSAGES
+		RELog::log("Try reconnect");
+#endif
+			_transport->connectToServer();
+		}
 	}
 	
 	void Client::onClientError(Responce * message)
@@ -337,6 +347,8 @@ namespace FayeCpp {
 		if (!_isFayeConnected)
 		{
 			_isFayeConnected = true;
+			_isDisconnectingByUser = false;
+
 			if (_delegate) _delegate->onFayeClientConnected(this);
 			this->subscribePendingSubscriptions();
 		}
@@ -365,6 +377,8 @@ namespace FayeCpp {
 #ifdef FAYECPP_DEBUG_MESSAGES
 		RELog::log("Client: disconnect faye start ...");
 #endif
+		_isDisconnectingByUser = true;
+
 		VariantMap message;
 		message["channel"] = DISCONNECT_CHANNEL;
 		message["clientId"] = _clientId;
@@ -374,6 +388,11 @@ namespace FayeCpp {
 		if (generator.string()) _transport->sendText(generator.string(), strlen(generator.string()));
 	}
 	
+	bool Client::isDisconnecting() const
+	{
+		return _isDisconnectingByUser;
+	}
+
 	bool Client::isSubscribedToChannel(const char * channel) const
 	{
 		return channel ? _subscribedChannels.isContaines(REString(channel)) : false;
@@ -439,8 +458,9 @@ namespace FayeCpp {
 		_subscribedChannels.clear();
 		_pendingSubscriptions.clear();
 		_isFayeConnected = false;
-		
+
 		if (_delegate) _delegate->onFayeClientDisconnected(this);
+		_transport->disconnectFromServer();
 		(void)message;
 	}
 	
@@ -543,9 +563,10 @@ namespace FayeCpp {
 	}
 	
 	Client::Client() :
-	_transport(NULL),
-	_delegate(NULL),
-	_isFayeConnected(false)
+		_transport(NULL),
+		_delegate(NULL),
+		_isFayeConnected(false),
+		_isDisconnectingByUser(false)
 	{
 		REThread::mainThreadIdentifier();
 		

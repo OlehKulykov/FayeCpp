@@ -18,7 +18,9 @@ namespace FayeCpp {
 	void WebSocketQt::disconnected()
 	{
 #ifdef FAYECPP_DEBUG_MESSAGES
-		qDebug() << "SocketQt:" << "disconnected";
+		const QString err(_socket->errorString());
+		if (err.isEmpty()) qDebug() << "SocketQt:" << "disconnected without error";
+		else qDebug() << "SocketQt:" << "disconnected with error:" << err;
 #endif
 		this->onDisconnected();
 	}

@@ -2049,7 +2049,8 @@ namespace FayeCpp {
 		REStringList _supportedConnectionTypes;
 
 		bool _isFayeConnected;
-		
+		bool _isDisconnectingByUser;
+
 		void processMessage(Responce * responce);
 		
 		void onTransportConnected();
@@ -2159,6 +2160,13 @@ namespace FayeCpp {
 		 */
 		void disconnect();
 		
+
+		/**
+		 @brief Check disconnecting phase in progress.
+		 @detailed First of all disconnect client and than transport.
+		 @return True if faye client and transport are disconnected.
+		 */
+		bool isDisconnecting() const;
 		
 		/**
 		 @brief Start send message to subscribed channel via connected faye.
