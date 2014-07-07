@@ -99,6 +99,21 @@ namespace FayeCpp {
 #ifdef FAYECPP_DEBUG_MESSAGES
 		RELog::log("Try reconnect");
 #endif
+			_isFayeConnected = false;
+			_supportedConnectionTypes.clear();
+			_clientId.clear();
+
+			// merge channels
+			REStringList channels(_subscribedChannels);
+			_subscribedChannels.clear();
+
+			REStringList::Iterator i = _pendingSubscriptions.iterator();
+			while (i.next())
+			{
+				if (!channels.isContaines(i.value())) channels.add(i.value());
+			}
+			_pendingSubscriptions = channels;
+
 			_transport->connectToServer();
 		}
 	}
