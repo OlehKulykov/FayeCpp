@@ -71,7 +71,7 @@
 
 
 /* mach/mach_time.h */
-#define HAVE_MACH_MACH_TIME_H 1
+/* #undef HAVE_MACH_MACH_TIME_H */
 
 
 /* sys/time.h */
