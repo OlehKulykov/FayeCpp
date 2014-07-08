@@ -1433,54 +1433,103 @@ namespace FayeCpp {
 		virtual void * mallocNewMemory(const REUInt32 size);
 		virtual void freeMemory(void * mem);
 	public:
-		/// Checks is buffer equal with another buffer.
+		/**
+		  @brief Checks is buffer equal with another buffer.
+		  @return True if this buffer has the same size as another and content is byte-to-byte equal, othervice false.
+		  */
 		REBOOL isEqualToBuffer(const REBuffer & anotherBuffer) const;
 		
-		/// Returns void pointer to memory buffer or NULL.
+
+		/**
+		  @brief Getter for memory buffer data pointer.
+		  @return Void pointer to memory buffer or NULL.
+		  */
 		void * buffer() const;
 		
-		/// Returns size of memory byffer.
+
+		/**
+		  @brief Getter for buffer size.
+		  @return Buffer size in bytes.
+		  */
 		REUInt32 size() const;
 		
-		/// Resizes memory buffer with new size with copying prev data.
-		/// Returns true if memory was resized to 'newSize', or false if new memory not created.
+
+		/**
+		  @brief Resizes memory buffer with new size.
+		  @param newSize New buffer size in bytes.
+		  @param isCopyPrevData Flag indicates copying previous data during resize.
+		  @return true if memory was resized to 'newSize', or false if new memory not created.
+		  */
 		REBOOL resize(const REUInt32 newSize, REBOOL isCopyPrevData);
 		
-		/// Cleares memory buffer.
+
+		/**
+		  @brief Clear memory buffer.
+		 */
 		void clear();
-		
-		/// Set new size of memory buffer, copy from inputed buffer data with size to destination.
+
+
+		/**
+		  @brief Set new size of memory buffer, copy from inputed buffer data with size to destination(this).
+		  @param buff Target memory buffer to set.
+		  @param buffSize Target memory buffer size in bytes. This size will be copyed to destination(this).
+		  @return True if new buffer with size created and target memory was copyed.
+		  */
 		REBOOL set(const void * buff, const REUInt32 buffSize);
 		
-		/// Setes memory beffer from another buffer.
+
+		/**
+		  @brief Assign operator with from another buffer.
+		  @detailed New memory buffer will be created and memory from 'anotherBuff' will be copyed.
+		  @return Address of this instance.
+		  */
 		REBuffer & operator=(const REBuffer & anotherBuff);
 		
-		/// Appends new memory with size
+
+		/**
+		  @brief Append this memory buffer with another memory.
+		  @detailed New memory buffer will be created, cpyed prev memory and appended with new.
+		  @param buff Target memory buffer to append.
+		  @param buffSize Target memory buffer size in bytes. This size will be appended to destination(this).
+		  @return True if new memory created, and appended, othervice false.
+		  */
 		REBOOL append(const void * buff, const REUInt32 buffSize);
 		
-		/// Appends with another buffer object.
+
+		/**
+		  @brief Append this memory buffer with another buffer object.
+		  @detailed New memory buffer will be created, cpyed prev memory and appended with new.
+		  @param anotherBuff Another buffer object to append.
+		  @return True if new memory created, and appended, othervice false.
+		  */
 		REBOOL append(const REBuffer & anotherBuff);
 		
-		/// Appends with another buffer object.
+		/**
+		  @brief Appends with another buffer object.
+		  @detailed New memory buffer will be created, cpyed prev memory and appended with new.
+		  @param anotherBuff Another buffer object to append.
+		  @return True if new memory created, and appended, othervice false.
+		  */
 		REBuffer & operator+=(const REBuffer & anotherBuff);
 		
-		/// This functionality avaiable only with RENetwork and
-		/// in config file must be defined __RE_RECORE_CAN_INITIALIZE_FROM_URL_STRING__
-		/// Initializing buffer object from URL String.
-		/// Example: http://example.com/index for downloading from web.
-		/// Example: file:///Volumes/Data/file.txt for reading from from file. See file url scemes.
-		REBOOL initFromURLString(const REString & urlString);
-		
-		/// Constructs buffer object with content from another buffer object.
+		/**
+		  @brief Constructs buffer object with content from another buffer object.
+		  */
 		REBuffer(const REBuffer & anotherBuff);
 		
-		/// Constructs buffer object with content from another buffer with size.
+		/**
+		  @brief Constructs buffer object with content from another buffer with size.
+		  */
 		REBuffer(const void * buff, const REUInt32 buffSize);
 		
-		/// Constructs buffer object with memory size.
+		/**
+		  @brief Constructs buffer object with memory size.
+		  */
 		REBuffer(const REUInt32 buffSize);
 		
-		/// Constructs empty buffer object.
+		/**
+		  @brief Constructs empty buffer object.
+		  */
 		REBuffer();
 		
 		virtual ~REBuffer();

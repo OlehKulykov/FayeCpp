@@ -214,47 +214,7 @@ namespace FayeCpp {
 			_buff = NULL;
 			_size = 0;
 		}
-	}
-	
-	/// __RE_RECORE_CAN_INITIALIZE_FROM_URL_STRING__
-	REBOOL REBuffer::initFromURLString(const REString & urlString)
-	{
-		this->clear();
-		
-#ifdef __RE_RECORE_CAN_INITIALIZE_FROM_URL_STRING__
-		REURL url(urlString);
-		if (url.IsFileURL()) 
-		{
-			REString hiPart(url.GetHierarchicalPart());
-			REData data;
-			if (data.InitFromPath(hiPart)) 
-			{
-				return this->Set(data.GetBytes(), data.GetSize());
-			}
-		}
-		else
-		{
-			REURLRequestObject * request = REURLRequestObject::CreateWithURL(url);
-			if (request) 
-			{
-				REBuffer downlBuff;
-				const REBOOL isSended = REURLConnectionObject::SendRequest(request, &downlBuff, NULL);
-				request->release();
-				if (isSended)
-				{
-					if (downlBuff.GetSize()) 
-					{
-						return this->Set(downlBuff.GetBuffer(), downlBuff.GetSize());
-					}
-					return true;
-				}
-			}
-		}
-#else
-		(void)urlString;
-#endif	
-		return false;
-	}
+	}	
 	
 }
 
