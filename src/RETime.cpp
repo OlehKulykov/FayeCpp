@@ -39,6 +39,11 @@
 #include <sys/time.h>
 #endif
 
+#if defined(__RE_OS_WINDOWS__)
+#include <windows.h>
+#endif
+
+
 namespace FayeCpp {
 	
 	
