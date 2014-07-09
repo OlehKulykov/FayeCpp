@@ -23,12 +23,6 @@
 
 #include "../fayecpp.h"
 
-
-#ifdef __RE_RECORE_CAN_INITIALIZE_FROM_URL_STRING__
-#include "../../include/renetwork.h"
-#include "../../include/recore/REData.h"
-#endif
-
 namespace FayeCpp {
 	
 	
