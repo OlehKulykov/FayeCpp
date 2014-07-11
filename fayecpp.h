@@ -28,12 +28,18 @@
  * Faye C++ client main and one header file.
  * All class interfaces added to namespace, preventing include files mess.
  *
+ * Changes on version 0.1.2:
+ * - Added autoreconnect to the client while disconnect with unknown error(not by user).
+ * - Added to cocoapods repository.
+ *
+ * Version 0.1.1
+ * - Implemented basic logic.
  */
 
 
 #define FAYECPP_VERSION_MAJOR 0
 #define FAYECPP_VERSION_MINOR 1
-#define FAYECPP_VERSION_PATCH 1
+#define FAYECPP_VERSION_PATCH 2
 
 
 #if !defined(HAVE_SUITABLE_QT_VERSION) && defined(QT_VERSION) && defined(QT_VERSION_CHECK)
@@ -318,8 +324,6 @@ typedef REFloat64 RETimeInterval;
 #ifndef MAX
 #define MAX(a,b) ((a) > (b) ? (a) : (b))
 #endif
-
-
 
 
 
@@ -2528,7 +2532,6 @@ namespace FayeCpp {
 	};
 
 }
-
 
 #endif /* __FAYECPP_VARIANT_H__ */
 
