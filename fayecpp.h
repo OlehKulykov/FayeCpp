@@ -1868,37 +1868,130 @@ namespace FayeCpp {
 		 */
 		operator const char* () const { return this->UTF8String(); }
 		
-		/// Returns path extension.
+
+		/**
+		  @brief Path extension.
+		  @return String with path extension without dot char.
+		 */
 		REString pathExtension() const;
 		
-		/// Try find first integer value from the string.
-		/// If can't find result will be zero.
+
+		/**
+		  @brief Try find first integer value from the string.
+		  @param isOk Pointer to flag which indicates successfull conversion.
+		  @return Integer value or zero.
+		 */
 		REInt64 integerValue(REBOOL * isOk = NULL) const;
 		
-		/// Try find first integer value from the string.
-		/// If can't find result will be zero.
+
+		/**
+		  @brief Try find first float value from the string.
+		  @param isOk Pointer to flag which indicates successfull conversion.
+		  @return Float value or zero.
+		 */
 		REFloat64 floatValue(REBOOL * isOk = NULL) const;
 		
+
+		/**
+		  @brief Contructs empty string object.
+		 */
 		REString();
+
+
+		/**
+		  @brief Constructs string object with UTF8 string and/or it's len.
+		  @detailed New string buffer will be created.
+		  @param utf8String The UTF8 string.
+		  @param utf8StringLength Length of the UTF8 string, don't include NULL terminated char. This is not count of the UTF8 characters.
+		 */
 		REString(const char * utf8String, const REUInt32 utf8StringLength = RENotFound);
+
+
+		/**
+		  @brief Constructs string object with wide string and/or it's len.
+		  @detailed New string buffer will be created.
+		  @param wideString The wide string.
+		  @param wideStringLength Length of the wide string, don't include NULL terminated char.
+		 */
 		REString(const wchar_t * wideString, const REUInt32 wideStringLength = RENotFound);
+
+
+		/**
+		  @brief Constructs string object with onother wide string object.
+		  @detailed New string buffer will be created and wide string will be converted to UTF8.
+		  @param anotherString Wide string object.
+		 */
 		REString(const REWideString & anotherString);
+
+
+		/**
+		  @brief Constructs string object with onother string object.
+		  @detailed String buffer will be retained.
+		  @param anotherString The string object.
+		 */
 		REString(const REString & anotherString);
+
+
+		/**
+		  @brief Constructs string object with mutable string object.
+		  @detailed New string buffer will be created.
+		  @param anotherString The tring object.
+		 */
 		REString(const REMutableString & anotherString);
 		
+
+		/**
+		  @brief Constructs string object with autopointer to UTF8 string buffer.
+		  @detailed String buffer will be retained. NULL terminated character should be present at the end.
+		  @param utf8StringBuffer The UTF8 string buffer.
+		 */
 		REString(const REPtr<REBuffer> & utf8StringBuffer);
 		
+
+		/**
+		  @brief Default virtual destructor.
+		 */
 		virtual ~REString();
 		
+
+		/**
+		  @brief Create new formated string.
+		  @detailed Max size for the result string is 1024.
+		  @param format The format UTF8 string, same as for sprintf functions.
+		  @return New string.
+		 */
 		static REString createWithFormat(const char * format, ...);
 	};
 	
+
+	/**
+	  @brief Immutable string wrapper for holding pointer to UTF8 string without creation new buffer and copying string data.
+	  @example
+	  {
+			REStaticString helloString("hello"); // no new string buffer & no copy, just holds pointer to const char * C string.
+			// do something with helloString & forgot.
+	  }
+	 */
 	class __RE_PUBLIC_CLASS_API__ REStaticString : public REString
 	{
 	private:
 		static void freeNonCopyBuffMem(void * m);
 	public:
+		/**
+		  @brief Constructs string object with UTF8 string and/or it's len.
+		  @detailed No creation new string buffer and no copy.
+		  @param utf8String The UTF8 string.
+		  @param utf8StringLength Length of the UTF8 string, don't include NULL terminated char. This is not count of the UTF8 characters.
+		 */
 		REStaticString(const char * utf8String, const REUInt32 utf8StringLength = RENotFound);
+
+
+		/**
+		  @brief Constructs string object with wide string and/or it's len.
+		  @detailed In this case - new string buffer will be created.
+		  @param wideString The wide string.
+		  @param wideStringLength Length of the wide string, don't include NULL terminated char.
+		 */
 		REStaticString(const wchar_t * wideString, const REUInt32 wideStringLength = RENotFound);
 		
 		virtual ~REStaticString();
@@ -2240,9 +2333,9 @@ namespace FayeCpp {
 		
 		
 		/**
-		 * @brief Subscribes or storing to pendnig subscriptions required channel.
-		 * @param channel Non empty channel.
-		 * @return True - if already suscribed, started or stored to peding subscriptions, otherwice false.
+		  @brief Subscribes or storing to pendnig subscriptions required channel.
+		  @param channel Non empty channel.
+		  @return True - if already suscribed, started or stored to peding subscriptions, otherwice false.
 		 */
 		bool subscribeToChannel(const char * channel);
 		
@@ -2266,8 +2359,8 @@ namespace FayeCpp {
 		
 		
 		/**
-		 * @brief List with implemented/available connection types.
-		 * @return Type strings list.
+		  @brief List with implemented/available connection types.
+		  @return Type strings list.
 		 */
 		static REStringList availableConnectionTypes();
 	};
