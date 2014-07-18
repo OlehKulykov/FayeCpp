@@ -66,7 +66,7 @@ nmake
 
 ```sh
 cd <path_to_Android_NDK>
-ndk-build NDK_PROJECT_PATH=<path_to_FayeCpp>/builds/android
+./ndk-build NDK_PROJECT_PATH=<path_to_FayeCpp>/builds/android
 ```
 
 > Replace ```<path_to_Android_NDK>``` and ```<path_to_FayeCpp>``` with actual paths.
