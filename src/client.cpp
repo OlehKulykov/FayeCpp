@@ -353,8 +353,7 @@ namespace FayeCpp {
 		message["version"] = "1.0";
 		if (_delegate) _delegate->onFayeClientWillSendMessage(this, message);
 		
-		JsonGenerator generator(message);
-		if (generator.string()) _transport->sendText(generator.string(), strlen(generator.string()));
+		this->sendText(JsonGenerator(message).string());
 	}
 	
 	void Client::onConnectFayeDone(const VariantMap & message)
@@ -383,8 +382,7 @@ namespace FayeCpp {
 		message["connectionType"] = this->currentTransportName();
 		if (_delegate) _delegate->onFayeClientWillSendMessage(this, message);
 		
-		JsonGenerator generator(message);
-		if (generator.string()) _transport->sendText(generator.string(), strlen(generator.string()));
+		this->sendText(JsonGenerator(message).string());
 	}
 	
 	void Client::disconnect()
@@ -399,8 +397,7 @@ namespace FayeCpp {
 		message["clientId"] = _clientId;
 		if (_delegate) _delegate->onFayeClientWillSendMessage(this, message);
 		
-		JsonGenerator generator(message);
-		if (generator.string()) _transport->sendText(generator.string(), strlen(generator.string()));
+		this->sendText(JsonGenerator(message).string());
 	}
 	
 	bool Client::isDisconnecting() const
@@ -494,9 +491,8 @@ namespace FayeCpp {
 					message["clientId"] = _clientId;
 					message["subscription"] = i.value();
 					if (_delegate) _delegate->onFayeClientWillSendMessage(this, message);
-					
-					JsonGenerator generator(message);
-					if (generator.string()) _transport->sendText(generator.string(), strlen(generator.string()));
+
+					this->sendText(JsonGenerator(message).string());
 				}
 			}
 		}
@@ -535,13 +531,7 @@ namespace FayeCpp {
 		message["subscription"] = channel;
 		if (_delegate) _delegate->onFayeClientWillSendMessage(this, message);
 		
-		JsonGenerator generator(message);
-		if (generator.string()) 
-		{
-			_transport->sendText(generator.string(), strlen(generator.string()));
-			return true;
-		}
-		return false;
+		return this->sendText(JsonGenerator(message).string());
 	}
 	
 	void Client::unsubscribeAllChannels()
@@ -552,6 +542,17 @@ namespace FayeCpp {
 		{
 			this->unsubscribeFromChannel(i.value().UTF8String());
 		}
+	}
+	
+	bool Client::sendText(const char * text, const REUInt32 textLenght)
+	{
+		if (text && _transport) 
+		{
+			const REUInt32 len = textLenght == RENotFound ? (REUInt32)strlen(text) : textLenght;
+			_transport->sendText(text, len);
+			return true;
+		}
+		return false;
 	}
 	
 	bool Client::sendMessageToChannel(const VariantMap & message, const char * channel)
@@ -567,12 +568,7 @@ namespace FayeCpp {
 			mes["data"] = message;
 			mes["id"] = Client::nextMessageId();
 			
-			JsonGenerator generator(mes);
-			if (generator.string()) 
-			{
-				_transport->sendText(generator.string(), strlen(generator.string()));
-				return true;
-			}
+			return this->sendText(JsonGenerator(mes).string());
 		}
 		return false;
 	}

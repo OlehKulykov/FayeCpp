@@ -218,15 +218,15 @@ message["null key"] = Variant();   // set null value
 value = message;   // set map value, value.type() is Variant::TypeMap;
 
 // List object
-VariantList parameters;   // or VariantList::VariantMap message; if manespace not used.
-parameters.add("Text value");   // add C (const char *) string value
-parameters.add(L"Текстовое значение");   // add wide (const wchar_t *) string value with wide string key.
-parameters.add(2);   // add integer value
-parameters.add(3.14f);   // add float value
-parameters.add(3.14159265359);   // add double value
-parameters.add(true);   // add boolean value with true
-parameters.add(false);   // add boolean value with false
-parameters.add(Variant());   // add null value
+VariantList parameters;   // or VariantList::VariantMap message; if namespace not used.
+parameters += "Text value";   // add C (const char *) string value, or use parameters.add() method.
+parameters += L"Текстовое значение";   // add wide (const wchar_t *) string value with wide string key, or use parameters.add() method.
+parameters += 2;   // add integer value, or use parameters.add() method.
+parameters += 3.14f;   // add float value, or use parameters.add() method.
+parameters += 3.14159265359;   // add double value, or use parameters.add() method.
+parameters += true;   // add boolean value with true, or use parameters.add() method.
+parameters += false;   // add boolean value with false, or use parameters.add() method.
+parameters += Variant();   // add null value, or use parameters.add() method.
 
 value = parameters;   // set list value, value.type() is Variant::TypeList;
 

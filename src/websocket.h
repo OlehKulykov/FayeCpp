@@ -87,7 +87,7 @@ namespace FayeCpp {
 							   EchoSessionData * pss);
 		void onCallbackReceive(void * input, size_t len);
 		
-		void addWriteBufferData(const unsigned char * data, const size_t dataSize, const enum libwebsocket_write_protocol type);
+		void addWriteBufferData(const unsigned char * data, const REUInt32 dataSize, const enum libwebsocket_write_protocol type);
 		void cleanup();
 		
 	protected:
@@ -96,8 +96,8 @@ namespace FayeCpp {
 	public:
 		virtual const REString name() const;
 		
-		virtual void sendData(const unsigned char * data, const size_t dataSize);		
-		virtual void sendText(const char * text, const size_t textSize);
+		virtual void sendData(const unsigned char * data, const REUInt32 dataSize);		
+		virtual void sendText(const char * text, const REUInt32 textSize);
 		
 		virtual void connectToServer();
 		virtual void disconnectFromServer();

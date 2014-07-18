@@ -195,7 +195,7 @@ typedef int64_t REInt64;
 
 
 /**
- @brief unsigned identifier integer type.
+ @brief Unsigned identifier integer type.
  @detailed unsigned identifier integer type size is same as pointer.
  */
 typedef uintptr_t REUIdentifier;
@@ -2440,6 +2440,17 @@ namespace FayeCpp {
 		 */
 		bool isDisconnecting() const;
 		
+		
+		/**
+		 @brief This is unsequre method which sends text to the transport.
+		 @detailed No checking transport for connection to the server.
+		 @param text The UTF8 text, should be JSON formated and conforms Bayeux messaging protocol format.
+		 @param textLenght Length of the text without NULL terminated character. If textLenght is RENotFound - length will be calculated via strlen() function.
+		 @return True if text and transport exists and text sended to transport, otherwice false.
+		 */
+		bool sendText(const char * text, const REUInt32 textLenght = RENotFound);
+		
+		
 		/**
 		 @brief Start send message to subscribed channel via connected faye.
 		 @detailed Clent will NOT inform delegate for this user message.
@@ -2611,6 +2622,20 @@ namespace FayeCpp {
 	class __RE_PUBLIC_CLASS_API__ VariantList : public REList<Variant>
 	{
 	public:
+		VariantList & operator+=(int v);
+		VariantList & operator+=(float v);
+		VariantList & operator+=(double v);
+		VariantList & operator+=(long long v);
+		VariantList & operator+=(unsigned long long v);
+		VariantList & operator+=(long double v);
+		VariantList & operator+=(bool v);
+		VariantList & operator+=(const REString & s);
+		VariantList & operator+=(const char * s);
+		VariantList & operator+=(const wchar_t * s);
+		VariantList & operator+=(const VariantMap & m);
+		VariantList & operator+=(const VariantList & l);
+		VariantList & operator+=(const Variant & v);
+		
 		VariantList & operator=(const VariantList & list);
 		VariantList(const VariantList & list);
 		VariantList();

@@ -176,13 +176,13 @@ namespace FayeCpp {
 		return 0;
 	}
 	
-	void WebSocket::addWriteBufferData(const unsigned char * data, const size_t dataSize, const enum libwebsocket_write_protocol type)
+	void WebSocket::addWriteBufferData(const unsigned char * data, const REUInt32 dataSize, const enum libwebsocket_write_protocol type)
 	{
 		bool isError = false;
 		
 		this->writeLock();
 		
-		WriteBuffer * buffer = new WriteBuffer(data, (REUInt32)dataSize);
+		WriteBuffer * buffer = new WriteBuffer(data, dataSize);
 		if (buffer && buffer->size() == dataSize)
 		{
 			buffer->tag = (int)type;
@@ -208,7 +208,7 @@ namespace FayeCpp {
 		}
 	}
 	
-	void WebSocket::sendData(const unsigned char * data, const size_t dataSize)
+	void WebSocket::sendData(const unsigned char * data, const REUInt32 dataSize)
 	{
 		if (data && dataSize > 0)
 		{
@@ -216,7 +216,7 @@ namespace FayeCpp {
 		}
 	}
 	
-	void WebSocket::sendText(const char * text, const size_t textSize)
+	void WebSocket::sendText(const char * text, const REUInt32 textSize)
 	{
 		if (text && textSize > 0)
 		{

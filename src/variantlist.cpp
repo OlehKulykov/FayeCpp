@@ -26,6 +26,84 @@
 
 namespace FayeCpp {
 	
+	VariantList & VariantList::operator+=(int v)
+	{
+		this->add(v);
+		return *this;
+	}
+	
+	VariantList & VariantList::operator+=(float v)
+	{
+		this->add(v);
+		return *this;
+	}
+	
+	VariantList & VariantList::operator+=(double v)
+	{
+		this->add(v);
+		return *this;
+	}
+	
+	VariantList & VariantList::operator+=(long long v)
+	{
+		this->add(v);
+		return *this;
+	}
+	
+	VariantList & VariantList::operator+=(unsigned long long v)
+	{
+		this->add(v);
+		return *this;
+	}
+	
+	VariantList & VariantList::operator+=(long double v)
+	{
+		this->add(v);
+		return *this;
+	}
+	
+	VariantList & VariantList::operator+=(bool v)
+	{
+		this->add(v);
+		return *this;
+	}
+	
+	VariantList & VariantList::operator+=(const REString & s)
+	{
+		this->add(s);
+		return *this;
+	}
+	
+	VariantList & VariantList::operator+=(const char * s)
+	{
+		this->add(s);
+		return *this;
+	}
+	
+	VariantList & VariantList::operator+=(const wchar_t * s)
+	{
+		this->add(s);
+		return *this;
+	}
+	
+	VariantList & VariantList::operator+=(const VariantMap & m)
+	{
+		this->add(m);
+		return *this;
+	}
+	
+	VariantList & VariantList::operator+=(const VariantList & l)
+	{
+		this->add(l);
+		return *this;
+	}
+	
+	VariantList & VariantList::operator+=(const Variant & v)
+	{
+		this->add(v);
+		return *this;
+	}
+	
     VariantList & VariantList::operator=(const VariantList & list)
 	{
 		this->clear();

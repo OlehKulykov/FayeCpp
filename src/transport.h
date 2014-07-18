@@ -91,8 +91,8 @@ namespace FayeCpp {
 		
 		virtual const REString name() const = 0;
 
-		virtual void sendData(const unsigned char * data, const size_t dataSize) = 0;
-		virtual void sendText(const char * text, const size_t textSize) = 0;
+		virtual void sendData(const unsigned char * data, const REUInt32 dataSize) = 0;
+		virtual void sendText(const char * text, const REUInt32 textSize) = 0;
 
 		virtual void connectToServer() = 0;
 		virtual void disconnectFromServer() = 0;

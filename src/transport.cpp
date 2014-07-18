@@ -259,7 +259,7 @@ namespace FayeCpp {
     {
         if (processMethod)
         {
-#ifdef HAVE_SUITABLE_QT_VERSION
+#if defined(HAVE_SUITABLE_QT_VERSION)
 		return new WebSocketQt(processMethod);
 #elif defined(HAVE_LIBWEBSOCKETS_H)
         return new WebSocket(processMethod);

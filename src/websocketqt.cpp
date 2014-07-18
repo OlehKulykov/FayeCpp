@@ -65,7 +65,7 @@ namespace FayeCpp {
 		(void)error;
 	}
 
-	void WebSocketQt::sendData(const unsigned char * data, const size_t dataSize)
+	void WebSocketQt::sendData(const unsigned char * data, const REUInt32 dataSize)
 	{
 #ifdef FAYECPP_DEBUG_MESSAGES
 		qDebug() << "SocketQt:" << "send bin:" << (const char*)data;
@@ -74,7 +74,7 @@ namespace FayeCpp {
 		_socket->sendBinaryMessage(QByteArray((char*)data, (int)dataSize));
 	}
 
-	void WebSocketQt::sendText(const char * text, const size_t textSize)
+	void WebSocketQt::sendText(const char * text, const REUInt32 textSize)
 	{
 #ifdef FAYECPP_DEBUG_MESSAGES
 		qDebug() << "SocketQt:" << "send text:" << text;
