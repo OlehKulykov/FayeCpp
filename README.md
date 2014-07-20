@@ -274,6 +274,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 
+
+# TODO:
+-------
+Big frames and message fragments.
+
+
+
 [Libwebsockets]:http://libwebsockets.org
 [Jansson]:http://www.digip.org/jansson
 [CMake]:http://www.cmake.org
@@ -286,3 +293,4 @@ THE SOFTWARE.
 [QtWebSockets]:http://qt-project.org/doc/qt-5/qtwebsockets-index.html
 [Bayeux Protocol]:http://svn.cometd.com/trunk/bayeux/bayeux.html
 [JSON]:http://www.json.org
+[TODO_1]:https://github.com/davidgaleano/libwebsockets
