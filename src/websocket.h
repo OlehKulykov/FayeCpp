@@ -60,6 +60,8 @@ namespace FayeCpp {
 		struct libwebsocket * _connection;
 		
 		REMutex * _writeMutex;
+		REBuffer * _receivedTextBuffer;
+		REBuffer * _receivedBinaryBuffer;
 		
 		#define MAX_ECHO_PAYLOAD 4096
 		typedef struct echoSessionData
@@ -85,7 +87,7 @@ namespace FayeCpp {
 		int onCallbackWritable(struct libwebsocket_context * context,
 							   struct libwebsocket * connection,
 							   EchoSessionData * pss);
-		void onCallbackReceive(void * input, size_t len);
+		void onCallbackReceive(struct libwebsocket * wsi, void * input, size_t len);
 		
 		void addWriteBufferData(const unsigned char * data, const REUInt32 dataSize, const enum libwebsocket_write_protocol type);
 		void cleanup();

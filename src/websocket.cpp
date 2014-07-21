@@ -44,6 +44,10 @@
 #include <assert.h>
 #endif
 
+#ifndef SAFE_DELETE
+#define SAFE_DELETE(o) if(o){delete o;o=NULL;}
+#endif
+
 namespace FayeCpp {
 	
 	struct libwebsocket_protocols WebSocket::protocols[] = {
@@ -67,16 +71,54 @@ namespace FayeCpp {
 		if (_writeMutex) _writeMutex->unlock();
 	}
 	
-	void WebSocket::onCallbackReceive(void * input, size_t len)
+	void WebSocket::onCallbackReceive(struct libwebsocket * wsi, void * input, size_t len)
 	{
-		char * str = (char *)input;
-		if (strlen(str) == len)
+		const size_t bytesLeft = libwebsockets_remaining_packet_payload(wsi);
+		if (bytesLeft > 0)
 		{
-			this->onTextReceived(str);
+			// large fragment
+			if (lws_frame_is_binary(wsi)) 
+			{
+				// binary fragment received
+				if (_receivedBinaryBuffer) _receivedBinaryBuffer->append(input, (REUInt32)len);
+				else _receivedBinaryBuffer = new REBuffer(input, (REUInt32)len);
+			}
+			else
+			{
+				// text fragment received
+				if (_receivedTextBuffer) _receivedTextBuffer->append(input, (REUInt32)len);
+				else _receivedTextBuffer = new REBuffer(input, (REUInt32)len);
+			}
 		}
-		else
+		
+		if (libwebsocket_is_final_fragment(wsi)) 
 		{
-			this->onDataReceived((const unsigned char *)input, (REUInt32)len);
+			if (lws_frame_is_binary(wsi)) 
+			{
+				// final binary
+				if (_receivedBinaryBuffer)
+				{
+					this->onDataReceived((const unsigned char *)_receivedBinaryBuffer->buffer(), _receivedBinaryBuffer->size());
+					SAFE_DELETE(_receivedBinaryBuffer)
+				}
+				else
+				{
+					this->onDataReceived((const unsigned char *)input, (REUInt32)len);
+				}
+			}
+			else
+			{
+				// final text
+				if (_receivedTextBuffer)
+				{
+					this->onTextReceived((const char *)_receivedTextBuffer->buffer());
+					SAFE_DELETE(_receivedTextBuffer)
+				}
+				else
+				{
+					this->onTextReceived((const char *)input);
+				}
+			}
 		}
 	}
 	
@@ -96,7 +138,7 @@ namespace FayeCpp {
 				break;
 				
 			case LWS_CALLBACK_CLIENT_RECEIVE:
-				if (input && len) socket->onCallbackReceive(input, len);
+				if (input && len) socket->onCallbackReceive(wsi, input, len);
 				break;
 				
 			case LWS_CALLBACK_CLIENT_WRITEABLE:
@@ -256,6 +298,9 @@ namespace FayeCpp {
 			delete b;
 		}
 		_writeBuffers.clear();
+		
+		SAFE_DELETE(_receivedTextBuffer)
+		SAFE_DELETE(_receivedBinaryBuffer)
 	}
 	
 	void WebSocket::disconnectFromServer()
@@ -340,7 +385,9 @@ namespace FayeCpp {
 	WebSocket::WebSocket(ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * processMethod) : REThread(), Transport(processMethod),
 		_context(NULL),
 		_connection(NULL),
-		_writeMutex(new REMutex())
+		_writeMutex(new REMutex()),
+		_receivedTextBuffer(NULL),
+		_receivedBinaryBuffer(NULL)
 	{
 		memset(&_info, 0, sizeof(struct lws_context_creation_info));
 
@@ -357,11 +404,7 @@ namespace FayeCpp {
 	{
 		this->cancel();
 		
-		if (_writeMutex)
-		{
-			delete _writeMutex;
-			_writeMutex = NULL;
-		}
+		SAFE_DELETE(_writeMutex)
 		
 		this->cleanup();
 	}

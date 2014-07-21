@@ -142,6 +142,7 @@ namespace FayeCpp {
 				_size = newSize;
 				return true;
 			}
+			return false;
 		}
 		
 		return this->set(buff, buffSize);
