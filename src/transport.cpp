@@ -120,7 +120,17 @@ namespace FayeCpp {
 		RELog::log("TRANSPORT ERROR: %s", error.UTF8String());
 #endif
 		Responce message;
-        message.setType(Responce::ResponceTransportError).setErrorString(error.UTF8String());
+        message.setType(Responce::ResponceTransportError).setErrorString(error);
+		_processMethod->invokeWithPointer(&message);
+	}
+	
+	void Transport::onError(const char * error)
+	{
+#ifdef FAYECPP_DEBUG_MESSAGES
+		RELog::log("TRANSPORT ERROR: %s", error);
+#endif
+		Responce message;
+        message.setType(Responce::ResponceTransportError).setErrorString(error);
 		_processMethod->invokeWithPointer(&message);
 	}
 	

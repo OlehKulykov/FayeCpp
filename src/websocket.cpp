@@ -220,6 +220,12 @@ namespace FayeCpp {
 	
 	void WebSocket::addWriteBufferData(const unsigned char * data, const REUInt32 dataSize, const enum libwebsocket_write_protocol type)
 	{
+		if (dataSize > MAX_ECHO_PAYLOAD) 
+		{
+			this->onError(REString::createWithFormat("Error sending %u bytes. Can't send more than %i bytes.", (unsigned int)dataSize, (int)MAX_ECHO_PAYLOAD));
+			return;
+		}
+		
 		bool isError = false;
 		
 		this->writeLock();

@@ -79,6 +79,19 @@ namespace FayeCpp {
 		return *this;
 	}
 	
+	Responce & Responce::setErrorString(const REString & value)
+	{
+		if (_errorString) 
+		{
+			*_errorString = value;
+		}
+		else
+		{
+			_errorString = new REString(value);
+		}
+		return *this;
+	}
+	
 	Responce & Responce::setMessageText(const char * text)
 	{
 		if (text) 

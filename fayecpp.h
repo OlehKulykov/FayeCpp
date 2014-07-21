@@ -2750,6 +2750,14 @@ namespace FayeCpp {
 		
 		
 		/** 
+		 @brief Setter for message error string.
+		 @param value Error string object.
+		 @return Address of this message object.
+		 */
+		Responce & setErrorString(const REString & value);
+		
+		
+		/** 
 		 @brief Setter for message text.
 		 @param text C string with message text.
 		 @return Address of this message object.
