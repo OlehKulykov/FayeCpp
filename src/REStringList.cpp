@@ -36,6 +36,12 @@ namespace FayeCpp {
 		return *this;
 	}
 	
+	REStringList & REStringList::operator+=(const REString & string)
+	{
+		this->add(string);
+		return *this;
+	}
+
 	REStringList::REStringList(const REStringList & list) : REList<REString>()
 	{
 		*this = list; 

@@ -30,7 +30,7 @@
  *
  * Changes on version 0.1.3:
  * - Added processing large received binary and text frames in case using 'libwebsockets'.
- * 
+ *
  * Changes on version 0.1.2:
  * - Added autoreconnect to the client while disconnect with unknown error(not by user).
  * - Added to cocoapods repository.
@@ -332,7 +332,7 @@ typedef REFloat64 RETimeInterval;
 
 namespace FayeCpp {
 	
-    class Client;
+	class Client;
 	class Responce;
 	class VariantList;
 	class VariantMap;
@@ -493,8 +493,8 @@ namespace FayeCpp {
 		 @detailed Contructs autopointer without any object pointer and reference.
 		 */
 		REPtr() :
-		_object(NULL),
-		_referenceCount(NULL)
+			_object(NULL),
+			_referenceCount(NULL)
 		{
 			
 		}
@@ -506,8 +506,8 @@ namespace FayeCpp {
 		 @param object Pointer to typed object.
 		 */
 		REPtr(PointerType* object) :
-		_object(object),
-		_referenceCount(NULL)
+			_object(object),
+			_referenceCount(NULL)
 		{
 			if (_object)
 			{
@@ -531,8 +531,8 @@ namespace FayeCpp {
 		 @param anotherPtr Another autopointer object.
 		 */
 		REPtr(const REPtr<PointerType> & anotherPtr) :
-		_object(NULL),
-		_referenceCount(NULL)
+			_object(NULL),
+			_referenceCount(NULL)
 		{
 			if (this != &anotherPtr)
 			{
@@ -556,7 +556,7 @@ namespace FayeCpp {
 		}
 	};
 	
-		
+
 	/**
 	 @brief Function template for casting objects using "static_cast".
 	 */
@@ -779,8 +779,8 @@ namespace FayeCpp {
 			 @param it Another iterator.
 			 */
 			Iterator(const Iterator & it) :
-			_head(it._head),
-			_node(NULL)
+				_head(it._head),
+				_node(NULL)
 			{
 				
 			}
@@ -792,8 +792,8 @@ namespace FayeCpp {
 			 @param listHead Pointer to list head node.
 			 */
 			Iterator(Node * listHead) :
-			_head(listHead),
-			_node(NULL)
+				_head(listHead),
+				_node(NULL)
 			{
 				
 			}
@@ -951,12 +951,12 @@ namespace FayeCpp {
 		 */
 		REList(CreateNodeCallback nodeCreator = &newNode,
 			   ReleaseNodeCallback nodeReleaser = &deleteNode) :
-		_createNode(nodeCreator),
-		_releaseNode(nodeReleaser),
-		_head(NULL)
+			_createNode(nodeCreator),
+			_releaseNode(nodeReleaser),
+			_head(NULL)
 		{
 			NodeBase * newHead = (NodeBase *)malloc(sizeof(NodeBase));
-			if (newHead) 
+			if (newHead)
 			{
 				this->_head = newHead;
 				this->_head->next = this->_castHead;
@@ -1163,8 +1163,8 @@ namespace FayeCpp {
 			 @param it Another iterator object.
 			 */
 			Iterator(const Iterator & it) :
-			_head(it._head),
-			_node(NULL)
+				_head(it._head),
+				_node(NULL)
 			{
 				
 			}
@@ -1175,8 +1175,8 @@ namespace FayeCpp {
 			 @param listHead Pointer to node.
 			 */
 			Iterator(Node * listHead) :
-			_head(listHead),
-			_node(NULL)
+				_head(listHead),
+				_node(NULL)
 			{
 				
 			}
@@ -1304,10 +1304,10 @@ namespace FayeCpp {
 		 @param nodeReleaser Map node release callback, if no assigned - using default callback with "new" operator.
 		 */
 		REMap(CreateNodeCallback nodeCreator = &newNode,
-			   ReleaseNodeCallback nodeReleaser = &deleteNode) :
-		_createNode(nodeCreator),
-		_releaseNode(nodeReleaser),
-		_head(NULL)
+			  ReleaseNodeCallback nodeReleaser = &deleteNode) :
+			_createNode(nodeCreator),
+			_releaseNode(nodeReleaser),
+			_head(NULL)
 		{
 			NodeBase * newHead = (NodeBase *)malloc(sizeof(NodeBase));
 			if (newHead)
@@ -2162,72 +2162,259 @@ namespace FayeCpp {
 	class REString;
 	class REWideString;
 	
+	
+	/**
+	 @brief Class of mutable UTF8 string.
+	 */
 	class __RE_PUBLIC_CLASS_API__ REMutableString : public REString
 	{
 	protected:
-		void replaceWithLen(const char * charsStringValue, 
-							const char * withCharsStringValue, 
-							const REUInt32 firstLen, 
+		void replaceWithLen(const char * charsStringValue,
+							const char * withCharsStringValue,
+							const REUInt32 firstLen,
 							const REUInt32 secondLen);
 	public:
+		/**
+		  @brief Basic assignment operator with UTF8 C string.
+		  @detailed New string buffer will be created.
+		  @param utf8String The UTF8 string.
+		  @return Address of this string object.
+		 */
 		REMutableString & operator=(const char * utf8String);
+
+
+		/**
+		  @brief Basic assignment operator with wide character string.
+		  @detailed Wide string will be converted to UTF8 and new string buffer be created.
+		  @param wideString The wide string.
+		  @return Address of this string object.
+		 */
 		REMutableString & operator=(const wchar_t * wideString);
 		
+
+		/**
+		  @brief Basic assignment operator with wide string object.
+		  @detailed Wide string will be converted to UTF8 and new string buffer be created.
+		  @param anotherString The wide string object.
+		  @return Address of this string object.
+		 */
 		REMutableString & operator=(const REWideString & anotherString);
+
+
+		/**
+		  @brief Basic assignment operator with immutable string object.
+		  @detailed New string buffer will be created.
+		  @param anotherString The immutable string object.
+		  @return Address of this string object.
+		 */
 		REMutableString & operator=(const REString & anotherString);
+
+
+		/**
+		  @brief Basic assignment operator with mutable string object.
+		  @detailed New string buffer will be created.
+		  @param anotherString The mutable string object.
+		  @return Address of this string object.
+		 */
 		REMutableString & operator=(const REMutableString & anotherString);
 		
-		/// Conserts string ti it's lower presentation.
+
+		/**
+		  @brief Conserts string to it's lower presentation.
+		  @return Address of this string object.
+		 */
 		REMutableString & toLower();
 		
-		/// Conserts string ti it's uper presentation.
+
+		/**
+		 @brief Conserts string to it's upper presentation.
+		 @return Address of this string object.
+		*/
 		REMutableString & toUpper();
 		
-		/// Appends another UTF8 string.
+
+		/**
+		  @brief Append this string with another UTF8 C string.
+		  @param utf8String The UTF8 string.
+		  @param utf8StringLength Length of the UTF8 string, don't include NULL terminated char. This is not count of the UTF8 characters.
+		  @return Address of this string object.
+		 */
 		REMutableString & append(const char * utf8String, const REUInt32 utf8StringLength = RENotFound);
 		
-		/// Appends another wide char string.
+
+		/**
+		  @brief Append this string with another wide string.
+		  @detailed During appending wide characters will be converted to UTF8 presentation.
+		  @param wideString The wide string.
+		  @param wideStringLength Length of the wide string, don't include NULL terminated char.
+		  @return Address of this string object.
+		 */
 		REMutableString & append(const wchar_t * wideString, const REUInt32 wideStringLength = RENotFound);
 		
-		/// Appends another UTF8 string using format.
+
+		/**
+		  @brief Append this string with another formated UTF8 C string.
+		  @param format The format string used for creating appended string.
+		  @return Address of this string object.
+		 */
 		REMutableString & appendFormat(const char * format, ...);
 		
-		/// Replaces UTF8 string with another UTF8 string.
+
+		/**
+		  @brief Search and replace UTF8 substring with another UTF8 string or with NULL - meant remove substring.
+		  @detailed During replacement all subscrings will be replaced.
+		  @param utf8String The UTF8 string for searching.
+		  @param withUTF8StringOrNULL Replace UTF8 string or NULL. In case of NULL substring will be removed.
+		  @return Address of this string object.
+		 */
 		REMutableString & replace(const char * utf8String, const char * withUTF8StringOrNULL = NULL);
+
 		
-		/// Replaces needed char with another char.
+		/**
+		  @brief Replaces all ocuriences of the char with another char.
+		  @param needChar Char for searching.
+		  @param targetChar Char for replacing.
+		  @return Address of this string object.
+		 */
 		REMutableString & replace(const char needChar, const char targetChar);
 		
-		/// Replaces wide chars string with another wide chars string.
+
+		/**
+		  @brief Search and replace wide substring with another wide string or with NULL - meant remove substring.
+		  @detailed First of all substring & replace string will be converted to it's UTF8 presentation and during replacement all subscrings will be replaced.
+		  @param wideString The wide string for searching.
+		  @param withWideStringOrNULL Replace wide string or NULL. In case of NULL substring will be removed.
+		  @return Address of this string object.
+		 */
 		REMutableString & replace(const wchar_t * wideString, const wchar_t * withWideStringOrNULL = NULL);
 		
+
+		/**
+		  @brief Appends this string with path component.
+		  @param pComponent Path component for appending. File name or folder name.
+		  @return Address of this string object.
+		 */
 		REMutableString & appendPathComponent(const char * pComponent);
 		
+
+		/**
+		  @brief Removes last path component. File name or folder name.
+		  @return Address of this string object.
+		 */
 		REMutableString & removeLastPathComponent();
 		
+
+		/**
+		  @brief Removes path extension from string if last path component is file name(containes dot before slash).
+		  @return Address of this string object.
+		 */
 		REMutableString & removePathExtension();
 		
+
+		/**
+		  @brief Constructs empty mutable string object.
+		 */
 		REMutableString();
+
+
+		/**
+		  @brief Constructs mutable string object with UTF8 string.
+		  @param utf8String The UTF8 string.
+		  @param utf8StringLength Length of the UTF8 string, don't include NULL terminated char. This is not count of the UTF8 characters.
+		 */
 		REMutableString(const char * utf8String, const REUInt32 utf8StringLength = RENotFound);
+
+
+		/**
+		  @brief Constructs mutable string object with wide characters string.
+		  @param wideString The wide string.
+		  @param wideStringLength Length of the wide string, don't include NULL terminated char.
+		 */
 		REMutableString(const wchar_t * wideString, const REUInt32 wideStringLength = RENotFound);
+
+
+		/**
+		  @brief Constructs mutable string object with wide string object.
+		  @param anotherString Wide string object.
+		 */
 		REMutableString(const REWideString & anotherString);
+
+
+		/**
+		  @brief Constructs mutable string object with immutable string object.
+		  @param anotherString Immutable string object.
+		 */
 		REMutableString(const REString & anotherString);
+
+
+		/**
+		  @brief Constructs mutable string object with mutable string object.
+		  @param anotherString Mutable string object.
+		 */
 		REMutableString(const REMutableString & anotherString);
 		
+
+		/**
+		  @brief Constructs mutable string object with autopointer to string buffer with UTF8 characters.
+		  @detailed NULL terminated char should be included.
+		  @param utf8StringBuffer autopointer to string buffer with UTF8 characters.
+		 */
 		REMutableString(const REPtr<REBuffer> & utf8StringBuffer);
 		
+
+		/**
+		  @brief Default virtual destructor.
+		 */
 		virtual ~REMutableString();
 	};
 	
+
+	/**
+	  @brief Subclass of list for holding strings objects.
+	 */
 	class __RE_PUBLIC_CLASS_API__ REStringList : public REList<REString>
 	{
 	public:
+		/**
+		  @brief Basic assignment operator.
+		  @detailed Copy all strings to this list.
+		  @param list Another string list.
+		  @return Address of this list.
+		 */
 		REStringList & operator=(const REStringList & list);
+
+
+		/**
+		 @brief Append strings list with single string.
+		 @param string String for appending.
+		 @return Address of this list.
+		 */
+		REStringList & operator+=(const REString & string);
+		
+		
+		/**
+		  @brief Constructs list object with content of another list.
+		  @param list
+		 */
 		REStringList(const REStringList & list);
+
+
+		/**
+		  @brief Constructs empty list object.
+		 */
 		REStringList();
+
+
+		/**
+		  @brief Default virtual destructor.
+		 */
 		virtual ~REStringList();
 	};
 	
+
+	/**
+	  @brief Delegate for faye client.
+	 */
 	class __RE_PUBLIC_CLASS_API__ Delegate
 	{
 	public:
@@ -2264,7 +2451,7 @@ namespace FayeCpp {
 		 @param client Faye client object.
 		 @param channel Channel name.
 		 */
-		virtual void onFayeClientSubscribedToChannel(FayeCpp::Client * client, 
+		virtual void onFayeClientSubscribedToChannel(FayeCpp::Client * client,
 													 const FayeCpp::REString & channel) = 0;
 		
 		
@@ -2273,7 +2460,7 @@ namespace FayeCpp {
 		 @param client Faye client object.
 		 @param channel Target channel name.
 		 */
-		virtual void onFayeClientUnsubscribedFromChannel(FayeCpp::Client * client, 
+		virtual void onFayeClientUnsubscribedFromChannel(FayeCpp::Client * client,
 														 const FayeCpp::REString & channel) = 0;
 		
 		
@@ -2283,8 +2470,8 @@ namespace FayeCpp {
 		 @param message Received non empty responce message map.
 		 @param channel Subscribed channel which received message data.
 		 */
-		virtual void onFayeClientReceivedMessageFromChannel(FayeCpp::Client * client, 
-															const FayeCpp::VariantMap & message, 
+		virtual void onFayeClientReceivedMessageFromChannel(FayeCpp::Client * client,
+															const FayeCpp::VariantMap & message,
 															const FayeCpp::REString & channel) = 0;
 		
 		
@@ -2294,7 +2481,7 @@ namespace FayeCpp {
 		 @param client Faye client object.
 		 @param message Message map.
 		 */
-		virtual void onFayeClientWillSendMessage(FayeCpp::Client * client, 
+		virtual void onFayeClientWillSendMessage(FayeCpp::Client * client,
 												 FayeCpp::VariantMap & message) = 0;
 		
 		
@@ -2303,15 +2490,19 @@ namespace FayeCpp {
 		 @param client Faye client object.
 		 @param errorString Readable error string.
 		 */
-		virtual void onFayeErrorString(FayeCpp::Client * client, 
+		virtual void onFayeErrorString(FayeCpp::Client * client,
 									   const FayeCpp::REString & errorString) = 0;
 		
 		
 		virtual ~Delegate() { }
 	};
 	
-    class Transport;
+	class Transport;
 	
+
+	/**
+	  @brief Faye clent object.
+	 */
 	class __RE_PUBLIC_CLASS_API__ Client
 	{
 	private:
@@ -2352,7 +2543,7 @@ namespace FayeCpp {
 		void onDisconnectFayeDone(const VariantMap & message);
 		
 		bool isPendingChannel(const char * channel) const;
-			
+
 		static unsigned long long _messageId;
 		static unsigned long long nextMessageId();
 		
@@ -2518,8 +2709,8 @@ namespace FayeCpp {
 			TypeString,
 			TypeMap,
 			TypeList
-        }
-        VariantType;
+		}
+		VariantType;
 		
 	protected:
 		typedef union _variantUnion
@@ -2650,44 +2841,44 @@ namespace FayeCpp {
 	 */
 	class __RE_PUBLIC_CLASS_API__ Responce
 	{
-    public:
-        /**
-         @brief Faye message type.
-         */
+	public:
+		/**
+		 @brief Faye message type.
+		 */
 		typedef enum _responceType
-        {
-            /**
-             @brief Undefined, default type.
-             */
+		{
+			/**
+			 @brief Undefined, default type.
+			 */
 			ResponceNone = 0,
 			
 			
-            /**
-             @brief Faye transport protocol connected to server.
-             */
+			/**
+			 @brief Faye transport protocol connected to server.
+			 */
 			ResponceTransportConnected,
 			
 			
-            /**
-             @brief Faye transport protocol disconnected from server.
-             */
+			/**
+			 @brief Faye transport protocol disconnected from server.
+			 */
 			ResponceTransportDisconnected,
 			
 			
-            /**
-             @brief Faye transport protocol error.
-             */
+			/**
+			 @brief Faye transport protocol error.
+			 */
 			ResponceTransportError,
 			
 			
-            /**
-             @brief Faye transport protocol received message.
-             */
+			/**
+			 @brief Faye transport protocol received message.
+			 */
 			ResponceMessage
-        }
-        /**
-         @brief Faye message type.
-         */
+		}
+		/**
+		 @brief Faye message type.
+		 */
 		ResponceType;
 		
 	private:
@@ -2698,42 +2889,42 @@ namespace FayeCpp {
 		ResponceType _type;
 		
 	public:
-		/** 
+		/**
 		 @brief Get message error string pointer.
 		 @return String pointer or NULL.
 		 */
 		REString * errorString() const;
 		
 		
-		/** 
+		/**
 		 @brief Get message list pointer.
 		 @return Variant list pointer or NULL.
 		 */
 		VariantList * messageList() const;
 		
 		
-		/** 
+		/**
 		 @brief Get message map pointer.
 		 @return Variant map pointer or NULL.
 		 */
 		VariantMap * messageMap() const;
 		
 		
-		/** 
+		/**
 		 @brief Get message buffer.
 		 @return Buffer pointer or NULL.
 		 */
 		REBuffer * messageBuffer() const;
 		
 		
-		/** 
+		/**
 		 @brief Get type of responce.
 		 @return Responce type.
 		 */
 		Responce::ResponceType type() const;
 		
 		
-		/** 
+		/**
 		 @brief Setter for message responce type.
 		 @param type Type of responce.
 		 @return Address of this message object.
@@ -2741,7 +2932,7 @@ namespace FayeCpp {
 		Responce & setType(Responce::ResponceType type);
 		
 		
-		/** 
+		/**
 		 @brief Setter for message error string.
 		 @param value C error string.
 		 @return Address of this message object.
@@ -2749,7 +2940,7 @@ namespace FayeCpp {
 		Responce & setErrorString(const char * value);
 		
 		
-		/** 
+		/**
 		 @brief Setter for message error string.
 		 @param value Error string object.
 		 @return Address of this message object.
@@ -2757,7 +2948,7 @@ namespace FayeCpp {
 		Responce & setErrorString(const REString & value);
 		
 		
-		/** 
+		/**
 		 @brief Setter for message text.
 		 @param text C string with message text.
 		 @return Address of this message object.
@@ -2765,7 +2956,7 @@ namespace FayeCpp {
 		Responce & setMessageText(const char * text);
 		
 		
-		/** 
+		/**
 		 @brief Setter for message data.
 		 @param data Pointer to message data.
 		 @param dataSize Size of message data.
@@ -2774,13 +2965,13 @@ namespace FayeCpp {
 		Responce & setMessageData(const unsigned char * data, const size_t dataSize);
 		
 		
-		/** 
+		/**
 		 @brief Default contructor for the message.
 		 */
 		Responce();
 		
 		
-		/** 
+		/**
 		 @brief Default destructor for the message.
 		 */
 		~Responce();
