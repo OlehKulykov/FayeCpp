@@ -275,11 +275,6 @@ THE SOFTWARE.
 
 
 
-# TODO:
--------
-Big frames and message fragments.
-
-
 
 [Libwebsockets]:http://libwebsockets.org
 [Jansson]:http://www.digip.org/jansson
