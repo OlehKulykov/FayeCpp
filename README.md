@@ -185,6 +185,9 @@ _client->setDelegate(_delegatePointerHere);
 _client->connect();
 
 // subscribing or adding channels to pending subscriptions
+// From "The Bayeux Protocol Specification v1.0" section "Channels"
+// http://docs.cometd.org/reference/bayeux_protocol_elements.html.
+// The channel name consists of an initial "/" followed by an optional sequence of path segments separated by a single slash "/" character. Within a path segment, the character "/" is reserved. 
 _client->subscribeToChannel("/faye_channel_1");
 _client->subscribeToChannel("/something/faye_channel_2");
 ```
