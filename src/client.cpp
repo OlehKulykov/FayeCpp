@@ -48,6 +48,24 @@
 
 namespace FayeCpp {
 	
+	bool Client::isUsingIPV6() const
+	{
+		return _isUsingIPV6;
+	}
+	
+	bool Client::setUsingIPV6(bool isUse)
+	{
+		if (isUse && Client::isSupportsIPV6()) 
+		{
+			_isUsingIPV6 = true;
+		}
+		else
+		{
+			_isUsingIPV6 = false;
+		}
+		return _isUsingIPV6;
+	}
+	
 	unsigned long long Client::_messageId = 0;
 	unsigned long long Client::nextMessageId()
 	{
@@ -577,7 +595,8 @@ namespace FayeCpp {
 		_transport(NULL),
 		_delegate(NULL),
 		_isFayeConnected(false),
-		_isDisconnectingByUser(false)
+		_isDisconnectingByUser(false),
+		_isUsingIPV6(false)
 	{
 		REThread::mainThreadIdentifier();
 		
@@ -596,6 +615,11 @@ namespace FayeCpp {
 	REStringList Client::availableConnectionTypes()
 	{
         return Transport::availableConnectionTypes();
+	}
+	
+	bool Client::isSupportsIPV6()
+	{
+		return Transport::isSupportsIPV6();
 	}
 	
 }

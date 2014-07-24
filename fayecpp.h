@@ -2525,6 +2525,7 @@ namespace FayeCpp {
 
 		bool _isFayeConnected;
 		bool _isDisconnectingByUser;
+		bool _isUsingIPV6;
 
 		void processMessage(Responce * responce);
 		
@@ -2557,6 +2558,25 @@ namespace FayeCpp {
 		static unsigned long long nextMessageId();
 		
 	public:
+		/**
+		 @brief Check client should use IPV6.
+		 @detailed Default value is false, no matter client supports it or not.
+		 To check posibility of using IPV6 by the client use static method 'Client::isSupportsIPV6()'.
+		 @return True if client supports & should use IPV6, othervice false.
+		 */
+		bool isUsingIPV6() const;
+		
+		
+		/**
+		 @brief Set client should use IPV6.
+		 @detailed During setting checks is client can use it. 
+		 Set this value before connecting.
+		 @param isUse Flag for using IPV6.
+		 @return True if you want to use and client supports it, othervice false.
+		 */
+		bool setUsingIPV6(bool isUse);
+		
+		
 		/**
 		 @detailed From "The Bayeux Protocol Specification v1.0" section "Channels"
 		 http://docs.cometd.org/reference/bayeux_protocol_elements.html.
@@ -2718,6 +2738,14 @@ namespace FayeCpp {
 		  @return Type strings list.
 		 */
 		static REStringList availableConnectionTypes();
+		
+		
+		/**
+		 @brief Check is can client use IPV6.
+		 @detailed Depends on dependecies build options.
+		 @return True if client can use, otherwice false.
+		 */
+		static bool isSupportsIPV6();
 	};
 	
 	class __RE_PUBLIC_CLASS_API__ Variant

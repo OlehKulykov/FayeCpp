@@ -111,6 +111,6 @@ namespace FayeCpp {
 	
 }
 
-#endif /* HAVE_SUITABLE_QT_VERSION */
+#endif /* !HAVE_SUITABLE_QT_VERSION && HAVE_LIBWEBSOCKETS_H */
 
 #endif /* __FAYECPP_FAYE_CLIENT_H__ */

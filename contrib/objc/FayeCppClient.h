@@ -124,6 +124,31 @@ unsubscribedFromChannel:(NSString *) channel;
 
 
 /**
+ @brief Property for client IPV6 usability.
+ @detailed This property used custom methods 'isUsingIPV6' and 'setUsingIPV6:'.
+ */
+@property (nonatomic, assign, getter = isUsingIPV6, setter = setUsingIPV6:) BOOL usingIPV6;
+
+
+/**
+ @brief Check client should use IPV6.
+ @detailed Default value is NO, no matter client supports it or not.
+ To check posibility of using IPV6 by the client use static method '[Client isSupportsIPV6]'.
+ @return YES if client supports & should use IPV6, othervice NO.
+ */
+- (BOOL) isUsingIPV6;
+
+
+/**
+ @brief Set client should use IPV6.
+ @detailed During setting checks is client can use it. 
+ Set this value before connecting.
+ @param isUse Flag for using IPV6.
+ */
+- (void) setUsingIPV6:(BOOL) isUse;
+
+
+/**
  @brief Start connection sequence. On the first step connecting transport protocol to server(inform delegate).
  @brief Next - connecting faye(also, inform delegate).
  @return True if sequence initialized, otherwice false.
@@ -171,9 +196,9 @@ unsubscribedFromChannel:(NSString *) channel;
 
 
 /**
- * @brief Subscribes or storing to pendnig subscriptions required channel.
- * @param channel Non empty channel.
- * @return True - if already suscribed, started or stored to peding subscriptions, otherwice false.
+ @brief Subscribes or storing to pendnig subscriptions required channel.
+ @param channel Non empty channel.
+ @return True - if already suscribed, started or stored to peding subscriptions, otherwice false.
  */
 - (BOOL) subscribeToChannel:(NSString *) channel;
 
@@ -211,6 +236,13 @@ unsubscribedFromChannel:(NSString *) channel;
  */
 - (id<FayeCppClientDelegate>) delegate;
 
+
+/**
+ @brief Check is can client use IPV6.
+ @detailed Depends on dependecies build options.
+ @return YES if client can use, otherwice NO.
+ */
++ (BOOL) isSupportsIPV6;
 
 @end
 

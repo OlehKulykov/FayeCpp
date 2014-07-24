@@ -329,7 +329,8 @@ namespace FayeCpp {
 		
 		info.gid = -1;
 		info.uid = -1;
-		info.options = 0;
+		info.options = this->isUsingIPV6() ? 0 : LWS_SERVER_OPTION_DISABLE_IPV6;
+		
 		info.user = static_cast<WebSocket *>(this);
 		
 		_context = libwebsocket_create_context(&info);
@@ -370,7 +371,7 @@ namespace FayeCpp {
 			}
 			else
 			{
-				this->onError(REString("Failed to connect "));
+				this->onError(REString("Failed to connect"));
 			}
 			return;
 		}

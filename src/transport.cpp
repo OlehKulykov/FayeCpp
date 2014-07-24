@@ -37,7 +37,13 @@
 #include <assert.h>
 
 namespace FayeCpp {
-		
+	
+	bool Transport::isUsingIPV6() const 
+	{
+		Client * client = this->client(); 
+		return client ? client->isUsingIPV6() : false; 
+	}
+	
 	void Transport::updateLastSendTime()
 	{
 		_lastSendTime = RETime::time();
@@ -71,7 +77,7 @@ namespace FayeCpp {
 		if (thisTransportAdvice) this->receivedAdvice(thisTransportAdvice->toMap());
 	}
 	
-	Client * Transport::client()
+	Client * Transport::client() const
 	{
 		return _processMethod->classPointer();
 	}
@@ -289,4 +295,18 @@ namespace FayeCpp {
 #endif
         return types;
     }
+	
+	bool Transport::isSupportsIPV6()
+	{
+#ifdef HAVE_SUITABLE_QT_VERSION
+		
+#elif defined(HAVE_LIBWEBSOCKETS_H)
+		
+#if defined(LWS_USE_IPV6)	
+		return true;
+#endif		
+		
+#endif
+		return false;
+	}
 }

@@ -56,10 +56,11 @@ namespace FayeCpp {
 		
 		Transport();
 		
-		Client * client();
+		Client * client() const;
 		Delegate * delegate();
 		
 	protected:
+		bool isUsingIPV6() const;
 		RETimeInterval adviceInterval() const { return _advice.interval; }
 		RETimeInterval adviceTimeout() const { return _advice.timeout; }
 		int adviceReconnect() const { return _advice.reconnect; }
@@ -104,6 +105,7 @@ namespace FayeCpp {
 
         static Transport * createNewTransport(ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * processMethod);
         static REStringList availableConnectionTypes();
+		static bool isSupportsIPV6();
 	};
 	
 }

@@ -306,6 +306,16 @@ void FayeCppDelegateWrapper::objcDictToMap(NSDictionary * dict, VariantMap & map
 
 @implementation FayeCppClient
 
+- (BOOL) isUsingIPV6
+{
+	return _cppClient ? (BOOL)_cppClient->isUsingIPV6() : NO;
+}
+
+- (void) setUsingIPV6:(BOOL) isUse
+{
+	if (_cppClient) _cppClient->setUsingIPV6((bool)isUse);
+}
+
 - (BOOL) connect
 {
 	return _cppClient ? (BOOL)_cppClient->connect() : NO;
@@ -447,6 +457,11 @@ void FayeCppDelegateWrapper::objcDictToMap(NSDictionary * dict, VariantMap & map
 	if (_urlStringObject) [_urlStringObject release];
 	[super dealloc];
 #endif
+}
+
++ (BOOL) isSupportsIPV6
+{
+	return (BOOL)Client::isSupportsIPV6();
 }
 
 @end
