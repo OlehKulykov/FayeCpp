@@ -28,6 +28,9 @@
  * Faye C++ client main and one header file.
  * All class interfaces added to namespace, preventing include files mess.
  *
+ * Changes on version 0.1.4:
+ * - Possibility to switch client between IPV4 & IPV6 if possible.
+ * 
  * Changes on version 0.1.3:
  * - Added processing large received binary and text frames in case using 'libwebsockets'.
  *
@@ -42,7 +45,7 @@
 
 #define FAYECPP_VERSION_MAJOR 0
 #define FAYECPP_VERSION_MINOR 1
-#define FAYECPP_VERSION_PATCH 3
+#define FAYECPP_VERSION_PATCH 4
 
 
 #if !defined(HAVE_SUITABLE_QT_VERSION) && defined(QT_VERSION) && defined(QT_VERSION_CHECK)
