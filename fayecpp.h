@@ -24,22 +24,22 @@
 #ifndef __FAYECPP_FAYECPP_H__
 #define __FAYECPP_FAYECPP_H__
 
-/**
- * Faye C++ client main and one header file.
- * All class interfaces added to namespace, preventing include files mess.
+/*
+ *   Faye C++ client main and one header file.
+ *   All class interfaces added to namespace, preventing include files mess.
  *
- * Changes on version 0.1.4:
- * - Possibility to switch client between IPV4 & IPV6 if possible.
+ *   Changes on version 0.1.4:
+ *   - Possibility to switch client between IPV4 & IPV6 if possible.
  * 
- * Changes on version 0.1.3:
- * - Added processing large received binary and text frames in case using 'libwebsockets'.
+ *   Changes on version 0.1.3:
+ *   - Added processing large received binary and text frames in case using 'libwebsockets'.
  *
- * Changes on version 0.1.2:
- * - Added autoreconnect to the client while disconnect with unknown error(not by user).
- * - Added to cocoapods repository.
+ *   Changes on version 0.1.2:
+ *   - Added autoreconnect to the client while disconnect with unknown error(not by user).
+ *   - Added to cocoapods repository.
  *
- * Version 0.1.1:
- * - Implemented basic logic.
+ *   Version 0.1.1:
+ *   - Implemented basic logic.
  */
 
 
