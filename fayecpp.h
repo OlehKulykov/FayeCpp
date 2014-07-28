@@ -2527,7 +2527,7 @@ namespace FayeCpp {
 		REStringList _supportedConnectionTypes;
 
 		bool _isFayeConnected;
-		bool _isDisconnectingByUser;
+		bool _isDisconnecting;
 		bool _isUsingIPV6;
 
 		void processMessage(Responce * responce);
