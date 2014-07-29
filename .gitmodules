@@ -3,4 +3,4 @@
 	url = git://github.com/akheron/jansson.git
 [submodule "libwebsockets"]
 	path = libwebsockets
-	url = git://github.com/andrew-canaday/libwebsockets.git
+	url = git://github.com/warmcat/libwebsockets.git
