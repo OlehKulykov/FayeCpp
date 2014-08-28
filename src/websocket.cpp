@@ -130,7 +130,6 @@ namespace FayeCpp {
 								size_t len)
 	{
 		WebSocket * socket = static_cast<WebSocket *>(libwebsocket_context_user(context));
-		EchoSessionData * pss = static_cast<EchoSessionData *>(user);
 		switch (reason)
 		{
 			case LWS_CALLBACK_CLIENT_ESTABLISHED:
@@ -142,7 +141,7 @@ namespace FayeCpp {
 				break;
 				
 			case LWS_CALLBACK_CLIENT_WRITEABLE:
-				return socket->onCallbackWritable(context, wsi, pss);
+				return socket->onCallbackWritable(context, wsi, static_cast<EchoSessionData *>(user));
 				break;
 				
 			default:

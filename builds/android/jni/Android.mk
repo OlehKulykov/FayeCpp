@@ -50,7 +50,8 @@ LOCAL_SRC_FILES := \
 	../../../src/variant.cpp \
 	../../../src/variantlist.cpp \
 	../../../src/variantmap.cpp \
-	../../../src/websocket.cpp
+	../../../src/websocket.cpp \
+	../getdtablesize.c
 
 
 LOCAL_C_INCLUDES += \
