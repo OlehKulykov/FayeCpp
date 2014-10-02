@@ -129,7 +129,7 @@ JNIEXPORT jint JNICALL Java_com_testfayecpp_MainActivity_initializeFayeClient
 		newClient->setDelegate(_delegate);
 		_client = newClient;
 		
-		_client->setUrl("ws://messages.presentain.com:80/faye");
+		_client->setUrl("xxxxxxxxxxxxxxxxxxxx");
 		
 		return 1;
 	}
@@ -155,8 +155,8 @@ JNIEXPORT jint JNICALL Java_com_testfayecpp_MainActivity_connectFayeClient
 	
 	_client->connect();
 	
-	_client->subscribeToChannel("/seminars/5322e93d8ee60a422400008f");
-	_client->subscribeToChannel("/seminars_service/5322e93d8ee60a422400008f");
+	_client->subscribeToChannel("/xxxxxxxxxxxxxxxxxxxx");
+	_client->subscribeToChannel("/xxxxxxxxxxxxxxxxxxxxxxxxxx");
 	
 	return 1;
 }
