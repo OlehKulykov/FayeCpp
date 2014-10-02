@@ -79,8 +79,6 @@
 #include <signal.h>
 #endif
 
-#undef HAVE_FUNCTION_PTHREAD_CANCEL
-
 namespace FayeCpp {
 
 /// -----------------------------------------------------------------------
