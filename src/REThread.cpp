@@ -51,6 +51,18 @@
 #include <sys/time.h>
 #endif
 
+#if defined(HAVE_STRING_H)
+#include <string.h>
+#endif
+
+#if defined(HAVE_ERRNO_H)
+#include <errno.h>
+#endif
+
+#if defined(HAVE_SYS_ERRNO_H)
+#include <sys/errno.h>
+#endif
+
 #if defined(HAVE_UNISTD_H)
 #include <unistd.h>
 #endif
