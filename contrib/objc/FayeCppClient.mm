@@ -33,6 +33,42 @@
 
 using namespace FayeCpp;
 
+class FayeCppClientSSLDataSourceWrapper : public SSLDataSource
+{
+public:
+	FayeCppClient * objcClient;
+	
+	virtual FayeCpp::REString clientLocalCertificateFilePath() const
+	{
+		return FayeCpp::REString("/Volumes/Data/faye_server/node/client1.crt");
+	}
+	
+	virtual FayeCpp::REString clientPrivateKeyFilePath() const
+	{
+		return FayeCpp::REString("/Volumes/Data/faye_server/node/client1.key");
+	}
+	
+	virtual FayeCpp::REString clientPrivateKeyPassPhrase() const
+	{
+		return FayeCpp::REString("Q1w2E3");
+	}
+	
+	virtual FayeCpp::REString clientCACertificateFilePath() const
+	{
+		return FayeCpp::REString("/Volumes/Data/faye_server/node/ca.crt");
+	}
+	
+	FayeCppClientSSLDataSourceWrapper() : objcClient(NULL)
+	{
+		
+	}
+	
+	virtual ~FayeCppClientSSLDataSourceWrapper()
+	{
+		
+	}
+};
+
 class FayeCppDelegateWrapper : public Delegate
 {
 public:
@@ -292,12 +328,14 @@ void FayeCppDelegateWrapper::objcDictToMap(NSDictionary * dict, VariantMap & map
 	
 #if !__has_feature(objc_arc)
 	id<FayeCppClientDelegate> _delegateObject;
+	id<FayeCppClientSSLDataSource> _sslDataSourceObject;
 	NSString * _urlStringObject;
 #endif
 }
 
 #if __has_feature(objc_arc)
 @property (nonatomic, weak) id<FayeCppClientDelegate> delegateObject;
+@property (nonatomic, weak) id<FayeCppClientSSLDataSource> sslDataSourceObject;
 @property (nonatomic, strong) NSString * urlStringObject;
 #endif
 
@@ -412,6 +450,24 @@ void FayeCppDelegateWrapper::objcDictToMap(NSDictionary * dict, VariantMap & map
 #endif
 }
 
+- (void) setSSLDataSource:(id<FayeCppClientSSLDataSource>) fayeSSLDataSource
+{
+#if __has_feature(objc_arc)
+	self.sslDataSourceObject = fayeSSLDataSource;
+#else
+	_sslDataSourceObject = fayeSSLDataSource;
+#endif
+}
+
+- (id<FayeCppClientSSLDataSource>) sslDataSource
+{
+#if __has_feature(objc_arc)
+	return self.sslDataSourceObject;
+#else
+	return _sslDataSourceObject;
+#endif
+}
+
 - (id) init
 {
 	self = [super init];
@@ -462,6 +518,11 @@ void FayeCppDelegateWrapper::objcDictToMap(NSDictionary * dict, VariantMap & map
 + (BOOL) isSupportsIPV6
 {
 	return (BOOL)Client::isSupportsIPV6();
+}
+
++ (BOOL) isSupportsSSLConnection
+{
+	return (BOOL)Client::isSupportsSSLConnection();
 }
 
 @end

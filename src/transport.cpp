@@ -82,9 +82,16 @@ namespace FayeCpp {
 		return _processMethod->classPointer();
 	}
 	
-	Delegate * Transport::delegate()
+	Delegate * Transport::delegate() const
 	{
+		//No transport without client.
 		return this->client()->delegate();
+	}
+	
+	SSLDataSource * Transport::sslDataSource() const
+	{
+		//No transport without client.
+		return this->client()->sslDataSource();
 	}
 	
 	void Transport::onConnected()
@@ -303,6 +310,20 @@ namespace FayeCpp {
 #elif defined(HAVE_LIBWEBSOCKETS_H)
 		
 #if defined(LWS_USE_IPV6)	
+		return true;
+#endif		
+		
+#endif
+		return false;
+	}
+	
+	bool Transport::isSupportsSSLConnection()
+	{
+#ifdef HAVE_SUITABLE_QT_VERSION
+		return true;
+#elif defined(HAVE_LIBWEBSOCKETS_H)
+		
+#if defined(LWS_OPENSSL_SUPPORT)	
 		return true;
 #endif		
 		

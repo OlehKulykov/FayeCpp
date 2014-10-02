@@ -204,7 +204,7 @@ namespace FayeCpp {
 		}
 	}
 	
-	Delegate * Client::delegate()
+	Delegate * Client::delegate() const
 	{
 		return _delegate;
 	}
@@ -212,6 +212,16 @@ namespace FayeCpp {
 	void Client::setDelegate(Delegate * delegate)
 	{
 		_delegate = delegate;
+	}
+
+	SSLDataSource * Client::sslDataSource() const
+	{
+		return _sslDataSource;
+	}
+	
+	void Client::setSSLDataSource(SSLDataSource * dataSource)
+	{
+		_sslDataSource = dataSource;
 	}
 	
 	const REStringList & Client::subscribedChannels() const
@@ -570,6 +580,7 @@ namespace FayeCpp {
 	Client::Client() :
 		_transport(NULL),
 		_delegate(NULL),
+		_sslDataSource(NULL),
 		_isFayeConnected(false),
 		_isDisconnecting(false),
 		_isUsingIPV6(false)
@@ -579,7 +590,7 @@ namespace FayeCpp {
         _transport = Transport::createNewTransport(new ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce>(this, &Client::processMessage));
 #if defined(HAVE_ASSERT_H)		
         assert(_transport);
-#endif		
+#endif
 	}
 	
 	Client::~Client()
@@ -598,5 +609,9 @@ namespace FayeCpp {
 		return Transport::isSupportsIPV6();
 	}
 	
+	bool Client::isSupportsSSLConnection()
+	{
+		return Transport::isSupportsSSLConnection();
+	}
 }
 

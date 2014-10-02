@@ -1,7 +1,7 @@
 LOCAL_PATH:= $(call my-dir)
-include $(CLEAR_VARS)
 
-LOCAL_SRC_FILES := \
+
+ALL_SOURCES := \
 	../../../libwebsockets/lib/base64-decode.c \
 	../../../libwebsockets/lib/client-handshake.c \
 	../../../libwebsockets/lib/client-parser.c \
@@ -50,34 +50,41 @@ LOCAL_SRC_FILES := \
 	../../../src/variant.cpp \
 	../../../src/variantlist.cpp \
 	../../../src/variantmap.cpp \
-	../../../src/websocket.cpp
+	../../../src/websocket.cpp \
+	../getdtablesize.c
 
 
-LOCAL_C_INCLUDES += \
+ALL_INCLUDES := \
 	$(LOCAL_PATH)/../ \
 	$(LOCAL_PATH)/../../../ \
 	$(LOCAL_PATH)/../../../libwebsockets/lib/ \
 	$(LOCAL_PATH)/../../../jansson/src/ \
 	$(LOCAL_PATH)/../../../jansson/android/
-		
-LOCAL_CFLAGS += \
+
+
+ALL_CFLAGS := \
 	-w \
 	-DHAVE_FAYECPP_CONFIG_H=1 \
 	-DHAVE_CONFIG_H=1 \
 	-DCMAKE_BUILD=1 \
 	-DLWS_BUILTIN_GETIFADDRS=1 \
 	-DHAVE_STDINT_H=1 \
-	-DHAVE_GETIFADDRS=0
+	-DHAVE_GETIFADDRS=0 \
+	-DHAVE_ANDROID_LOG_H=1
 
+
+include $(CLEAR_VARS)
+LOCAL_SRC_FILES := $(ALL_SOURCES)
+LOCAL_C_INCLUDES += $(ALL_INCLUDES)
+LOCAL_CFLAGS += $(ALL_CFLAGS)
 LOCAL_MODULE := libfayecpp
-
-LOCAL_LDLIBS += -lz
-
-#LOCAL_STATIC_LIBRARIES := libwebsockets
-#LOCAL_SHARED_LIBRARIES := libjansson
-
+LOCAL_LDLIBS += -lz -llog
 include $(BUILD_SHARED_LIBRARY)
 
-#$(call import-module,libwebsockets)
-#$(call import-module,jansson)
 
+#include $(CLEAR_VARS)
+#LOCAL_SRC_FILES := $(ALL_SOURCES)
+#LOCAL_C_INCLUDES += $(ALL_INCLUDES)
+#LOCAL_CFLAGS += $(ALL_CFLAGS)
+#LOCAL_MODULE := libfayecpp
+#include $(BUILD_STATIC_LIBRARY)

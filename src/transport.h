@@ -57,9 +57,10 @@ namespace FayeCpp {
 		Transport();
 		
 		Client * client() const;
-		Delegate * delegate();
+		Delegate * delegate() const;
 		
 	protected:
+		SSLDataSource * sslDataSource() const;
 		bool isUsingIPV6() const;
 		RETimeInterval adviceInterval() const { return _advice.interval; }
 		RETimeInterval adviceTimeout() const { return _advice.timeout; }
@@ -106,6 +107,7 @@ namespace FayeCpp {
         static Transport * createNewTransport(ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * processMethod);
         static REStringList availableConnectionTypes();
 		static bool isSupportsIPV6();
+		static bool isSupportsSSLConnection();
 	};
 	
 }

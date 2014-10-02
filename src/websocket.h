@@ -91,6 +91,8 @@ namespace FayeCpp {
 		
 		void addWriteBufferData(const unsigned char * data, const REUInt32 dataSize, const enum libwebsocket_write_protocol type);
 		void cleanup();
+		static const char * copyUTF8(const REString & from);
+		struct libwebsocket_context * createWebSocketContext();
 		
 	protected:
 		virtual void threadBody();

@@ -3,6 +3,10 @@
 
 #if defined(HAVE_SUITABLE_QT_VERSION)
 
+#include <QSslConfiguration>
+#include <QSslCertificate>
+#include <QSslKey>
+
 #include "../fayecpp.h"
 
 namespace FayeCpp {
@@ -84,11 +88,90 @@ namespace FayeCpp {
 		(void)textSize;
 	}
 
+	QString WebSocketQt::toString(const REString & s)
+	{
+		return s.isNotEmpty() ? QString(s.UTF8String()) : QString("");
+	}
+
+	void WebSocketQt::setupSocketWithSSLDataSource(SSLDataSource * dataSource)
+	{
+		QSslConfiguration config;
+
+		QFile localFile(WebSocketQt::toString(dataSource->clientLocalCertificateFilePath()));
+		if (localFile.open(QIODevice::ReadOnly))
+		{
+			QSslCertificate cert(localFile.readAll());
+			localFile.close();
+			if (cert.isNull())
+			{
+#ifdef FAYECPP_DEBUG_MESSAGES
+				qDebug() << "SocketQT: LocalCertificate is NULL";
+#endif
+			}
+			else
+			{
+				config.setLocalCertificate(cert);
+			}
+		}
+
+		QFile keyFile(WebSocketQt::toString(dataSource->clientPrivateKeyFilePath()));
+		if (keyFile.open(QIODevice::ReadOnly))
+		{
+			QByteArray pp;
+			pp.append(WebSocketQt::toString(dataSource->clientPrivateKeyPassPhrase()));
+			QSslKey key(keyFile.readAll(),
+						QSsl::Rsa,
+						QSsl::Pem,
+						QSsl::PrivateKey,
+						pp);
+			pp.clear();
+			keyFile.close();
+			if (key.isNull())
+			{
+#ifdef FAYECPP_DEBUG_MESSAGES
+				qDebug() << "SocketQT: PrivateKey is NULL";
+#endif
+			}
+			else
+			{
+				config.setPrivateKey(key);
+			}
+		}
+
+		QFile caFile(WebSocketQt::toString(dataSource->clientCACertificateFilePath()));
+		if (caFile.open(QIODevice::ReadOnly))
+		{
+			QSslCertificate cert(caFile.readAll());
+			caFile.close();
+			if (cert.isNull())
+			{
+#ifdef FAYECPP_DEBUG_MESSAGES
+				qDebug() << "SocketQT: CACertificate is NULL";
+#endif
+			}
+			else
+			{
+				QList<QSslCertificate> caList(config.caCertificates());
+				caList.append(cert);
+				config.setCaCertificates(caList);
+			}
+		}
+
+		_socket->setSslConfiguration(config);
+	}
+
 	void WebSocketQt::connectToServer()
 	{
 #ifdef FAYECPP_DEBUG_MESSAGES
 		qDebug() << "SocketQT:" << "start connect url:" << this->url().UTF8String();
 #endif
+
+		SSLDataSource * dataSource = this->sslDataSource();
+		if (dataSource)
+		{
+			this->setupSocketWithSSLDataSource(dataSource);
+		}
+
 		_socket->open(QUrl(this->url().UTF8String()));
 	}
 

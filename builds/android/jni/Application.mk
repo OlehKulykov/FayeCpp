@@ -1,2 +1,10 @@
+#APP_OPTIM := release
+APP_OPTIM := debug
+APP_PLATFORM := android-14
+APP_CPPFLAGS -= -frtti
+APP_CPPFLAGS -= -fexceptions
 APP_ABI := all
-APP_STL := stlport_static
+#APP_STL := stlport_static
+#APP_STL := stlport_shared
+#APP_STL := system
+#APP_STL := gnustl_static

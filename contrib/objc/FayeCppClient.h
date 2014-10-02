@@ -103,6 +103,50 @@ unsubscribedFromChannel:(NSString *) channel;
 
 
 /**
+ @brief Objective-c FayeCpp SSL data source wrapper delegate interface.
+ @detailed All delegate methods are optional and all of them called from main thread.
+ */
+@protocol FayeCppClientSSLDataSource <NSObject>
+@optional
+
+
+/**
+ @brief Get client sertificate file path.
+ @detailed Path to certificate file. Currently supports rsa algorithm & pem encoding format.
+ @example return @"/Volumes/Data/faye/client.crt";
+ @return String with file path or empty string.
+ */
+- (NSString *) clientLocalCertificateFilePath;
+
+
+/**
+ @brief Get client private key file path.
+ @detailed Path to key file. Currently supports rsa algorithm & pem encoding format.
+ @example return @"/Volumes/Data/faye/client.key";
+ @return String with file path or empty string.
+ */
+- (NSString *) clientPrivateKeyFilePath;
+
+
+/**
+ @brief Get client private key passphrase. Needs for encrypted client file key.
+ @detailed If client key is encrypted(have '-----BEGIN ENCRYPTED PRIVATE KEY-----'),
+ you should return pass for this key.
+ @return Pass phrase string or empty string.
+ */
+- (NSString *) clientPrivateKeyPassPhrase;
+
+
+/**
+ @brief Get ca certificate file path.
+ @return String with file path or empty string.
+ */
+- (NSString *) clientCACertificateFilePath;
+
+@end
+
+
+/**
  @brief Objective-c FayeCpp client wrapper.
  */
 @interface FayeCppClient : NSObject
@@ -238,11 +282,32 @@ unsubscribedFromChannel:(NSString *) channel;
 
 
 /**
+ @brief Setter for faye SSL data source.
+ @param fayeSSLDataSource Faye client SSL data source.
+ */
+- (void) setSSLDataSource:(id<FayeCppClientSSLDataSource>) fayeSSLDataSource;
+
+
+/**
+ @brief Getter for faye client SSL data source.
+ */
+- (id<FayeCppClientSSLDataSource>) sslDataSource;
+
+
+/**
  @brief Check is can client use IPV6.
  @detailed Depends on dependecies build options.
  @return YES if client can use, otherwice NO.
  */
 + (BOOL) isSupportsIPV6;
+
+
+/**
+ @brief Check is can client use sequre SSL connection.
+ @detailed Depends on dependecies build options.
+ @return True if client can use, otherwice false.
+ */
++ (BOOL) isSupportsSSLConnection;
 
 @end
 

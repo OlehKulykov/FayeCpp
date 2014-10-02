@@ -44,6 +44,9 @@ namespace FayeCpp {
 	private:
 		QWebSocket * _socket;
 
+		static QString toString(const REString & s);
+		void setupSocketWithSSLDataSource(SSLDataSource * dataSource);
+
 	private slots:
 		void connected();
 		void disconnected();

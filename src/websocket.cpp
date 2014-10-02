@@ -48,6 +48,10 @@
 #define SAFE_DELETE(o) if(o){delete o;o=NULL;}
 #endif
 
+#ifndef SAFE_FREE
+#define SAFE_FREE(m) if(m){free((void *)m);m=NULL;}
+#endif
+
 namespace FayeCpp {
 	
 	struct libwebsocket_protocols WebSocket::protocols[] = {
@@ -315,7 +319,24 @@ namespace FayeCpp {
 		this->cleanup();
 	}
 	
-	void WebSocket::threadBody()
+	const char * WebSocket::copyUTF8(const REString & from)
+	{
+		const size_t len = (size_t)from.length();
+		const char * utf8 = from.UTF8String();
+		if (len > 0 && utf8) 
+		{
+			char * newMem = (char *)malloc(len + 1);
+			if (newMem) 
+			{
+				memcpy(newMem, utf8, len);
+				newMem[len] = (char)0;
+				return newMem;
+			}
+		}
+		return NULL;
+	}
+	
+	struct libwebsocket_context * WebSocket::createWebSocketContext()
 	{
 		struct lws_context_creation_info info;
 		memset(&info, 0, sizeof(struct lws_context_creation_info));
@@ -333,7 +354,32 @@ namespace FayeCpp {
 		
 		info.user = static_cast<WebSocket *>(this);
 		
-		_context = libwebsocket_create_context(&info);
+		SSLDataSource * dataSource = this->sslDataSource();
+		if (dataSource) 
+		{
+			info.ssl_cert_filepath = WebSocket::copyUTF8(dataSource->clientLocalCertificateFilePath());
+			info.ssl_private_key_filepath = WebSocket::copyUTF8(dataSource->clientPrivateKeyFilePath());
+			info.ssl_private_key_password = WebSocket::copyUTF8(dataSource->clientPrivateKeyPassPhrase());
+			info.ssl_ca_filepath = WebSocket::copyUTF8(dataSource->clientCACertificateFilePath());
+			
+			info.options = (info.options == 0) ? LWS_SERVER_OPTION_REQUIRE_VALID_OPENSSL_CLIENT_CERT : info.options | LWS_SERVER_OPTION_REQUIRE_VALID_OPENSSL_CLIENT_CERT;
+			
+			struct libwebsocket_context * context = libwebsocket_create_context(&info);
+		
+			SAFE_FREE(info.ssl_cert_filepath)
+			SAFE_FREE(info.ssl_private_key_filepath)
+			SAFE_FREE(info.ssl_private_key_password)
+			SAFE_FREE(info.ssl_ca_filepath)
+			
+			return context;
+		}
+		
+		return libwebsocket_create_context(&info);
+	}
+	
+	void WebSocket::threadBody()
+	{
+		_context = this->createWebSocketContext();
 		
 		if (!_context)
 		{

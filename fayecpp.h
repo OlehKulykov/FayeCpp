@@ -28,6 +28,9 @@
  *   Faye C++ client main and one header file.
  *   All class interfaces added to namespace, preventing include files mess.
  *
+ *   Changes on version 0.1.5:
+ *   - Added secure socket connection support with SSL data source.
+ *
  *   Changes on version 0.1.4:
  *   - Possibility to switch client between IPV4 & IPV6 if possible.
  * 
@@ -45,7 +48,7 @@
 
 #define FAYECPP_VERSION_MAJOR 0
 #define FAYECPP_VERSION_MINOR 1
-#define FAYECPP_VERSION_PATCH 4
+#define FAYECPP_VERSION_PATCH 5
 
 
 #if !defined(HAVE_SUITABLE_QT_VERSION) && defined(QT_VERSION) && defined(QT_VERSION_CHECK)
@@ -131,8 +134,12 @@
 #include <time.h>
 #include <wchar.h>
 
+
 /* C++ Standard Library header */
+#ifndef __RE_OS_ANDROID__
 #include <iostream>
+#endif
+
 
 #if defined(__RE_OS_ANDROID__)
 #include <setjmp.h>
@@ -143,6 +150,7 @@
 #include <sys/types.h>
 #include <sys/errno.h>
 #endif
+
 
 /**
  @brief 8 bit unsigned byte type.
@@ -1514,6 +1522,7 @@ namespace FayeCpp {
 		  */
 		REBOOL append(const REBuffer & anotherBuff);
 		
+
 		/**
 		  @brief Appends with another buffer object.
 		  @detailed New memory buffer will be created, cpyed prev memory and appended with new.
@@ -1522,26 +1531,31 @@ namespace FayeCpp {
 		  */
 		REBuffer & operator+=(const REBuffer & anotherBuff);
 		
+
 		/**
 		  @brief Constructs buffer object with content from another buffer object.
 		  */
 		REBuffer(const REBuffer & anotherBuff);
 		
+
 		/**
 		  @brief Constructs buffer object with content from another buffer with size.
 		  */
 		REBuffer(const void * buff, const REUInt32 buffSize);
 		
+
 		/**
 		  @brief Constructs buffer object with memory size.
 		  */
 		REBuffer(const REUInt32 buffSize);
 		
+
 		/**
 		  @brief Constructs empty buffer object.
 		  */
 		REBuffer();
 		
+
 		virtual ~REBuffer();
 	};
 	
@@ -1570,6 +1584,7 @@ namespace FayeCpp {
 		 */
 		REBufferNoCopy(const void * originalBuff, const REUInt32 buffSize, REBufferNoCopy::FreeOriginalBuff freeOriginalBuff = REBuffer::defaultFree);
 		
+
 		/**
 		 @brief Default vitual destructor.
 		 */
@@ -1703,6 +1718,7 @@ namespace FayeCpp {
 		virtual ~REStringBase();
 	};
 	
+
 	class REMutableString;
 	class REWideString;
 	
@@ -2508,7 +2524,55 @@ namespace FayeCpp {
 		
 		virtual ~Delegate() { }
 	};
-	
+
+
+	/**
+	 @brief SSL data source.
+	 */
+	class __RE_PUBLIC_CLASS_API__ SSLDataSource
+	{
+	public:
+		/**
+		 @brief Get client sertificate file path.
+		 @detailed Path to certificate file. Currently supports rsa algorithm & pem encoding format.
+		 @example return REString("/Volumes/Data/faye/client.crt");
+		 @return String with file path or empty string.
+		 */
+		virtual FayeCpp::REString clientLocalCertificateFilePath() const = 0;
+		
+		
+		/**
+		 @brief Get client private key file path.
+		 @detailed Path to key file. Currently supports rsa algorithm & pem encoding format.
+		 @example return REString("/Volumes/Data/faye/client.key");
+		 @return String with file path or empty string.
+		 */
+		virtual FayeCpp::REString clientPrivateKeyFilePath() const = 0;
+		
+		
+		/**
+		 @brief Get client private key passphrase. Needs for encrypted client file key.
+		 @detailed If client key is encrypted(have '-----BEGIN ENCRYPTED PRIVATE KEY-----'),
+		 you should return pass for this key.
+		 @return Pass phrase string or empty string.
+		 */
+		virtual FayeCpp::REString clientPrivateKeyPassPhrase() const = 0;
+		
+		
+		/**
+		 @brief Get ca certificate file path.
+		 @return String with file path or empty string.
+		 */
+		virtual FayeCpp::REString clientCACertificateFilePath() const = 0;
+		
+		
+		/**
+		 @brief Default virtual destructor.
+		 */
+		virtual ~SSLDataSource() { }
+	};
+
+
 	class Transport;
 	
 
@@ -2520,6 +2584,7 @@ namespace FayeCpp {
 	private:
 		Transport * _transport;
 		Delegate * _delegate;
+		SSLDataSource * _sslDataSource;
 		REString _clientId;
 		
 		REStringList _subscribedChannels;
@@ -2605,13 +2670,26 @@ namespace FayeCpp {
 		 @brief Getter for client delegate.
 		 @return Pointer to faye client delegate.
 		 */
-		Delegate * delegate();
+		Delegate * delegate() const;
 		
 		
 		/**
 		 @brief Setter for client delegate.
 		 */
 		void setDelegate(Delegate * delegate);
+		
+		
+		/**
+		 @brief Getter for client SSL data source.
+		 @return Pointer to faye client SSL data source.
+		 */
+		SSLDataSource * sslDataSource() const;
+		
+		
+		/**
+		 @brief Setter for client SSL data source.
+		 */
+		void setSSLDataSource(SSLDataSource * dataSource);
 		
 		
 		/**
@@ -2749,7 +2827,16 @@ namespace FayeCpp {
 		 @return True if client can use, otherwice false.
 		 */
 		static bool isSupportsIPV6();
+		
+		
+		/**
+		 @brief Check is can client use sequre SSL connection.
+		 @detailed Depends on dependecies build options.
+		 @return True if client can use, otherwice false.
+		 */
+		static bool isSupportsSSLConnection();
 	};
+	
 	
 	class __RE_PUBLIC_CLASS_API__ Variant
 	{
