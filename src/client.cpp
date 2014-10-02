@@ -595,8 +595,26 @@ namespace FayeCpp {
 	
 	Client::~Client()
 	{
+#ifdef FAYECPP_DEBUG_MESSAGES
+		RELog::log("Client: descructor ~Client() ...");
+#endif
 		_delegate = NULL;
-		delete _transport;
+		
+#ifdef FAYECPP_DEBUG_MESSAGES
+		RELog::log("Client: try delete transport ...");
+#endif
+		
+		if (_transport) 
+		{
+			_transport->disconnectFromServer();
+			delete _transport;
+			_transport = NULL;
+		}
+		
+#ifdef FAYECPP_DEBUG_MESSAGES
+		RELog::log("Client: delete transport OK");
+		RELog::log("Client: descructor ~Client() OK");
+#endif
 	}
 	
 	REStringList Client::availableConnectionTypes()

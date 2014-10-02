@@ -27,62 +27,52 @@
 #include "../fayecpp.h"
 
 namespace FayeCpp {
+
+class REThreadInternal;
+
+class REThread 
+{
+private:
+	REThreadInternal * _t;
+	bool _isJoinable;
+	bool _isDetached;
 	
-	// http://locklessinc.com/articles/pthreads_on_windows/
+public:
+	bool isCancelled() const;
 	
-	class REThreadInternal;
+	bool isJoinable() const;
+	bool isDetached() const;
+		
+	void setJoinable(bool isJoin);
+	void setDetached(bool isDetach);
 	
-	/// Thread class for aditional work
-	class REThread
-	{
-	private:
-		REThreadInternal * _t;
-		bool _isTaskFinished;
-		
-		static void invokeThreadBody(REThread * thread);
-		
-	protected:
-		virtual void threadBody() = 0;
-		
-	public:
-		typedef void(*PerformFunction)(void * userData);
-		
-		bool isTaskFinished() const;
-		
-		/// Returns working thread priority. Value in range: [0.0f, 1.0f]
-		float priority() const;
-		
-		/// Setting working thread priority. Value must be in range: [0.0f, 1.0f]
-		bool setPriority(const float newPriority);
-				
-		/// Start thread's work
-		bool start();
-		
-		/// Cancels thread
-		bool cancel();
-		
-		REThread();
-		virtual ~REThread();
-		
-		/// Checking is executing in main thread.
-		static bool isMainThread();
-		
-		/// If at least one aditional thread is created.
-		static bool isMultiThreaded();
-		
-		/// Returns identifier of main thread.
-		static uintptr_t mainThreadIdentifier();
-		
-		/// Returns identifier of current thread. Mean thread from which was called this method.
-		static uintptr_t currentThreadIdentifier();
-		
-		/// Sleps current thread for time in micro seconds.
-		static void uSleep(const uint32_t microseconds);
-		
-		/// Sleps current thread for time in micro seconds.
-		static void uSleepInSeconds(const double seconds);
-	};
+	virtual void threadBody() = 0;
 	
+	/// Start thread's work
+	bool start();
+	
+	/// Cancels thread
+	bool cancel();
+	
+	/// Checking is executing in main thread.
+	static bool isMainThread();
+	
+	/// Returns identifier of main thread.
+	static uintptr_t mainThreadIdentifier();
+	
+	/// Returns identifier of current thread. Mean thread from which was called this method.
+	static uintptr_t currentThreadIdentifier();
+	
+	/// Sleps current thread for time in micro seconds.
+	static void uSleep(const uint32_t microseconds);
+	
+	/// Sleps current thread for time in micro seconds.
+	static void uSleepInSeconds(const double seconds);
+	
+	REThread();
+	virtual ~REThread();
+};
+
 }
 
 #endif /* __RETHREAD_H__ */

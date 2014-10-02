@@ -62,6 +62,7 @@ namespace FayeCpp {
 		REMutex * _writeMutex;
 		REBuffer * _receivedTextBuffer;
 		REBuffer * _receivedBinaryBuffer;
+		bool _isShouldWork;
 		
 		#define MAX_ECHO_PAYLOAD 4096
 		typedef struct echoSessionData

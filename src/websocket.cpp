@@ -292,8 +292,14 @@ namespace FayeCpp {
 	
 	void WebSocket::cleanup()
 	{
+#ifdef FAYECPP_DEBUG_MESSAGES
+		RELog::log("WebSocket: cleanup() ...");
+#endif
 		memset(&_info, 0, sizeof(struct lws_context_creation_info));
 		
+#ifdef FAYECPP_DEBUG_MESSAGES
+		RELog::log("WebSocket: libwebsocket_context_destroy ...");
+#endif
 		if (_context)
 		{
 			libwebsocket_context_destroy(_context);
@@ -301,6 +307,13 @@ namespace FayeCpp {
 		}
 		_connection = NULL;
 		
+#ifdef FAYECPP_DEBUG_MESSAGES
+		RELog::log("WebSocket: libwebsocket_context_destroy OK");
+#endif
+
+#ifdef FAYECPP_DEBUG_MESSAGES
+		RELog::log("WebSocket: delete writeBuffers ...");
+#endif
 		REList<WriteBuffer *>::Iterator i = _writeBuffers.iterator();
 		while (i.next()) 
 		{
@@ -308,14 +321,36 @@ namespace FayeCpp {
 			delete b;
 		}
 		_writeBuffers.clear();
-		
+#ifdef FAYECPP_DEBUG_MESSAGES
+		RELog::log("WebSocket: delete writeBuffers OK");
+#endif
+
+#ifdef FAYECPP_DEBUG_MESSAGES
+		RELog::log("WebSocket: delete receivedTextBuffer && receivedBinaryBuffer ...");
+#endif
 		SAFE_DELETE(_receivedTextBuffer)
 		SAFE_DELETE(_receivedBinaryBuffer)
+#ifdef FAYECPP_DEBUG_MESSAGES
+		RELog::log("WebSocket: delete receivedTextBuffer && receivedBinaryBuffer OK");
+#endif
+		
+#ifdef FAYECPP_DEBUG_MESSAGES
+		RELog::log("WebSocket: cleanup() OK");
+#endif
 	}
 	
 	void WebSocket::disconnectFromServer()
 	{
+		_isShouldWork = false;
+		
+		// wait thread
+		while (_connection || _context) 
+		{
+			REThread::uSleep(2);
+		}
+		
 		this->cancel();
+		
 		this->cleanup();
 	}
 	
@@ -379,6 +414,8 @@ namespace FayeCpp {
 	
 	void WebSocket::threadBody()
 	{
+		_isShouldWork = false;
+		
 		_context = this->createWebSocketContext();
 		
 		if (!_context)
@@ -424,15 +461,16 @@ namespace FayeCpp {
 		
 		libwebsocket_callback_on_writable(_context, _connection);
 		
+		_isShouldWork = true;
+		
 		int n = 0;
-		while (n >= 0 && _context /* && !force_exit */ )
+		while (n >= 0 && _context && _isShouldWork /* && !force_exit */ )
 		{
 			n = _context ? libwebsocket_service(_context, 10) : -1;
 			REThread::uSleep(10);
 		}
 		
-		if (_context) libwebsocket_context_destroy(_context);
-		_context = NULL;
+		this->cleanup();
 	}
 	
 	WebSocket::WebSocket(ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * processMethod) : REThread(), Transport(processMethod),
@@ -440,7 +478,8 @@ namespace FayeCpp {
 		_connection(NULL),
 		_writeMutex(new REMutex()),
 		_receivedTextBuffer(NULL),
-		_receivedBinaryBuffer(NULL)
+		_receivedBinaryBuffer(NULL),
+		_isShouldWork(false)
 	{
 		memset(&_info, 0, sizeof(struct lws_context_creation_info));
 
@@ -451,13 +490,40 @@ namespace FayeCpp {
         _writeMutex->init(REMutex::REMutexTypeRecursive);
 		
 		REThread::isMainThread();
+		
+		this->setJoinable(true);
 	}
 	
 	WebSocket::~WebSocket()
 	{
+#ifdef FAYECPP_DEBUG_MESSAGES
+		RELog::log("WebSocket: destructor ~WebSocket() ...");
+		RELog::log("WebSocket: try cancel thread ...");
+#endif	
+		_isShouldWork = false;
+		
+#ifdef FAYECPP_DEBUG_MESSAGES
+		RELog::log("WebSocket: try cancel thread OK");
+#endif	
+		
+		/// wait for thread joined
+		while (_connection || _context) 
+		{
+			REThread::uSleep(2);
+		}
+		
 		this->cancel();
 		
+#ifdef FAYECPP_DEBUG_MESSAGES
+		RELog::log("WebSocket: delete mutex ...");
+#endif
+		
 		SAFE_DELETE(_writeMutex)
+		
+#ifdef FAYECPP_DEBUG_MESSAGES
+		RELog::log("WebSocket: delete mutex OK");
+		RELog::log("WebSocket: destructor ~WebSocket() OK");
+#endif
 		
 		this->cleanup();
 	}
