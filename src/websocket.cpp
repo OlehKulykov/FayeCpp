@@ -148,10 +148,22 @@ namespace FayeCpp {
 				return socket->onCallbackWritable(context, wsi, static_cast<EchoSessionData *>(user));
 				break;
 				
+			case LWS_CALLBACK_WSI_DESTROY:
+				socket->onCallbackConnectionDestroyed();
+				break;
+								
 			default:
 				break;
 		}
 		return 0;
+	}
+	
+	void WebSocket::onCallbackConnectionDestroyed()
+	{
+#ifdef FAYECPP_DEBUG_MESSAGES
+		RELog::log("CALLBACK CONNECTION DESTROYED");
+#endif		
+		this->onDisconnected();
 	}
 	
 	void WebSocket::onCallbackEstablished()
@@ -230,7 +242,10 @@ namespace FayeCpp {
 		}
 		
 		bool isError = false;
-		
+
+#ifdef FAYECPP_DEBUG_MESSAGES
+		RELog::log("WRITE LOCK");
+#endif
 		this->writeLock();
 		
 		WriteBuffer * buffer = new WriteBuffer(data, dataSize);
@@ -246,7 +261,10 @@ namespace FayeCpp {
 		{
 			isError = true;
 		}
-		
+
+#ifdef FAYECPP_DEBUG_MESSAGES
+		RELog::log("WRITE UNLOCK");
+#endif
 		this->writeUnlock();
 		
 		if (isError)
@@ -255,7 +273,13 @@ namespace FayeCpp {
 		}
 		else if (this->isConnected())
 		{
+#ifdef FAYECPP_DEBUG_MESSAGES
+			RELog::log("Try mark connection context as writable ...");
+#endif
 			libwebsocket_callback_on_writable(_context, _connection);
+#ifdef FAYECPP_DEBUG_MESSAGES
+			RELog::log("Try mark connection context as writable OK");
+#endif
 		}
 	}
 	

@@ -82,7 +82,8 @@ namespace FayeCpp {
 								void * user,
 								void * input,
 								size_t len);
-
+		
+		void onCallbackConnectionDestroyed();
 		void onCallbackEstablished();
 		void onCallbackConnectionError();
 		int onCallbackWritable(struct libwebsocket_context * context,
