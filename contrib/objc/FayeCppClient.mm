@@ -40,22 +40,58 @@ public:
 	
 	virtual FayeCpp::REString clientLocalCertificateFilePath() const
 	{
-		return FayeCpp::REString("/Volumes/Data/faye_server/node/client1.crt");
+		id<FayeCppClientSSLDataSource> d = objcClient ? [objcClient sslDataSource] : nil;
+		if (d && [d respondsToSelector:@selector(clientLocalCertificateFilePath)])
+		{
+			NSString * path = [d clientLocalCertificateFilePath];
+			if (path && [path length]) 
+			{
+				return FayeCpp::REString([path UTF8String]);
+			}
+		}
+		return FayeCpp::REString("");
 	}
 	
 	virtual FayeCpp::REString clientPrivateKeyFilePath() const
 	{
-		return FayeCpp::REString("/Volumes/Data/faye_server/node/client1.key");
+		id<FayeCppClientSSLDataSource> d = objcClient ? [objcClient sslDataSource] : nil;
+		if (d && [d respondsToSelector:@selector(clientPrivateKeyFilePath)])
+		{
+			NSString * path = [d clientPrivateKeyFilePath];
+			if (path && [path length]) 
+			{
+				return FayeCpp::REString([path UTF8String]);
+			}
+		}
+		return FayeCpp::REString("");
 	}
 	
 	virtual FayeCpp::REString clientPrivateKeyPassPhrase() const
 	{
-		return FayeCpp::REString("Q1w2E3");
+		id<FayeCppClientSSLDataSource> d = objcClient ? [objcClient sslDataSource] : nil;
+		if (d && [d respondsToSelector:@selector(clientPrivateKeyPassPhrase)])
+		{
+			NSString * pp = [d clientPrivateKeyPassPhrase];
+			if (pp && [pp length]) 
+			{
+				return FayeCpp::REString([pp UTF8String]);
+			}
+		}
+		return FayeCpp::REString("");
 	}
 	
 	virtual FayeCpp::REString clientCACertificateFilePath() const
 	{
-		return FayeCpp::REString("/Volumes/Data/faye_server/node/ca.crt");
+		id<FayeCppClientSSLDataSource> d = objcClient ? [objcClient sslDataSource] : nil;
+		if (d && [d respondsToSelector:@selector(clientCACertificateFilePath)])
+		{
+			NSString * path = [d clientCACertificateFilePath];
+			if (path && [path length]) 
+			{
+				return FayeCpp::REString([path UTF8String]);
+			}
+		}
+		return FayeCpp::REString("");
 	}
 	
 	FayeCppClientSSLDataSourceWrapper() : objcClient(NULL)
@@ -73,6 +109,7 @@ class FayeCppDelegateWrapper : public Delegate
 {
 public:
 	FayeCppClient * objcClient;
+	
 	virtual void onFayeTransportConnected(FayeCpp::Client * client)
 	{
 		id<FayeCppClientDelegate> d = objcClient ? [objcClient delegate] : nil;
@@ -325,6 +362,7 @@ void FayeCppDelegateWrapper::objcDictToMap(NSDictionary * dict, VariantMap & map
 @private
 	Client * _cppClient;
 	FayeCppDelegateWrapper * _cppDelegate;
+	FayeCppClientSSLDataSourceWrapper * _SSLDataSourceWrapper;
 	
 #if !__has_feature(objc_arc)
 	id<FayeCppClientDelegate> _delegateObject;
@@ -457,6 +495,8 @@ void FayeCppDelegateWrapper::objcDictToMap(NSDictionary * dict, VariantMap & map
 #else
 	_sslDataSourceObject = fayeSSLDataSource;
 #endif
+	
+	_SSLDataSourceWrapper->objcClient = [self sslDataSource] ? self : nil;
 }
 
 - (id<FayeCppClientSSLDataSource>) sslDataSource
@@ -482,10 +522,21 @@ void FayeCppDelegateWrapper::objcDictToMap(NSDictionary * dict, VariantMap & map
 			return nil;
 		}
 		
+		_SSLDataSourceWrapper = new FayeCppClientSSLDataSourceWrapper();
+		if (!_SSLDataSourceWrapper) 
+		{
+			delete _cppDelegate;
+#if !__has_feature(objc_arc)
+			[self release];
+#endif
+			return nil;			
+		}
+		
 		_cppClient = new Client();
 		if (!_cppClient)
 		{
 			delete _cppDelegate;
+			delete _SSLDataSourceWrapper;
 #if !__has_feature(objc_arc)
 			[self release];
 #endif
@@ -493,19 +544,29 @@ void FayeCppDelegateWrapper::objcDictToMap(NSDictionary * dict, VariantMap & map
 		}
 		
 		_cppClient->setDelegate(_cppDelegate);
+		_cppClient->setSSLDataSource(_SSLDataSourceWrapper);
 	}
 	return self;
 }
 
 - (void) dealloc
 {
-	_cppDelegate->objcClient = nil;
-	delete _cppDelegate;
+	if (_cppDelegate) 
+	{
+		_cppDelegate->objcClient = nil;
+		delete _cppDelegate;
+	}
 	
+	if (_SSLDataSourceWrapper) 
+	{
+		_SSLDataSourceWrapper->objcClient = nil;
+		delete _SSLDataSourceWrapper;
+	}
 	
 	if (_cppClient)
 	{
 		_cppClient->setDelegate(NULL);
+		_cppClient->setSSLDataSource(NULL);
 		delete _cppClient;
 	}
 
