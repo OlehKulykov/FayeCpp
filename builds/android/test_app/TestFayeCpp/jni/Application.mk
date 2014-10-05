@@ -1,3 +1,2 @@
-APP_OPTIM := release
-#APP_OPTIM := debug
 APP_ABI := all
+APP_STL := stlport_static

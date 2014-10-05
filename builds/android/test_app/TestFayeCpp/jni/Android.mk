@@ -11,4 +11,8 @@ LOCAL_MODULE    := testfayecpp
 LOCAL_SRC_FILES := testfayecpp.cpp
 LOCAL_LDLIBS += -lm -lc -ldl -landroid
 LOCAL_SHARED_LIBRARIES += fayecpp-prebuilt
+
+#LOCAL_LDLIBS += -L$(LOCAL_PATH)/$(TARGET_ARCH_ABI)/ -lfayecpp
+
+##LOCAL_SHARED_LIBRARIES += fayecpp
 include $(BUILD_SHARED_LIBRARY)

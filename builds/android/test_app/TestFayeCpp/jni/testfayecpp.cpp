@@ -6,11 +6,13 @@
 
 class FayeCppDelegateWrapper;
 
-static FayeCpp::Client * _client = NULL;
-static FayeCppDelegateWrapper * _delegate = NULL;
-static JavaVM * _javaVM = NULL;
+FayeCpp::Client * _client = NULL;
+FayeCppDelegateWrapper * _delegate = NULL;
 
 using namespace FayeCpp;
+
+static int initializeClient();
+static int connectClient();
 
 class FayeCppDelegateWrapper : public Delegate
 {
@@ -77,50 +79,30 @@ public:
 	}
 };
 
-
-JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM * vm, void * reserved)
-{
-	RELog::log("JNI_OnLoad()");
-
-	_javaVM = vm;
-
-	/// Look for minimum versions in all Application.mk
-	/// which is used in the whole app
-	return JNI_VERSION_1_4;
-}
-
-
-JNIEXPORT void JNICALL JNI_OnUnload(JavaVM * vm, void * reserved)
-{
-	RELog::log("JNI_OnUnload()");
-}
-
-
-JNIEXPORT jint JNICALL Java_com_testfayecpp_MainActivity_initializeFayeClient
-  (JNIEnv * env, jobject obj)
+static int initializeClient()
 {
 	RELog::log("Initialize Faye Client...");
 	if (_client)
 	{
 		RELog::log("Delete prev client");
+		_client->setDelegate(NULL);
 		delete _client;
 		_client = NULL;
 	}
-
-	if (_delegate) 
-	{
-		delete _delegate;
-		_delegate = NULL;
-	}
 	
-	RELog::log("Try create new FayeCppDelegateWrapper...");
-	_delegate = new FayeCppDelegateWrapper();
+	
 	if (!_delegate) 
 	{
-		RELog::log("FayeCppDelegateWrapper creation ERROR");
-		return 0;
+		RELog::log("Try create new FayeCppDelegateWrapper...");
+		_delegate = new FayeCppDelegateWrapper();
+		if (!_delegate) 
+		{
+			RELog::log("FayeCppDelegateWrapper creation ERROR");
+			return 0;
+		}
 	}
-
+	
+	
 	RELog::log("Try create new client");
 	Client * newClient = new Client();
 	if (newClient)
@@ -129,13 +111,39 @@ JNIEXPORT jint JNICALL Java_com_testfayecpp_MainActivity_initializeFayeClient
 		newClient->setDelegate(_delegate);
 		_client = newClient;
 		
-		_client->setUrl("xxxxxxxxxxxxxxxxxxxx");
+		_client->setUrl("xx://xxxxxxxx.xxxxxxx:80/faye");
 		
 		return 1;
 	}
-
+	
+	
 	RELog::log("Client creation ERROR");
 	return 0;
+}
+
+static int connectClient()
+{
+	RELog::log("Try to connect...");
+	
+	if (!_client)
+	{
+		RELog::log("Client not created");
+		return 0;
+	}
+	
+	_client->connect();
+	
+	_client->subscribeToChannel("/xxxxxxxx/xxxxxxxxxxxxxxxxx");
+	_client->subscribeToChannel("/xxxxxxxxxxx/xxxxxxxxxxxxxxxxxxxxx");
+	
+	return 1;
+}
+
+
+jint JNICALL Java_com_testfayecpp_MainActivity_initializeFayeClient
+  (JNIEnv * env, jobject obj)
+{
+	return initializeClient();
 }
 
 /*
@@ -146,19 +154,7 @@ JNIEXPORT jint JNICALL Java_com_testfayecpp_MainActivity_initializeFayeClient
 JNIEXPORT jint JNICALL Java_com_testfayecpp_MainActivity_connectFayeClient
   (JNIEnv * env, jobject obj)
 {
-	RELog::log("Try to connect...");
-	
-	if (!_client)
-	{
-		RELog::log("Client not created");
-	}
-	
-	_client->connect();
-	
-	_client->subscribeToChannel("/xxxxxxxxxxxxxxxxxxxx");
-	_client->subscribeToChannel("/xxxxxxxxxxxxxxxxxxxxxxxxxx");
-	
-	return 1;
+	return connectClient();
 }
 
 /*
@@ -179,7 +175,20 @@ JNIEXPORT jint JNICALL Java_com_testfayecpp_MainActivity_sentTestMessageFayeClie
  */
 JNIEXPORT jint JNICALL Java_com_testfayecpp_MainActivity_sentTextMessageFayeClient
   (JNIEnv * env, jobject obj, jstring str)
-{
+{	
+	VariantMap message;
+	
+	const char * nativeString = env->GetStringUTFChars(str, NULL);
+	
+	RELog::log("Try send text: %s", nativeString);
+	
+	message["text"] = nativeString;
+	env->ReleaseStringUTFChars(str, nativeString);
+	
+	_client->sendMessageToChannel(message, "/xxxxxxxxxx/xxxxxxxxxxxxxxxxxx");
+	
+	RELog::log("Send text OK");
+	
 	return 1;
 }
 

@@ -57,12 +57,6 @@ extern "C" {
 #define com_testfayecpp_MainActivity_DEFAULT_KEYS_SEARCH_LOCAL 3L
 #undef com_testfayecpp_MainActivity_DEFAULT_KEYS_SEARCH_GLOBAL
 #define com_testfayecpp_MainActivity_DEFAULT_KEYS_SEARCH_GLOBAL 4L
-
-
-JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM * vm, void * reserved);
-JNIEXPORT void JNICALL JNI_OnUnload(JavaVM * vm, void * reserved);
-
-
 /*
  * Class:     com_testfayecpp_MainActivity
  * Method:    initializeFayeClient

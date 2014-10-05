@@ -10,11 +10,16 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 
 public class MainActivity extends Activity {
 
 	static {
+		//Log.e("Load stlport_shared library", "Load stlport_shared library");
+		//System.loadLibrary("stlport_shared");
+		//Log.e("Load stlport_shared library OK", "Load stlport_shared library OK");
+		
         Log.e("Load fayecpp library", "Load fayecpp library");
 		System.loadLibrary("fayecpp");
 		Log.e("Load fayecpp library", "Load fayecpp library OK");
@@ -55,6 +60,17 @@ public class MainActivity extends Activity {
 				Log.e("", "onClick 1");
 				// TODO Auto-generated method stub
 				connectFayeClient();
+			}
+        });
+        
+        button = (Button)findViewById(R.id.button2);
+        button.setOnClickListener(new View.OnClickListener() {
+        	public void onClick(View v) {
+        		TextView textView = (TextView)findViewById(R.id.editText1);
+				Log.e("", "onClick 2");
+				// TODO Auto-generated method stub
+				String text = textView.getText().toString();
+				sentTextMessageFayeClient(text);
 			}
         });
     }

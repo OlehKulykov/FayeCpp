@@ -28,7 +28,7 @@
  *   Faye C++ client main and one header file.
  *   All class interfaces added to namespace, preventing include files mess.
  *
- *   Changes on version 0.1.5 (current):
+ *   Changes on version 0.1.5:
  *   - Added secure socket connection support with SSL data source.
  *
  *   Changes on version 0.1.4:
