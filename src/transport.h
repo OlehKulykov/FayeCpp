@@ -27,6 +27,9 @@
 #include "../fayecpp.h"
 #include "classmethodwrapper.h"
 #include "REMutex.h"
+#include "REThread.h"
+
+#include <pthread.h>
 
 namespace FayeCpp {
 	
@@ -43,7 +46,7 @@ namespace FayeCpp {
 			RETimeInterval timeout;
 			int reconnect;
 		} Advice;
-	private:
+	private:		
 		REString _url;
 		REString _host;
 		REString _path;
@@ -53,6 +56,8 @@ namespace FayeCpp {
 		int _port;
 		bool _isUseSSL;
 		bool _isConnected;
+		
+		//	http://stackoverflow.com/questions/9397068/how-to-pause-a-pthread-any-time-i-want
 		
 		Transport();
 		

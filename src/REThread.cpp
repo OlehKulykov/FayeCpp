@@ -159,6 +159,12 @@ DWORD REThreadInternal::threadProc(LPVOID lpParameter)
 		} 
 #endif	
 		
+		if (pthread_equal(pthread_self(), _thread) != 0)
+		{
+			RELog::log("Error: Trying to join to the same thread.");
+			return false;
+		}
+		
 		void * r = NULL;
 		s = pthread_join(_thread, &r);
 		if (s != 0)
@@ -168,15 +174,15 @@ DWORD REThreadInternal::threadProc(LPVOID lpParameter)
 			switch (s) 
 			{
 				case EDEADLK:
-					printf("\nREThread: A deadlock was detected (e.g., two threads tried to join with each other); or thread specifies the calling thread.");
+					RELog::log("REThread: A deadlock was detected (e.g., two threads tried to join with each other); or thread specifies the calling thread.");
 					break;
 					
 				case EINVAL:
-					printf("\nREThread: Thread is not a joinable thread. Another thread is already waiting to join with this thread.");
+					RELog::log("REThread: Thread is not a joinable thread. Another thread is already waiting to join with this thread.");
 					break;
 					
 				case ESRCH:
-					printf("\nREThread: No thread with the ID thread could be found.");
+					RELog::log("REThread: No thread with the ID thread could be found.");
 					break;
 					
 				default:

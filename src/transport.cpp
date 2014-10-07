@@ -34,7 +34,9 @@
 #include "websocket.h"
 #endif
 
+#if defined(HAVE_ASSERT_H)
 #include <assert.h>
+#endif
 
 namespace FayeCpp {
 	
@@ -266,8 +268,10 @@ namespace FayeCpp {
 		_isUseSSL(false),
 		_isConnected(false)
 	{
+#if defined(HAVE_ASSERT_H)	
 		assert(_processMethod);
 		assert(this->client());
+#endif		
 		
 		_advice.reconnect = ADVICE_RECONNECT_NONE;
 		_advice.timeout = _advice.interval = -1;

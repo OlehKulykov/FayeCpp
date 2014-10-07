@@ -63,6 +63,7 @@ namespace FayeCpp {
 		REMutex * _shouldWorkMutex;
 		REBuffer * _receivedTextBuffer;
 		REBuffer * _receivedBinaryBuffer;
+			
 		bool _isShouldWork;
 		
 		#define MAX_ECHO_PAYLOAD 4096
@@ -96,6 +97,7 @@ namespace FayeCpp {
 		
 		void addWriteBufferData(const unsigned char * data, const REUInt32 dataSize, const enum libwebsocket_write_protocol type);
 		void cleanup();
+		void workMethod();
 		static const char * copyUTF8(const REString & from);
 		struct libwebsocket_context * createWebSocketContext();
 		

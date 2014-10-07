@@ -584,7 +584,7 @@ namespace FayeCpp {
 		REThread::mainThreadIdentifier();
 		
         _transport = Transport::createNewTransport(new ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce>(this, &Client::processMessage));
-#if defined(HAVE_ASSERT_H)		
+#if defined(HAVE_ASSERT_H)	
         assert(_transport);
 #endif
 	}

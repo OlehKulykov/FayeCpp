@@ -395,7 +395,7 @@ namespace FayeCpp {
 		// wait thread
 		while (_connection || _context) 
 		{
-			REThread::uSleep(2);
+			REThread::uSleep(4);
 		}
 		
 		this->cancel();
@@ -461,7 +461,7 @@ namespace FayeCpp {
 		return libwebsocket_create_context(&info);
 	}
 	
-	void WebSocket::threadBody()
+	void WebSocket::workMethod()
 	{
 		this->setShouldWork(false);
 		
@@ -497,14 +497,8 @@ namespace FayeCpp {
 #else			
 			const int writed = sprintf(error, "Failed to connect to %s:%i", this->host().UTF8String(), this->port());
 #endif			
-			if (writed > 0) 
-			{
-				this->onError(REString(error, (REUInt32)writed));
-			}
-			else
-			{
-				this->onError(REString("Failed to connect"));
-			}
+			if (writed > 0) this->onError(REString(error, (REUInt32)writed));
+			else this->onError(REString("Failed to connect"));
 			return;
 		}
 		
@@ -513,13 +507,18 @@ namespace FayeCpp {
 		this->setShouldWork(true);
 		
 		int n = 0;
-		while (n >= 0 && this->isShouldWork() && _context /* && !force_exit */ )
+		while (n >= 0 && this->isShouldWork() && _context)
 		{
-			n = _context ? libwebsocket_service(_context, 10) : -1;
-			REThread::uSleep(10);
+			n = _context ? libwebsocket_service(_context, 50) : -1;
+			REThread::uSleep(50);
 		}
 		
 		this->cleanup();
+	}
+	
+	void WebSocket::threadBody()
+	{
+		this->workMethod();
 	}
 	
 	WebSocket::WebSocket(ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * processMethod) : REThread(), Transport(processMethod),
@@ -542,8 +541,6 @@ namespace FayeCpp {
 		_shouldWorkMutex->init(REMutex::REMutexTypeRecursive);
 		
 		REThread::isMainThread();
-		
-//		this->setJoinable(true);
 	}
 	
 	WebSocket::~WebSocket()
@@ -553,7 +550,7 @@ namespace FayeCpp {
 		/// wait for thread joined
 		while (_connection || _context) 
 		{
-			REThread::uSleep(2);
+			REThread::uSleep(4);
 		}
 		
 		this->cancel();
