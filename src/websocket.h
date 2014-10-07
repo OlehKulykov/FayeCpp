@@ -60,6 +60,7 @@ namespace FayeCpp {
 		struct libwebsocket * _connection;
 		
 		REMutex * _writeMutex;
+		REMutex * _shouldWorkMutex;
 		REBuffer * _receivedTextBuffer;
 		REBuffer * _receivedBinaryBuffer;
 		bool _isShouldWork;
@@ -71,6 +72,8 @@ namespace FayeCpp {
 			unsigned int len;
 			unsigned int index;
 		} EchoSessionData;
+		
+		void setShouldWork(bool isShould);
 		
 		void writeLock();
 		void writeUnlock();
@@ -100,6 +103,8 @@ namespace FayeCpp {
 		virtual void threadBody();
 		
 	public:
+		bool isShouldWork() const;
+		
 		virtual const REString name() const;
 		
 		virtual void sendData(const unsigned char * data, const REUInt32 dataSize);		

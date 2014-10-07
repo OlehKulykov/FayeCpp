@@ -65,6 +65,34 @@ namespace FayeCpp {
 		}
 	};
 	
+	void WebSocket::setShouldWork(bool isShould)
+	{
+		if (_shouldWorkMutex)
+		{
+			_shouldWorkMutex->lock();
+			_isShouldWork = isShould;
+			_shouldWorkMutex->unlock();
+		}
+		else
+		{
+			_isShouldWork = isShould;
+		}
+	}
+	
+	bool WebSocket::isShouldWork() const
+	{
+		if (_shouldWorkMutex)
+		{
+			bool r = false;
+			_shouldWorkMutex->lock();
+			r = _isShouldWork;
+			_shouldWorkMutex->unlock();
+			return r;
+		}
+		 
+		return _isShouldWork;
+	}
+	
 	void WebSocket::writeLock()
 	{
 		if (_writeMutex) _writeMutex->lock();
@@ -163,6 +191,7 @@ namespace FayeCpp {
 #ifdef FAYECPP_DEBUG_MESSAGES
 		RELog::log("CALLBACK CONNECTION DESTROYED");
 #endif		
+		
 		this->onDisconnected();
 	}
 	
@@ -243,9 +272,6 @@ namespace FayeCpp {
 		
 		bool isError = false;
 
-#ifdef FAYECPP_DEBUG_MESSAGES
-		RELog::log("WRITE LOCK");
-#endif
 		this->writeLock();
 		
 		WriteBuffer * buffer = new WriteBuffer(data, dataSize);
@@ -262,9 +288,6 @@ namespace FayeCpp {
 			isError = true;
 		}
 
-#ifdef FAYECPP_DEBUG_MESSAGES
-		RELog::log("WRITE UNLOCK");
-#endif
 		this->writeUnlock();
 		
 		if (isError)
@@ -273,13 +296,7 @@ namespace FayeCpp {
 		}
 		else if (this->isConnected())
 		{
-#ifdef FAYECPP_DEBUG_MESSAGES
-			RELog::log("Try mark connection context as writable ...");
-#endif
 			libwebsocket_callback_on_writable(_context, _connection);
-#ifdef FAYECPP_DEBUG_MESSAGES
-			RELog::log("Try mark connection context as writable OK");
-#endif
 		}
 	}
 	
@@ -364,7 +381,7 @@ namespace FayeCpp {
 	
 	void WebSocket::disconnectFromServer()
 	{
-		_isShouldWork = false;
+		this->setShouldWork(false);
 		
 		// wait thread
 		while (_connection || _context) 
@@ -437,7 +454,7 @@ namespace FayeCpp {
 	
 	void WebSocket::threadBody()
 	{
-		_isShouldWork = false;
+		this->setShouldWork(false);
 		
 		_context = this->createWebSocketContext();
 		
@@ -484,10 +501,10 @@ namespace FayeCpp {
 		
 		libwebsocket_callback_on_writable(_context, _connection);
 		
-		_isShouldWork = true;
+		this->setShouldWork(true);
 		
 		int n = 0;
-		while (n >= 0 && _context && _isShouldWork /* && !force_exit */ )
+		while (n >= 0 && this->isShouldWork() && _context /* && !force_exit */ )
 		{
 			n = _context ? libwebsocket_service(_context, 10) : -1;
 			REThread::uSleep(10);
@@ -500,14 +517,16 @@ namespace FayeCpp {
 		_context(NULL),
 		_connection(NULL),
 		_writeMutex(new REMutex()),
+		_shouldWorkMutex(new REMutex()),
 		_receivedTextBuffer(NULL),
 		_receivedBinaryBuffer(NULL),
 		_isShouldWork(false)
 	{
 		memset(&_info, 0, sizeof(struct lws_context_creation_info));
 
-#if defined(HAVE_ASSERT_H)		
+#if defined(HAVE_ASSERT_H)	
 		assert(_writeMutex);
+		assert(_shouldWorkMutex);
 #endif
 		
         _writeMutex->init(REMutex::REMutexTypeRecursive);
@@ -523,7 +542,7 @@ namespace FayeCpp {
 		RELog::log("WebSocket: destructor ~WebSocket() ...");
 		RELog::log("WebSocket: try cancel thread ...");
 #endif	
-		_isShouldWork = false;
+		this->setShouldWork(false);
 		
 #ifdef FAYECPP_DEBUG_MESSAGES
 		RELog::log("WebSocket: try cancel thread OK");
@@ -542,6 +561,7 @@ namespace FayeCpp {
 #endif
 		
 		SAFE_DELETE(_writeMutex)
+		SAFE_DELETE(_shouldWorkMutex)
 		
 #ifdef FAYECPP_DEBUG_MESSAGES
 		RELog::log("WebSocket: delete mutex OK");
