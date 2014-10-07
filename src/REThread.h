@@ -34,18 +34,8 @@ class REThread
 {
 private:
 	REThreadInternal * _t;
-	bool _isJoinable;
-	bool _isDetached;
 	
 public:
-	bool isCancelled() const;
-	
-	bool isJoinable() const;
-	bool isDetached() const;
-		
-	void setJoinable(bool isJoin);
-	void setDetached(bool isDetach);
-	
 	virtual void threadBody() = 0;
 	
 	/// Start thread's work
@@ -70,6 +60,7 @@ public:
 	static void uSleepInSeconds(const double seconds);
 	
 	REThread();
+	
 	virtual ~REThread();
 };
 

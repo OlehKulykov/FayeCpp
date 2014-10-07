@@ -36,10 +36,6 @@
 #include <assert.h>
 #endif
 
-#if defined(HAVE_DISPATCH_DISPATCH_H)
-#include <dispatch/dispatch.h>
-#endif
-
 #define HANDSHAKE_CHANNEL "/meta/handshake"
 #define CONNECT_CHANNEL "/meta/connect"
 #define DISCONNECT_CHANNEL "/meta/disconnect"

@@ -67,10 +67,6 @@
 #include <unistd.h>
 #endif
 
-#if defined(HAVE_DISPATCH_DISPATCH_H)
-#include <dispatch/dispatch.h>
-#endif
-
 #if defined(HAVE_SIGNAL_H)
 #include <signal.h>
 #endif
@@ -141,91 +137,92 @@ DWORD REThreadInternal::threadProc(LPVOID lpParameter)
 	return 0;
 }
 #endif
-
-bool REThreadInternal::cancel()
-{
+	
 #if defined(HAVE_PTHREAD_H)	
-	int s = 0;
-	
+	bool REThreadInternal::cancel()	
+	{
+		int s = 0;
+		
 #if defined(HAVE_FUNCTION_PTHREAD_CANCEL)	
-	s = pthread_cancel(_thread);
-	if (s != 0) 
-	{
-		return false;
-	}
+		s = pthread_cancel(_thread);
+		if (s != 0) 
+		{
+			return false;
+		}
 #else
-	s = pthread_kill(_thread, SIGUSR2);
-	if (s != 0) 
-	{
-		RELog::log("REThread: no function 'pthread_cancel' && error 'pthread_kill' thread %lu, error = %i", 
-				   (unsigned long)_thread, 
-				   s);
-	} 
+		s = pthread_kill(_thread, SIGUSR2);
+		if (s != 0) 
+		{
+			RELog::log("REThread: no function 'pthread_cancel' && error 'pthread_kill' thread %lu, error = %i", 
+					   (unsigned long)_thread, 
+					   s);
+		} 
 #endif	
-	
-	if (!_parent->isJoinable()) 
-	{
-		return true;
-	}
-	
-	void * r = NULL;
-	s = pthread_join(_thread, &r);
-	if (s != 0)
-	{
-
+		
+		void * r = NULL;
+		s = pthread_join(_thread, &r);
+		if (s != 0)
+		{
+			
 #if defined(HAVE_ERRNO_H) || defined(HAVE_SYS_ERRNO_H) 		
-		switch (s) 
-		{
-			case EDEADLK:
-				printf("\nREThread: A deadlock was detected (e.g., two threads tried to join with each other); or thread specifies the calling thread.");
-			break;
-			
-			case EINVAL:
-				printf("\nREThread: Thread is not a joinable thread. Another thread is already waiting to join with this thread.");
-			break;
-			
-			case ESRCH:
-				printf("\nREThread: No thread with the ID thread could be found.");
-			break;
-				
-			default:
-			break;
-		}
+			switch (s) 
+			{
+				case EDEADLK:
+					printf("\nREThread: A deadlock was detected (e.g., two threads tried to join with each other); or thread specifies the calling thread.");
+					break;
+					
+				case EINVAL:
+					printf("\nREThread: Thread is not a joinable thread. Another thread is already waiting to join with this thread.");
+					break;
+					
+				case ESRCH:
+					printf("\nREThread: No thread with the ID thread could be found.");
+					break;
+					
+				default:
+					break;
+			}
 #endif	/* HAVE_ERRNO_H || HAVE_SYS_ERRNO_H */	
-		return false;
-	}
-
+			return false;
+		}
+		
 #if defined(HAVE_FUNCTION_PTHREAD_CANCEL)	
-	const bool res = (r == PTHREAD_CANCELED);
+		const bool res = (r == PTHREAD_CANCELED);
 #else
-	const bool res = true;
+		const bool res = true;
 #endif	
-	return res;
+		return res;
+	}
 	
-#elif defined (__RE_USING_WINDOWS_THREADS__)
-	if (_thread)
+#elif defined(__RE_USING_WINDOWS_THREADS__)	
+	bool REThreadInternal::cancel()	
 	{
-		bool isAlive = false;
-		DWORD dwExitCode = 0;
-		if (GetExitCodeThread(_thread, &dwExitCode))
+		if (_thread)
 		{
-			// if return code is STILL_ACTIVE,
-			// then thread is live.
-			isAlive = (dwExitCode == STILL_ACTIVE);
+			bool isAlive = false;
+			DWORD dwExitCode = 0;
+			if (GetExitCodeThread(_thread, &dwExitCode))
+			{
+				// if return code is STILL_ACTIVE,
+				// then thread is live.
+				isAlive = (dwExitCode == STILL_ACTIVE);
+			}
+			
+			if (isAlive)
+			{
+				TerminateThread(_thread, 0);
+			}
+			
+			CloseHandle(_thread);
+			_thread = (HANDLE)0;
+			return true;
 		}
-		if (isAlive)
-		{
-			TerminateThread(_thread, 0);
-		}
-		CloseHandle(_thread);
-		_thread = (HANDLE)0;
 		return true;
 	}
-#endif
+#else
+#error "Not selected threads"
+#endif	
 	
-	return true;
-}
-
 bool REThreadInternal::start()
 {
 #if defined(HAVE_PTHREAD_H)	
@@ -277,15 +274,8 @@ REThreadInternal::REThreadInternal(REThread * parent) :
 	pthread_attr_setscope(&_attr, PTHREAD_SCOPE_SYSTEM);
 #endif
 	
-	if (_parent->isJoinable()) 
-	{
-		pthread_attr_setdetachstate(&_attr, PTHREAD_CREATE_JOINABLE);
-	}
+	pthread_attr_setdetachstate(&_attr, PTHREAD_CREATE_JOINABLE);
 	
-	if (_parent->isDetached()) 
-	{
-		pthread_attr_setdetachstate(&_attr, PTHREAD_CREATE_DETACHED);
-	}
 #elif defined(__RE_USING_WINDOWS_THREADS__)
 	_thread = (HANDLE)0;
 #endif
@@ -340,58 +330,10 @@ bool REThread::cancel()
 	return true;
 }
 
-bool REThread::isJoinable() const
-{
-	return _isJoinable;
-}
-
-bool REThread::isDetached() const
-{
-	return _isDetached;
-}
-
-void REThread::setJoinable(bool isJoin)
-{
-#if defined(HAVE_PTHREAD_H)		
-	if (!_t) 
-	{
-		//TODO: check if possible
-		_isJoinable = isJoin;
-		if (_isJoinable) 
-		{
-			_isDetached = false;
-		}
-	}
-#endif	
-}
-
-void REThread::setDetached(bool isDetach)
-{
-#if defined(HAVE_PTHREAD_H)		
-	if (!_t) 
-	{
-		//TODO: check if possible
-		_isDetached = isDetach;
-		if (_isDetached) 
-		{
-			_isJoinable = false;
-		}
-	}
-#endif	
-}
 
 REThread::REThread() : 
-	_t(NULL),
-	_isJoinable(false),
-	_isDetached(false)
-{
-//	REThreadsPool::pool();
-	
-#if defined(HAVE_PTHREAD_H)	
-	this->setJoinable(true);
-#endif
-	
-	
+	_t(NULL)
+{	
 #if defined(HAVE_PTHREAD_H)
 	if (REThreadInternal::mainPThread == (pthread_t)0)
 	{

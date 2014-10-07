@@ -49,7 +49,7 @@ public:
 				return FayeCpp::REString([path UTF8String]);
 			}
 		}
-		return FayeCpp::REString("");
+		return FayeCpp::REString();
 	}
 	
 	virtual FayeCpp::REString clientPrivateKeyFilePath() const
@@ -63,7 +63,7 @@ public:
 				return FayeCpp::REString([path UTF8String]);
 			}
 		}
-		return FayeCpp::REString("");
+		return FayeCpp::REString();
 	}
 	
 	virtual FayeCpp::REString clientPrivateKeyPassPhrase() const
@@ -77,7 +77,7 @@ public:
 				return FayeCpp::REString([pp UTF8String]);
 			}
 		}
-		return FayeCpp::REString("");
+		return FayeCpp::REString();
 	}
 	
 	virtual FayeCpp::REString clientCACertificateFilePath() const
@@ -91,7 +91,7 @@ public:
 				return FayeCpp::REString([path UTF8String]);
 			}
 		}
-		return FayeCpp::REString("");
+		return FayeCpp::REString();
 	}
 	
 	FayeCppClientSSLDataSourceWrapper() : objcClient(NULL)
