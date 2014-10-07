@@ -143,7 +143,7 @@ using namespace FayeCpp;
 	client->setUsingIPV6(false);
 	client->setUrl("http://messages.presentain.com:80/faye");
 	//client->setUrl("https://localhost:6001/faye");
-	client->setDelegate(new FayeDelegate());
+	//client->setDelegate(new FayeDelegate());
 //	client->setSSLDataSource(new FayeSSLDataSource());
 	NSLog(@"Done");
 }

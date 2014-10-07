@@ -41,6 +41,8 @@
 
 #include "classmethodwrapper.h"
 
+#include <pthread.h>
+
 namespace FayeCpp {
 
 	class WebSocket : protected REThread, public Transport
@@ -59,12 +61,16 @@ namespace FayeCpp {
 		struct libwebsocket_context * _context;
 		struct libwebsocket * _connection;
 		
-		REMutex * _writeMutex;
-		REMutex * _shouldWorkMutex;
+		//REMutex * _shouldWorkMutex;
 		REBuffer * _receivedTextBuffer;
 		REBuffer * _receivedBinaryBuffer;
-			
 		bool _isShouldWork;
+		
+		static void * workThreadFunc(void * somePointer);
+		pthread_t _workThread;
+		
+		pthread_mutex_t _writeMutex;
+		pthread_mutex_t _shouldWorkMutex;
 		
 		#define MAX_ECHO_PAYLOAD 4096
 		typedef struct echoSessionData
@@ -75,10 +81,7 @@ namespace FayeCpp {
 		} EchoSessionData;
 		
 		void setShouldWork(bool isShould);
-		
-		void writeLock();
-		void writeUnlock();
-		
+				
 		static struct libwebsocket_protocols protocols[];
 		static int callbackEcho(struct libwebsocket_context * context,
 								struct libwebsocket * wsi,
@@ -105,7 +108,7 @@ namespace FayeCpp {
 		virtual void threadBody();
 		
 	public:
-		bool isShouldWork() const;
+		bool isShouldWork();
 		
 		virtual const REString name() const;
 		
