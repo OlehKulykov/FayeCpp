@@ -27,7 +27,19 @@
 #include "../fayecpp.h"
 #include "classmethodwrapper.h"
 
+#if defined(HAVE_FAYECPP_CONFIG_H)
+#include "fayecpp_config.h"
+#endif
+
+#if defined(HAVE_PTHREAD_H)
 #include <pthread.h>
+#elif defined(__RE_OS_WINDOWS__)
+/* Use Windows threading */
+#ifndef __RE_USING_WINDOWS_THREADS__
+#define __RE_USING_WINDOWS_THREADS__ 1
+#endif
+#include <Windows.h>
+#endif /* __RE_OS_WINDOWS__ */
 
 #if defined(HAVE_ASSERT_H)
 #include <assert.h>

@@ -37,10 +37,6 @@
 
 #include <libwebsockets.h>
 
-#include "classmethodwrapper.h"
-
-#include <pthread.h>
-
 namespace FayeCpp {
 
 	class WebSocket : public Transport
