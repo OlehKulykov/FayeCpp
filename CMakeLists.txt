@@ -495,13 +495,11 @@ set(FAYECPP_SOURCES	src/client.cpp
 		src/REBufferNoCopy.cpp
 		src/RELog.cpp
 		src/REMutableString.cpp
-		src/REMutex.cpp
 		src/REStaticString.cpp
 		src/REString.cpp
 		src/REStringBase.cpp
 		src/REStringList.cpp
 		src/REStringUtilsPrivate.cpp
-		src/REThread.cpp
 		src/RETime.cpp
 		src/REWideString.cpp
 		src/transport.cpp
