@@ -53,36 +53,49 @@ namespace FayeCpp {
 #define ADVICE_RECONNECT_NONE 0
 #define ADVICE_RECONNECT_RETRY 1
 #define ADVICE_RECONNECT_HANDSHAKE 2
+
 	
+#if !defined(HAVE_SUITABLE_QT_VERSION)
+#define USE_TRANSPORT_MESSENGER 1
+#endif
+
 	class Transport
 	{
 	protected:
+#if defined(HAVE_PTHREAD_H)
 		static bool initRecursiveMutex(pthread_mutex_t * mutex);
+#endif	
 		
+#if defined(USE_TRANSPORT_MESSENGER)
 	private:
-		class Messanger
+		class Messenger
 		{
 		private:
+#if defined(HAVE_PTHREAD_H)
 			pthread_t _thread;
 			pthread_mutex_t _mutex;
 			pthread_cond_t _conditionVariable;
+#endif			
 			REList<Responce *> _responces;
 			
 			ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * _processMethod;
 			bool _isWorking;
 			bool _isSuspended;
 			
+#if defined(HAVE_PTHREAD_H)
 			static void * workThreadFunc(void * somePointer);
-			bool initConditionVariable();
+			static bool initConditionVariable(pthread_cond_t * conditionVariable);
+#endif			
 			bool createWorkThread();
 			bool sendSingleResponce();
 		public:
 			void addResponce(Responce * responce);
 			void stopWorking();
-			Messanger(ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * processMethod);
-			~Messanger();
+			Messenger(ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * processMethod);
+			~Messenger();
 		};
-
+#endif
+		
 	public:
 		typedef struct _adviceStructure
 		{
@@ -96,7 +109,9 @@ namespace FayeCpp {
 		REString _host;
 		REString _path;
 		ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * _processMethod;
-		Transport::Messanger * _messanger;
+#if defined(USE_TRANSPORT_MESSENGER)
+		Transport::Messenger * _messenger;
+#endif
 		Advice _advice;
 		RETimeInterval _lastSendTime;
 		int _port;

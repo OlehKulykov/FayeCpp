@@ -229,8 +229,7 @@ namespace FayeCpp {
 		}
 		
 		bool isError = false;
-
-		pthread_mutex_lock(&_mutex);
+		this->lockMutex();
 		
 		WriteBuffer * buffer = new WriteBuffer(data, dataSize);
 		if (buffer && buffer->size() == dataSize)
@@ -248,7 +247,7 @@ namespace FayeCpp {
 			libwebsocket_callback_on_writable(_context, _connection);
 		}
 		
-		pthread_mutex_unlock(&_mutex);
+		this->unLockMutex();
 		
 		if (isError) this->onError("Can't send buffer data");
 	}
@@ -275,18 +274,18 @@ namespace FayeCpp {
 		return WebSocket::transportName(); 
 	}
 	
-	
+#if defined(HAVE_PTHREAD_H)		
 	void * WebSocket::workThreadFunc(void * somePointer)
 	{
 		WebSocket * socket = static_cast<WebSocket *>(somePointer);
-		
 		socket->workMethod();
-		
 		return somePointer;
 	}
+#endif
 	
 	bool WebSocket::createWorkThread()
 	{
+#if defined(HAVE_PTHREAD_H)	
 		pthread_attr_t attr;
 		if (pthread_attr_init(&attr) == 0) 
 		{
@@ -301,6 +300,7 @@ namespace FayeCpp {
 			pthread_attr_destroy(&attr);
 			return res;
 		}
+#endif	
 		return false;
 	}
 	
@@ -314,7 +314,7 @@ namespace FayeCpp {
 	
 	void WebSocket::cleanup()
 	{
-		pthread_mutex_lock(&_mutex);
+		this->lockMutex();
 		
 		memset(&_info, 0, sizeof(struct lws_context_creation_info));
 		
@@ -335,23 +335,25 @@ namespace FayeCpp {
 		SAFE_DELETE(_receivedTextBuffer)
 		SAFE_DELETE(_receivedBinaryBuffer)
 		
-		pthread_mutex_unlock(&_mutex);
+		this->unLockMutex();
 	}
 	
 	void WebSocket::disconnectFromServer()
 	{
-		pthread_mutex_lock(&_mutex);
+		this->lockMutex();
 		_isWorking = 0;
-		pthread_mutex_unlock(&_mutex);
+		this->unLockMutex();
 		
 		// wait thread
 		while (_connection || _context) 
 		{
 			usleep(4);
 		}
-				
+		
+#if defined(HAVE_PTHREAD_H)	
 		void * r = NULL;
 		pthread_join(_workThread, &r);
+#endif	
 		
 		this->cleanup();
 	}
@@ -414,16 +416,31 @@ namespace FayeCpp {
 		return libwebsocket_create_context(&info);
 	}
 	
+	void WebSocket::lockMutex()
+	{
+#if defined(HAVE_PTHREAD_H)	
+		pthread_mutex_lock(&_mutex);
+#endif	
+	}
+	
+	void WebSocket::unLockMutex()
+	{
+#if defined(HAVE_PTHREAD_H)	
+		pthread_mutex_unlock(&_mutex);
+#endif	
+	}
+	
 	void WebSocket::workMethod()
 	{
-		pthread_mutex_lock(&_mutex);
+		this->lockMutex();
+		
 		_isWorking = 0;
 		
 		_context = this->createWebSocketContext();
 		
 		if (!_context)
 		{
-			pthread_mutex_unlock(&_mutex);
+			this->unLockMutex();
 			
 			this->onError("Socket initialization failed");
 			return;
@@ -447,7 +464,7 @@ namespace FayeCpp {
 			if (_context) libwebsocket_context_destroy(_context);
 			_context = NULL;
 			
-			pthread_mutex_unlock(&_mutex);
+			this->unLockMutex();
 			
 			this->onError(REString::createWithFormat("Failed to connect to %s:%i", this->host().UTF8String(), this->port()));
 			return;
@@ -457,18 +474,21 @@ namespace FayeCpp {
 		
 		_isWorking = 1;
 		
-		pthread_mutex_unlock(&_mutex); /// for initialization
+		this->unLockMutex();	/// for initialization
 		
 		int n = 0;
 		while (n >= 0 && _isWorking && _context)
 		{
+#if defined(HAVE_PTHREAD_H)	
 			pthread_mutex_lock(&_mutex);
+#endif	
 			
 			n = _context ? libwebsocket_service(_context, 50) : -1;
-			
+	
+#if defined(HAVE_PTHREAD_H)	
 			pthread_mutex_unlock(&_mutex);
-			
 			usleep(50);
+#endif	
 		}
 		
 		this->cleanup();
@@ -498,7 +518,9 @@ namespace FayeCpp {
 				
 		this->cleanup();
 		
+#if defined(HAVE_PTHREAD_H)	
 		pthread_mutex_destroy(&_mutex);
+#endif	
 	}
 	
 	REString WebSocket::transportName() 

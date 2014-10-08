@@ -54,8 +54,10 @@ namespace FayeCpp {
 		
 		struct lws_context_creation_info _info;
 		
+#if defined(HAVE_PTHREAD_H)	
 		pthread_t _workThread;
 		pthread_mutex_t _mutex;
+#endif	
 		
 		struct libwebsocket_context * _context;
 		struct libwebsocket * _connection;
@@ -65,7 +67,12 @@ namespace FayeCpp {
 		
 		int _isWorking;
 		
+#if defined(HAVE_PTHREAD_H)	
 		static void * workThreadFunc(void * somePointer);
+#endif	
+		
+		void lockMutex();
+		void unLockMutex();
 		
 		bool createWorkThread();
 		
