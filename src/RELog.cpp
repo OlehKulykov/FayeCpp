@@ -69,6 +69,7 @@ namespace FayeCpp {
 #else
 			fprintf(stdout, "\n");
 			vfprintf(stdout, logString, arguments);
+			fflush(stdout);
 #endif		
 		}
 	}

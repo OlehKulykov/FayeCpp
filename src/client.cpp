@@ -30,10 +30,12 @@
 #include "transport.h"
 #include "classmethodwrapper.h"
 #include "jsonutils.h"
-#include "REThread.h"
 
 #if defined(HAVE_ASSERT_H)
 #include <assert.h>
+#define RE_ASSERT(r) assert(r);
+#else
+#define RE_ASSERT(r) r;
 #endif
 
 #define HANDSHAKE_CHANNEL "/meta/handshake"
@@ -93,7 +95,6 @@ namespace FayeCpp {
 #ifdef FAYECPP_DEBUG_MESSAGES
 		RELog::log("Client: onTransportConnected");
 #endif
-
 		if (_delegate) _delegate->onFayeTransportConnected(this);
 		this->handshake();
 	}
@@ -581,8 +582,6 @@ namespace FayeCpp {
 		_isDisconnecting(false),
 		_isUsingIPV6(false)
 	{
-		REThread::mainThreadIdentifier();
-		
         _transport = Transport::createNewTransport(new ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce>(this, &Client::processMessage));
 #if defined(HAVE_ASSERT_H)	
         assert(_transport);

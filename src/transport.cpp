@@ -22,7 +22,6 @@
 
 
 #include "transport.h"
-#include "REThread.h"
 
 #if defined(HAVE_FAYECPP_CONFIG_H)
 #include "fayecpp_config.h"
@@ -34,11 +33,167 @@
 #include "websocket.h"
 #endif
 
-#if defined(HAVE_ASSERT_H)
-#include <assert.h>
-#endif
-
 namespace FayeCpp {
+	
+	void * Transport::Messanger::workThreadFunc(void * somePointer)
+	{
+		Transport::Messanger * messanger = static_cast<Transport::Messanger *>(somePointer);
+		
+		while (messanger->_isWorking) 
+		{
+			pthread_mutex_lock(&messanger->_mutex);
+			
+			if ( !messanger->sendSingleResponce() )
+			{
+#ifdef FAYECPP_DEBUG_MESSAGES	
+				RELog::log("MESSANGER SELF PAUSE");
+#endif				
+				messanger->_isSuspended = true;
+				do
+				{
+					pthread_cond_wait(&messanger->_conditionVariable, &messanger->_mutex);
+				} while (messanger->_isSuspended);
+			}
+			
+			pthread_mutex_unlock(&messanger->_mutex);
+		}
+		
+		return somePointer;
+	}
+	
+	bool Transport::Messanger::sendSingleResponce()
+	{
+		Responce * responce = NULL;
+		REList<Responce *>::Iterator i = _responces.iterator();
+		while (!responce && i.next()) 
+		{
+			responce = i.value();
+			_responces.removeNode(i.node());
+		}
+		
+		if (responce) 
+		{
+#ifdef FAYECPP_DEBUG_MESSAGES			
+			RELog::log("MESSANGER SEND SINGLE RESPONCE ...");
+#endif
+			
+			_processMethod->invokeWithPointer(responce);
+			delete responce;
+			
+#ifdef FAYECPP_DEBUG_MESSAGES			
+			RELog::log("MESSANGER SEND SINGLE RESPONCE OK");
+#endif			
+		}
+		
+		return (responce != NULL);
+	}
+	
+	void Transport::Messanger::addResponce(Responce * responce)
+	{
+#ifdef FAYECPP_DEBUG_MESSAGES		
+		RELog::log("MESSANGER ADD RESPONCE ...");
+#endif		
+		
+		pthread_mutex_lock(&_mutex);
+		_responces.add(responce);
+		_isSuspended = false;
+		pthread_cond_signal(&_conditionVariable);
+		pthread_mutex_unlock(&_mutex);
+	
+#ifdef FAYECPP_DEBUG_MESSAGES		
+		RELog::log("MESSANGER ADD RESPONCE OK");
+#endif		
+	}
+	
+	bool Transport::Messanger::createWorkThread()
+	{
+		pthread_attr_t attr;
+		if (pthread_attr_init(&attr) == 0) 
+		{
+			bool res = false;
+			if (pthread_attr_setscope(&attr, PTHREAD_SCOPE_SYSTEM) == 0)
+			{
+				if (pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE) == 0) 
+				{
+					res = (pthread_create(&_thread, &attr, Transport::Messanger::workThreadFunc, static_cast<void *>(this)) == 0);
+				}
+			}
+			pthread_attr_destroy(&attr);
+			return res;
+		}
+		return false;
+	}
+	
+	bool Transport::Messanger::initConditionVariable()
+	{
+		pthread_condattr_t attr;
+		pthread_condattr_init(&attr);
+		pthread_cond_init(&_conditionVariable, &attr);
+		pthread_condattr_destroy(&attr);
+		return true;
+	}
+	
+	Transport::Messanger::Messanger(ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * processMethod) : 
+		_processMethod(processMethod),
+		_isWorking(true),
+		_isSuspended(false)
+	{
+#if defined(HAVE_ASSERT_H) 
+		assert(_processMethod);
+#endif		
+		
+		RE_ASSERT(this->initConditionVariable())
+		RE_ASSERT(Transport::initRecursiveMutex(&_mutex))
+		RE_ASSERT(this->createWorkThread())
+	}
+	
+	void Transport::Messanger::stopWorking()
+	{
+		pthread_mutex_lock(&_mutex);
+		_isWorking = false;
+		_isSuspended = false;
+		pthread_cond_signal(&_conditionVariable);
+		pthread_mutex_unlock(&_mutex);
+		
+		void * r = NULL;
+		pthread_join(_thread, &r);
+	}
+	
+	Transport::Messanger::~Messanger()
+	{
+		pthread_mutex_lock(&_mutex);
+		REList<Responce *>::Iterator i = _responces.iterator();
+		while (i.next()) 
+		{
+			Responce * r = i.value();
+			delete r;
+		}
+		_responces.clear();
+		pthread_mutex_unlock(&_mutex);
+		
+		pthread_cond_destroy(&_conditionVariable);
+		pthread_mutex_destroy(&_mutex);
+		
+#ifdef FAYECPP_DEBUG_MESSAGES		
+		RELog::log("Transport ~Messanger()");
+#endif		
+	}
+	
+	bool Transport::initRecursiveMutex(pthread_mutex_t * mutex)
+	{	
+		pthread_mutexattr_t attr;
+		if (pthread_mutexattr_init(&attr) == 0)
+		{
+			bool isInit = false;
+			if (pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE) == 0)
+			{
+				isInit = (pthread_mutex_init(mutex, &attr) == 0);
+			}
+			pthread_mutexattr_destroy(&attr);
+			return isInit;
+		}
+		return false;
+	}
 	
 	bool Transport::isUsingIPV6() const 
 	{
@@ -98,18 +253,32 @@ namespace FayeCpp {
 	
 	void Transport::onConnected()
 	{
+#ifdef FAYECPP_DEBUG_MESSAGES		
+		RELog::log("TRANSPORT CONNECTED");
+#endif		
 		_isConnected = true;
-		Responce message;
-        message.setType(Responce::ResponceTransportConnected);
-		_processMethod->invokeWithPointer(&message);
+		
+		Responce * message = new Responce();
+		if (message)
+		{
+			message->setType(Responce::ResponceTransportConnected);			
+			_messanger->addResponce(message);
+		}
 	}
 	
 	void Transport::onDisconnected()
 	{
+#ifdef FAYECPP_DEBUG_MESSAGES		
+		RELog::log("TRANSPORT DISCONNECTED");
+#endif		
 		_isConnected = false;
-		Responce message;
-        message.setType(Responce::ResponceTransportDisconnected);
-		_processMethod->invokeWithPointer(&message);
+		
+		Responce * message = new Responce();
+		if (message)
+		{
+			message->setType(Responce::ResponceTransportDisconnected);
+			_messanger->addResponce(message);
+		}
 	}
 	
 	void Transport::onTextReceived(const char * text)
@@ -117,16 +286,22 @@ namespace FayeCpp {
 #ifdef FAYECPP_DEBUG_MESSAGES
 		RELog::log("TRANSPORT RECEIVED: %s", text);
 #endif
-		Responce message;
-        message.setMessageText(text).setType(Responce::ResponceMessage);
-		_processMethod->invokeWithPointer(&message);
+		Responce * message = new Responce();
+		if (message)
+		{
+			message->setMessageText(text).setType(Responce::ResponceMessage);
+			_messanger->addResponce(message);
+		}
 	}
 	
 	void Transport::onDataReceived(const unsigned char * data, const size_t dataSize)
 	{
-		Responce message;
-        message.setMessageData(data, dataSize).setType(Responce::ResponceMessage);
-		_processMethod->invokeWithPointer(&message);
+		Responce * message = new Responce();
+		if (message)
+		{
+			message->setMessageData(data, dataSize).setType(Responce::ResponceMessage);			
+			_messanger->addResponce(message);
+		}
 	}
 	
 	void Transport::onError(const REString & error)
@@ -134,9 +309,12 @@ namespace FayeCpp {
 #ifdef FAYECPP_DEBUG_MESSAGES
 		RELog::log("TRANSPORT ERROR: %s", error.UTF8String());
 #endif
-		Responce message;
-        message.setType(Responce::ResponceTransportError).setErrorString(error);
-		_processMethod->invokeWithPointer(&message);
+		Responce * message = new Responce();
+		if (message)
+		{
+			message->setType(Responce::ResponceTransportError).setErrorString(error);
+			_messanger->addResponce(message);
+		}
 	}
 	
 	void Transport::onError(const char * error)
@@ -144,9 +322,12 @@ namespace FayeCpp {
 #ifdef FAYECPP_DEBUG_MESSAGES
 		RELog::log("TRANSPORT ERROR: %s", error);
 #endif
-		Responce message;
-        message.setType(Responce::ResponceTransportError).setErrorString(error);
-		_processMethod->invokeWithPointer(&message);
+		Responce * message = new Responce();
+		if (message)
+		{
+			message->setType(Responce::ResponceTransportError).setErrorString(error);
+			_messanger->addResponce(message);
+		}
 	}
 	
 	const REString & Transport::url() const
@@ -250,27 +431,18 @@ namespace FayeCpp {
 		return _isUseSSL;
 	}
 	
-	Transport::Transport() :
-		_processMethod(NULL),
-		_lastSendTime(RETime::time()),
-		_port(-1),
-		_isUseSSL(false),
-		_isConnected(false)
-	{
-		_advice.reconnect = ADVICE_RECONNECT_NONE;
-		_advice.timeout = _advice.interval = -1;
-	}
-	
 	Transport::Transport(ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * processMethod) :
 		_processMethod(processMethod),
+		_messanger(new Transport::Messanger(processMethod)),
 		_lastSendTime(RETime::time()),
 		_port(-1),
 		_isUseSSL(false),
 		_isConnected(false)
 	{
-#if defined(HAVE_ASSERT_H)	
+#if defined(HAVE_ASSERT_H) 
 		assert(_processMethod);
 		assert(this->client());
+		assert(_messanger);
 #endif		
 		
 		_advice.reconnect = ADVICE_RECONNECT_NONE;
@@ -279,6 +451,8 @@ namespace FayeCpp {
 	
 	Transport::~Transport()
 	{
+		_messanger->stopWorking();
+		delete _messanger;
         delete _processMethod;
 	}
 

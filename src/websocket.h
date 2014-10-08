@@ -34,8 +34,6 @@
 #if !defined(HAVE_SUITABLE_QT_VERSION) && defined(HAVE_LIBWEBSOCKETS_H)
 
 #include "transport.h"
-#include "REThread.h"
-#include "REMutex.h"
 
 #include <libwebsockets.h>
 
@@ -45,7 +43,7 @@
 
 namespace FayeCpp {
 
-	class WebSocket : protected REThread, public Transport
+	class WebSocket : public Transport
 	{
 	private:
 		class WriteBuffer : public REBuffer
@@ -57,20 +55,23 @@ namespace FayeCpp {
 		};
 		
 		REList<WriteBuffer *> _writeBuffers;
+		
 		struct lws_context_creation_info _info;
+		
+		pthread_t _workThread;
+		pthread_mutex_t _mutex;
+		
 		struct libwebsocket_context * _context;
 		struct libwebsocket * _connection;
 		
-		//REMutex * _shouldWorkMutex;
 		REBuffer * _receivedTextBuffer;
 		REBuffer * _receivedBinaryBuffer;
-		bool _isShouldWork;
+		
+		int _isWorking;
 		
 		static void * workThreadFunc(void * somePointer);
-		pthread_t _workThread;
 		
-		pthread_mutex_t _writeMutex;
-		pthread_mutex_t _shouldWorkMutex;
+		bool createWorkThread();
 		
 		#define MAX_ECHO_PAYLOAD 4096
 		typedef struct echoSessionData
@@ -79,8 +80,6 @@ namespace FayeCpp {
 			unsigned int len;
 			unsigned int index;
 		} EchoSessionData;
-		
-		void setShouldWork(bool isShould);
 				
 		static struct libwebsocket_protocols protocols[];
 		static int callbackEcho(struct libwebsocket_context * context,
@@ -104,12 +103,7 @@ namespace FayeCpp {
 		static const char * copyUTF8(const REString & from);
 		struct libwebsocket_context * createWebSocketContext();
 		
-	protected:
-		virtual void threadBody();
-		
-	public:
-		bool isShouldWork();
-		
+	public:		
 		virtual const REString name() const;
 		
 		virtual void sendData(const unsigned char * data, const REUInt32 dataSize);		

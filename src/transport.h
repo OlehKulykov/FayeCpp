@@ -26,10 +26,15 @@
 
 #include "../fayecpp.h"
 #include "classmethodwrapper.h"
-#include "REMutex.h"
-#include "REThread.h"
 
 #include <pthread.h>
+
+#if defined(HAVE_ASSERT_H)
+#include <assert.h>
+#define RE_ASSERT(r) assert(r);
+#else
+#define RE_ASSERT(r) r;
+#endif
 
 namespace FayeCpp {
 	
@@ -39,6 +44,33 @@ namespace FayeCpp {
 	
 	class Transport
 	{
+	protected:
+		static bool initRecursiveMutex(pthread_mutex_t * mutex);
+		
+	private:
+		class Messanger
+		{
+		private:
+			pthread_t _thread;
+			pthread_mutex_t _mutex;
+			pthread_cond_t _conditionVariable;
+			REList<Responce *> _responces;
+			
+			ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * _processMethod;
+			bool _isWorking;
+			bool _isSuspended;
+			
+			static void * workThreadFunc(void * somePointer);
+			bool initConditionVariable();
+			bool createWorkThread();
+			bool sendSingleResponce();
+		public:
+			void addResponce(Responce * responce);
+			void stopWorking();
+			Messanger(ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * processMethod);
+			~Messanger();
+		};
+
 	public:
 		typedef struct _adviceStructure
 		{
@@ -46,20 +78,18 @@ namespace FayeCpp {
 			RETimeInterval timeout;
 			int reconnect;
 		} Advice;
-	private:		
+		
+	private:
 		REString _url;
 		REString _host;
 		REString _path;
 		ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * _processMethod;
+		Transport::Messanger * _messanger;
 		Advice _advice;
 		RETimeInterval _lastSendTime;
 		int _port;
 		bool _isUseSSL;
 		bool _isConnected;
-		
-		//	http://stackoverflow.com/questions/9397068/how-to-pause-a-pthread-any-time-i-want
-		
-		Transport();
 		
 		Client * client() const;
 		Delegate * delegate() const;

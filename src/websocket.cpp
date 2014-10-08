@@ -33,16 +33,9 @@
 
 #if !defined(HAVE_SUITABLE_QT_VERSION) && defined(HAVE_LIBWEBSOCKETS_H)
 
-#include "REThread.h"
-#include "REMutex.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#if defined(HAVE_ASSERT_H)
-#include <assert.h>
-#endif
 
 #ifndef SAFE_DELETE
 #define SAFE_DELETE(o) if(o){delete o;o=NULL;}
@@ -64,22 +57,6 @@ namespace FayeCpp {
 			NULL, NULL, 0
 		}
 	};
-	
-	void WebSocket::setShouldWork(bool isShould)
-	{
-		pthread_mutex_lock(&_shouldWorkMutex);
-		_isShouldWork = isShould;
-		pthread_mutex_unlock(&_shouldWorkMutex);
-	}
-	
-	bool WebSocket::isShouldWork()
-	{
-		bool r = false;
-		pthread_mutex_lock(&_shouldWorkMutex);
-		r = _isShouldWork;
-		pthread_mutex_unlock(&_shouldWorkMutex);
-		return r;
-	}
 	
 	void WebSocket::onCallbackReceive(struct libwebsocket * wsi, void * input, size_t len)
 	{
@@ -170,7 +147,7 @@ namespace FayeCpp {
 		RELog::log("CALLBACK CONNECTION DESTROYED");
 #endif	
 		
-		this->setShouldWork(false);
+		_isWorking = 0;
 		
 		this->cleanup();
 		
@@ -197,8 +174,7 @@ namespace FayeCpp {
 	int WebSocket::onCallbackWritable(struct libwebsocket_context * context,
 									  struct libwebsocket * connection,
 									  EchoSessionData * pss)
-	{		
-		pthread_mutex_lock(&_writeMutex);
+	{	
 		WriteBuffer * buffer = NULL;
 		REList<WriteBuffer *>::Iterator i = _writeBuffers.iterator();
 		while (!buffer && i.next()) 
@@ -206,7 +182,6 @@ namespace FayeCpp {
 			buffer = i.value();
 			_writeBuffers.removeNode(i.node());
 		}
-		pthread_mutex_unlock(&_writeMutex);
 		
 		if (!buffer) return 0;
 		
@@ -227,6 +202,7 @@ namespace FayeCpp {
 			libwebsocket_callback_on_writable(context, connection);
 			return -1;
 		}
+		
 		if (writed < pss->len)
 		{
 #ifdef FAYECPP_DEBUG_MESSAGES
@@ -254,7 +230,7 @@ namespace FayeCpp {
 		
 		bool isError = false;
 
-		pthread_mutex_lock(&_writeMutex);
+		pthread_mutex_lock(&_mutex);
 		
 		WriteBuffer * buffer = new WriteBuffer(data, dataSize);
 		if (buffer && buffer->size() == dataSize)
@@ -265,21 +241,16 @@ namespace FayeCpp {
 #endif
 			_writeBuffers.add(buffer);
 		}
-		else
-		{
-			isError = true;
-		}
-
-		pthread_mutex_unlock(&_writeMutex);
+		else isError = true;
 		
-		if (isError)
-		{
-			this->onError("Can't send buffer data");
-		}
-		else if (this->isConnected())
+		if (!isError && this->isConnected())
 		{
 			libwebsocket_callback_on_writable(_context, _connection);
 		}
+		
+		pthread_mutex_unlock(&_mutex);
+		
+		if (isError) this->onError("Can't send buffer data");
 	}
 	
 	void WebSocket::sendData(const unsigned char * data, const REUInt32 dataSize)
@@ -314,32 +285,45 @@ namespace FayeCpp {
 		return somePointer;
 	}
 	
+	bool WebSocket::createWorkThread()
+	{
+		pthread_attr_t attr;
+		if (pthread_attr_init(&attr) == 0) 
+		{
+			bool res = false;
+			if (pthread_attr_setscope(&attr, PTHREAD_SCOPE_SYSTEM) == 0)
+			{
+				if (pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE) == 0) 
+				{
+					res = (pthread_create(&_workThread, &attr, WebSocket::workThreadFunc, static_cast<void *>(this)) == 0);
+				}
+			}
+			pthread_attr_destroy(&attr);
+			return res;
+		}
+		return false;
+	}
+	
 	void WebSocket::connectToServer()
 	{
 		if (!this->isConnected())
 		{
-			int s = 0;
-			pthread_attr_t attr;
-			s = pthread_attr_init(&attr);
-			s = pthread_attr_setscope(&attr, PTHREAD_SCOPE_SYSTEM);
-			s = pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
-			s = pthread_create(&_workThread, &attr, WebSocket::workThreadFunc, static_cast<void *>(this));
-			pthread_attr_destroy(&attr);
+			RE_ASSERT(this->createWorkThread())
 		}
 	}
 	
 	void WebSocket::cleanup()
 	{
+		pthread_mutex_lock(&_mutex);
+		
 		memset(&_info, 0, sizeof(struct lws_context_creation_info));
 		
-		if (_context)
-		{
-			libwebsocket_context_destroy(_context);
-			_context = NULL;
-		}
+		struct libwebsocket_context * context = _context;
+		_context = NULL;
 		_connection = NULL;
-			
-		pthread_mutex_lock(&_writeMutex);
+		
+		if (context) libwebsocket_context_destroy(context);
+		
 		REList<WriteBuffer *>::Iterator i = _writeBuffers.iterator();
 		while (i.next()) 
 		{
@@ -347,29 +331,27 @@ namespace FayeCpp {
 			delete b;
 		}
 		_writeBuffers.clear();
-		pthread_mutex_unlock(&_writeMutex);
 		
 		SAFE_DELETE(_receivedTextBuffer)
 		SAFE_DELETE(_receivedBinaryBuffer)
+		
+		pthread_mutex_unlock(&_mutex);
 	}
 	
 	void WebSocket::disconnectFromServer()
 	{
-		this->setShouldWork(false);
+		pthread_mutex_lock(&_mutex);
+		_isWorking = 0;
+		pthread_mutex_unlock(&_mutex);
 		
 		// wait thread
 		while (_connection || _context) 
 		{
 			usleep(4);
 		}
-		
-		int s = 0;	
-		s = pthread_cancel(_workThread);
-		
+				
 		void * r = NULL;
-		s = pthread_join(_workThread, &r);
-		
-		//this->cancel();
+		pthread_join(_workThread, &r);
 		
 		this->cleanup();
 	}
@@ -434,12 +416,15 @@ namespace FayeCpp {
 	
 	void WebSocket::workMethod()
 	{
-		this->setShouldWork(false);
+		pthread_mutex_lock(&_mutex);
+		_isWorking = 0;
 		
 		_context = this->createWebSocketContext();
 		
 		if (!_context)
 		{
+			pthread_mutex_unlock(&_mutex);
+			
 			this->onError("Socket initialization failed");
 			return;
 		}
@@ -462,75 +447,58 @@ namespace FayeCpp {
 			if (_context) libwebsocket_context_destroy(_context);
 			_context = NULL;
 			
+			pthread_mutex_unlock(&_mutex);
+			
 			this->onError(REString::createWithFormat("Failed to connect to %s:%i", this->host().UTF8String(), this->port()));
 			return;
 		}
 		
 		libwebsocket_callback_on_writable(_context, _connection);
 		
-		this->setShouldWork(true);
+		_isWorking = 1;
+		
+		pthread_mutex_unlock(&_mutex); /// for initialization
 		
 		int n = 0;
-		while (n >= 0 && this->isShouldWork() && _context)
+		while (n >= 0 && _isWorking && _context)
 		{
+			pthread_mutex_lock(&_mutex);
+			
 			n = _context ? libwebsocket_service(_context, 50) : -1;
+			
+			pthread_mutex_unlock(&_mutex);
+			
 			usleep(50);
 		}
 		
 		this->cleanup();
 	}
 	
-	void WebSocket::threadBody()
-	{
-		this->workMethod();
-	}
-	
-	WebSocket::WebSocket(ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * processMethod) : REThread(), Transport(processMethod),
+	WebSocket::WebSocket(ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * processMethod) : /*REThread(),*/ Transport(processMethod),
 		_context(NULL),
 		_connection(NULL),
 		_receivedTextBuffer(NULL),
 		_receivedBinaryBuffer(NULL),
-		_isShouldWork(false)
+		_isWorking(0)
 	{
 		memset(&_info, 0, sizeof(struct lws_context_creation_info));
-
-		pthread_mutexattr_t writeAttr;
 		
-		pthread_mutexattr_init(&writeAttr);
-		pthread_mutexattr_settype(&writeAttr, PTHREAD_MUTEX_RECURSIVE);
-		pthread_mutex_init(&_writeMutex, &writeAttr);
-		pthread_mutexattr_destroy(&writeAttr);
-		
-		pthread_mutexattr_t workAttr;
-		pthread_mutexattr_init(&workAttr);
-		pthread_mutexattr_settype(&workAttr, PTHREAD_MUTEX_RECURSIVE);
-		pthread_mutex_init(&_shouldWorkMutex, &workAttr);
-		pthread_mutexattr_destroy(&workAttr);
-		
-#if defined(HAVE_ASSERT_H)	
-//		assert(_writeMutex);
-		//assert(_shouldWorkMutex);
-#endif
-		
-//		REThread::isMainThread();
+		RE_ASSERT(Transport::initRecursiveMutex(&_mutex))
 	}
 	
 	WebSocket::~WebSocket()
 	{
-		this->setShouldWork(false);
+		_isWorking = 0;
 		
 		/// wait for thread joined
 		while (_connection || _context) 
 		{
 			usleep(4);
 		}
-		
-		this->cancel();
-		
-		pthread_mutex_destroy(&_writeMutex);
-		pthread_mutex_destroy(&_shouldWorkMutex);
 				
 		this->cleanup();
+		
+		pthread_mutex_destroy(&_mutex);
 	}
 	
 	REString WebSocket::transportName() 

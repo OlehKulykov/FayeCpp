@@ -15,7 +15,10 @@
 #include <stdlib.h>
 #include <thread>
 
-FayeCpp::Client * client = NULL;
+class FayeDelegate;
+
+FayeCpp::Client * _client = NULL;
+FayeDelegate * _delegate = NULL;
 
 class FayeDelegate : public FayeCpp::Delegate
 {
@@ -28,7 +31,10 @@ public:
 	virtual void onFayeTransportDisconnected(FayeCpp::Client * client)
 	{
 		FayeCpp::RELog::log("DELEGATE onFayeTransportDisconnected");
-		delete client;
+		
+		delete _client;
+		_client = NULL;
+		
 //		client->connect();
 	}
 	
@@ -116,7 +122,7 @@ using namespace FayeCpp;
 
 - (IBAction) onSendText:(id)sender
 {
-	if (client) 
+	if (_client) 
 	{
 		VariantMap message;
 				
@@ -124,7 +130,7 @@ using namespace FayeCpp;
 		
 		message["text"] = [[_textField stringValue] UTF8String];
 		
-		client->sendMessageToChannel(message, "/seminars/5322e93d8ee60a422400008f");
+		_client->sendMessageToChannel(message, "/seminars/5322e93d8ee60a422400008f");
 	}
 	NSLog(@"Done");
 }
@@ -133,40 +139,39 @@ using namespace FayeCpp;
 {
 	NSLog(@"SSL: %@", FayeCpp::Client::isSupportsSSLConnection() ? @"YES" : @"NO");
 	
-	if (client) 
+	if (_client) 
 	{
-		delete client;
-		client = NULL;
+		delete _client;
+		_client = NULL;
 	}
 	
-	client = new FayeCpp::Client();
-	client->setUsingIPV6(false);
-	client->setUrl("http://messages.presentain.com:80/faye");
-	//client->setUrl("https://localhost:6001/faye");
-	//client->setDelegate(new FayeDelegate());
-//	client->setSSLDataSource(new FayeSSLDataSource());
+	if (_delegate)
+	{
+		delete _delegate;
+		_delegate = NULL;
+	}
+	
+	_delegate = new FayeDelegate();
+	
+	_client = new FayeCpp::Client();
+	_client->setUsingIPV6(false);
+	_client->setUrl("http://messages.presentain.com:80/faye");
+	//_client->setUrl("https://localhost:6001/faye");
+	_client->setDelegate(_delegate);
+//	_client->setSSLDataSource(new FayeSSLDataSource());
 	NSLog(@"Done");
 }
 
 - (IBAction) onConnect:(id)sender
 {
-	client->connect();
-	client->subscribeToChannel("/seminars/5322e93d8ee60a422400008f");
-	client->subscribeToChannel("/seminars_service/5322e93d8ee60a422400008f");
+	_client->connect();
+	_client->subscribeToChannel("/seminars/5322e93d8ee60a422400008f");
+	_client->subscribeToChannel("/seminars_service/5322e93d8ee60a422400008f");
 	NSLog(@"Done");
-}
-
-static void doSomeWork(void)
-{
-	
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {	
-	
-	std::thread t(doSomeWork);
-	t.join();
-	
 	// Insert code here to initialize your application
 }
 

@@ -54,13 +54,11 @@
 		3D0831071987CB4E0038CD79 /* REBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830ED1987CB4E0038CD79 /* REBuffer.cpp */; };
 		3D0831081987CB4E0038CD79 /* REBufferNoCopy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830EE1987CB4E0038CD79 /* REBufferNoCopy.cpp */; };
 		3D0831091987CB4E0038CD79 /* REMutableString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830EF1987CB4E0038CD79 /* REMutableString.cpp */; };
-		3D08310A1987CB4E0038CD79 /* REMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830F11987CB4E0038CD79 /* REMutex.cpp */; };
 		3D08310B1987CB4E0038CD79 /* REStaticString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830F21987CB4E0038CD79 /* REStaticString.cpp */; };
 		3D08310C1987CB4E0038CD79 /* REString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830F31987CB4E0038CD79 /* REString.cpp */; };
 		3D08310D1987CB4E0038CD79 /* REStringBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830F41987CB4E0038CD79 /* REStringBase.cpp */; };
 		3D08310E1987CB4E0038CD79 /* REStringList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830F51987CB4E0038CD79 /* REStringList.cpp */; };
 		3D08310F1987CB4E0038CD79 /* REStringUtilsPrivate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830F61987CB4E0038CD79 /* REStringUtilsPrivate.cpp */; };
-		3D0831101987CB4E0038CD79 /* REThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830F81987CB4E0038CD79 /* REThread.cpp */; };
 		3D0831111987CB4E0038CD79 /* REWideString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830FA1987CB4E0038CD79 /* REWideString.cpp */; };
 		3D0831121987CB4E0038CD79 /* transport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830FC1987CB4E0038CD79 /* transport.cpp */; };
 		3D0831131987CB4E0038CD79 /* variant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830FD1987CB4E0038CD79 /* variant.cpp */; };
@@ -148,16 +146,12 @@
 		3D0830ED1987CB4E0038CD79 /* REBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REBuffer.cpp; path = ../../../../src/REBuffer.cpp; sourceTree = "<group>"; };
 		3D0830EE1987CB4E0038CD79 /* REBufferNoCopy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REBufferNoCopy.cpp; path = ../../../../src/REBufferNoCopy.cpp; sourceTree = "<group>"; };
 		3D0830EF1987CB4E0038CD79 /* REMutableString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REMutableString.cpp; path = ../../../../src/REMutableString.cpp; sourceTree = "<group>"; };
-		3D0830F01987CB4E0038CD79 /* REMutex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = REMutex.h; path = ../../../../src/REMutex.h; sourceTree = "<group>"; };
-		3D0830F11987CB4E0038CD79 /* REMutex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REMutex.cpp; path = ../../../../src/REMutex.cpp; sourceTree = "<group>"; };
 		3D0830F21987CB4E0038CD79 /* REStaticString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REStaticString.cpp; path = ../../../../src/REStaticString.cpp; sourceTree = "<group>"; };
 		3D0830F31987CB4E0038CD79 /* REString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REString.cpp; path = ../../../../src/REString.cpp; sourceTree = "<group>"; };
 		3D0830F41987CB4E0038CD79 /* REStringBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REStringBase.cpp; path = ../../../../src/REStringBase.cpp; sourceTree = "<group>"; };
 		3D0830F51987CB4E0038CD79 /* REStringList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REStringList.cpp; path = ../../../../src/REStringList.cpp; sourceTree = "<group>"; };
 		3D0830F61987CB4E0038CD79 /* REStringUtilsPrivate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REStringUtilsPrivate.cpp; path = ../../../../src/REStringUtilsPrivate.cpp; sourceTree = "<group>"; };
 		3D0830F71987CB4E0038CD79 /* REStringUtilsPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = REStringUtilsPrivate.h; path = ../../../../src/REStringUtilsPrivate.h; sourceTree = "<group>"; };
-		3D0830F81987CB4E0038CD79 /* REThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REThread.cpp; path = ../../../../src/REThread.cpp; sourceTree = "<group>"; };
-		3D0830F91987CB4E0038CD79 /* REThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = REThread.h; path = ../../../../src/REThread.h; sourceTree = "<group>"; };
 		3D0830FA1987CB4E0038CD79 /* REWideString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REWideString.cpp; path = ../../../../src/REWideString.cpp; sourceTree = "<group>"; };
 		3D0830FB1987CB4E0038CD79 /* transport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = transport.h; path = ../../../../src/transport.h; sourceTree = "<group>"; };
 		3D0830FC1987CB4E0038CD79 /* transport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = transport.cpp; path = ../../../../src/transport.cpp; sourceTree = "<group>"; };
@@ -361,16 +355,12 @@
 				3D0830ED1987CB4E0038CD79 /* REBuffer.cpp */,
 				3D0830EE1987CB4E0038CD79 /* REBufferNoCopy.cpp */,
 				3D0830EF1987CB4E0038CD79 /* REMutableString.cpp */,
-				3D0830F01987CB4E0038CD79 /* REMutex.h */,
-				3D0830F11987CB4E0038CD79 /* REMutex.cpp */,
 				3D0830F21987CB4E0038CD79 /* REStaticString.cpp */,
 				3D0830F31987CB4E0038CD79 /* REString.cpp */,
 				3D0830F41987CB4E0038CD79 /* REStringBase.cpp */,
 				3D0830F51987CB4E0038CD79 /* REStringList.cpp */,
 				3D0830F61987CB4E0038CD79 /* REStringUtilsPrivate.cpp */,
 				3D0830F71987CB4E0038CD79 /* REStringUtilsPrivate.h */,
-				3D0830F91987CB4E0038CD79 /* REThread.h */,
-				3D0830F81987CB4E0038CD79 /* REThread.cpp */,
 				3D0830FA1987CB4E0038CD79 /* REWideString.cpp */,
 				3D0830FB1987CB4E0038CD79 /* transport.h */,
 				3D0830FC1987CB4E0038CD79 /* transport.cpp */,
@@ -506,7 +496,6 @@
 				3D0831111987CB4E0038CD79 /* REWideString.cpp in Sources */,
 				3D0831081987CB4E0038CD79 /* REBufferNoCopy.cpp in Sources */,
 				3D0830E31987CB2D0038CD79 /* value.c in Sources */,
-				3D0831101987CB4E0038CD79 /* REThread.cpp in Sources */,
 				3D0831021987CB4E0038CD79 /* RELog.cpp in Sources */,
 				3D0831061987CB4E0038CD79 /* message.cpp in Sources */,
 				3D0830BE1987CB160038CD79 /* client-parser.c in Sources */,
@@ -529,7 +518,6 @@
 				3D0830C51987CB160038CD79 /* handshake.c in Sources */,
 				3D0831151987CB4E0038CD79 /* variantmap.cpp in Sources */,
 				3D0830BC1987CB160038CD79 /* base64-decode.c in Sources */,
-				3D08310A1987CB4E0038CD79 /* REMutex.cpp in Sources */,
 				3D0831251987CDE30038CD79 /* server-handshake.c in Sources */,
 				3D0830C01987CB160038CD79 /* context.c in Sources */,
 				3D0831041987CB4E0038CD79 /* client.cpp in Sources */,
