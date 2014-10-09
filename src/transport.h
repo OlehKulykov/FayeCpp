@@ -64,8 +64,10 @@ namespace FayeCpp {
 	protected:
 #if defined(HAVE_PTHREAD_H)
 		static bool initRecursiveMutex(pthread_mutex_t * mutex);
+        static bool isInTheThread(pthread_t thread);
 #elif defined(__RE_USING_WINDOWS_THREADS__)
         static bool initRecursiveMutex(LPCRITICAL_SECTION mutex);
+        static bool isInTheThread(HANDLE thread);
 #endif	
 		
 #if defined(USE_TRANSPORT_MESSENGER)

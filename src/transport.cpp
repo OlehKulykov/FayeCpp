@@ -210,6 +210,8 @@ namespace FayeCpp {
 	
 	void Transport::Messenger::stopWorking()
 	{
+        //DWORD WINAPI GetCurrentThreadId(void);
+        //DWORD WINAPI GetThreadId
 #if defined(HAVE_PTHREAD_H)			
 		pthread_mutex_lock(&_mutex);
         _isWorking = _isSuspended = false;
@@ -272,7 +274,6 @@ namespace FayeCpp {
 	}
 #endif 
 	
-	
 #if defined(HAVE_PTHREAD_H)	
 	bool Transport::initRecursiveMutex(pthread_mutex_t * mutex)
 	{
@@ -289,12 +290,21 @@ namespace FayeCpp {
 		}
 		return false;
 	}
+    bool Transport::isInTheThread(pthread_t thread)
+    {
+        error;
+    }
 #elif defined(__RE_USING_WINDOWS_THREADS__)
 	bool Transport::initRecursiveMutex(LPCRITICAL_SECTION mutex)
 	{
 		InitializeCriticalSection(mutex);
 		return true;
 	}
+
+    bool Transport::isInTheThread(HANDLE thread)
+     {
+
+     }
 #endif
 	
 	bool Transport::isUsingIPV6() const
