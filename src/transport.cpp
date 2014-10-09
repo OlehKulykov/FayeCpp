@@ -191,8 +191,6 @@ namespace FayeCpp {
 		return false;
 	}
 	
-	
-	
 	Transport::Messenger::Messenger(ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * processMethod) :
 #if defined(__RE_USING_WINDOWS_THREADS__)
 		_thread(NULL),
