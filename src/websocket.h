@@ -80,7 +80,6 @@ namespace FayeCpp {
 		void unLockMutex();
 		
 		bool createWorkThread();
-		void deleteWorkThread();
 		
 		#define MAX_ECHO_PAYLOAD 4096
 		typedef struct echoSessionData
