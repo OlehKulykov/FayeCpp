@@ -265,6 +265,14 @@
 #cmakedefine HAVE_FUNCTION_PTHREAD_CANCEL @HAVE_FUNCTION_PTHREAD_CANCEL@
 
 
+/* pthread_setname_np */
+#cmakedefine HAVE_FUNCTION_PTHREAD_SETNAME_NP
+ 
+ 
+/* pthread_set_name_np */
+#cmakedefine HAVE_FUNCTION_PTHREAD_SET_NAME_NP
+
+
 /* _stat */
 #cmakedefine HAVE_FUNCTION__STAT @HAVE_FUNCTION__STAT@ 
 

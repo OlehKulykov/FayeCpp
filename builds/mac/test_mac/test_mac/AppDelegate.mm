@@ -34,6 +34,8 @@ public:
 		
 		NSLog(@"Try reconnect.");
 		client->connect();
+		client->subscribeToChannel("/seminars/5322e93d8ee60a422400008f");
+		client->subscribeToChannel("/seminars_service/5322e93d8ee60a422400008f");
 		NSLog(@"Done reconnect.");
 	}
 	
@@ -153,6 +155,7 @@ using namespace FayeCpp;
 	_delegate = new FayeDelegate();
 	
 	_client = new FayeCpp::Client();
+	
 	_client->setUsingIPV6(false);
 	_client->setUrl("http://messages.presentain.com:80/faye");
 	//_client->setUrl("https://localhost:6001/faye");

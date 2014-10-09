@@ -265,6 +265,14 @@
 #define HAVE_FUNCTION_PTHREAD_CANCEL 1
 
 
+/* pthread_setname_np */
+#define HAVE_FUNCTION_PTHREAD_SETNAME_NP
+ 
+ 
+/* pthread_set_name_np */
+/* #undef HAVE_FUNCTION_PTHREAD_SET_NAME_NP */
+
+
 /* _stat */
 /* #undef HAVE_FUNCTION__STAT */
 

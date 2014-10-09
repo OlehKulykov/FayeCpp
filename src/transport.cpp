@@ -40,6 +40,9 @@ namespace FayeCpp {
 #if defined(HAVE_PTHREAD_H)		
 	void * Transport::Messenger::workThreadFunc(void * somePointer)
 	{
+#if defined(HAVE_FUNCTION_PTHREAD_SETNAME_NP) && defined(__APPLE__)
+		pthread_setname_np("FayeCpp Transport Messenger workThread");
+#endif		
 		Transport::Messenger * messenger = static_cast<Transport::Messenger *>(somePointer);
 		
 		while (messenger->_isWorking)
@@ -175,6 +178,13 @@ namespace FayeCpp {
 				if (pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE) == 0)
 				{
 					res = (pthread_create(&_thread, &attr, Transport::Messenger::workThreadFunc, static_cast<void *>(this)) == 0);
+#if !defined(__APPLE__)
+#if defined(HAVE_FUNCTION_PTHREAD_SETNAME_NP)
+					if (res) pthread_setname_np(_thread, "FayeCpp Transport Messenger workThread");
+#elif defined(HAVE_FUNCTION_PTHREAD_SET_NAME_NP)
+					if (res) pthread_set_name_np(_thread, "FayeCpp Transport Messenger workThread");
+#endif				
+#endif	
 				}
 			}
 			pthread_attr_destroy(&attr);

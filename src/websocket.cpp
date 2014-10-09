@@ -271,6 +271,9 @@ namespace FayeCpp {
 #if defined(HAVE_PTHREAD_H)		
 	void * WebSocket::workThreadFunc(void * somePointer)
 	{
+#if defined(HAVE_FUNCTION_PTHREAD_SETNAME_NP) && defined(__APPLE__)		
+		pthread_setname_np("FayeCpp WebSocket workThread");
+#endif		
 		WebSocket * socket = static_cast<WebSocket *>(somePointer);
 		socket->workMethod();
 		return NULL;
@@ -299,6 +302,13 @@ namespace FayeCpp {
 				{
 					memset(_workThread, 0, sizeof(pthread_t));
 					res = (pthread_create(_workThread, &attr, WebSocket::workThreadFunc, static_cast<void *>(this)) == 0);
+#if !defined(__APPLE__)
+#if defined(HAVE_FUNCTION_PTHREAD_SETNAME_NP)
+					if (res) pthread_setname_np(*_workThread, "FayeCpp WebSocket workThread");
+#elif defined(HAVE_FUNCTION_PTHREAD_SET_NAME_NP)
+					if (res) pthread_set_name_np(*_workThread, "FayeCpp WebSocket workThread");
+#endif				
+#endif	
 				}
 			}
 			pthread_attr_destroy(&attr);
