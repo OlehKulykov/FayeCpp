@@ -212,8 +212,7 @@ namespace FayeCpp {
 	{
 #if defined(HAVE_PTHREAD_H)			
 		pthread_mutex_lock(&_mutex);
-		_isWorking = false;
-		_isSuspended = false;
+        _isWorking = _isSuspended = false;
 		pthread_cond_signal(&_conditionVariable);
 		pthread_mutex_unlock(&_mutex);
 		
@@ -221,9 +220,21 @@ namespace FayeCpp {
 		pthread_join(_thread, &r);
 #elif (__RE_USING_WINDOWS_THREADS__)
 		TryEnterCriticalSection(&_mutex);
-		_isWorking = false;
-		_isSuspended = false;
+        _isWorking = _isSuspended = false;
+        WakeConditionVariable(&_conditionVariable);
 		LeaveCriticalSection(&_mutex);
+
+        DWORD dwExitCode = 0;
+        do {
+            if (GetExitCodeThread(_thread, &dwExitCode) == 0) break; // fail
+        } while (dwExitCode == STILL_ACTIVE);
+        if (dwExitCode == STILL_ACTIVE) TerminateThread(_thread, 0);
+        CloseHandle(_thread);
+        _thread = NULL;
+#endif
+
+#ifdef FAYECPP_DEBUG_MESSAGES
+        RELog::log("MESSENGER STOPED.");
 #endif
 	}
 	
@@ -252,18 +263,7 @@ namespace FayeCpp {
 		}
 		_responces.clear();
 		LeaveCriticalSection(&_mutex);
-		DeleteCriticalSection(&_mutex);
-		
-		bool isAlive = false;
-		DWORD dwExitCode = 0;
-		if (GetExitCodeThread(_thread, &dwExitCode))
-		{
-			// if return code is STILL_ACTIVE,
-			// then thread is live.
-			isAlive = (dwExitCode == STILL_ACTIVE);
-		}
-		if (isAlive) TerminateThread(_thread, 0);
-		CloseHandle(_thread);
+        DeleteCriticalSection(&_mutex);
 #endif 
 		
 #ifdef FAYECPP_DEBUG_MESSAGES		
@@ -655,14 +655,14 @@ namespace FayeCpp {
 #if defined(HAVE_UNISTD_H)
 		usleep(microseconds);
 #elif defined(__RE_OS_WINDOWS__)
-		LARGE_INTEGER time1, time2, sysFreq;
-		QueryPerformanceCounter(&time1);
-		QueryPerformanceFrequency(&sysFreq);
-		do
-		{
-			QueryPerformanceCounter(&time2);
-		}
-		while((time2.QuadPart - time1.QuadPart) < microseconds);
+        LARGE_INTEGER time1, time2, sysFreq;
+        QueryPerformanceCounter(&time1);
+        QueryPerformanceFrequency(&sysFreq);
+        do
+        {
+            QueryPerformanceCounter(&time2);
+        }
+        while((time2.QuadPart - time1.QuadPart) < microseconds);
 #endif	
 	}
 }

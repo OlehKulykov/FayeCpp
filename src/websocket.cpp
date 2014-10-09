@@ -349,21 +349,22 @@ namespace FayeCpp {
 		this->lockMutex();
 		_isWorking = 0;
 		this->unLockMutex();
-		
-		// wait thread
-		while (_connection || _context) 
-		{
-			Transport::USleep(4);
-		}
-		
+			
 #if defined(HAVE_PTHREAD_H)	
+        // wait thread
+        while (_connection || _context)
+        {
+            Transport::USleep(4);
+        }
+
 		void * r = NULL;
 		pthread_join(_workThread, &r);
 #elif defined(__RE_USING_WINDOWS_THREADS__)
-		bool isAlive = false;
-		DWORD dwExitCode = 0;
-		if (GetExitCodeThread(_workThread, &dwExitCode)) isAlive = (dwExitCode == STILL_ACTIVE);
-		if (isAlive) TerminateThread(_workThread, 0);
+        DWORD dwExitCode = 0;
+        do {
+            if (GetExitCodeThread(_workThread, &dwExitCode) == 0) break; // fail
+        } while (dwExitCode == STILL_ACTIVE);
+        if (dwExitCode == STILL_ACTIVE) TerminateThread(_workThread, 0);
 		CloseHandle(_workThread);
 		_workThread = NULL;
 #endif	
