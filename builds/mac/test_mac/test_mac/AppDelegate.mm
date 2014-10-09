@@ -32,8 +32,8 @@ public:
 	{
 		FayeCpp::RELog::log("DELEGATE onFayeTransportDisconnected");
 		
-		delete _client;
-		_client = NULL;
+//		delete _client;
+//		_client = NULL;
 		
 //		client->connect();
 	}

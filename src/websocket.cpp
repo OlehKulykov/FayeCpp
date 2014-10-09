@@ -139,7 +139,7 @@ namespace FayeCpp {
 		RELog::log("CALLBACK CONNECTION DESTROYED");
 #endif	
 		
-		_isWorking = 0;
+		this->deleteWorkThread();
 		
 		this->cleanup();
 		
@@ -310,6 +310,28 @@ namespace FayeCpp {
 		return false;
 	}
 	
+	void WebSocket::deleteWorkThread()
+	{
+		_isWorking = 0;
+		
+#if defined(HAVE_PTHREAD_H)	
+		void * r = NULL;
+		pthread_join(_workThread, &r);
+#elif defined(__RE_USING_WINDOWS_THREADS__)
+		HANDLE wThread = _workThread; 
+		_workThread = NULL;
+		if (wThread) 
+		{
+			DWORD dwExitCode = 0;
+			do {
+				if (GetExitCodeThread(wThread, &dwExitCode) == 0) break; // fail
+			} while (dwExitCode == STILL_ACTIVE);
+			if (dwExitCode == STILL_ACTIVE) TerminateThread(wThread, 0);
+			CloseHandle(wThread);
+		}
+#endif
+	}
+	
 	void WebSocket::connectToServer()
 	{
 		if (!this->isConnected())
@@ -349,20 +371,9 @@ namespace FayeCpp {
 		this->lockMutex();
 		_isWorking = 0;
 		this->unLockMutex();
-			
-#if defined(HAVE_PTHREAD_H)	
-		void * r = NULL;
-		pthread_join(_workThread, &r);
-#elif defined(__RE_USING_WINDOWS_THREADS__)
-        DWORD dwExitCode = 0;
-        do {
-            if (GetExitCodeThread(_workThread, &dwExitCode) == 0) break; // fail
-        } while (dwExitCode == STILL_ACTIVE);
-        if (dwExitCode == STILL_ACTIVE) TerminateThread(_workThread, 0);
-		CloseHandle(_workThread);
-		_workThread = NULL;
-#endif	
 		
+		this->deleteWorkThread();
+				
 		this->cleanup();
 	}
 	
