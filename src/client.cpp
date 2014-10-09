@@ -609,6 +609,14 @@ namespace FayeCpp {
 		
 		if (_transport) 
 		{
+			if (!_transport->isMainThread()) 
+			{
+				RELog::log("FyeCpp client error: you are trying to delete client transport not in the same thread that was created!");
+#if defined(HAVE_ASSERT_H) 	
+				assert(0);
+#endif	
+			}
+			
 			_transport->disconnectFromServer();
 			delete _transport;
 			_transport = NULL;

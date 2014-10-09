@@ -64,10 +64,8 @@ namespace FayeCpp {
 	protected:
 #if defined(HAVE_PTHREAD_H)
 		static bool initRecursiveMutex(pthread_mutex_t * mutex);
-        static bool isInTheThread(pthread_t thread);
 #elif defined(__RE_USING_WINDOWS_THREADS__)
         static bool initRecursiveMutex(LPCRITICAL_SECTION mutex);
-        static bool isInTheThread(HANDLE thread);
 #endif	
 		
 #if defined(USE_TRANSPORT_MESSENGER)
@@ -119,6 +117,9 @@ namespace FayeCpp {
 		REString _url;
 		REString _host;
 		REString _path;
+#if defined(HAVE_PTHREAD_H)
+		pthread_t _mainThread;
+#endif
 		ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * _processMethod;
 #if defined(USE_TRANSPORT_MESSENGER)
 		Transport::Messenger * _messenger;
@@ -126,6 +127,9 @@ namespace FayeCpp {
 		Advice _advice;
 		RETimeInterval _lastSendTime;
 		int _port;
+#if defined(__RE_USING_WINDOWS_THREADS__)
+		DWORD _mainThreadID;
+#endif
 		bool _isUseSSL;
 		bool _isConnected;
 		
@@ -150,6 +154,7 @@ namespace FayeCpp {
 		void updateLastSendTime();
 		
 	public:
+		bool isMainThread() const;
 		RETimeInterval lastSendTime() const { return _lastSendTime; }
 		void receivedAdvice(const VariantMap & advice);
 		bool isConnected() const;

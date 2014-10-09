@@ -210,8 +210,6 @@ namespace FayeCpp {
 	
 	void Transport::Messenger::stopWorking()
 	{
-        //DWORD WINAPI GetCurrentThreadId(void);
-        //DWORD WINAPI GetThreadId
 #if defined(HAVE_PTHREAD_H)			
 		pthread_mutex_lock(&_mutex);
         _isWorking = _isSuspended = false;
@@ -290,21 +288,13 @@ namespace FayeCpp {
 		}
 		return false;
 	}
-    bool Transport::isInTheThread(pthread_t thread)
-    {
-        error;
-    }
+	
 #elif defined(__RE_USING_WINDOWS_THREADS__)
 	bool Transport::initRecursiveMutex(LPCRITICAL_SECTION mutex)
 	{
 		InitializeCriticalSection(mutex);
 		return true;
 	}
-
-    bool Transport::isInTheThread(HANDLE thread)
-     {
-
-     }
 #endif
 	
 	bool Transport::isUsingIPV6() const
@@ -577,14 +567,17 @@ namespace FayeCpp {
 	}
 	
 	Transport::Transport(ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * processMethod) :
-	_processMethod(processMethod),
+		_processMethod(processMethod),
 #if defined(USE_TRANSPORT_MESSENGER)
-	_messenger(new Transport::Messenger(processMethod)),
+		_messenger(new Transport::Messenger(processMethod)),
 #endif
-	_lastSendTime(RETime::time()),
-	_port(-1),
-	_isUseSSL(false),
-	_isConnected(false)
+		_lastSendTime(RETime::time()),
+		_port(-1),
+#if defined(__RE_USING_WINDOWS_THREADS__)
+		_mainThreadID(GetCurrentThreadId()),
+#endif
+		_isUseSSL(false),
+		_isConnected(false)
 	{
 #if defined(HAVE_ASSERT_H) 
 		assert(_processMethod);
@@ -594,13 +587,28 @@ namespace FayeCpp {
 #endif		
 #endif		
 		
+#if defined(HAVE_PTHREAD_H)
+		_mainThread = pthread_self();
+#endif
+		
 		_advice.reconnect = ADVICE_RECONNECT_NONE;
 		_advice.timeout = _advice.interval = -1;
 	}
 	
+	bool Transport::isMainThread() const
+	{
+#if defined(HAVE_PTHREAD_H)
+		return (pthread_equal(_mainThread, pthread_self()) != 0);
+#elif defined(__RE_USING_WINDOWS_THREADS__)	
+		return (_mainThreadID == GetCurrentThreadId());
+#else
+		return true;
+#endif	
+	}
+	
 	Transport::~Transport()
 	{
-#if defined(USE_TRANSPORT_MESSENGER)			
+#if defined(USE_TRANSPORT_MESSENGER) 
 		_messenger->stopWorking();
 		delete _messenger;
 #endif		

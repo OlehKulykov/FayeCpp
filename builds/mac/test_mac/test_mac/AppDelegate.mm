@@ -32,10 +32,7 @@ public:
 	{
 		FayeCpp::RELog::log("DELEGATE onFayeTransportDisconnected");
 		
-//		delete _client;
-//		_client = NULL;
-		
-//		client->connect();
+		client->connect();
 	}
 	
 	virtual void onFayeClientConnected(FayeCpp::Client * client)
