@@ -411,7 +411,7 @@ namespace FayeCpp {
 		return NULL;
 	}
 	
-	struct libwebsocket_context * WebSocket::createWebSocketContext()
+	struct libwebsocket_context * WebSocket::createWebSocketContext(WebSocket * webSocket)
 	{
 		struct lws_context_creation_info info;
 		memset(&info, 0, sizeof(struct lws_context_creation_info));
@@ -425,11 +425,11 @@ namespace FayeCpp {
 		
 		info.gid = -1;
 		info.uid = -1;
-		info.options = this->isUsingIPV6() ? 0 : LWS_SERVER_OPTION_DISABLE_IPV6;
+		info.options = webSocket->isUsingIPV6() ? 0 : LWS_SERVER_OPTION_DISABLE_IPV6;
 		
-		info.user = static_cast<WebSocket *>(this);
+		info.user = static_cast<WebSocket *>(webSocket);
 		
-		SSLDataSource * dataSource = this->sslDataSource();
+		SSLDataSource * dataSource = webSocket->sslDataSource();
 		if (dataSource) 
 		{
 			info.ssl_cert_filepath = WebSocket::copyUTF8(dataSource->clientLocalCertificateFilePath());
@@ -476,7 +476,7 @@ namespace FayeCpp {
 		
 		_isWorking = 0;
 		
-		_context = this->createWebSocketContext();
+		_context = WebSocket::createWebSocketContext(this);
 		
 		if (!_context)
 		{
@@ -534,7 +534,7 @@ namespace FayeCpp {
 #endif
 			
 #if defined(HAVE_UNISTD_H)			
-            usleep(100);   /// 1s = 1'000'000 microsec.
+            usleep(50);   /// 1s = 1'000'000 microsec.
 #elif defined(__RE_USING_WINDOWS_THREADS__)
             Sleep(1);     /// 1s = 1'000 millisec.
 #endif	
