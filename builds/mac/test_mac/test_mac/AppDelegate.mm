@@ -32,7 +32,9 @@ public:
 	{
 		FayeCpp::RELog::log("DELEGATE onFayeTransportDisconnected");
 		
+		NSLog(@"Try reconnect.");
 		client->connect();
+		NSLog(@"Done reconnect.");
 	}
 	
 	virtual void onFayeClientConnected(FayeCpp::Client * client)

@@ -61,7 +61,7 @@ namespace FayeCpp {
 			pthread_mutex_unlock(&messenger->_mutex);
 		}
 		
-		return somePointer;
+		return NULL;
 	}
 	
 	bool Transport::Messenger::initConditionVariable(pthread_cond_t * conditionVariable)

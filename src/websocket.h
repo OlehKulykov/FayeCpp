@@ -55,8 +55,8 @@ namespace FayeCpp {
 		struct lws_context_creation_info _info;
 		
 #if defined(HAVE_PTHREAD_H)	
-		pthread_t _workThread;
 		pthread_mutex_t _mutex;
+		pthread_t * _workThread;
 #elif defined(__RE_USING_WINDOWS_THREADS__)
         HANDLE _workThread;
         CRITICAL_SECTION _mutex;
@@ -80,6 +80,7 @@ namespace FayeCpp {
 		void unLockMutex();
 		
 		bool createWorkThread();
+		void deleteWorkThread();
 		
 		#define MAX_ECHO_PAYLOAD 4096
 		typedef struct echoSessionData
@@ -111,7 +112,7 @@ namespace FayeCpp {
 		static const char * copyUTF8(const REString & from);
 		struct libwebsocket_context * createWebSocketContext();
 		
-	public:		
+	public:
 		virtual const REString name() const;
 		
 		virtual void sendData(const unsigned char * data, const REUInt32 dataSize);		
@@ -119,6 +120,7 @@ namespace FayeCpp {
 		
 		virtual void connectToServer();
 		virtual void disconnectFromServer();
+		
 		WebSocket(ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * processMethod);
 		virtual ~WebSocket();
 		
