@@ -108,6 +108,12 @@ namespace FayeCpp {
 #endif
 		_isDisconnecting = false;
 		_isFayeConnected = false;
+		
+		_clientId.clear();
+		_subscribedChannels.clear();
+		_pendingSubscriptions.clear();
+		_supportedConnectionTypes.clear();
+		
 		if (_delegate) _delegate->onFayeTransportDisconnected(this);
 	}
 	
