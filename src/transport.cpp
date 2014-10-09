@@ -650,19 +650,4 @@ namespace FayeCpp {
 		return false;
 	}
 	
-	void Transport::USleep(REUInt32 microseconds)
-	{
-#if defined(HAVE_UNISTD_H)
-		usleep(microseconds);
-#elif defined(__RE_OS_WINDOWS__)
-        LARGE_INTEGER time1, time2, sysFreq;
-        QueryPerformanceCounter(&time1);
-        QueryPerformanceFrequency(&sysFreq);
-        do
-        {
-            QueryPerformanceCounter(&time2);
-        }
-        while((time2.QuadPart - time1.QuadPart) < microseconds);
-#endif	
-	}
 }

@@ -351,12 +351,6 @@ namespace FayeCpp {
 		this->unLockMutex();
 			
 #if defined(HAVE_PTHREAD_H)	
-        // wait thread
-        while (_connection || _context)
-        {
-            Transport::USleep(4);
-        }
-
 		void * r = NULL;
 		pthread_join(_workThread, &r);
 #elif defined(__RE_USING_WINDOWS_THREADS__)
@@ -512,7 +506,7 @@ namespace FayeCpp {
 #endif
 			
 #if defined(HAVE_UNISTD_H)			
-            usleep(50);   /// 1s = 1'000'000 microsec.
+            usleep(100);   /// 1s = 1'000'000 microsec.
 #elif defined(__RE_USING_WINDOWS_THREADS__)
             Sleep(1);     /// 1s = 1'000 millisec.
 #endif	
@@ -539,12 +533,6 @@ namespace FayeCpp {
 	WebSocket::~WebSocket()
 	{
 		_isWorking = 0;
-		
-//		/// wait for thread joined
-//		while (_connection || _context)
-//		{
-//			Transport::USleep(4);
-//		}
 		
 		this->cleanup();
 		
