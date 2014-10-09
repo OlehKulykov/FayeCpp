@@ -171,7 +171,7 @@ namespace FayeCpp {
         if (json)
         {
 			JsonGenerator::addMapToJson(message, json);
-            jsonString = json_dumps(json, 0);
+            jsonString = json_dumps(json, JSON_COMPACT);
             json_decref(json);
         }
         return jsonString;
@@ -183,7 +183,7 @@ namespace FayeCpp {
         json_t * json = JsonGenerator::jsonObjectFromList(message);
         if (json)
         {
-            jsonString = json_dumps(json, 0);
+            jsonString = json_dumps(json, JSON_COMPACT);
             json_decref(json);
         }
         return jsonString;
