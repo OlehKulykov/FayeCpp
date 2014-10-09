@@ -154,7 +154,7 @@ namespace FayeCpp {
 		TryEnterCriticalSection(&_mutex);
 		_responces.add(responce);
 		_isSuspended = false;
-		WakeAllConditionVariable(&_conditionVariable);
+        WakeConditionVariable(&_conditionVariable);
 		LeaveCriticalSection(&_mutex);
 #endif	
 		
@@ -181,12 +181,7 @@ namespace FayeCpp {
 			return res;
 		}
 #elif defined(__RE_USING_WINDOWS_THREADS__)
-		HANDLE hThread = CreateThread(NULL,
-									  0,
-									  Transport::Messenger::workThreadFunc,
-									  static_cast<LPVOID>(this),
-									  0,
-									  NULL);
+        HANDLE hThread = CreateThread(NULL, 0, Transport::Messenger::workThreadFunc, static_cast<LPVOID>(this), 0, NULL);
 		if (hThread)
 		{
 			_thread = hThread;

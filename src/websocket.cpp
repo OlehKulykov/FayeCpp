@@ -300,12 +300,7 @@ namespace FayeCpp {
 			return res;
 		}
 #elif defined(__RE_USING_WINDOWS_THREADS__)
-		HANDLE hThread = CreateThread(NULL,
-									  0,
-									  WebSocket::workThreadFunc,
-									  static_cast<LPVOID>(this),
-									  0,
-									  NULL);
+        HANDLE hThread = CreateThread(NULL, 0, WebSocket::workThreadFunc, static_cast<LPVOID>(this), 0, NULL);
 		if (hThread)
 		{
 			_workThread = hThread;
@@ -557,6 +552,7 @@ namespace FayeCpp {
 #elif defined(__RE_USING_WINDOWS_THREADS__)
 		DeleteCriticalSection(&_mutex);
 #endif	
+
 	}
 	
 	REString WebSocket::transportName() 
