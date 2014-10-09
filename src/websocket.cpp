@@ -23,14 +23,6 @@
 
 #include "websocket.h"
 
-#if defined(HAVE_FAYECPP_CONFIG_H)
-#include "fayecpp_config.h"
-#endif
-
-#if defined(HAVE_FAYECPP_CONFIG_H)
-#include "fayecpp_config.h"
-#endif
-
 #if !defined(HAVE_SUITABLE_QT_VERSION) && defined(HAVE_LIBWEBSOCKETS_H)
 
 #include <stdio.h>
@@ -347,7 +339,7 @@ namespace FayeCpp {
 		// wait thread
 		while (_connection || _context) 
 		{
-			usleep(4);
+			Transport::USleep(4);
 		}
 		
 #if defined(HAVE_PTHREAD_H)	
@@ -487,6 +479,9 @@ namespace FayeCpp {
 	
 #if defined(HAVE_PTHREAD_H)	
 			pthread_mutex_unlock(&_mutex);
+#endif
+
+#if defined(HAVE_UNISTD_H)			
 			usleep(50);
 #endif	
 		}
@@ -513,7 +508,7 @@ namespace FayeCpp {
 		/// wait for thread joined
 		while (_connection || _context) 
 		{
-			usleep(4);
+			Transport::USleep(4);
 		}
 				
 		this->cleanup();

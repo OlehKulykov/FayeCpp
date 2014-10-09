@@ -170,6 +170,7 @@ namespace FayeCpp {
         static REStringList availableConnectionTypes();
 		static bool isSupportsIPV6();
 		static bool isSupportsSSLConnection();
+		static void USleep(REUInt32 microseconds);
 	};
 	
 }
