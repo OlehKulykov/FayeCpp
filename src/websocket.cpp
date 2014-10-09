@@ -512,9 +512,9 @@ namespace FayeCpp {
 #endif
 			
 #if defined(HAVE_UNISTD_H)			
-			usleep(50);
+            usleep(50);   /// 1s = 1'000'000 microsec.
 #elif defined(__RE_USING_WINDOWS_THREADS__)
-			Transport::USleep(50);
+            Sleep(1);     /// 1s = 1'000 millisec.
 #endif	
 		}
 		
@@ -540,11 +540,11 @@ namespace FayeCpp {
 	{
 		_isWorking = 0;
 		
-		/// wait for thread joined
-		while (_connection || _context) 
-		{
-			Transport::USleep(4);
-		}
+//		/// wait for thread joined
+//		while (_connection || _context)
+//		{
+//			Transport::USleep(4);
+//		}
 		
 		this->cleanup();
 		
