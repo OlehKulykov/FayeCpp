@@ -40,6 +40,10 @@
 #define LOG_TAG "RECore"
 #endif
 
+#if defined(HAVE_QT)
+#include <QDebug>
+#endif
+
 namespace FayeCpp {
 	
 	void RELog::log(const char * logString, ...)
@@ -66,10 +70,14 @@ namespace FayeCpp {
 		{
 #if defined(HAVE_ANDROID_LOG_H)
 			__android_log_vprint(ANDROID_LOG_INFO, LOG_TAG, logString, arguments);
+#elif defined(HAVE_QT)
+            char buff[1024*4] = { 0 };
+            vsprintf(buff, logString, arguments);
+            qDebug() << buff;
 #else
 			fprintf(stdout, "\n");
 			vfprintf(stdout, logString, arguments);
-			fflush(stdout);
+			fflush(stdout);         
 #endif		
 		}
 	}

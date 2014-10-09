@@ -64,6 +64,8 @@ namespace FayeCpp {
 	protected:
 #if defined(HAVE_PTHREAD_H)
 		static bool initRecursiveMutex(pthread_mutex_t * mutex);
+#elif defined(__RE_USING_WINDOWS_THREADS__)
+        static bool initRecursiveMutex(LPCRITICAL_SECTION mutex);
 #endif	
 		
 #if defined(USE_TRANSPORT_MESSENGER)
@@ -75,6 +77,10 @@ namespace FayeCpp {
 			pthread_t _thread;
 			pthread_mutex_t _mutex;
 			pthread_cond_t _conditionVariable;
+#elif defined(__RE_USING_WINDOWS_THREADS__)
+            HANDLE _thread;
+            CRITICAL_SECTION _mutex;
+            CONDITION_VARIABLE _conditionVariable;
 #endif			
 			REList<Responce *> _responces;
 			
@@ -85,6 +91,9 @@ namespace FayeCpp {
 #if defined(HAVE_PTHREAD_H)
 			static void * workThreadFunc(void * somePointer);
 			static bool initConditionVariable(pthread_cond_t * conditionVariable);
+#elif defined(__RE_USING_WINDOWS_THREADS__)
+            static bool initConditionVariable(PCONDITION_VARIABLE conditionVariable);
+            static DWORD WINAPI workThreadFunc(LPVOID lpParameter);
 #endif			
 			bool createWorkThread();
 			bool sendSingleResponce();

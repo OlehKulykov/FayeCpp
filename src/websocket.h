@@ -57,6 +57,9 @@ namespace FayeCpp {
 #if defined(HAVE_PTHREAD_H)	
 		pthread_t _workThread;
 		pthread_mutex_t _mutex;
+#elif defined(__RE_USING_WINDOWS_THREADS__)
+        HANDLE _workThread;
+        CRITICAL_SECTION _mutex;
 #endif	
 		
 		struct libwebsocket_context * _context;
@@ -69,6 +72,8 @@ namespace FayeCpp {
 		
 #if defined(HAVE_PTHREAD_H)	
 		static void * workThreadFunc(void * somePointer);
+#elif defined(__RE_USING_WINDOWS_THREADS__)
+        static DWORD WINAPI workThreadFunc(LPVOID lpParameter);
 #endif	
 		
 		void lockMutex();

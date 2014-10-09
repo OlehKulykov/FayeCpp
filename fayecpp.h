@@ -113,6 +113,12 @@
 #endif
 
 
+//TODO:.....
+#undef __RE_PUBLIC_CLASS_API__
+#undef __RE_EXPORT_IMPLEMENTATION_TEMPLATE__
+
+
+
 #ifndef __RE_PUBLIC_CLASS_API__
 #define __RE_PUBLIC_CLASS_API__
 #endif
@@ -2622,7 +2628,8 @@ namespace FayeCpp {
 		
 		bool isPendingChannel(const char * channel) const;
 
-		static unsigned long long _messageId;
+        //TODO: .....
+        //static unsigned long long _messageId;
 		static unsigned long long nextMessageId();
 		
 	public:

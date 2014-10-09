@@ -64,7 +64,9 @@ namespace FayeCpp {
 		return _isUsingIPV6;
 	}
 	
-	unsigned long long Client::_messageId = 0;
+    //TODO: ....
+    //unsigned long long Client::
+    unsigned long long _messageId = 0;
 	unsigned long long Client::nextMessageId()
 	{
 		_messageId++;
