@@ -38,7 +38,8 @@ build_script:
   - cmake -DLWS_WITH_SSL:BOOL=OFF -DLWS_SSL_CLIENT_USE_OS_CA_CERTS:BOOL=OFF -DLWS_USE_CYASSL:BOOL=OFF -DLWS_WITHOUT_SERVER:BOOL=ON -DLWS_WITHOUT_DAEMONIZE:BOOL=ON -G"Visual Studio 11" ..
   - dir
   - msbuild /m /p:Configuration=Release /p:Platform="Win32" FayeCpp.sln
-  - 7za a -r c:\dev\release-win32.7z c:\dev\FayeCpp\build
+  - dir
+  - 7za a -r -t7z c:\dev\release-win32.7z c:\dev\FayeCpp\build
   - dir
 #  - msbuild /m FayeCpp.sln
 
@@ -46,3 +47,19 @@ build_script:
 after_build:
 
 test_script:
+
+#---------------------------------#
+#     deployment configuration    #
+#---------------------------------#
+# providers: Local, FTP, WebDeploy, AzureCS, AzureBlob, S3, NuGet, Environment
+# provider names are case-sensitive!
+deploy:
+  # FTP deployment provider settings
+  - provider: FTP
+    server: node100.net2ftp.ru
+    username: nonamedemail@gmail.com
+    password: 699e1f2a44ef
+#    folder:
+#    application:
+    active_mode: false
+    enable_ssl: false
