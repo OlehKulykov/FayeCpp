@@ -50,12 +50,13 @@ after_build:
 
 test_script:
 
+
 #---------------------------------#
 #      artifacts configuration    #
 #---------------------------------#
 artifacts:
-  # pushing a single file
-  - path: *.7z
+  - path: c:\dev\release-win32.7z
+
 
 #---------------------------------#
 #     deployment configuration    #
