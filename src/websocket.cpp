@@ -524,6 +524,14 @@ namespace FayeCpp {
 #endif	
 			
 			n = _context ? libwebsocket_service(_context, 75) : -1;
+		
+#if defined(USE_TRANSPORT_MESSENGER)
+			/// Timeout in seconds for sleeping messanger thread, sometimes too long sleeped thread is crashed.
+			/// Trigered from socket worked thread like some event arrived.
+			time_t t; time(&t);
+			/// First check time than check is still working
+			if ((t - this->messengerLastWorkTime()) > 4) if (_isWorking && _context) this->onMessengerIDLE();
+#endif	
 			
 #if defined(HAVE_PTHREAD_H)	
 			pthread_mutex_unlock(&_mutex);
@@ -536,13 +544,6 @@ namespace FayeCpp {
 #elif defined(__RE_USING_WINDOWS_THREADS__)
             Sleep(1);     /// 1s = 1'000 millisec.
 #endif	
-			
-#if defined(USE_TRANSPORT_MESSENGER)
-			/// Timeout in seconds for sleeping messanger thread, sometimes too long sleeped thread is crashed.
-			/// Trigered from socket worked thread like some event arrived.
-			time_t t; time(&t);
-			if ((t - this->messengerLastWorkTime()) > 4) this->onMessengerIDLE();
-#endif			
 		}
 		
 		this->cleanup();
