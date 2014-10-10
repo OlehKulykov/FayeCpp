@@ -24,6 +24,7 @@ clone_folder: c:\dev\FayeCpp
 
 # scripts that run after cloning repository
 install:
+  - cinst 7zip.commandline -x86
   - cd c:\dev
   - cd c:\dev\FayeCpp
   - git submodule update --init --recursive
