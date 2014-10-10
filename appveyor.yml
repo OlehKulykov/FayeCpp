@@ -39,7 +39,8 @@ build_script:
   - dir
   - msbuild /m /p:Configuration=Release /p:Platform="Win32" FayeCpp.sln
   - dir
-  - 7za a -r -t7z c:\dev\release-win32.7z c:\dev\FayeCpp\build
+#  - 7za a -r -t7z c:\dev\release-win32.7z c:\dev\FayeCpp\build
+  - cmd: 7za a -r -t7z c:\dev\release-win32.7z c:\dev\FayeCpp\build
   - dir
 #  - msbuild /m FayeCpp.sln
 
@@ -47,6 +48,13 @@ build_script:
 after_build:
 
 test_script:
+
+#---------------------------------#
+#      artifacts configuration    #
+#---------------------------------#
+artifacts:
+  # pushing a single file
+  - path: c:\dev\release-win32.7z
 
 #---------------------------------#
 #     deployment configuration    #
