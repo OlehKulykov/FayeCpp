@@ -194,8 +194,7 @@ namespace FayeCpp {
 			libwebsocket_callback_on_writable(context, connection);
 			return -1;
 		}
-		
-		if (writed < pss->len)
+        else if (pss->len > writed)
 		{
 #ifdef FAYECPP_DEBUG_MESSAGES
 			RELog::log("Partial write");
