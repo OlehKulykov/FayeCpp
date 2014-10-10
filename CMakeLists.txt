@@ -174,6 +174,7 @@ CHECK_INCLUDE_FILE("time.h" HAVE_TIME_H)
 CHECK_INCLUDE_FILE("sys/time.h" HAVE_SYS_TIME_H)
 CHECK_INCLUDE_FILE("locale.h" HAVE_LOCALE_H)
 CHECK_INCLUDE_FILE("assert.h" HAVE_ASSERT_H)
+
 CHECK_INCLUDE_FILE("sys/stat.h" HAVE_SYS_STAT_H)
 if(HAVE_SYS_STAT_H)
 	LIST(APPEND CMAKE_EXTRA_INCLUDE_FILES sys/stat.h)
@@ -182,6 +183,7 @@ endif(HAVE_SYS_STAT_H)
 CHECK_INCLUDE_FILE("fcntl.h" HAVE_FCNTL_H)
 CHECK_INCLUDE_FILE("pthread.h" HAVE_PTHREAD_H)
 CHECK_INCLUDE_FILE("sys/resource.h" HAVE_SYS_RESOURCE_H)
+
 CHECK_INCLUDE_FILE("direct.h" HAVE_DIRECT_H)
 if(HAVE_DIRECT_H)
 	LIST(APPEND CMAKE_EXTRA_INCLUDE_FILES direct.h)
@@ -206,7 +208,12 @@ endif(HAVE_IO_H)
 
 CHECK_INCLUDE_FILE("signal.h" HAVE_SIGNAL_H)
 CHECK_INCLUDE_FILE("setjmp.h" HAVE_SETJMP_H)
+
 CHECK_INCLUDE_FILE("unistd.h" HAVE_UNISTD_H)
+if(HAVE_UNISTD_H)
+	LIST(APPEND CMAKE_EXTRA_INCLUDE_FILES unistd.h)
+endif(HAVE_UNISTD_H)
+
 CHECK_INCLUDE_FILE("dispatch/dispatch.h" HAVE_DISPATCH_DISPATCH_H)
 
 MESSAGE(CMAKE_EXTRA_INCLUDE_FILES ": " ${CMAKE_EXTRA_INCLUDE_FILES})
@@ -430,11 +437,13 @@ ENDIF()
 check_function_exists(posix_memalign HAVE_FUNCTION_POSIX_MEMALIGN)
 check_function_exists(usleep HAVE_FUNCTION_USLEEP)
 check_function_exists(getrlimit HAVE_FUNCTION_GETRLIMIT)
+
 check_function_exists(pthread_attr_setscope HAVE_FUNCTION_PTHREAD_ATTR_SETSCOPE)
 check_function_exists(pthread_attr_setstacksize HAVE_FUNCTION_PTHREAD_ATTR_SETSTACKSIZE)
 check_function_exists(pthread_cancel HAVE_FUNCTION_PTHREAD_CANCEL)
 check_function_exists(pthread_setname_np HAVE_FUNCTION_PTHREAD_SETNAME_NP)
 check_function_exists(pthread_set_name_np HAVE_FUNCTION_PTHREAD_SET_NAME_NP)
+
 check_function_exists(_stat HAVE_FUNCTION__STAT)
 check_function_exists(stat HAVE_FUNCTION_STAT)
 check_function_exists(_wstat HAVE_FUNCTION__WSTAT)
@@ -464,7 +473,13 @@ check_function_exists(sscanf_s HAVE_FUNCTION_SSCANF_S)
 check_function_exists(sprintf_s HAVE_FUNCTION_SPRINTF_S)
 check_function_exists(vsnprintf HAVE_FUNCTION_VSNPRINTF)
 check_function_exists(vsprintf_s HAVE_FUNCTION_VSPRINTF_S)
+
 check_function_exists(clock_gettime HAVE_FUNCTION_CLOCK_GETTIME)
+check_function_exists(difftime HAVE_FUNCTION_DIFFTIME)
+check_function_exists(time HAVE_FUNCTION_TIME)
+check_function_exists(localtime HAVE_FUNCTION_LOCALTIME)
+check_function_exists(gmtime HAVE_FUNCTION_GMTIME)
+check_function_exists(strftime HAVE_FUNCTION_STRFTIME)
 
 check_function_exists(dispatch_sync HAVE_FUNCTION_DISPATCH_SYNC)
 check_function_exists(dispatch_async HAVE_FUNCTION_DISPATCH_ASYNC)
@@ -502,7 +517,6 @@ set(FAYECPP_SOURCES	src/client.cpp
 		src/REStringBase.cpp
 		src/REStringList.cpp
 		src/REStringUtilsPrivate.cpp
-		src/RETime.cpp
 		src/REWideString.cpp
 		src/transport.cpp
 		src/variant.cpp

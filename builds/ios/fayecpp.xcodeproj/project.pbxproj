@@ -55,7 +55,6 @@
 		3D8CB8DD1948996200943B53 /* utf.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CB8D21948996200943B53 /* utf.c */; };
 		3D8CB8DE1948996200943B53 /* value.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CB8D31948996200943B53 /* value.c */; };
 		3DA2A4BB196601C7002B7C09 /* FayeCppClient.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3DA2A4BA196601C7002B7C09 /* FayeCppClient.mm */; };
-		3DFF1BAE195069F5001CEDE1 /* RETime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF1BAD195069F5001CEDE1 /* RETime.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -128,7 +127,6 @@
 		3D8CB8F8194899FB00943B53 /* fayecpp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fayecpp.h; path = ../../fayecpp.h; sourceTree = "<group>"; };
 		3DA2A4B9196601C7002B7C09 /* FayeCppClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FayeCppClient.h; path = ../../contrib/objc/FayeCppClient.h; sourceTree = "<group>"; };
 		3DA2A4BA196601C7002B7C09 /* FayeCppClient.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = FayeCppClient.mm; path = ../../contrib/objc/FayeCppClient.mm; sourceTree = "<group>"; };
-		3DFF1BAD195069F5001CEDE1 /* RETime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RETime.cpp; path = ../../src/RETime.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -241,7 +239,6 @@
 				3D12B473194AF31000B8E9D9 /* REStringList.cpp */,
 				3D12B474194AF31000B8E9D9 /* REStringUtilsPrivate.cpp */,
 				3D12B475194AF31000B8E9D9 /* REStringUtilsPrivate.h */,
-				3DFF1BAD195069F5001CEDE1 /* RETime.cpp */,
 				3D12B478194AF31000B8E9D9 /* REWideString.cpp */,
 				3D12B479194AF31000B8E9D9 /* transport.cpp */,
 				3D12B47A194AF31000B8E9D9 /* transport.h */,
@@ -336,7 +333,6 @@
 				3D8CB8D91948996200943B53 /* memory.c in Sources */,
 				3D12B484194AF31000B8E9D9 /* message.cpp in Sources */,
 				3D8CB8DC1948996200943B53 /* strconv.c in Sources */,
-				3DFF1BAE195069F5001CEDE1 /* RETime.cpp in Sources */,
 				3D12B491194AF31000B8E9D9 /* variant.cpp in Sources */,
 				3D12B490194AF31000B8E9D9 /* transport.cpp in Sources */,
 				3D12B485194AF31000B8E9D9 /* REBuffer.cpp in Sources */,

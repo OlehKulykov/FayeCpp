@@ -123,13 +123,12 @@ namespace FayeCpp {
 			responce = i.value();
 			_responces.removeNode(i.node());
 		}
-		
+		time(&_lastWorkTime);
 		if (responce)
 		{
 #ifdef FAYECPP_DEBUG_MESSAGES			
 			RELog::log("MESSENGER SEND SINGLE RESPONCE ...");
 #endif
-			
 			_processMethod->invokeWithPointer(responce);
 			delete responce;
 			
@@ -141,6 +140,11 @@ namespace FayeCpp {
 		return (responce != NULL);
 	}
 	
+	time_t Transport::Messenger::lastWorkTime() const
+	{
+		return _lastWorkTime;
+	}
+	
 	void Transport::Messenger::addResponce(Responce * responce)
 	{
 #ifdef FAYECPP_DEBUG_MESSAGES		
@@ -149,13 +153,13 @@ namespace FayeCpp {
 		
 #if defined(HAVE_PTHREAD_H)
 		pthread_mutex_lock(&_mutex);
-		_responces.add(responce);
+		if (responce) _responces.add(responce);
 		_isSuspended = false;
 		pthread_cond_signal(&_conditionVariable);
 		pthread_mutex_unlock(&_mutex);
 #elif defined(__RE_USING_WINDOWS_THREADS__)
 		TryEnterCriticalSection(&_mutex);
-		_responces.add(responce);
+		if (responce) _responces.add(responce);
 		_isSuspended = false;
         WakeConditionVariable(&_conditionVariable);
 		LeaveCriticalSection(&_mutex);
@@ -206,6 +210,7 @@ namespace FayeCpp {
 		_thread(NULL),
 #endif
 		_processMethod(processMethod),
+		_lastWorkTime(0),
 		_isWorking(true),
 		_isSuspended(false)
 	{
@@ -311,11 +316,6 @@ namespace FayeCpp {
 	{
 		Client * client = this->client();
 		return client ? client->isUsingIPV6() : false;
-	}
-	
-	void Transport::updateLastSendTime()
-	{
-		_lastSendTime = RETime::time();
 	}
 	
 	void Transport::receivedAdvice(const VariantMap & advice)
@@ -475,6 +475,18 @@ namespace FayeCpp {
 #endif		
 	}
 	
+#if defined(USE_TRANSPORT_MESSENGER)
+	time_t Transport::messengerLastWorkTime() const
+	{
+		return _messenger->lastWorkTime();
+	}
+	void Transport::onMessengerIDLE()
+	{
+		// Add empty responce for making messenger thread alive.
+		_messenger->addResponce(NULL);
+	}
+#endif		
+	
 	const REString & Transport::url() const
 	{
 		return _url;
@@ -581,7 +593,6 @@ namespace FayeCpp {
 #if defined(USE_TRANSPORT_MESSENGER)
 		_messenger(new Transport::Messenger(processMethod)),
 #endif
-		_lastSendTime(RETime::time()),
 		_port(-1),
 #if defined(__RE_USING_WINDOWS_THREADS__)
 		_mainThreadID(GetCurrentThreadId()),

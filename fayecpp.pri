@@ -59,7 +59,6 @@ SOURCES += $$PWD/src/client.cpp \
            $$PWD/src/REStringBase.cpp \
            $$PWD/src/REStringList.cpp \
            $$PWD/src/REStringUtilsPrivate.cpp \
-           $$PWD/src/RETime.cpp \
            $$PWD/src/REWideString.cpp \
            $$PWD/src/transport.cpp \
            $$PWD/src/variant.cpp \

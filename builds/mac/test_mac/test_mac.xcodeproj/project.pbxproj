@@ -47,7 +47,6 @@
 		3D0830E21987CB2D0038CD79 /* utf.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830D71987CB2D0038CD79 /* utf.c */; };
 		3D0830E31987CB2D0038CD79 /* value.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830D81987CB2D0038CD79 /* value.c */; };
 		3D0831021987CB4E0038CD79 /* RELog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830E61987CB4E0038CD79 /* RELog.cpp */; };
-		3D0831031987CB4E0038CD79 /* RETime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830E71987CB4E0038CD79 /* RETime.cpp */; };
 		3D0831041987CB4E0038CD79 /* client.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830E91987CB4E0038CD79 /* client.cpp */; };
 		3D0831051987CB4E0038CD79 /* jsonutils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830EB1987CB4E0038CD79 /* jsonutils.cpp */; };
 		3D0831061987CB4E0038CD79 /* message.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830EC1987CB4E0038CD79 /* message.cpp */; };
@@ -137,7 +136,6 @@
 		3D0830D71987CB2D0038CD79 /* utf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = utf.c; path = ../../../../jansson/src/utf.c; sourceTree = "<group>"; };
 		3D0830D81987CB2D0038CD79 /* value.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = value.c; path = ../../../../jansson/src/value.c; sourceTree = "<group>"; };
 		3D0830E61987CB4E0038CD79 /* RELog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RELog.cpp; path = ../../../../src/RELog.cpp; sourceTree = "<group>"; };
-		3D0830E71987CB4E0038CD79 /* RETime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RETime.cpp; path = ../../../../src/RETime.cpp; sourceTree = "<group>"; };
 		3D0830E81987CB4E0038CD79 /* classmethodwrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = classmethodwrapper.h; path = ../../../../src/classmethodwrapper.h; sourceTree = "<group>"; };
 		3D0830E91987CB4E0038CD79 /* client.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = client.cpp; path = ../../../../src/client.cpp; sourceTree = "<group>"; };
 		3D0830EA1987CB4E0038CD79 /* jsonutils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = jsonutils.h; path = ../../../../src/jsonutils.h; sourceTree = "<group>"; };
@@ -346,7 +344,6 @@
 			isa = PBXGroup;
 			children = (
 				3D0830E61987CB4E0038CD79 /* RELog.cpp */,
-				3D0830E71987CB4E0038CD79 /* RETime.cpp */,
 				3D0830E81987CB4E0038CD79 /* classmethodwrapper.h */,
 				3D0830E91987CB4E0038CD79 /* client.cpp */,
 				3D0830EA1987CB4E0038CD79 /* jsonutils.h */,
@@ -474,7 +471,6 @@
 				3D08310D1987CB4E0038CD79 /* REStringBase.cpp in Sources */,
 				3D0830C81987CB160038CD79 /* output.c in Sources */,
 				3D08310B1987CB4E0038CD79 /* REStaticString.cpp in Sources */,
-				3D0831031987CB4E0038CD79 /* RETime.cpp in Sources */,
 				3D0831121987CB4E0038CD79 /* transport.cpp in Sources */,
 				3D0831071987CB4E0038CD79 /* REBuffer.cpp in Sources */,
 				3D0830CB1987CB160038CD79 /* service.c in Sources */,

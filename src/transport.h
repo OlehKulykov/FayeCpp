@@ -48,6 +48,8 @@
 #define RE_ASSERT(r) r;
 #endif
 
+#include <time.h>
+
 namespace FayeCpp {
 	
 #define ADVICE_RECONNECT_NONE 0
@@ -85,6 +87,7 @@ namespace FayeCpp {
 			REList<Responce *> _responces;
 			
 			ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * _processMethod;
+			time_t _lastWorkTime;
 			bool _isWorking;
 			bool _isSuspended;
 			
@@ -98,6 +101,7 @@ namespace FayeCpp {
 			bool createWorkThread();
 			bool sendSingleResponce();
 		public:
+			time_t lastWorkTime() const;
 			void addResponce(Responce * responce);
 			void stopWorking();
 			Messenger(ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * processMethod);
@@ -143,16 +147,16 @@ namespace FayeCpp {
 		RETimeInterval adviceTimeout() const { return _advice.timeout; }
 		int adviceReconnect() const { return _advice.reconnect; }
 		
-		
 		void onConnected();
 		void onDisconnected();
 		void onTextReceived(const char * text);
 		void onDataReceived(const unsigned char * data, const size_t dataSize);
 		void onError(const REString & error);
 		void onError(const char * error);
-		
-		void updateLastSendTime();
-		
+#if defined(USE_TRANSPORT_MESSENGER)
+		time_t messengerLastWorkTime() const;
+		void onMessengerIDLE();
+#endif		
 	public:
 		bool isMainThread() const;
 		RETimeInterval lastSendTime() const { return _lastSendTime; }

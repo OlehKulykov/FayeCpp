@@ -313,6 +313,26 @@
 #cmakedefine HAVE_FUNCTION_CLOCK_GETTIME @HAVE_FUNCTION_CLOCK_GETTIME@ 
 
 
+/* difftime */ 
+#cmakedefine HAVE_FUNCTION_DIFFTIME
+
+
+/* time */
+#cmakedefine HAVE_FUNCTION_TIME
+
+
+/* localtime */
+#cmakedefine HAVE_FUNCTION_LOCALTIME
+
+
+/* gmtime */
+#cmakedefine HAVE_FUNCTION_GMTIME
+
+
+/* strftime */ 
+#cmakedefine HAVE_FUNCTION_STRFTIME
+
+
 /* fabsf */
 #cmakedefine HAVE_FUNCTION_FABSF @HAVE_FUNCTION_FABSF@ 
 

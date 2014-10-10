@@ -313,6 +313,26 @@
 /* #undef HAVE_FUNCTION_CLOCK_GETTIME */
 
 
+/* difftime */ 
+#define HAVE_FUNCTION_DIFFTIME
+
+
+/* time */
+#define HAVE_FUNCTION_TIME
+
+
+/* localtime */
+#define HAVE_FUNCTION_LOCALTIME
+
+
+/* gmtime */
+#define HAVE_FUNCTION_GMTIME
+
+
+/* strftime */ 
+#define HAVE_FUNCTION_STRFTIME
+
+
 /* fabsf */
 #define HAVE_FUNCTION_FABSF 1 
 

@@ -42,7 +42,6 @@ ALL_SOURCES := \
 	../../../src/REStringBase.cpp \
 	../../../src/REStringList.cpp \
 	../../../src/REStringUtilsPrivate.cpp \
-	../../../src/RETime.cpp \
 	../../../src/REWideString.cpp \
 	../../../src/transport.cpp \
 	../../../src/variant.cpp \
