@@ -1,8 +1,19 @@
 version: 1.5.{build}
 
+# branches to build
 branches:
   only:
+#  - master
   - dev
+  
+platform:
+  - x86
+#  - x64
+#  - AnyCPU
+
+configuration:
+#  - Debug
+  - Release
   
 clone_folder: c:\dev\FayeCpp
 
@@ -16,7 +27,7 @@ build_script:
   - md build
   - cd build
   - cmake -G"Visual Studio 11" ..
-  - msbuild /m /p:Configuration=Release /p:Platform="Win32" LibTemplateCMake.sln
+  - msbuild /m /p:Configuration=Release /p:Platform="Win32"
   
   
 after_build:
