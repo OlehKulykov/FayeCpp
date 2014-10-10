@@ -40,7 +40,7 @@ build_script:
   - msbuild /m /p:Configuration=Release /p:Platform="Win32" FayeCpp.sln
   - dir
 #  - 7za a -r -t7z c:\dev\release-win32.7z c:\dev\FayeCpp\build
-  - cmd: 7za a -r -t7z c:\dev\release-win32.7z c:\dev\FayeCpp\build -x!*.obj -x!*.bin -x!*.filters -x!*.lastbuildstate -x!*.tlog
+  - cmd: 7za a -r -t7z c:\dev\release-win32.7z c:\dev\FayeCpp\build
   - dir
 #  - msbuild /m FayeCpp.sln
 
