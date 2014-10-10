@@ -46,14 +46,28 @@
 #define FAYECPP_DEBUG_LOGA(s, ...)
 #endif
 
-#define HANDSHAKE_CHANNEL "/meta/handshake"
-#define CONNECT_CHANNEL "/meta/connect"
-#define DISCONNECT_CHANNEL "/meta/disconnect"
-#define SUBSCRIBE_CHANNEL "/meta/subscribe"
-#define UNSUBSCRIBE_CHANNEL "/meta/unsubscribe"
-
 namespace FayeCpp {
-	
+
+	/* Bayeux protocol constants */
+	/* Channels */
+	static const char * const _bayeuxHandshakeChannel = "/meta/handshake";
+	static const char * const _bayeuxConnectChannel = "/meta/connect";
+	static const char * const _bayeuxDisconnectChannel = "/meta/disconnect";
+	static const char * const _bayeuxSubscribeChannel = "/meta/subscribe";
+	static const char * const _bayeuxUnsubscribeChannel = "/meta/unsubscribe";
+
+	/* Keys */
+	static const char * const _bayeuxChannelKey = "channel";
+	static const char * const _bayeuxClientIdKey = "clientId";
+	static const char * const _bayeuxDataKey = "data";
+	static const char * const _bayeuxSubscriptionKey = "subscription";
+	static const char * const _bayeuxSupportedConnectionTypesKey = "supportedConnectionTypes";
+	static const char * const _bayeuxConnectionTypeKey = "connectionType";
+	static const char * const _bayeuxIdKey = "id";
+	static const char * const _bayeuxAdviceKey = "advice";
+	static const char * const _bayeuxMinimumVersionKey = "minimumVersion";
+	static const char * const _bayeuxVersionKey = "version";
+
 	bool Client::isUsingIPV6() const
 	{
 		return _isUsingIPV6;
@@ -137,7 +151,7 @@ namespace FayeCpp {
 	{
 		if (_delegate) 
 		{
-			Variant * data = message.findTypedValue("data", Variant::TypeMap);
+			Variant * data = message.findTypedValue(_bayeuxDataKey, Variant::TypeMap);
 			if (data) 
 			{
 				_delegate->onFayeClientReceivedMessageFromChannel(this, data->toMap(), channel);
@@ -150,26 +164,26 @@ namespace FayeCpp {
 		VariantMap::Iterator i = message.iterator();
 		while (i.next()) 
 		{
-			if (i.key().isEqual("channel")) 
+			if (i.key().isEqual(_bayeuxChannelKey))
 			{
 				REString channel = i.value().toString();
-				if (channel.isEqual(HANDSHAKE_CHANNEL)) 
+				if (channel.isEqual(_bayeuxHandshakeChannel))
 				{
 					this->onHandshakeDone(message);
 				}
-				else if (channel.isEqual(CONNECT_CHANNEL)) 
+				else if (channel.isEqual(_bayeuxConnectChannel))
 				{
 					this->onConnectFayeDone(message);
 				}
-				else if (channel.isEqual(DISCONNECT_CHANNEL)) 
+				else if (channel.isEqual(_bayeuxDisconnectChannel))
 				{
 					this->onDisconnectFayeDone(message);
 				}
-				else if (channel.isEqual(SUBSCRIBE_CHANNEL)) 
+				else if (channel.isEqual(_bayeuxSubscribeChannel))
 				{
 					this->onSubscriptionDone(message);
 				}
-				else if (channel.isEqual(UNSUBSCRIBE_CHANNEL)) 
+				else if (channel.isEqual(_bayeuxUnsubscribeChannel))
 				{
 					this->onUnsubscribingDone(message);
 				}
@@ -387,11 +401,11 @@ namespace FayeCpp {
 		VariantMap::Iterator i = message.iterator();
 		while (i.next()) 
 		{
-			if (i.key().isEqual("clientId") && i.value().isString())
+			if (i.key().isEqual(_bayeuxClientIdKey) && i.value().isString())
 			{
 				_clientId = i.value().toString();
 			}
-			else if (i.key().isEqual("supportedConnectionTypes") && i.value().isList())
+			else if (i.key().isEqual(_bayeuxSupportedConnectionTypesKey) && i.value().isList())
 			{
 				VariantList::Iterator j = i.value().toList().iterator();
 				while (j.next()) _supportedConnectionTypes.add(j.value().toString());
@@ -454,10 +468,10 @@ namespace FayeCpp {
 		VariantMap message;
 		VariantList connectionTypes;
 		connectionTypes.add(_transport->name());
-		message["supportedConnectionTypes"] = connectionTypes;
-		message["minimumVersion"] = "1.0beta";
-		message["channel"] = HANDSHAKE_CHANNEL;
-		message["version"] = "1.0";
+		message[_bayeuxSupportedConnectionTypesKey] = connectionTypes;
+		message[_bayeuxMinimumVersionKey] = "1.0beta";
+		message[_bayeuxChannelKey] = _bayeuxHandshakeChannel;
+		message[_bayeuxVersionKey] = "1.0";
 		if (_delegate) _delegate->onFayeClientWillSendMessage(this, message);
 		if (!_transport) return;
 		
@@ -476,7 +490,7 @@ namespace FayeCpp {
 			this->subscribePendingSubscriptions();
 		}
 		
-		Variant * advice = message.findTypedValue("advice", Variant::TypeMap);
+		Variant * advice = message.findTypedValue(_bayeuxAdviceKey, Variant::TypeMap);
 		if (advice && _transport) _transport->receivedAdvice(advice->toMap());
 	}
 	
@@ -487,9 +501,9 @@ namespace FayeCpp {
 		FAYECPP_DEBUG_LOG("Client: connect faye start ...")
 
 		VariantMap message;
-		message["channel"] = CONNECT_CHANNEL;
-		message["clientId"] = _clientId;
-		message["connectionType"] = _transport->name();
+		message[_bayeuxChannelKey] = _bayeuxConnectChannel;
+		message[_bayeuxClientIdKey] = _clientId;
+		message[_bayeuxConnectionTypeKey] = _transport->name();
 		if (_delegate) _delegate->onFayeClientWillSendMessage(this, message);
 		if (!_transport) return;
 		
@@ -503,8 +517,8 @@ namespace FayeCpp {
 		_isDisconnecting = true;
 
 		VariantMap message;
-		message["channel"] = DISCONNECT_CHANNEL;
-		message["clientId"] = _clientId;
+		message[_bayeuxChannelKey] = _bayeuxDisconnectChannel;
+		message[_bayeuxClientIdKey] = _clientId;
 		if (_delegate) _delegate->onFayeClientWillSendMessage(this, message);
 		if (!_transport) return;
 		
@@ -528,7 +542,7 @@ namespace FayeCpp {
 	
 	void Client::onSubscriptionDone(const VariantMap & message)
 	{
-		Variant * channel = message.findTypedValue("subscription", Variant::TypeString);
+		Variant * channel = message.findTypedValue(_bayeuxSubscriptionKey, Variant::TypeString);
 		if (!channel) 
 		{
 			//TODO: error;
@@ -537,7 +551,7 @@ namespace FayeCpp {
 		
 		if (_pendingSubscriptions.isContaines(channel->toString())) 
 		{
-			Variant * advice = message.findTypedValue("advice", Variant::TypeMap);
+			Variant * advice = message.findTypedValue(_bayeuxAdviceKey, Variant::TypeMap);
 			if (advice && _transport) _transport->receivedAdvice(advice->toMap());
 			
 			REStringList::Node * node = _pendingSubscriptions.findNode(channel->toString());
@@ -560,7 +574,7 @@ namespace FayeCpp {
 	
 	void Client::onUnsubscribingDone(const VariantMap & message)
 	{
-		Variant * channel = message.findTypedValue("subscription", Variant::TypeString);
+		Variant * channel = message.findTypedValue(_bayeuxSubscriptionKey, Variant::TypeString);
 		if (!channel) 
 		{
 			//TODO: error;
@@ -600,9 +614,9 @@ namespace FayeCpp {
 				while (i.next()) 
 				{
 					VariantMap message;
-					message["channel"] = SUBSCRIBE_CHANNEL;
-					message["clientId"] = _clientId;
-					message["subscription"] = i.value();
+					message[_bayeuxChannelKey] = _bayeuxSubscribeChannel;
+					message[_bayeuxClientIdKey] = _clientId;
+					message[_bayeuxSubscriptionKey] = i.value();
 					if (_delegate) _delegate->onFayeClientWillSendMessage(this, message);
 					if (!_transport) return;
 					
@@ -640,9 +654,9 @@ namespace FayeCpp {
 		}
 		
 		VariantMap message;
-		message["channel"] = UNSUBSCRIBE_CHANNEL;
-		message["clientId"] = _clientId;
-		message["subscription"] = channel;
+		message[_bayeuxChannelKey] = _bayeuxUnsubscribeChannel;
+		message[_bayeuxClientIdKey] = _clientId;
+		message[_bayeuxSubscriptionKey] = channel;
 		if (_delegate) _delegate->onFayeClientWillSendMessage(this, message);
 		if (!_transport) return false;
 		
@@ -677,10 +691,10 @@ namespace FayeCpp {
 			FAYECPP_DEBUG_LOGA("Client: Send message to channel: %s", channel)
 
 			VariantMap mes;
-			mes["channel"] = channel;
-			mes["clientId"] = _clientId;
-			mes["data"] = message;
-			mes["id"] = (unsigned long long)Client::nextMessageId();
+			mes[_bayeuxChannelKey] = channel;
+			mes[_bayeuxClientIdKey] = _clientId;
+			mes[_bayeuxDataKey] = message;
+			mes[_bayeuxIdKey] = (unsigned long long)Client::nextMessageId();
 			
 			return this->sendText(JsonGenerator(mes).string());
 		}
