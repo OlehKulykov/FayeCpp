@@ -25,7 +25,7 @@ clone_folder: c:\dev\FayeCpp
 # scripts that run after cloning repository
 install:
   - cd c:\dev
-  - git https://github.com/libarchive/libarchive.git
+  - git clone https://github.com/libarchive/libarchive.git
   - cd c:\dev\FayeCpp
   - git submodule update --init --recursive
   
