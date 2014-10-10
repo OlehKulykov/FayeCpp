@@ -64,6 +64,14 @@
 #define SAFE_FREE(m) if(m){free((void *)m);m=NULL;}
 #endif
 
+#if defined(FAYECPP_DEBUG_MESSAGES)
+#define FAYECPP_DEBUG_LOG(s) RELog::log(s);
+#define FAYECPP_DEBUG_LOGA(s, ...) RELog::log(s, __VA_ARGS__);
+#else
+#define FAYECPP_DEBUG_LOG(s) 
+#define FAYECPP_DEBUG_LOGA(s, ...)
+#endif
+
 namespace FayeCpp {
 	
 #define ADVICE_RECONNECT_NONE 0

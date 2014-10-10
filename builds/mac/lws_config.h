@@ -15,13 +15,13 @@
 #define LWS_BUILD_HASH "dfca3ab"
 
 /* Build with OpenSSL support */
-#define LWS_OPENSSL_SUPPORT 1
+//#define LWS_OPENSSL_SUPPORT 1
 
 /* The client should load and trust CA root certs it finds in the OS */
-#define LWS_SSL_CLIENT_USE_OS_CA_CERTS 1
+//#define LWS_SSL_CLIENT_USE_OS_CA_CERTS 1
 
 /* Sets the path where the client certs should be installed. */
-#define LWS_OPENSSL_CLIENT_CERTS "../share"
+//#define LWS_OPENSSL_CLIENT_CERTS "../share"
 
 /* Turn off websocket extensions */
 /* #undef LWS_NO_EXTENSIONS */
@@ -42,7 +42,7 @@
 #define LWS_NO_DAEMONIZE 1
 
 /* Build without server support */
-//#define LWS_NO_SERVER 1
+#define LWS_NO_SERVER 1
 
 /* Build without client support */
 /* #undef LWS_NO_CLIENT */
@@ -165,7 +165,7 @@
 /* #undef size_t */
 
 /* Define to 1 if we have getifaddrs */
-#define HAVE_GETIFADDRS
+#define HAVE_GETIFADDRS 1
 
 /* Define as `fork' if `vfork' does not work. */
 /* #undef vfork */

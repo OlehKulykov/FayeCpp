@@ -67,9 +67,7 @@
 		3D08311A1987CB570038CD79 /* FayeCppClient.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D0831191987CB570038CD79 /* FayeCppClient.mm */; };
 		3D08311C1987CC020038CD79 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D08311B1987CC020038CD79 /* libz.dylib */; };
 		3D08311E1987CC1B0038CD79 /* libssl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D08311D1987CC1B0038CD79 /* libssl.dylib */; };
-		3D0831221987CD8A0038CD79 /* ssl.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D0831211987CD8A0038CD79 /* ssl.c */; };
 		3D0831251987CDE30038CD79 /* server-handshake.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D0831231987CDE30038CD79 /* server-handshake.c */; };
-		3D0831261987CDE30038CD79 /* server.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D0831241987CDE30038CD79 /* server.c */; };
 		3D0831281987CE280038CD79 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D0831271987CE280038CD79 /* libcrypto.dylib */; };
 /* End PBXBuildFile section */
 
@@ -497,9 +495,7 @@
 				3D0830BE1987CB160038CD79 /* client-parser.c in Sources */,
 				3D0831091987CB4E0038CD79 /* REMutableString.cpp in Sources */,
 				3D0830CC1987CB160038CD79 /* sha-1.c in Sources */,
-				3D0831221987CD8A0038CD79 /* ssl.c in Sources */,
 				3D0830DC1987CB2D0038CD79 /* hashtable_seed.c in Sources */,
-				3D0831261987CDE30038CD79 /* server.c in Sources */,
 				3D0831161987CB4E0038CD79 /* websocket.cpp in Sources */,
 				3D0831051987CB4E0038CD79 /* jsonutils.cpp in Sources */,
 				3D0831141987CB4E0038CD79 /* variantlist.cpp in Sources */,

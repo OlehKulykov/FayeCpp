@@ -38,6 +38,14 @@
 #define RE_ASSERT(r) r
 #endif
 
+#if defined(FAYECPP_DEBUG_MESSAGES)
+#define FAYECPP_DEBUG_LOG(s) RELog::log(s);
+#define FAYECPP_DEBUG_LOGA(s, ...) RELog::log(s, __VA_ARGS__);
+#else
+#define FAYECPP_DEBUG_LOG(s)
+#define FAYECPP_DEBUG_LOGA(s, ...)
+#endif
+
 #define HANDSHAKE_CHANNEL "/meta/handshake"
 #define CONNECT_CHANNEL "/meta/connect"
 #define DISCONNECT_CHANNEL "/meta/disconnect"
@@ -91,9 +99,8 @@ namespace FayeCpp {
 	
 	void Client::onTransportConnected()
 	{
-#ifdef FAYECPP_DEBUG_MESSAGES
-		RELog::log("Client: onTransportConnected");
-#endif
+		FAYECPP_DEBUG_LOG("Client: onTransportConnected")
+
 		if (_delegate) _delegate->onFayeTransportConnected(this);
 		
 		if (_transport) this->handshake();
@@ -101,9 +108,8 @@ namespace FayeCpp {
 	
 	void Client::onTransportDisconnected()
 	{
-#ifdef FAYECPP_DEBUG_MESSAGES
-		RELog::log("Client: onTransportDisconnected");
-#endif
+		FAYECPP_DEBUG_LOG("Client: onTransportDisconnected")
+
 		_isDisconnecting = false;
 		_isFayeConnected = false;
 		
@@ -376,9 +382,7 @@ namespace FayeCpp {
 	
 	void Client::onHandshakeDone(const VariantMap & message)
 	{
-#ifdef FAYECPP_DEBUG_MESSAGES
-		RELog::log("Client: onHandshakeDone");
-#endif
+		FAYECPP_DEBUG_LOG("Client: onHandshakeDone")
 		
 		VariantMap::Iterator i = message.iterator();
 		while (i.next()) 
@@ -399,10 +403,8 @@ namespace FayeCpp {
 			if (_delegate) _delegate->onFayeErrorString(this, REStaticString("Handshake clientId is empty."));
 			return;
 		}
-		
-#ifdef FAYECPP_DEBUG_MESSAGES
-		RELog::log("Client: clientId=%s", _clientId.UTF8String());
-#endif
+
+		FAYECPP_DEBUG_LOGA("Client: clientId=%s", _clientId.UTF8String())
 		
 		if (_supportedConnectionTypes.isEmpty()) 
 		{
@@ -446,10 +448,9 @@ namespace FayeCpp {
 	void Client::handshake()
 	{		
 		if (!_transport) return;
-		
-#ifdef FAYECPP_DEBUG_MESSAGES
-		RELog::log("Client: handshake start...");
-#endif
+
+		FAYECPP_DEBUG_LOG("Client: handshake start...")
+
 		VariantMap message;
 		VariantList connectionTypes;
 		connectionTypes.add(_transport->name());
@@ -482,9 +483,9 @@ namespace FayeCpp {
 	void Client::connectFaye()
 	{
 		if (!_transport) return;
-#ifdef FAYECPP_DEBUG_MESSAGES
-		RELog::log("Client: connect faye start ...");
-#endif
+
+		FAYECPP_DEBUG_LOG("Client: connect faye start ...")
+
 		VariantMap message;
 		message["channel"] = CONNECT_CHANNEL;
 		message["clientId"] = _clientId;
@@ -497,9 +498,8 @@ namespace FayeCpp {
 	
 	void Client::disconnect()
 	{
-#ifdef FAYECPP_DEBUG_MESSAGES
-		RELog::log("Client: disconnect faye start ...");
-#endif
+		FAYECPP_DEBUG_LOG("Client: disconnect faye start ...")
+
 		_isDisconnecting = true;
 
 		VariantMap message;
@@ -551,10 +551,9 @@ namespace FayeCpp {
 				if (_delegate) _delegate->onFayeClientConnected(this);
 				if (!_transport) return;
 			}
-			
-#ifdef FAYECPP_DEBUG_MESSAGES
-			RELog::log("Client: Subscribed to channel: %s", channel->toString().UTF8String());
-#endif
+
+			FAYECPP_DEBUG_LOGA("Client: Subscribed to channel: %s", channel->toString().UTF8String())
+
 			if (_delegate) _delegate->onFayeClientSubscribedToChannel(this, channel->toString());
 		}
 	}
@@ -675,9 +674,8 @@ namespace FayeCpp {
 	{
 		if (_isFayeConnected && !message.isEmpty() && this->isSubscribedToChannel(channel))
 		{
-#ifdef FAYECPP_DEBUG_MESSAGES	
-			RELog::log("Client: Send message to channel: %s", channel);
-#endif
+			FAYECPP_DEBUG_LOGA("Client: Send message to channel: %s", channel)
+
 			VariantMap mes;
 			mes["channel"] = channel;
 			mes["clientId"] = _clientId;
@@ -704,22 +702,17 @@ namespace FayeCpp {
 	
 	Client::~Client()
 	{
-#ifdef FAYECPP_DEBUG_MESSAGES
-		RELog::log("Client: descructor ~Client() ...");
-#endif
+		FAYECPP_DEBUG_LOG("Client: descructor ~Client() ...")
+
 		_delegate = NULL;
-		
-#ifdef FAYECPP_DEBUG_MESSAGES
-		RELog::log("Client: try delete transport ...");
-#endif
+
+		FAYECPP_DEBUG_LOG("Client: try delete transport ...")
 		
 		Transport * unusedTransport = _transport; _transport = NULL;
 		Transport::deleteTransport(unusedTransport);
 
-#ifdef FAYECPP_DEBUG_MESSAGES
-		RELog::log("Client: delete transport OK");
-		RELog::log("Client: descructor ~Client() OK");
-#endif
+		FAYECPP_DEBUG_LOG("Client: delete transport OK")
+		FAYECPP_DEBUG_LOG("Client: descructor ~Client() OK")
 	}
 	
 	REStringList Client::availableConnectionTypes()

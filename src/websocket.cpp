@@ -196,9 +196,8 @@ namespace FayeCpp {
 	
 	void WebSocket::onCallbackConnectionDestroyed()
 	{
-#ifdef FAYECPP_DEBUG_MESSAGES
-		RELog::log("CALLBACK CONNECTION DESTROYED");
-#endif	
+		FAYECPP_DEBUG_LOG("CALLBACK CONNECTION DESTROYED")
+
 		LOCK_MUTEX(&_mutex);
 		_isWorking = 0;
 		UNLOCK_MUTEX(&_mutex);
@@ -208,17 +207,15 @@ namespace FayeCpp {
 	
 	void WebSocket::onCallbackEstablished()
 	{
-#ifdef FAYECPP_DEBUG_MESSAGES
-		RELog::log("CALLBACK CONNECTION ESTABLISHED");
-#endif
+		FAYECPP_DEBUG_LOG("CALLBACK CONNECTION ESTABLISHED")
+
 		this->onConnected();
 	}
 	
 	void WebSocket::onCallbackConnectionError()
 	{
-#ifdef FAYECPP_DEBUG_MESSAGES
-		RELog::log("CALLBACK CONNECTION ERROR");
-#endif
+		FAYECPP_DEBUG_LOG("CALLBACK CONNECTION ERROR")
+
 		//TODO: error string
 		this->onError("");
 	}
@@ -246,17 +243,15 @@ namespace FayeCpp {
 		const int writed = libwebsocket_write(connection, &pss->buf[LWS_SEND_BUFFER_PRE_PADDING], pss->len, type);		
 		if (writed < 0)
 		{
-#ifdef FAYECPP_DEBUG_MESSAGES
-			RELog::log("ERROR %d writing to socket, hanging up", writed);
-#endif
+			FAYECPP_DEBUG_LOGA("ERROR %d writing to socket, hanging up", writed)
+
 			libwebsocket_callback_on_writable(context, connection);
 			return -1;
 		}
         else if (pss->len > writed)
 		{
-#ifdef FAYECPP_DEBUG_MESSAGES
-			RELog::log("Partial write");
-#endif
+			FAYECPP_DEBUG_LOG("Partial write")
+
 			libwebsocket_callback_on_writable(context, connection);
 			return -1;
 		}
@@ -284,9 +279,9 @@ namespace FayeCpp {
 		if (buffer && buffer->size() == dataSize)
 		{
 			buffer->tag = (int)type;
-#ifdef FAYECPP_DEBUG_MESSAGES
-			RELog::log("WILL WRITE %i bytes: %s", (int)buffer->size(), (char *)buffer->buffer());
-#endif
+
+			FAYECPP_DEBUG_LOGA("WILL WRITE %i bytes: %s", (int)buffer->size(), (char *)buffer->buffer())
+
 			_writeBuffers.add(buffer);
 		}
 		else isError = true;
@@ -500,10 +495,8 @@ namespace FayeCpp {
 			this->onError("Socket initialization failed");
 			return;
 		}
-		
-#ifdef FAYECPP_DEBUG_MESSAGES
-		RELog::log("Start connecting to host[%s] port[%i] path[%s]", this->client()->host().UTF8String(), this->client()->port(), this->client()->path().UTF8String());
-#endif
+
+		FAYECPP_DEBUG_LOGA("Start connecting to host[%s] port[%i] path[%s]", this->client()->host().UTF8String(), this->client()->port(), this->client()->path().UTF8String())
 		
 		_connection = libwebsocket_client_connect(_context,
 												  this->client()->host().UTF8String(),

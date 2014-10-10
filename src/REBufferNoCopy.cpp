@@ -75,5 +75,5 @@ namespace FayeCpp {
 		_buff = NULL;
 		_size = 0;
 	}
-	
 }
+

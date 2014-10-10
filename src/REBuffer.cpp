@@ -214,6 +214,3 @@ namespace FayeCpp {
 }
 
 
-
-
-

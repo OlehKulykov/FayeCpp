@@ -84,9 +84,8 @@ namespace FayeCpp {
 	
 	void Transport::onConnected()
 	{
-#ifdef FAYECPP_DEBUG_MESSAGES		
-		RELog::log("TRANSPORT CONNECTED");
-#endif		
+		FAYECPP_DEBUG_LOG("TRANSPORT CONNECTED")
+
 		_isConnected = true;
 		
 		Responce message; message.setType(Responce::ResponceTransportConnected);
@@ -95,9 +94,8 @@ namespace FayeCpp {
 	
 	void Transport::onDisconnected()
 	{
-#ifdef FAYECPP_DEBUG_MESSAGES		
-		RELog::log("TRANSPORT DISCONNECTED");
-#endif		
+		FAYECPP_DEBUG_LOG("TRANSPORT DISCONNECTED")
+
 		_isConnected = false;
 		
 		Responce message; message.setType(Responce::ResponceTransportDisconnected);
@@ -106,9 +104,7 @@ namespace FayeCpp {
 	
 	void Transport::onTextReceived(const char * text)
 	{
-#ifdef FAYECPP_DEBUG_MESSAGES
-		RELog::log("TRANSPORT RECEIVED: %s", text);
-#endif
+		FAYECPP_DEBUG_LOGA("TRANSPORT RECEIVED: %s", text)
 		
 		Responce message; message.setMessageText(text).setType(Responce::ResponceMessage);
 		if (_processMethod) _processMethod->invokeWithPointer(&message);
@@ -122,9 +118,7 @@ namespace FayeCpp {
 	
 	void Transport::onError(const REString & error)
 	{
-#ifdef FAYECPP_DEBUG_MESSAGES
-		RELog::log("TRANSPORT ERROR: %s", error.UTF8String());
-#endif
+		FAYECPP_DEBUG_LOGA("TRANSPORT ERROR: %s", error.UTF8String())
 		
 		Responce message; message.setType(Responce::ResponceTransportError).setErrorString(error);
 		if (_processMethod) _processMethod->invokeWithPointer(&message);
@@ -132,9 +126,7 @@ namespace FayeCpp {
 	
 	void Transport::onError(const char * error)
 	{
-#ifdef FAYECPP_DEBUG_MESSAGES
-		RELog::log("TRANSPORT ERROR: %s", error);
-#endif
+		FAYECPP_DEBUG_LOGA("TRANSPORT ERROR: %s", error)
 		
 		Responce message; message.setType(Responce::ResponceTransportError).setErrorString(error);
 		if (_processMethod) _processMethod->invokeWithPointer(&message);
@@ -236,3 +228,4 @@ namespace FayeCpp {
 	}
 	
 }
+

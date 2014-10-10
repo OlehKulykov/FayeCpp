@@ -364,5 +364,5 @@ namespace FayeCpp {
 	{
 		
 	}
-	
 }
+

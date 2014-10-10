@@ -30,6 +30,13 @@
  *
  *   Changes on version 0.1.5 (current):
  *   - Added secure socket connection support with SSL data source.
+ *   - Client transport become logically detached from the client which adds possibility
+ *     to control client logic from delegate methods and from another thread.
+ *   - Added thread safety to WebSocket transport based on libwebsockets.
+ *   - Added processing of destroying socket context during some inactive time.
+ *   - Optimized code of WebSocket transport based on libwebsockets.
+ *   - Removed unused classes RETime, REThread and REMutex.
+ *   - Redused size of code and library size thanks to previous two punkts.
  *
  *   Changes on version 0.1.4:
  *   - Possibility to switch client between IPV4 & IPV6 if possible.
