@@ -96,10 +96,6 @@ public:
 	static REPtr<REBuffer> getRemovedLastPathComponent(const REPtr<REBuffer> & utf8Buffer);
 	
 	static REBOOL isBuffersEqual(const REPtr<REBuffer> & b1, const REPtr<REBuffer> & b2);
-	
-	static REUInt32 writeArrayF32(const REFloat32 * arr, char * buff, const REUInt32 count, const char sep = ';');
-	
-	static REUInt32 readArrayF32(const char * buff, REFloat32 * arr, const REUInt32 count, const char sep = ';');
 
 	static REBOOL readFirstNumber(const char * str, REInt64 * i64vOrNull, REFloat64 * f64vOrNull);
 };
