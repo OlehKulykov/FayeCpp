@@ -2521,12 +2521,18 @@ namespace FayeCpp {
 		Transport * _transport;
 		Delegate * _delegate;
 		SSLDataSource * _sslDataSource;
+		REString _url;
+		REString _host;
+		REString _path;
 		REString _clientId;
 		
 		REStringList _subscribedChannels;
 		REStringList _pendingSubscriptions;
 		REStringList _supportedConnectionTypes;
 
+		int _port;
+		
+		bool _isUseSSL;
 		bool _isFayeConnected;
 		bool _isDisconnecting;
 		bool _isUsingIPV6;
@@ -2558,9 +2564,8 @@ namespace FayeCpp {
 		
 		bool isPendingChannel(const char * channel) const;
 
-        //TODO: .....
-        //static unsigned long long _messageId;
-		static unsigned long long nextMessageId();
+		static unsigned int nextMessageId();
+		static void parseURL(Client * client);
 		
 	public:
 		/**
@@ -2595,12 +2600,6 @@ namespace FayeCpp {
 		 @return List of supported connection names. Based on server responce(handshake) and on implemented types.
 		 */
 		const REStringList & supportedTransportNames() const;
-		
-		
-		/**
-		 @return Currently connected transport protocol connection type.
-		 */
-		REString currentTransportName() const;
 		
 		
 		/**
@@ -2647,6 +2646,30 @@ namespace FayeCpp {
 		 @param url Faye server url string.
 		 */
 		void setUrl(const char * url);
+		
+		
+		/**
+		 @brief Returns string with URL host.
+		 */
+		const REString & host() const;
+		
+		
+		/**
+		 @brief URL path string. Should start with '/'
+		 */
+		const REString & path() const;
+		
+		
+		/**
+		 @brief URL port.
+		 */
+		int port() const;
+		
+		
+		/**
+		 @brief Is secure connection. Detects from URL string.
+		 */
+		bool isUseSSL() const;
 		
 		
 		/**

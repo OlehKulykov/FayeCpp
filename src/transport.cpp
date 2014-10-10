@@ -485,107 +485,11 @@ namespace FayeCpp {
 		// Add empty responce for making messenger thread alive.
 		_messenger->addResponce(NULL);
 	}
-#endif		
-	
-	const REString & Transport::url() const
-	{
-		return _url;
-	}
+#endif	
 	
 	bool Transport::isConnected() const
 	{
 		return _isConnected;
-	}
-	
-	void Transport::setUrl(const char * url)
-	{
-		_url = url;
-		REMutableString urlString(url);
-		if (urlString.isContaines("ws://"))
-		{
-			urlString.replace("ws://");
-			_isUseSSL = false;
-		}
-		
-		if (urlString.isContaines("wss://"))
-		{
-			urlString.replace("wss://");
-			_isUseSSL = true;
-		}
-		
-		if (urlString.isContaines("http://"))
-		{
-			urlString.replace("http://");
-#if defined(HAVE_SUITABLE_QT_VERSION)
-			REMutableString u(url);
-			u.replace("http://", "ws://");
-			_url = u.UTF8String();
-#endif
-			_isUseSSL = false;
-		}
-		
-		if (urlString.isContaines("https://"))
-		{
-			urlString.replace("https://");
-#if defined(HAVE_SUITABLE_QT_VERSION)
-			REMutableString u(url);
-			u.replace("https://", "wss://");
-			_url = u.UTF8String();
-#endif
-			_isUseSSL = true;
-		}
-		
-		const char * sub = strstr(urlString.UTF8String(), ":");
-		if (sub)
-		{
-			int port = -1;
-			if (sscanf(++sub, "%i", &port) == 1)
-			{
-				_port = port;
-			}
-		}
-		
-		sub = strstr(urlString.UTF8String(), "/");
-		if (sub)
-		{
-			_path = sub;
-		}
-		else
-		{
-			_path = "/";
-		}
-		
-		sub = strstr(urlString.UTF8String(), ":");
-		if (!sub) sub = strstr(urlString.UTF8String(), "/");
-		if (sub)
-		{
-			const REUInt32 len = (REUInt32)(sub - urlString.UTF8String());
-			_host = REString(urlString.UTF8String(), len);
-		}
-		else
-		{
-			_host = urlString.UTF8String();
-		}
-	}
-	
-	const REString & Transport::host() const
-	{
-		return _host;
-	}
-	
-	const REString & Transport::path() const
-	{
-		return _path;
-	}
-	
-	int Transport::port() const
-	{
-		return _port;
-	}
-	
-	bool Transport::isUseSSL() const
-	{
-		return _isUseSSL;
 	}
 	
 	Transport::Transport(ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * processMethod) :
@@ -593,11 +497,9 @@ namespace FayeCpp {
 #if defined(USE_TRANSPORT_MESSENGER)
 		_messenger(new Transport::Messenger(processMethod)),
 #endif
-		_port(-1),
 #if defined(__RE_USING_WINDOWS_THREADS__)
 		_mainThreadID(GetCurrentThreadId()),
 #endif
-		_isUseSSL(false),
 		_isConnected(false)
 	{
 #if defined(HAVE_ASSERT_H) 

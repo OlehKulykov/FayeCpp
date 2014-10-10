@@ -64,20 +64,16 @@ namespace FayeCpp {
 		return _isUsingIPV6;
 	}
 	
-    //TODO: ....
-    //unsigned long long Client::
-    unsigned long long _messageId = 0;
-	unsigned long long Client::nextMessageId()
+    static unsigned int __client_messageId = 0;
+	unsigned int Client::nextMessageId()
 	{
-		_messageId++;
-
-#if defined(ULONG_LONG_MAX)		
-		if (_messageId == ULONG_LONG_MAX) _messageId = 1;
-#elif defined(ULLONG_MAX)
-		if (_messageId == ULLONG_MAX) _messageId = 1;
+		__client_messageId++;
+#if defined(UINT_MAX)
+		if (__client_messageId == UINT_MAX) __client_messageId = 1;
+#else
+		if (__client_messageId == 9999999) __client_messageId = 1;
 #endif
-
-		return _messageId;
+		return __client_messageId;
 	}
 	
 	void Client::processMessage(Responce * responce)
@@ -239,11 +235,6 @@ namespace FayeCpp {
 		return _supportedConnectionTypes;
 	}
 	
-	REString Client::currentTransportName() const
-	{
-		return _transport->name();
-	}
-	
 	const REString & Client::clientId() const
 	{
 		return _clientId;
@@ -251,12 +242,104 @@ namespace FayeCpp {
 	
     const REString & Client::url() const
 	{
-		return _transport->url();
+		return _url;
 	}
 	
-    void Client::setUrl(const char * urlString)
+	void Client::parseURL(Client * client)
 	{
-		_transport->setUrl(urlString);
+		REMutableString urlString(client->_url.UTF8String());
+		
+		if (urlString.isContaines("ws://"))
+		{
+			urlString.replace("ws://");
+			client->_isUseSSL = false;
+		}
+		
+		if (urlString.isContaines("wss://"))
+		{
+			urlString.replace("wss://");
+			client->_isUseSSL = true;
+		}
+		
+		if (urlString.isContaines("http://"))
+		{
+			urlString.replace("http://");
+#if defined(HAVE_SUITABLE_QT_VERSION)
+			REMutableString u(url);
+			u.replace("http://", "ws://");
+			client->_url = u.UTF8String();
+#endif
+			client->_isUseSSL = false;
+		}
+		
+		if (urlString.isContaines("https://"))
+		{
+			urlString.replace("https://");
+#if defined(HAVE_SUITABLE_QT_VERSION)
+			REMutableString u(url);
+			u.replace("https://", "wss://");
+			client->_url = u.UTF8String();
+#endif
+			client->_isUseSSL = true;
+		}
+		
+		const char * sub = strstr(urlString.UTF8String(), ":");
+		if (sub)
+		{
+			int port = -1;
+			if (sscanf(++sub, "%i", &port) == 1)
+			{
+				client->_port = port;
+			}
+		}
+		
+		sub = strstr(urlString.UTF8String(), "/");
+		if (sub)
+		{
+			client->_path = sub;
+		}
+		else
+		{
+			client->_path = "/";
+		}
+		
+		sub = strstr(urlString.UTF8String(), ":");
+		if (!sub) sub = strstr(urlString.UTF8String(), "/");
+		if (sub)
+		{
+			const REUInt32 len = (REUInt32)(sub - urlString.UTF8String());
+			client->_host = REString(urlString.UTF8String(), len);
+		}
+		else
+		{
+			client->_host = urlString.UTF8String();
+		}
+	}
+	
+    void Client::setUrl(const char * url)
+	{
+		_url = url;
+		Client::parseURL(this);
+	}
+	
+	const REString & Client::host() const
+	{
+		return _host;
+	}
+	
+	const REString & Client::path() const
+	{
+		return _path;
+	}
+	
+	int Client::port() const
+	{
+		return _port;
+	}
+	
+	bool Client::isUseSSL() const
+	{
+		return _isUseSSL;
 	}
 	
 	bool Client::connect()
@@ -316,7 +399,7 @@ namespace FayeCpp {
 		}
 		
 		REStringList availableTypes = Client::availableConnectionTypes();
-		const REString currentType = this->currentTransportName();
+		const REString currentType = _transport->name();
 		bool isCurrentTypeFound = false;
 		REStringList::Iterator j = _supportedConnectionTypes.iterator();
 		while (!isCurrentTypeFound && j.next()) 
@@ -355,7 +438,7 @@ namespace FayeCpp {
 #endif
 		VariantMap message;
 		VariantList connectionTypes;
-		connectionTypes.add(this->currentTransportName());
+		connectionTypes.add(_transport->name());
 		message["supportedConnectionTypes"] = connectionTypes;
 		message["minimumVersion"] = "1.0beta";
 		message["channel"] = HANDSHAKE_CHANNEL;
@@ -388,7 +471,7 @@ namespace FayeCpp {
 		VariantMap message;
 		message["channel"] = CONNECT_CHANNEL;
 		message["clientId"] = _clientId;
-		message["connectionType"] = this->currentTransportName();
+		message["connectionType"] = _transport->name();
 		if (_delegate) _delegate->onFayeClientWillSendMessage(this, message);
 		
 		this->sendText(JsonGenerator(message).string());
@@ -575,7 +658,7 @@ namespace FayeCpp {
 			mes["channel"] = channel;
 			mes["clientId"] = _clientId;
 			mes["data"] = message;
-			mes["id"] = Client::nextMessageId();
+			mes["id"] = (unsigned long long)Client::nextMessageId();
 			
 			return this->sendText(JsonGenerator(mes).string());
 		}
@@ -586,6 +669,8 @@ namespace FayeCpp {
 		_transport(NULL),
 		_delegate(NULL),
 		_sslDataSource(NULL),
+		_port(0),
+		_isUseSSL(false),
 		_isFayeConnected(false),
 		_isDisconnecting(false),
 		_isUsingIPV6(false)

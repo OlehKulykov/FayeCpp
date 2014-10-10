@@ -118,9 +118,6 @@ namespace FayeCpp {
 		} Advice;
 		
 	private:
-		REString _url;
-		REString _host;
-		REString _path;
 #if defined(HAVE_PTHREAD_H)
 		pthread_t _mainThread;
 #endif
@@ -130,17 +127,15 @@ namespace FayeCpp {
 #endif
 		Advice _advice;
 		RETimeInterval _lastSendTime;
-		int _port;
 #if defined(__RE_USING_WINDOWS_THREADS__)
 		DWORD _mainThreadID;
 #endif
-		bool _isUseSSL;
 		bool _isConnected;
 		
-		Client * client() const;
 		Delegate * delegate() const;
 		
 	protected:
+		Client * client() const;
 		SSLDataSource * sslDataSource() const;
 		bool isUsingIPV6() const;
 		RETimeInterval adviceInterval() const { return _advice.interval; }
@@ -162,17 +157,6 @@ namespace FayeCpp {
 		RETimeInterval lastSendTime() const { return _lastSendTime; }
 		void receivedAdvice(const VariantMap & advice);
 		bool isConnected() const;
-		void setUrl(const char * url);
-		
-		const REString & url() const;
-		const REString & host() const;
-		
-		/**
-		 @brief Should start with '/'
-		 */
-		const REString & path() const;
-		int port() const;
-		bool isUseSSL() const;
 		
 		virtual const REString name() const = 0;
 

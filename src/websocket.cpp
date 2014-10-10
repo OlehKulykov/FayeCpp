@@ -484,15 +484,15 @@ namespace FayeCpp {
 		}
 		
 #ifdef FAYECPP_DEBUG_MESSAGES
-		RELog::log("Start connecting to host[%s] port[%i] path[%s]", this->host().UTF8String(), this->port(), this->path().UTF8String());
+		RELog::log("Start connecting to host[%s] port[%i] path[%s]", this->client()->host().UTF8String(), this->client()->port(), this->client()->path().UTF8String());
 #endif
 		
 		_connection = libwebsocket_client_connect(_context,
-												  this->host().UTF8String(),
-												  this->port(),
-												  this->isUseSSL() ? 2 : 0,
-												  this->path().UTF8String(),
-												  this->host().UTF8String(),
+												  this->client()->host().UTF8String(),
+												  this->client()->port(),
+												  this->client()->isUseSSL() ? 2 : 0,
+												  this->client()->path().UTF8String(),
+												  this->client()->host().UTF8String(),
 												  "origin",
 												  NULL,
 												  -1);
@@ -503,7 +503,7 @@ namespace FayeCpp {
 			
 			this->unLockMutex();
 			
-			this->onError(REString::createWithFormat("Failed to connect to %s:%i", this->host().UTF8String(), this->port()));
+			this->onError(REString::createWithFormat("Failed to connect to %s:%i", this->client()->host().UTF8String(), this->client()->port()));
 			return;
 		}
 		
