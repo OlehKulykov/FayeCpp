@@ -158,6 +158,11 @@
 #endif
 
 
+#if defined(HAVE_ASSERT_H)
+#include <assert.h>
+#endif
+
+
 /**
  @brief 8 bit unsigned byte type.
  @detailed 8 bit unsigned byte with 1 byte size.
@@ -266,7 +271,6 @@ typedef double REFloat64;
 typedef REFloat64 RETimeInterval;
 
 
-
 /**
  @brief Define for NULL pointer.
  */
@@ -335,7 +339,6 @@ typedef REFloat64 RETimeInterval;
 #define REIndexNotFound REUInt32Max
 
 
-
 #ifndef MIN
 #define MIN(a,b) ((a) < (b) ? (a) : (b))
 #endif
@@ -344,8 +347,6 @@ typedef REFloat64 RETimeInterval;
 #ifndef MAX
 #define MAX(a,b) ((a) > (b) ? (a) : (b))
 #endif
-
-
 
 namespace FayeCpp {
 	
@@ -529,6 +530,9 @@ namespace FayeCpp {
 			if (_object)
 			{
 				REInt32 * count = (REInt32 *)malloc(sizeof(REInt32 *));
+#if defined(HAVE_ASSERT_H)
+				assert(count);
+#endif				
 				if (count)
 				{
 					*count = 1;

@@ -39,6 +39,56 @@
 
 namespace FayeCpp {
 	
+	class Thread
+	{
+	private:
+		static pthread_mutex_t _mutex;
+		static pthread_t * _thread;
+		static bool _isInitialized;
+		static bool clean();
+	public:
+		static bool init();
+		static void add(pthread_t * t);
+	};
+	
+	pthread_mutex_t Thread::_mutex;
+	pthread_t * Thread::_thread = NULL;
+
+	bool Thread::clean()
+	{
+		if (_thread) 
+		{
+			void * r = NULL;
+			pthread_join(*_thread, &r);
+			if (r == NULL) { free(_thread); _thread = NULL; }
+		}
+		return (_thread == NULL);
+	}
+	
+	void Thread::add(pthread_t * t)
+	{
+		pthread_mutex_lock(&_mutex);
+		RE_ASSERT(Thread::clean()) /// If assert - thread not finished correctly.
+		_thread = t;
+		pthread_mutex_unlock(&_mutex);
+	}
+	
+	bool Thread::_isInitialized = false;
+	bool Thread::init()
+	{
+		if (!_isInitialized)
+		{
+			pthread_mutexattr_t attr;
+			if (pthread_mutexattr_init(&attr) == 0)
+			{
+				if (pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE) == 0) 
+					_isInitialized = (pthread_mutex_init(&_mutex, &attr) == 0);
+				pthread_mutexattr_destroy(&attr);
+			}
+		}
+		return _isInitialized;
+	}
+	
 	struct libwebsocket_protocols WebSocket::protocols[] = {
 		{
 			"default",
@@ -109,6 +159,8 @@ namespace FayeCpp {
 								size_t len)
 	{
 		WebSocket * socket = static_cast<WebSocket *>(libwebsocket_context_user(context));
+		if (!socket->_isWorking) return 0;
+		
 		switch (reason)
 		{
 			case LWS_CALLBACK_CLIENT_ESTABLISHED:
@@ -143,7 +195,7 @@ namespace FayeCpp {
 		_isWorking = 0;
 		this->unLockMutex();
 		
-		this->cleanup();
+//		this->cleanup();
 		
 		this->onDisconnected();
 	}
@@ -273,6 +325,10 @@ namespace FayeCpp {
 #endif		
 		WebSocket * socket = static_cast<WebSocket *>(somePointer);
 		socket->workMethod();
+		pthread_t * t = socket->_workThread;
+		socket->_workThread = NULL;
+		delete socket;
+		Thread::add(t);
 		return NULL;
 	}
 #elif defined(__RE_USING_WINDOWS_THREADS__)
@@ -280,6 +336,7 @@ namespace FayeCpp {
 	{
 		WebSocket * socket = static_cast<WebSocket *>(lpParameter);
 		socket->workMethod();
+		delete socket;
 		return 0;
 	}
 #endif
@@ -386,9 +443,13 @@ namespace FayeCpp {
 	
 	void WebSocket::disconnectFromServer()
 	{
-		this->deleteWorkThread();
+		this->lockMutex();
+		_isWorking = 0;
+		this->unLockMutex();
 		
-		this->cleanup();
+//		this->deleteWorkThread();
+		
+//		this->cleanup();
 	}
 	
 	const char * WebSocket::copyUTF8(const REString & from)
@@ -560,6 +621,8 @@ namespace FayeCpp {
 		_receivedBinaryBuffer(NULL),
 		_isWorking(0)
 	{
+		RE_ASSERT(Thread::init())
+		
 		memset(&_info, 0, sizeof(struct lws_context_creation_info));
 		
 		RE_ASSERT(Transport::initRecursiveMutex(&_mutex))

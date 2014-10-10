@@ -110,6 +110,9 @@ namespace FayeCpp {
 		_pendingSubscriptions.clear();
 		_supportedConnectionTypes.clear();
 		
+		Transport::deleteTransport(_transport);
+		_transport = NULL;
+		
 		if (_delegate) _delegate->onFayeTransportDisconnected(this);
 	}
 	
@@ -346,6 +349,13 @@ namespace FayeCpp {
 	{
 		if (!this->isTransportConnected())
 		{
+			Transport::deleteTransport(_transport);
+			_transport = NULL;
+			
+			_transport = Transport::createNewTransport(new ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce>(this, &Client::processMessage));
+#if defined(HAVE_ASSERT_H)	
+			assert(_transport);
+#endif
 			_transport->connectToServer();
 			return true;
 		}
@@ -675,10 +685,7 @@ namespace FayeCpp {
 		_isDisconnecting(false),
 		_isUsingIPV6(false)
 	{
-        _transport = Transport::createNewTransport(new ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce>(this, &Client::processMessage));
-#if defined(HAVE_ASSERT_H)	
-        assert(_transport);
-#endif
+       
 	}
 	
 	Client::~Client()
@@ -692,20 +699,22 @@ namespace FayeCpp {
 		RELog::log("Client: try delete transport ...");
 #endif
 		
-		if (_transport) 
-		{
-			if (!_transport->isMainThread()) 
-			{
-				RELog::log("FayeCpp client error: you are trying to delete client transport not in the same thread that was created!");
-#if defined(HAVE_ASSERT_H) 	
-				assert(0);
-#endif	
-			}
-			
-			_transport->disconnectFromServer();
-			delete _transport;
-			_transport = NULL;
-		}
+		Transport::deleteTransport(_transport);
+		
+//		if (_transport) 
+//		{
+//			if (!_transport->isMainThread()) 
+//			{
+//				RELog::log("FayeCpp client error: you are trying to delete client transport not in the same thread that was created!");
+//#if defined(HAVE_ASSERT_H) 	
+//				assert(0);
+//#endif	
+//			}
+//			
+//			_transport->disconnectFromServer();
+//			delete _transport;
+//			_transport = NULL;
+//		}
 		
 #ifdef FAYECPP_DEBUG_MESSAGES
 		RELog::log("Client: delete transport OK");

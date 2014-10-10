@@ -348,19 +348,19 @@ namespace FayeCpp {
 	
 	Client * Transport::client() const
 	{
-		return _processMethod->classPointer();
+		return _processMethod ? _processMethod->classPointer() : NULL;
 	}
 	
 	Delegate * Transport::delegate() const
 	{
-		//No transport without client.
-		return this->client()->delegate();
+		Client * client = this->client();
+		return client ? client->delegate() : NULL;
 	}
 	
 	SSLDataSource * Transport::sslDataSource() const
 	{
-		//No transport without client.
-		return this->client()->sslDataSource();
+		Client * client = this->client();
+		return client ? client->sslDataSource() : NULL;
 	}
 	
 	void Transport::onConnected()
@@ -370,17 +370,8 @@ namespace FayeCpp {
 #endif		
 		_isConnected = true;
 		
-#if defined(USE_TRANSPORT_MESSENGER)	
-		Responce * message = new Responce();
-		if (message)
-		{
-			message->setType(Responce::ResponceTransportConnected);
-			_messenger->addResponce(message);
-		}
-#else
 		Responce message; message.setType(Responce::ResponceTransportConnected);
-		_processMethod->invokeWithPointer(&message);
-#endif		
+		if (_processMethod) _processMethod->invokeWithPointer(&message);	
 	}
 	
 	void Transport::onDisconnected()
@@ -390,17 +381,8 @@ namespace FayeCpp {
 #endif		
 		_isConnected = false;
 		
-#if defined(USE_TRANSPORT_MESSENGER)	
-		Responce * message = new Responce();
-		if (message)
-		{
-			message->setType(Responce::ResponceTransportDisconnected);
-			_messenger->addResponce(message);
-		}
-#else
 		Responce message; message.setType(Responce::ResponceTransportDisconnected);
-		_processMethod->invokeWithPointer(&message);
-#endif		
+		if (_processMethod) _processMethod->invokeWithPointer(&message);
 	}
 	
 	void Transport::onTextReceived(const char * text)
@@ -409,32 +391,14 @@ namespace FayeCpp {
 		RELog::log("TRANSPORT RECEIVED: %s", text);
 #endif
 		
-#if defined(USE_TRANSPORT_MESSENGER)	
-		Responce * message = new Responce();
-		if (message)
-		{
-			message->setMessageText(text).setType(Responce::ResponceMessage);
-			_messenger->addResponce(message);
-		}
-#else
 		Responce message; message.setMessageText(text).setType(Responce::ResponceMessage);
-		_processMethod->invokeWithPointer(&message);
-#endif		
+		if (_processMethod) _processMethod->invokeWithPointer(&message);
 	}
 	
 	void Transport::onDataReceived(const unsigned char * data, const size_t dataSize)
 	{
-#if defined(USE_TRANSPORT_MESSENGER)			
-		Responce * message = new Responce();
-		if (message)
-		{
-			message->setMessageData(data, dataSize).setType(Responce::ResponceMessage);
-			_messenger->addResponce(message);
-		}
-#else
 		Responce message; message.setMessageData(data, dataSize).setType(Responce::ResponceMessage);
-		_processMethod->invokeWithPointer(&message);
-#endif	
+		if (_processMethod) _processMethod->invokeWithPointer(&message);
 	}
 	
 	void Transport::onError(const REString & error)
@@ -443,17 +407,8 @@ namespace FayeCpp {
 		RELog::log("TRANSPORT ERROR: %s", error.UTF8String());
 #endif
 		
-#if defined(USE_TRANSPORT_MESSENGER)			
-		Responce * message = new Responce();
-		if (message)
-		{
-			message->setType(Responce::ResponceTransportError).setErrorString(error);
-			_messenger->addResponce(message);
-		}
-#else
 		Responce message; message.setType(Responce::ResponceTransportError).setErrorString(error);
-		_processMethod->invokeWithPointer(&message);
-#endif		
+		if (_processMethod) _processMethod->invokeWithPointer(&message);
 	}
 	
 	void Transport::onError(const char * error)
@@ -461,31 +416,9 @@ namespace FayeCpp {
 #ifdef FAYECPP_DEBUG_MESSAGES
 		RELog::log("TRANSPORT ERROR: %s", error);
 #endif
-		
-#if defined(USE_TRANSPORT_MESSENGER)			
-		Responce * message = new Responce();
-		if (message)
-		{
-			message->setType(Responce::ResponceTransportError).setErrorString(error);
-			_messenger->addResponce(message);
-		}
-#else
 		Responce message; message.setType(Responce::ResponceTransportError).setErrorString(error);
-		_processMethod->invokeWithPointer(&message);
-#endif		
+		if (_processMethod) _processMethod->invokeWithPointer(&message);
 	}
-	
-#if defined(USE_TRANSPORT_MESSENGER)
-	time_t Transport::messengerLastWorkTime() const
-	{
-		return _messenger->lastWorkTime();
-	}
-	void Transport::onMessengerIDLE()
-	{
-		// Add empty responce for making messenger thread alive.
-		_messenger->addResponce(NULL);
-	}
-#endif	
 	
 	bool Transport::isConnected() const
 	{
@@ -494,39 +427,14 @@ namespace FayeCpp {
 	
 	Transport::Transport(ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * processMethod) :
 		_processMethod(processMethod),
-#if defined(USE_TRANSPORT_MESSENGER)
-		_messenger(new Transport::Messenger(processMethod)),
-#endif
-#if defined(__RE_USING_WINDOWS_THREADS__)
-		_mainThreadID(GetCurrentThreadId()),
-#endif
 		_isConnected(false)
 	{
 #if defined(HAVE_ASSERT_H) 
 		assert(_processMethod);
 		assert(this->client());
-#if defined(USE_TRANSPORT_MESSENGER)			
-		assert(_messenger);
 #endif		
-#endif		
-		
-#if defined(HAVE_PTHREAD_H)
-		_mainThread = pthread_self();
-#endif
-		
 		_advice.reconnect = ADVICE_RECONNECT_NONE;
 		_advice.timeout = _advice.interval = -1;
-	}
-	
-	bool Transport::isMainThread() const
-	{
-#if defined(HAVE_PTHREAD_H)
-		return (pthread_equal(_mainThread, pthread_self()) != 0);
-#elif defined(__RE_USING_WINDOWS_THREADS__)	
-		return (_mainThreadID == GetCurrentThreadId());
-#else
-		return true;
-#endif	
 	}
 	
 	Transport::~Transport()
@@ -535,7 +443,7 @@ namespace FayeCpp {
 		_messenger->stopWorking();
 		delete _messenger;
 #endif		
-		delete _processMethod;
+		if (_processMethod) delete _processMethod;
 	}
 	
 	Transport * Transport::createNewTransport(ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * processMethod)
@@ -549,6 +457,24 @@ namespace FayeCpp {
 #endif
 		}
 		return NULL;
+	}
+	
+	void Transport::deleteTransport(Transport * transport)
+	{
+		if (transport) 
+		{
+			ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * processMethod = transport->_processMethod;
+			transport->_processMethod = NULL;
+			if (processMethod) delete processMethod;
+			
+			transport->disconnectFromServer();
+			
+#if defined(HAVE_SUITABLE_QT_VERSION)
+			delete transport;
+#elif defined(HAVE_LIBWEBSOCKETS_H)
+			///
+#endif	
+		}
 	}
 	
 	REStringList Transport::availableConnectionTypes()

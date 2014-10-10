@@ -58,7 +58,7 @@ namespace FayeCpp {
 
 	
 #if !defined(HAVE_SUITABLE_QT_VERSION)
-#define USE_TRANSPORT_MESSENGER 1
+//#define USE_TRANSPORT_MESSENGER 1
 #endif
 
 	class Transport
@@ -148,10 +148,7 @@ namespace FayeCpp {
 		void onDataReceived(const unsigned char * data, const size_t dataSize);
 		void onError(const REString & error);
 		void onError(const char * error);
-#if defined(USE_TRANSPORT_MESSENGER)
-		time_t messengerLastWorkTime() const;
-		void onMessengerIDLE();
-#endif		
+	
 	public:
 		bool isMainThread() const;
 		RETimeInterval lastSendTime() const { return _lastSendTime; }
@@ -167,10 +164,10 @@ namespace FayeCpp {
 		virtual void disconnectFromServer() = 0;
 		
 		Transport(ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * processMethod);
-		
 		virtual ~Transport();
 
         static Transport * createNewTransport(ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * processMethod);
+		static void deleteTransport(Transport * transport);
         static REStringList availableConnectionTypes();
 		static bool isSupportsIPV6();
 		static bool isSupportsSSLConnection();
