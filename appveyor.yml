@@ -25,26 +25,19 @@ clone_folder: c:\dev\FayeCpp
 # scripts that run after cloning repository
 install:
   - cd c:\dev
-  - git clone https://github.com/libarchive/libarchive.git
   - cd c:\dev\FayeCpp
   - git submodule update --init --recursive
   
 build:
 
 build_script:
-  - cd c:\dev\libarchive\build
-  - cmake -G"Visual Studio 11" ..
-  - msbuild /m /p:Configuration=Release /p:Platform="Win32" libarchive.sln
-  - dir
-  - cd Release
-  - dir
   - cd c:\dev\FayeCpp
-  - dir
   - md build
   - cd build
   - cmake -DLWS_WITH_SSL:BOOL=OFF -DLWS_SSL_CLIENT_USE_OS_CA_CERTS:BOOL=OFF -DLWS_USE_CYASSL:BOOL=OFF -DLWS_WITHOUT_SERVER:BOOL=ON -DLWS_WITHOUT_DAEMONIZE:BOOL=ON -G"Visual Studio 11" ..
   - dir
-  - msbuild /m /p:Configuration=Release /p:Platform="Win32" FayeCpp.sln
+#  - msbuild /m /p:Configuration=Release /p:Platform="Win32" FayeCpp.sln
+  - msbuild /m FayeCpp.sln
 
 
 after_build:
