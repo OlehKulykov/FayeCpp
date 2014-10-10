@@ -33,9 +33,9 @@
 
 #if defined(HAVE_ASSERT_H)
 #include <assert.h>
-#define RE_ASSERT(r) assert(r);
+#define RE_ASSERT(r) assert(r)
 #else
-#define RE_ASSERT(r) r;
+#define RE_ASSERT(r) r
 #endif
 
 #define HANDSHAKE_CHANNEL "/meta/handshake"
@@ -71,6 +71,7 @@ namespace FayeCpp {
 #if defined(UINT_MAX)
 		if (__client_messageId == UINT_MAX) __client_messageId = 1;
 #else
+		/// more than enougth
 		if (__client_messageId == 9999999) __client_messageId = 1;
 #endif
 		return __client_messageId;
@@ -94,7 +95,8 @@ namespace FayeCpp {
 		RELog::log("Client: onTransportConnected");
 #endif
 		if (_delegate) _delegate->onFayeTransportConnected(this);
-		this->handshake();
+		
+		if (_transport) this->handshake();
 	}
 	
 	void Client::onTransportDisconnected()
@@ -110,8 +112,8 @@ namespace FayeCpp {
 		_pendingSubscriptions.clear();
 		_supportedConnectionTypes.clear();
 		
-		Transport::deleteTransport(_transport);
-		_transport = NULL;
+		Transport * unusedTransport = _transport; _transport = NULL;
+		Transport::deleteTransport(unusedTransport);
 		
 		if (_delegate) _delegate->onFayeTransportDisconnected(this);
 	}
@@ -349,8 +351,8 @@ namespace FayeCpp {
 	{
 		if (!this->isTransportConnected())
 		{
-			Transport::deleteTransport(_transport);
-			_transport = NULL;
+			Transport * unusedTransport = _transport; _transport = NULL;
+			Transport::deleteTransport(unusedTransport);
 			
 			_transport = Transport::createNewTransport(new ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce>(this, &Client::processMessage));
 #if defined(HAVE_ASSERT_H)	
@@ -442,7 +444,9 @@ namespace FayeCpp {
 	}
 	
 	void Client::handshake()
-	{
+	{		
+		if (!_transport) return;
+		
 #ifdef FAYECPP_DEBUG_MESSAGES
 		RELog::log("Client: handshake start...");
 #endif
@@ -454,6 +458,7 @@ namespace FayeCpp {
 		message["channel"] = HANDSHAKE_CHANNEL;
 		message["version"] = "1.0";
 		if (_delegate) _delegate->onFayeClientWillSendMessage(this, message);
+		if (!_transport) return;
 		
 		this->sendText(JsonGenerator(message).string());
 	}
@@ -466,6 +471,7 @@ namespace FayeCpp {
 			_isDisconnecting = false;
 
 			if (_delegate) _delegate->onFayeClientConnected(this);
+			if (!_transport) return;
 			this->subscribePendingSubscriptions();
 		}
 		
@@ -475,6 +481,7 @@ namespace FayeCpp {
 	
 	void Client::connectFaye()
 	{
+		if (!_transport) return;
 #ifdef FAYECPP_DEBUG_MESSAGES
 		RELog::log("Client: connect faye start ...");
 #endif
@@ -483,6 +490,7 @@ namespace FayeCpp {
 		message["clientId"] = _clientId;
 		message["connectionType"] = _transport->name();
 		if (_delegate) _delegate->onFayeClientWillSendMessage(this, message);
+		if (!_transport) return;
 		
 		this->sendText(JsonGenerator(message).string());
 	}
@@ -498,6 +506,7 @@ namespace FayeCpp {
 		message["channel"] = DISCONNECT_CHANNEL;
 		message["clientId"] = _clientId;
 		if (_delegate) _delegate->onFayeClientWillSendMessage(this, message);
+		if (!_transport) return;
 		
 		this->sendText(JsonGenerator(message).string());
 	}
@@ -540,6 +549,7 @@ namespace FayeCpp {
 			{
 				_isFayeConnected = true;
 				if (_delegate) _delegate->onFayeClientConnected(this);
+				if (!_transport) return;
 			}
 			
 #ifdef FAYECPP_DEBUG_MESSAGES
@@ -574,7 +584,9 @@ namespace FayeCpp {
 		_isFayeConnected = false;
 
 		if (_delegate) _delegate->onFayeClientDisconnected(this);
-		_transport->disconnectFromServer();
+		
+		Transport * unusedTransport = _transport; _transport = NULL;
+		Transport::deleteTransport(unusedTransport);
 		(void)message;
 	}
 	
@@ -593,7 +605,8 @@ namespace FayeCpp {
 					message["clientId"] = _clientId;
 					message["subscription"] = i.value();
 					if (_delegate) _delegate->onFayeClientWillSendMessage(this, message);
-
+					if (!_transport) return;
+					
 					this->sendText(JsonGenerator(message).string());
 				}
 			}
@@ -632,6 +645,7 @@ namespace FayeCpp {
 		message["clientId"] = _clientId;
 		message["subscription"] = channel;
 		if (_delegate) _delegate->onFayeClientWillSendMessage(this, message);
+		if (!_transport) return false;
 		
 		return this->sendText(JsonGenerator(message).string());
 	}
@@ -699,23 +713,9 @@ namespace FayeCpp {
 		RELog::log("Client: try delete transport ...");
 #endif
 		
-		Transport::deleteTransport(_transport);
-		
-//		if (_transport) 
-//		{
-//			if (!_transport->isMainThread()) 
-//			{
-//				RELog::log("FayeCpp client error: you are trying to delete client transport not in the same thread that was created!");
-//#if defined(HAVE_ASSERT_H) 	
-//				assert(0);
-//#endif	
-//			}
-//			
-//			_transport->disconnectFromServer();
-//			delete _transport;
-//			_transport = NULL;
-//		}
-		
+		Transport * unusedTransport = _transport; _transport = NULL;
+		Transport::deleteTransport(unusedTransport);
+
 #ifdef FAYECPP_DEBUG_MESSAGES
 		RELog::log("Client: delete transport OK");
 		RELog::log("Client: descructor ~Client() OK");

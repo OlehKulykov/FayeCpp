@@ -31,6 +31,13 @@
 #include "fayecpp_config.h"
 #endif
 
+#if defined(HAVE_ASSERT_H)
+#include <assert.h>
+#define RE_ASSERT(r) assert(r)
+#else
+#define RE_ASSERT(r) r
+#endif
+
 #if defined(HAVE_PTHREAD_H)
 #include <pthread.h>
 #elif defined(__RE_OS_WINDOWS__)
@@ -41,14 +48,21 @@
 #include <Windows.h>
 #endif /* __RE_OS_WINDOWS__ */
 
-#if defined(HAVE_ASSERT_H)
-#include <assert.h>
-#define RE_ASSERT(r) assert(r);
-#else
-#define RE_ASSERT(r) r;
+#if defined(HAVE_PTHREAD_H)
+#define LOCK_MUTEX(mPtr) pthread_mutex_lock(mPtr)
+#define UNLOCK_MUTEX(mPtr) pthread_mutex_unlock(mPtr)
+#elif defined(__RE_USING_WINDOWS_THREADS__)
+#define LOCK_MUTEX(mPtr) TryEnterCriticalSection(mPtr)
+#define UNLOCK_MUTEX(mPtr) LeaveCriticalSection(mPtr)
 #endif
 
-#include <time.h>
+#ifndef SAFE_DELETE
+#define SAFE_DELETE(o) if(o){delete o;o=NULL;}
+#endif
+
+#ifndef SAFE_FREE
+#define SAFE_FREE(m) if(m){free((void *)m);m=NULL;}
+#endif
 
 namespace FayeCpp {
 	
@@ -56,59 +70,8 @@ namespace FayeCpp {
 #define ADVICE_RECONNECT_RETRY 1
 #define ADVICE_RECONNECT_HANDSHAKE 2
 
-	
-#if !defined(HAVE_SUITABLE_QT_VERSION)
-//#define USE_TRANSPORT_MESSENGER 1
-#endif
-
 	class Transport
 	{
-	protected:
-#if defined(HAVE_PTHREAD_H)
-		static bool initRecursiveMutex(pthread_mutex_t * mutex);
-#elif defined(__RE_USING_WINDOWS_THREADS__)
-        static bool initRecursiveMutex(LPCRITICAL_SECTION mutex);
-#endif	
-		
-#if defined(USE_TRANSPORT_MESSENGER)
-	private:
-		class Messenger
-		{
-		private:
-#if defined(HAVE_PTHREAD_H)
-			pthread_t _thread;
-			pthread_mutex_t _mutex;
-			pthread_cond_t _conditionVariable;
-#elif defined(__RE_USING_WINDOWS_THREADS__)
-            HANDLE _thread;
-            CRITICAL_SECTION _mutex;
-            CONDITION_VARIABLE _conditionVariable;
-#endif			
-			REList<Responce *> _responces;
-			
-			ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * _processMethod;
-			time_t _lastWorkTime;
-			bool _isWorking;
-			bool _isSuspended;
-			
-#if defined(HAVE_PTHREAD_H)
-			static void * workThreadFunc(void * somePointer);
-			static bool initConditionVariable(pthread_cond_t * conditionVariable);
-#elif defined(__RE_USING_WINDOWS_THREADS__)
-            static bool initConditionVariable(PCONDITION_VARIABLE conditionVariable);
-            static DWORD WINAPI workThreadFunc(LPVOID lpParameter);
-#endif			
-			bool createWorkThread();
-			bool sendSingleResponce();
-		public:
-			time_t lastWorkTime() const;
-			void addResponce(Responce * responce);
-			void stopWorking();
-			Messenger(ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * processMethod);
-			~Messenger();
-		};
-#endif
-		
 	public:
 		typedef struct _adviceStructure
 		{
@@ -118,18 +81,9 @@ namespace FayeCpp {
 		} Advice;
 		
 	private:
-#if defined(HAVE_PTHREAD_H)
-		pthread_t _mainThread;
-#endif
 		ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * _processMethod;
-#if defined(USE_TRANSPORT_MESSENGER)
-		Transport::Messenger * _messenger;
-#endif
 		Advice _advice;
-		RETimeInterval _lastSendTime;
-#if defined(__RE_USING_WINDOWS_THREADS__)
-		DWORD _mainThreadID;
-#endif
+		
 		bool _isConnected;
 		
 		Delegate * delegate() const;
@@ -150,8 +104,6 @@ namespace FayeCpp {
 		void onError(const char * error);
 	
 	public:
-		bool isMainThread() const;
-		RETimeInterval lastSendTime() const { return _lastSendTime; }
 		void receivedAdvice(const VariantMap & advice);
 		bool isConnected() const;
 		

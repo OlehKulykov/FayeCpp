@@ -29,65 +29,74 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifndef SAFE_DELETE
-#define SAFE_DELETE(o) if(o){delete o;o=NULL;}
-#endif
-
-#ifndef SAFE_FREE
-#define SAFE_FREE(m) if(m){free((void *)m);m=NULL;}
-#endif
-
 namespace FayeCpp {
-	
-	class Thread
-	{
-	private:
-		static pthread_mutex_t _mutex;
-		static pthread_t * _thread;
-		static bool _isInitialized;
-		static bool clean();
-	public:
-		static bool init();
-		static void add(pthread_t * t);
-	};
-	
-	pthread_mutex_t Thread::_mutex;
-	pthread_t * Thread::_thread = NULL;
 
-	bool Thread::clean()
+#if defined(HAVE_PTHREAD_H)			
+	pthread_mutex_t WebSocket::ThreadsJoiner::_mutex;
+	pthread_t * WebSocket::ThreadsJoiner::_thread = NULL;
+#elif defined(__RE_USING_WINDOWS_THREADS__)
+	CRITICAL_SECTION WebSocket::ThreadsJoiner::_mutex;
+	HANDLE WebSocket::ThreadsJoiner::_thread = NULL;
+#endif
+	
+	bool WebSocket::ThreadsJoiner::clean()
 	{
 		if (_thread) 
 		{
+#if defined (HAVE_PTHREAD_H)
 			void * r = NULL;
 			pthread_join(*_thread, &r);
 			if (r == NULL) { free(_thread); _thread = NULL; }
+#elif defined(__RE_USING_WINDOWS_THREADS__)
+			DWORD dwExitCode = 0;
+			do {
+				if (GetExitCodeThread(_thread, &dwExitCode) == 0) break; // fail
+			} while (dwExitCode == STILL_ACTIVE);
+			if (dwExitCode == STILL_ACTIVE) TerminateThread(_thread, 0);
+			if (CloseHandle(_thread)) _thread = NULL;
+#endif
 		}
 		return (_thread == NULL);
 	}
 	
-	void Thread::add(pthread_t * t)
-	{
-		pthread_mutex_lock(&_mutex);
-		RE_ASSERT(Thread::clean()) /// If assert - thread not finished correctly.
+#if defined (HAVE_PTHREAD_H)	
+	void WebSocket::ThreadsJoiner::add(pthread_t * t) {
+#elif defined(__RE_USING_WINDOWS_THREADS__)		
+	void WebSocket::ThreadsJoiner::add(HANDLE t) {
+#endif
+		LOCK_MUTEX(&_mutex);
+		RE_ASSERT(ThreadsJoiner::clean()); /// If assert - thread not finished correctly.
 		_thread = t;
-		pthread_mutex_unlock(&_mutex);
+		UNLOCK_MUTEX(&_mutex);
 	}
-	
-	bool Thread::_isInitialized = false;
-	bool Thread::init()
+	bool WebSocket::ThreadsJoiner::_isInitialized = false;
+	bool WebSocket::ThreadsJoiner::init()
 	{
-		if (!_isInitialized)
-		{
-			pthread_mutexattr_t attr;
-			if (pthread_mutexattr_init(&attr) == 0)
-			{
-				if (pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE) == 0) 
-					_isInitialized = (pthread_mutex_init(&_mutex, &attr) == 0);
-				pthread_mutexattr_destroy(&attr);
-			}
-		}
+		if (!_isInitialized) _isInitialized = WebSocket::initRecursiveMutex(&_mutex);
 		return _isInitialized;
 	}
+	
+#if defined(HAVE_PTHREAD_H)
+	bool WebSocket::initRecursiveMutex(pthread_mutex_t * mutex)
+	{
+		pthread_mutexattr_t attr;
+		if (pthread_mutexattr_init(&attr) == 0)
+		{
+			bool isInit = false;
+			if (pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE) == 0)
+				isInit = (pthread_mutex_init(mutex, &attr) == 0);
+			pthread_mutexattr_destroy(&attr);
+			return isInit;
+		}
+		return false;
+	}
+#elif defined(__RE_USING_WINDOWS_THREADS__)
+	bool WebSocket::initRecursiveMutex(LPCRITICAL_SECTION mutex)
+	{
+		InitializeCriticalSection(mutex);
+		return true;
+	}
+#endif
 	
 	struct libwebsocket_protocols WebSocket::protocols[] = {
 		{
@@ -190,12 +199,9 @@ namespace FayeCpp {
 #ifdef FAYECPP_DEBUG_MESSAGES
 		RELog::log("CALLBACK CONNECTION DESTROYED");
 #endif	
-		
-		this->lockMutex();
+		LOCK_MUTEX(&_mutex);
 		_isWorking = 0;
-		this->unLockMutex();
-		
-//		this->cleanup();
+		UNLOCK_MUTEX(&_mutex);
 		
 		this->onDisconnected();
 	}
@@ -272,7 +278,7 @@ namespace FayeCpp {
 		}
 		
 		bool isError = false;
-		this->lockMutex();
+		LOCK_MUTEX(&_mutex);
 		
 		WriteBuffer * buffer = new WriteBuffer(data, dataSize);
 		if (buffer && buffer->size() == dataSize)
@@ -290,7 +296,7 @@ namespace FayeCpp {
 			libwebsocket_callback_on_writable(_context, _connection);
 		}
 		
-		this->unLockMutex();
+		UNLOCK_MUTEX(&_mutex);
 		
 		if (isError) this->onError("Can't send buffer data");
 	}
@@ -317,18 +323,18 @@ namespace FayeCpp {
 		return WebSocket::transportName(); 
 	}
 	
-#if defined(HAVE_PTHREAD_H)		
+#if defined(HAVE_PTHREAD_H)	
 	void * WebSocket::workThreadFunc(void * somePointer)
 	{
-#if defined(HAVE_FUNCTION_PTHREAD_SETNAME_NP) && defined(__APPLE__)		
+#if defined(HAVE_FUNCTION_PTHREAD_SETNAME_NP) && defined(__APPLE__)	
 		pthread_setname_np("FayeCpp WebSocket workThread");
-#endif		
+#endif	
 		WebSocket * socket = static_cast<WebSocket *>(somePointer);
 		socket->workMethod();
 		pthread_t * t = socket->_workThread;
 		socket->_workThread = NULL;
 		delete socket;
-		Thread::add(t);
+		ThreadsJoiner::add(t);
 		return NULL;
 	}
 #elif defined(__RE_USING_WINDOWS_THREADS__)
@@ -336,7 +342,10 @@ namespace FayeCpp {
 	{
 		WebSocket * socket = static_cast<WebSocket *>(lpParameter);
 		socket->workMethod();
+		HANDLE t = socket->_workThread;
+		socket->_workThread = NULL;
 		delete socket;
+		ThreadsJoiner::add(t);
 		return 0;
 	}
 #endif
@@ -379,53 +388,23 @@ namespace FayeCpp {
 		return false;
 	}
 	
-	void WebSocket::deleteWorkThread()
-	{
-		this->lockMutex();
-		_isWorking = 0;
-		this->unLockMutex();
-		
-#if defined(HAVE_PTHREAD_H)	
-		pthread_t * wThread = _workThread; _workThread = NULL;
-		if (wThread) 
-		{
-			if (pthread_join(*wThread, NULL) == 0) free(wThread);
-		}
-#elif defined(__RE_USING_WINDOWS_THREADS__)
-		HANDLE wThread = _workThread; _workThread = NULL;
-		if (wThread) 
-		{
-			DWORD dwExitCode = 0;
-			do {
-				if (GetExitCodeThread(wThread, &dwExitCode) == 0) break; // fail
-			} while (dwExitCode == STILL_ACTIVE);
-			if (dwExitCode == STILL_ACTIVE) TerminateThread(wThread, 0);
-			CloseHandle(wThread);
-		}
-#endif	
-	}
-	
 	void WebSocket::connectToServer()
 	{
-		this->disconnectFromServer();
-		
 		if (!this->isConnected())
 		{
-			RE_ASSERT(this->createWorkThread())
+			RE_ASSERT(this->createWorkThread());
 		}
 	}
 	
 	void WebSocket::cleanup()
 	{
-		this->lockMutex();
+		LOCK_MUTEX(&_mutex);
 		
 		memset(&_info, 0, sizeof(struct lws_context_creation_info));
 		
-		struct libwebsocket_context * context = _context;
+		if (_context) libwebsocket_context_destroy(_context);
 		_context = NULL;
 		_connection = NULL;
-		
-		if (context) libwebsocket_context_destroy(context);
 		
 		REList<WriteBuffer *>::Iterator i = _writeBuffers.iterator();
 		while (i.next()) 
@@ -438,18 +417,14 @@ namespace FayeCpp {
 		SAFE_DELETE(_receivedTextBuffer)
 		SAFE_DELETE(_receivedBinaryBuffer)
 		
-		this->unLockMutex();
+		UNLOCK_MUTEX(&_mutex);
 	}
 	
 	void WebSocket::disconnectFromServer()
 	{
-		this->lockMutex();
+		LOCK_MUTEX(&_mutex);
 		_isWorking = 0;
-		this->unLockMutex();
-		
-//		this->deleteWorkThread();
-		
-//		this->cleanup();
+		UNLOCK_MUTEX(&_mutex);
 	}
 	
 	const char * WebSocket::copyUTF8(const REString & from)
@@ -510,27 +485,9 @@ namespace FayeCpp {
 		return libwebsocket_create_context(&info);
 	}
 	
-	void WebSocket::lockMutex()
-	{
-#if defined(HAVE_PTHREAD_H)	
-		pthread_mutex_lock(&_mutex);
-#elif defined(__RE_USING_WINDOWS_THREADS__)
-		TryEnterCriticalSection(&_mutex);
-#endif	
-	}
-	
-	void WebSocket::unLockMutex()
-	{
-#if defined(HAVE_PTHREAD_H)	
-		pthread_mutex_unlock(&_mutex);
-#elif defined(__RE_USING_WINDOWS_THREADS__)
-		LeaveCriticalSection(&_mutex);
-#endif	
-	}
-	
 	void WebSocket::workMethod()
 	{
-		this->lockMutex();
+		LOCK_MUTEX(&_mutex);
 		
 		_isWorking = 0;
 		
@@ -538,7 +495,7 @@ namespace FayeCpp {
 		
 		if (!_context)
 		{
-			this->unLockMutex();
+			UNLOCK_MUTEX(&_mutex);
 			
 			this->onError("Socket initialization failed");
 			return;
@@ -562,7 +519,7 @@ namespace FayeCpp {
 			if (_context) libwebsocket_context_destroy(_context);
 			_context = NULL;
 			
-			this->unLockMutex();
+			UNLOCK_MUTEX(&_mutex);
 			
 			this->onError(REString::createWithFormat("Failed to connect to %s:%i", this->client()->host().UTF8String(), this->client()->port()));
 			return;
@@ -572,32 +529,16 @@ namespace FayeCpp {
 		
 		_isWorking = 1;
 		
-		this->unLockMutex();	/// for initialization
+		UNLOCK_MUTEX(&_mutex);	/// for initialization
 		
 		int n = 0;
 		while (n >= 0 && _isWorking && _context)
 		{
-#if defined(HAVE_PTHREAD_H)	
-			pthread_mutex_lock(&_mutex);
-#elif defined(__RE_USING_WINDOWS_THREADS__)
-			TryEnterCriticalSection(&_mutex);
-#endif	
+			LOCK_MUTEX(&_mutex);
 			
 			n = _context ? libwebsocket_service(_context, 75) : -1;
-		
-#if defined(USE_TRANSPORT_MESSENGER)
-			/// Timeout in seconds for sleeping messanger thread, sometimes too long sleeped thread is crashed.
-			/// Trigered from socket worked thread like some event arrived.
-			time_t t; time(&t);
-			/// First check time than check is still working
-			if ((t - this->messengerLastWorkTime()) > 4) if (_isWorking && _context) this->onMessengerIDLE();
-#endif	
-			
-#if defined(HAVE_PTHREAD_H)	
-			pthread_mutex_unlock(&_mutex);
-#elif defined(__RE_USING_WINDOWS_THREADS__)
-			LeaveCriticalSection(&_mutex);
-#endif
+
+			UNLOCK_MUTEX(&_mutex);
 			
 #if defined(HAVE_UNISTD_H)			
             usleep(75);   /// 1s = 1'000'000 microsec.
@@ -609,10 +550,8 @@ namespace FayeCpp {
 		this->cleanup();
 	}
 	
-	WebSocket::WebSocket(ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * processMethod) : /*REThread(),*/ Transport(processMethod),
-#if defined(HAVE_PTHREAD_H)	
-		_workThread(NULL),
-#elif defined(__RE_USING_WINDOWS_THREADS__)
+	WebSocket::WebSocket(ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * processMethod) : Transport(processMethod),
+#if defined(HAVE_PTHREAD_H) || defined(__RE_USING_WINDOWS_THREADS__)
 		_workThread(NULL),
 #endif
 		_context(NULL),
@@ -621,11 +560,11 @@ namespace FayeCpp {
 		_receivedBinaryBuffer(NULL),
 		_isWorking(0)
 	{
-		RE_ASSERT(Thread::init())
+		RE_ASSERT(ThreadsJoiner::init());
 		
 		memset(&_info, 0, sizeof(struct lws_context_creation_info));
 		
-		RE_ASSERT(Transport::initRecursiveMutex(&_mutex))
+		RE_ASSERT(WebSocket::initRecursiveMutex(&_mutex));
 	}
 	
 	WebSocket::~WebSocket()

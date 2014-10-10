@@ -41,7 +41,35 @@ namespace FayeCpp {
 
 	class WebSocket : public Transport
 	{
+	public:
+#if defined(HAVE_PTHREAD_H)
+		static bool initRecursiveMutex(pthread_mutex_t * mutex);
+#elif defined(__RE_USING_WINDOWS_THREADS__)
+		static bool initRecursiveMutex(LPCRITICAL_SECTION mutex);
+#endif
 	private:
+		class ThreadsJoiner
+		{
+#if defined(HAVE_PTHREAD_H)
+		private:
+			static pthread_mutex_t _mutex;
+			static pthread_t * _thread;
+		public:
+			static void add(pthread_t * t);
+#elif defined(__RE_USING_WINDOWS_THREADS__)
+		private:
+			static CRITICAL_SECTION _mutex;
+			static HANDLE _thread;
+		public:
+			static void add(HANDLE t);
+#endif
+		private:	
+			static bool _isInitialized;
+			static bool clean();
+		public:
+			static bool init();
+		};
+		
 		class WriteBuffer : public REBuffer
 		{
 		public:
@@ -76,11 +104,7 @@ namespace FayeCpp {
         static DWORD WINAPI workThreadFunc(LPVOID lpParameter);
 #endif	
 		
-		void lockMutex();
-		void unLockMutex();
-		
 		bool createWorkThread();
-		void deleteWorkThread();
 		
 		#define MAX_ECHO_PAYLOAD 4096
 		typedef struct echoSessionData

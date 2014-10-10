@@ -25,14 +25,14 @@ class FayeDelegate : public FayeCpp::Delegate
 public:
 	virtual void onFayeTransportConnected(FayeCpp::Client * client)
 	{
-		dispatch_async(dispatch_get_main_queue(), ^{
+//		dispatch_async(dispatch_get_main_queue(), ^{
 			FayeCpp::RELog::log("DELEGATE onFayeTransportConnected");
-		});
+//		});
 	}
 	
 	virtual void onFayeTransportDisconnected(FayeCpp::Client * client)
 	{
-		dispatch_async(dispatch_get_main_queue(), ^{
+//		dispatch_async(dispatch_get_main_queue(), ^{
 			FayeCpp::RELog::log("DELEGATE onFayeTransportDisconnected");
 			
 			NSLog(@"Try reconnect.");
@@ -40,7 +40,7 @@ public:
 			client->subscribeToChannel("/seminars/5322e93d8ee60a422400008f");
 			client->subscribeToChannel("/seminars_service/5322e93d8ee60a422400008f");
 			NSLog(@"Done reconnect.");
-		});
+//		});
 	}
 	
 	virtual void onFayeClientConnected(FayeCpp::Client * client)
