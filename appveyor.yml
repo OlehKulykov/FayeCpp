@@ -44,6 +44,10 @@ build_script:
   - cmd: cmake --build C:\dev\FayeCpp\build --config RELEASE --target INSTALL
   - cd c:\dev\FayeCpp\win-install
   - dir
+  - rd /S /Q c:\dev\FayeCpp\win-install\cmake
+  - rd /S /Q c:\dev\FayeCpp\win-install\lib\pkgconfig
+  - rd /S /Q c:\dev\FayeCpp\win-install\lib\pkgconfig
+  - rd /S /Q c:\dev\FayeCpp\win-install\bin
 #  - cmd: 7za a -r -t7z c:\dev\release-x86-win32-windows-server-2012.7z c:\dev\FayeCpp\build
   - cmd: 7za a -r -tzip c:\dev\%APPVEYOR_PROJECT_NAME%-%PLATFORM%-%APPVEYOR_BUILD_VERSION%-%APPVEYOR_REPO_COMMIT%.zip c:\dev\FayeCpp\win-install\
   - dir
