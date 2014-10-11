@@ -33,6 +33,10 @@
 #cmakedefine APPVEYOR_REPO_COMMIT_STRING "@APPVEYOR_REPO_COMMIT_STRING@"
 
 
+/* Define from continues integration site appveyor.com */
+#cmakedefine APPVEYOR_REPO_BRANCH_STRING "@APPVEYOR_REPO_BRANCH_STRING@"
+
+
 /* libwebsockets.h */
 #cmakedefine HAVE_LIBWEBSOCKETS_H @HAVE_LIBWEBSOCKETS_H@ 
 
