@@ -37,6 +37,7 @@
  *   - Optimized code of WebSocket transport based on libwebsockets.
  *   - Removed unused classes RETime, REThread and REMutex.
  *   - Redused size of code and library size thanks to previous two punkts.
+ *   - Added client library build information.
  *
  *   Changes on version 0.1.4:
  *   - Possibility to switch client between IPV4 & IPV6 if possible.
