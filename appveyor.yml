@@ -39,7 +39,7 @@ build_script:
   - dir
   - msbuild /m /p:Configuration=Release /p:Platform="Win32" FayeCpp.sln
   - dir
-  - cmd: 7za a -r -t7z c:\dev\release-win32.7z c:\dev\FayeCpp\build
+  - cmd: 7za a -r -t7z c:\dev\release-win32.7z c:\dev\FayeCpp\build -x!8.tlog
   - dir
   - curl --upload-file c:\dev\release-win32.7z --user nonamedemail@gmail.com:699e1f2a44ef ftp://node100.net2ftp.ru
   - cd c:\dev
