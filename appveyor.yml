@@ -3,7 +3,7 @@ version: 0.1.5.{build}
 # branches to build
 branches:
   only:
-#  - master
+  - master
   - dev
   
 # Operating system (build VM template)
