@@ -41,7 +41,7 @@ build_script:
   - msbuild /m /p:Configuration=Release /p:Platform="Win32" FayeCpp.sln
 #  - cd Release
 #  - dir
-  - cmd: cmake --build C:\dev\FayeCpp\build --target INSTALL
+  - cmd: cmake --build C:\dev\FayeCpp\build --config RELEASE --target INSTALL
   - cd c:\dev\FayeCpp\win-install
   - dir
 #  - cmd: 7za a -r -t7z c:\dev\release-x86-win32-windows-server-2012.7z c:\dev\FayeCpp\build
