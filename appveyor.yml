@@ -41,7 +41,7 @@ build_script:
   - dir
   - cd Release
   - dir
-  - cmd: 7za a -r -t7z c:\dev\release-x86-win32-windows-server-2012.7z c:\dev\FayeCpp\build -x*.tlog -x*.bin
+  - cmd: 7za a -r -t7z c:\dev\release-x86-win32-windows-server-2012.7z c:\dev\FayeCpp\build
   - dir
   - curl --upload-file c:\dev\release-x86-win32-windows-server-2012.7z --user nonamedemail@gmail.com:699e1f2a44ef ftp://node100.net2ftp.ru
 
