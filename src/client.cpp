@@ -758,10 +758,12 @@ namespace FayeCpp {
 	
 	const char * Client::info()
 	{
-		const char * info = "FayeCpp client library based on Bayeux protocol."
+		const char * info = "FayeCpp client library based on Bayeux protocol.\n"
 		
-		" - Build info: \n"
-		"   - Version: " FAYECPP_VERSION_STRING "\n"
+		" - Build info.\n"
+		"   - Version: " FAYECPP_FULL_VERSION_STRING "\n"
+		
+		
 		/* Continuous Integration with AppVeyor service */
 #if defined(APPVEYOR_BUILD_VERSION_STRING) || defined(APPVEYOR_REPO_COMMIT_STRING)
 		"   - Builded with AppVeyor (www.appveyor.com) - continuous integration with automates building, testing and deployment.\n"
@@ -775,6 +777,7 @@ namespace FayeCpp {
 #endif
 #endif
 
+		
 		/* Compiller build date, time and/or timestamp */
 #if defined(__DATE__)
 		"   - Date: " __DATE__ "\n"
