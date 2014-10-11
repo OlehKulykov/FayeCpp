@@ -763,7 +763,6 @@ namespace FayeCpp {
 		" - Build info.\n"
 		"   - Version: " FAYECPP_FULL_VERSION_STRING "\n"
 		
-		
 		/* Continuous Integration with AppVeyor service */
 #if defined(APPVEYOR_BUILD_VERSION_STRING) || defined(APPVEYOR_REPO_COMMIT_STRING)
 		"   - Builded with AppVeyor (www.appveyor.com) - continuous integration with automates building, testing and deployment.\n"
@@ -773,10 +772,8 @@ namespace FayeCpp {
 #endif
 #if defined(APPVEYOR_REPO_COMMIT_STRING)
 		"   - Repository commit ID (SHA): " APPVEYOR_REPO_COMMIT_STRING "\n"
-		
 #endif
 #endif
-
 		
 		/* Compiller build date, time and/or timestamp */
 #if defined(__DATE__)
