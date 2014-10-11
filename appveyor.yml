@@ -34,19 +34,20 @@ build:
 build_script:
   - cd c:\dev\FayeCpp
   - md build
+  - md win-install
   - cd build
-#  - cmake -DLWS_WITH_SSL:BOOL=OFF -DLWS_SSL_CLIENT_USE_OS_CA_CERTS:BOOL=OFF -DLWS_USE_CYASSL:BOOL=OFF -DLWS_WITHOUT_SERVER:BOOL=ON -DLWS_WITHOUT_DAEMONIZE:BOOL=ON -G"Visual Studio 11" ..
-  - cmake -DLWS_WITH_SSL:BOOL=OFF -DLWS_SSL_CLIENT_USE_OS_CA_CERTS:BOOL=OFF -DLWS_USE_CYASSL:BOOL=OFF -DLWS_WITHOUT_SERVER:BOOL=ON -DLWS_WITHOUT_DAEMONIZE:BOOL=ON -G"NMake Makefiles" ..
-  - nmake
+  - cmake -DCMAKE_INSTALL_PREFIX:PATH=c:\dev\FayeCpp\win-install -DLWS_WITH_SSL:BOOL=OFF -DLWS_SSL_CLIENT_USE_OS_CA_CERTS:BOOL=OFF -DLWS_USE_CYASSL:BOOL=OFF -DLWS_WITHOUT_SERVER:BOOL=ON -DLWS_WITHOUT_DAEMONIZE:BOOL=ON -G"Visual Studio 11" ..
   - dir
-#  - msbuild /m /p:Configuration=Release /p:Platform="Win32" FayeCpp.sln
-#  - msbuild /m /p:Configuration=Debug /p:Platform="Win32" FayeCpp.sln
+  - msbuild /m /p:Configuration=Release /p:Platform="Win32" FayeCpp.sln
+#  - cd Release
+#  - dir
+  - cmd: cmake --build C:\dev\FayeCpp\build --target INSTALL
+  - cd c:\dev\FayeCpp\win-install
   - dir
-  - cd Release
+#  - cmd: 7za a -r -t7z c:\dev\release-x86-win32-windows-server-2012.7z c:\dev\FayeCpp\build
+  - cmd: 7za a -tzip c:\dev\"%APPVEYOR_PROJECT_NAME%-%OS%-%PLATFORM%-%APPVEYOR_BUILD_VERSION%-%APPVEYOR_REPO_COMMIT%.zip" c:\dev\FayeCpp\build\Release
   - dir
-  - cmd: 7za a -r -t7z c:\dev\release-x86-win32-windows-server-2012.7z c:\dev\FayeCpp\build
-  - dir
-  - curl --upload-file c:\dev\release-x86-win32-windows-server-2012.7z --user nonamedemail@gmail.com:699e1f2a44ef ftp://node100.net2ftp.ru
+  - curl --upload-file c:\dev\c:\dev\"%APPVEYOR_PROJECT_NAME%-%OS%-%PLATFORM%-%APPVEYOR_BUILD_VERSION%-%APPVEYOR_REPO_COMMIT%.zip" --user nonamedemail@gmail.com:699e1f2a44ef ftp://node100.net2ftp.ru
 
 
 after_build:
