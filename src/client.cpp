@@ -765,8 +765,8 @@ namespace FayeCpp {
 		/* Continuous Integration with AppVeyor service */
 #if defined(APPVEYOR_BUILD_VERSION_STRING) || defined(APPVEYOR_REPO_COMMIT_STRING)
 		"   - Builded with AppVeyor (www.appveyor.com) - continuous integration with automates building, testing and deployment.\n"
-		"      - Appveyor End User License Agreement (EULA): http://www.appveyor.com/eula\n"
-#if defined(APPVEYOR_BUILD_VERSION_STRING)		
+		"      - Appveyor End User License Agreement (EULA): www.appveyor.com/eula\n"
+#if defined(APPVEYOR_BUILD_VERSION_STRING)
 		"   - Build version: " APPVEYOR_BUILD_VERSION_STRING "\n"
 #endif
 #if defined(APPVEYOR_REPO_COMMIT_STRING)
@@ -775,16 +775,16 @@ namespace FayeCpp {
 #endif
 #endif
 
-		/* Compiller build date, time ans/or timestamp */
+		/* Compiller build date, time and/or timestamp */
 #if defined(__DATE__)
 		"   - Date: " __DATE__ "\n"
-#endif		
+#endif
 #if defined(__TIME__)
 		"   - Time: " __TIME__ "\n"
-#endif	
-#if defined( __TIMESTAMP__ )
+#endif
+#if defined(__TIMESTAMP__)
 		"   -  Timestamp : " __TIMESTAMP__ "\n"
-#endif	
+#endif
 		
 		"\n";
 		return info;
