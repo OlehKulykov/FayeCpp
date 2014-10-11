@@ -58,6 +58,9 @@
 #define FAYECPP_VERSION_PATCH 5
 
 
+#define FAYECPP_VERSION_STRING "0.1.5"
+
+
 #if !defined(HAVE_SUITABLE_QT_VERSION) && defined(QT_VERSION) && defined(QT_VERSION_CHECK)
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 3, 0))

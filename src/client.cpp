@@ -761,7 +761,7 @@ namespace FayeCpp {
 		const char * info = "FayeCpp client library based on Bayeux protocol."
 		
 		" - Build info: \n"
-		    
+		"   - Version: " FAYECPP_VERSION_STRING "\n"
 		/* Continuous Integration with AppVeyor service */
 #if defined(APPVEYOR_BUILD_VERSION_STRING) || defined(APPVEYOR_REPO_COMMIT_STRING)
 		"   - Builded with AppVeyor (www.appveyor.com) - continuous integration with automates building, testing and deployment.\n"
