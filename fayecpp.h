@@ -2804,6 +2804,13 @@ namespace FayeCpp {
 		 @return True if client can use, otherwice false.
 		 */
 		static bool isSupportsSSLConnection();
+		
+		
+		/**
+		 @brief Client library information string. Containes build info if available.
+		 @return Pointer to the C string with client library information.
+		 */
+		static const char * info();
 	};
 	
 	

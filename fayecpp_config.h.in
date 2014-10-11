@@ -82,10 +82,6 @@
 #cmakedefine HAVE_TIME_H @HAVE_TIME_H@
 
 
-/* sys/time.h */
-#cmakedefine HAVE_SYS_TIME_H @HAVE_SYS_TIME_H@
-
-
 /* locale.h */
 #cmakedefine HAVE_LOCALE_H @HAVE_LOCALE_H@
 

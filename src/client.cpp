@@ -31,6 +31,18 @@
 #include "classmethodwrapper.h"
 #include "jsonutils.h"
 
+#if defined(HAVE_SYS_TIME_H)
+#include <sys/time.h>
+#endif
+
+#if defined(HAVE_TIME_H)
+#include <time.h>
+#endif
+
+#if defined(HAVE_MACH_MACH_TIME_H)
+#include <mach/mach_time.h>
+#endif
+
 #if defined(HAVE_ASSERT_H)
 #include <assert.h>
 #define RE_ASSERT(r) assert(r)
@@ -742,6 +754,30 @@ namespace FayeCpp {
 	bool Client::isSupportsSSLConnection()
 	{
 		return Transport::isSupportsSSLConnection();
+	}
+	
+	const char * Client::info()
+	{
+		const char * info = "FayeCpp client library based on Bayeux protocol."
+		
+		" - Build info: \n"
+#if defined(APPVEYOR_BUILD_VERSION_STRING) || defined(APPVEYOR_REPO_COMMIT_STRING)
+		"   - Builded with AppVeyor (www.appveyor.com) - continuous integration with automates building, testing and deployment\n"
+		"      - Appveyor End User License Agreement (EULA): http://www.appveyor.com/eula\n"
+#endif
+		
+#if defined(__DATE__)
+		"   - Date: " __DATE__ "\n"
+#endif		
+#if defined(__TIME__)
+		"   - Time: " __TIME__ "\n"
+#endif	
+#if defined( __TIMESTAMP__ )
+		"   -  Timestamp : "  __TIMESTAMP__  "\n"
+#endif	
+		
+		"\n";
+		return info;
 	}
 }
 
