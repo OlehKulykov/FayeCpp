@@ -25,9 +25,13 @@
 #define __FAYECPP_CONFIG_H__ 
 
 
+/* Define from continues integration site appveyor.com */
 #cmakedefine APPVEYOR_BUILD_VERSION_STRING "@APPVEYOR_BUILD_VERSION_STRING@"
 
+
+/* Define from continues integration site appveyor.com */
 #cmakedefine APPVEYOR_REPO_COMMIT_STRING "@APPVEYOR_REPO_COMMIT_STRING@"
+
 
 /* libwebsockets.h */
 #cmakedefine HAVE_LIBWEBSOCKETS_H @HAVE_LIBWEBSOCKETS_H@ 
