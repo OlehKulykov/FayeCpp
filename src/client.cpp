@@ -789,6 +789,21 @@ namespace FayeCpp {
 #if defined(_MFC_VER)
 		"   - MFC version: " TO_STRING(_MFC_VER) "\n"
 #endif
+#if defined(_MSC_BUILD)
+		"   - Visual C++ compiler is: " TO_STRING(_MSC_BUILD) "\n"
+#endif
+#if defined(_MSC_FULL_VER)
+		"   - Version number of the Visual C++ compiler is: " TO_STRING(_MSC_FULL_VER) "\n"
+#endif
+#if defined(_WIN32)
+		"   - Application for Win32 and Win64: TRUE\n"
+#endif
+#if defined(_WIN64)
+		"   - Application for Win64: TRUE\n"
+#endif
+#if defined(_ATL_VER)
+		"   - ATL version:" TO_STRING(_ATL_VER) "\n"
+#endif
 		
 		/* Compiller build date, time and/or timestamp */
 #if defined(__DATE__)
