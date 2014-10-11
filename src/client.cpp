@@ -779,7 +779,7 @@ namespace FayeCpp {
 		"   - Build branch: " APPVEYOR_REPO_BRANCH_STRING "\n"
 #endif
 #endif
-		
+
 #if defined(_CPPRTTI)
 		"   - Enable Run-Time Type Information.\n"
 #endif
@@ -807,7 +807,7 @@ namespace FayeCpp {
 #if defined(_ATL_VER)
 		"   - ATL version:" TO_STRING(_ATL_VER) "\n"
 #endif
-		
+
 		/* Compiller build date, time and/or timestamp */
 #if defined(__DATE__)
 		"   - Date: " __DATE__ "\n"
