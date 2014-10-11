@@ -755,7 +755,9 @@ namespace FayeCpp {
 	{
 		return Transport::isSupportsSSLConnection();
 	}
-	
+
+#define STRING_I(s) #s
+#define TO_STRING(s) STRING_I(s)
 	const char * Client::info()
 	{
 		const char * info = "FayeCpp client library based on Bayeux protocol.\n"
@@ -773,6 +775,19 @@ namespace FayeCpp {
 #if defined(APPVEYOR_REPO_COMMIT_STRING)
 		"   - Repository commit ID (SHA): " APPVEYOR_REPO_COMMIT_STRING "\n"
 #endif
+#endif
+		
+#if defined(_CPPRTTI)
+		"   - Enable Run-Time Type Information.\n"
+#endif
+#if defined(_M_AMD64) || defined(_M_X64)
+		"   - Compiled for x64 processors.\n"
+#endif
+#if defined(_M_ARM)
+		"   - Compiled for ARM processors.\n"
+#endif
+#if defined(_MFC_VER)
+		"   - MFC version: " TO_STRING(_MFC_VER) "\n"
 #endif
 		
 		/* Compiller build date, time and/or timestamp */
