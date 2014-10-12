@@ -37,8 +37,8 @@ build_script:
   - msbuild /m /p:Configuration=Release /p:Platform="Win32" FayeCpp.sln
   - cmd: cmake --build C:\dev\FayeCpp\build --config RELEASE --target INSTALL
   - cd c:\dev\FayeCpp\win-install
-  - cmd: 7za a -t7z -mx=9 -xr!cmake -xr!pkgconfig -xr!bin c:\dev\%PLATFORM%-%APPVEYOR_BUILD_VERSION%-%APPVEYOR_REPO_COMMIT%.7z c:\dev\FayeCpp\win-install
-  - curl --upload-file c:\dev\%PLATFORM%-%APPVEYOR_BUILD_VERSION%-%APPVEYOR_REPO_COMMIT%.7z --user nonamedemail@gmail.com:699e1f2a44ef ftp://node100.net2ftp.ru/public_http/fayecpp/windows/
+  - cmd: 7za a -t7z -mx=9 -xr!cmake -xr!pkgconfig -xr!bin c:\dev\%PLATFORM%-%APPVEYOR_REPO_BRANCH%-%APPVEYOR_BUILD_VERSION%-%APPVEYOR_REPO_COMMIT%.7z c:\dev\FayeCpp\win-install
+  - curl --upload-file c:\dev\%PLATFORM%-%APPVEYOR_REPO_BRANCH%-%APPVEYOR_BUILD_VERSION%-%APPVEYOR_REPO_COMMIT%.7z --user nonamedemail@gmail.com:699e1f2a44ef ftp://node100.net2ftp.ru/public_http/fayecpp/windows/
 
 
 after_build:
