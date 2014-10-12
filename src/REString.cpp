@@ -251,25 +251,7 @@ namespace FayeCpp {
 	{
 		
 	}
-	
-	//REString::REString(const wchar_t * wideString, const RERange & range) : REStringBase()
-	//{
-	//	if (wideString && range.isValid()) 
-	//	{
-	//		const wchar_t * s = wideString + range.location;
-	//		this->setFromWideString(s, range.length, REStringTypeWide);
-	//	}
-	//}
-	//
-	//REString::REString(const char * utf8String, const RERange & range) : REStringBase()
-	//{
-	//	if (utf8String && range.isValid())
-	//	{
-	//		const char * s = utf8String + range.location;
-	//		this->setFromUTF8String(s, range.length, REStringTypeUTF8);
-	//	}
-	//}
-	
+		
 	REString::REString(const char * utf8String, const REUInt32 utf8StringLength) :
 	REStringBase(utf8String, utf8StringLength, REStringTypeUTF8)
 	{
@@ -281,7 +263,6 @@ namespace FayeCpp {
 	{
 		
 	}
-	
 	
 	REString::REString(const REString & anotherString) : 
 	REStringBase(anotherString._p)
