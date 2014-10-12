@@ -803,7 +803,7 @@ namespace FayeCpp {
 		" - Timestamp : " __TIMESTAMP__ "\n"
 #endif
 		
-		"\n";
+		;
 		return info;
 	}
 }
