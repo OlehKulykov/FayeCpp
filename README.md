@@ -23,6 +23,12 @@ cd FayeCpp
 git submodule init
 git submodule update
 ```
+Or with few commands
+```sh
+git clone https://github.com/OlehKulykov/FayeCpp.git
+cd FayeCpp
+git submodule update --init --recursive
+```
 
 ### Dependencies
  * [Libwebsockets] - "lightweight pure C library built to use minimal CPU and memory resources", or use **FayeCpp** with [Qt SDK][1] (see below).
@@ -52,7 +58,17 @@ make
 -DJANSSON_BUILD_DOCS:BOOL=OFF \
 -DLWS_WITHOUT_DEBUG:BOOL=ON ..
 > ```
-> For more options read [Libwebsockets] and [Jansson] documentation.
+Example configuring without OpenSSL support for Microsoft Visual Studio:
+> ```sh
+> cmake -DCMAKE_INSTALL_PREFIX:PATH=c:\dev\FayeCpp\win-install \
+-DLWS_WITH_SSL:BOOL=OFF \
+-DLWS_SSL_CLIENT_USE_OS_CA_CERTS:BOOL=OFF \
+-DLWS_USE_CYASSL:BOOL=OFF \
+-DLWS_WITHOUT_SERVER:BOOL=ON \
+-DLWS_WITHOUT_DAEMONIZE:BOOL=ON 
+-G"Visual Studio 11" ..
+> ````
+> For more options read [Libwebsockets] [Jansson] and [CMake] documentation.
 
 ### Build on Windows with Microsoft Visual Studio
  * Execute **Start** -> **Microsoft Visual Studio ....** -> **Visual Studio Tools** -> **... Tools Command Prompt** with administrative permissions (Context menu: **Run as administrator** ).
