@@ -80,7 +80,7 @@ Build with nmake:
 cmake -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=Release ..
 nmake
 ```
-Generate **Microsoft Visual Studio** solution (please replace version to yours if needed):
+How to generate **Microsoft Visual Studio** solution (please replace version to yours if needed):
 ```sh
 cmake -G"Visual Studio 11" -DCMAKE_BUILD_TYPE=Release ..
 ```
