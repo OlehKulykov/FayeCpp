@@ -84,7 +84,7 @@ Generate **Microsoft Visual Studio** solution (please replace version to yours i
 ```sh
 cmake -G"Visual Studio 11" -DCMAKE_BUILD_TYPE=Release ..
 ```
-* Or another option: especially for this case was added continuous integration for Microsoft Windows via [AppVeyor] service, so you could look to the **appveyor.yml** file, located a the root, and find out how to configure and build with minimun actions.
+* Or another option: especially for this case was added continuous integration for **Microsoft Windows** via [AppVeyor] service, so you could look to the **appveyor.yml** file, located a the root, and find out how to configure and build with minimun actions.
 
 
 ### Build for Android with Android NDK
