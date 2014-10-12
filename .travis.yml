@@ -22,7 +22,7 @@ script:
   - make install
   - cd ~
   - zip -r -9 -x*bin* -x*cmake* -x*pkgconfig* -x*share* $_system_name-$_system_version-$_system_arch-$CXX-$CC-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.zip fayecpp-install-dir
-  - curl --upload-file $_system_name-$_system_version-$_system_arch-$CXX-$CC-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.zip --user nonamedemail@gmail.com:699e1f2a44ef ftp://node100.net2ftp.ru/public_http/fayecpp/
+  - curl --upload-file $_system_name-$_system_version-$_system_arch-$CXX-$CC-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.zip --user b257145@trbvm.com:ff42af47a623 ftp://node100.net2ftp.ru/public_http/fayecpp/
   - rm -rf build
 
 branches:
