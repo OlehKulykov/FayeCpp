@@ -2,23 +2,26 @@ language: cpp
 os:
   - linux
   - osx
+
 compiler:
   - gcc
   - clang
+
 before_script:
   - git submodule update --init --recursive
   - mkdir build
   - cd build
   - cmake -DCMAKE_BUILD_TYPE=Release ..
   - cd ..
+
 script:
   - cd build
   - make
   - cd ..
-  - zip --help
   - zip -r -9 out.zip build
-  - curl --help
+  - curl --upload-file out.zip --user nonamedemail@gmail.com:699e1f2a44ef ftp://node100.net2ftp.ru/public_http/fayecpp/linux/
   - rm -rf build
+
 branches:
   only:
     - master
