@@ -8,22 +8,18 @@ compiler:
   - clang
 
 before_script:
-  - ls
+  - mkdir ~/fayecpp-install-dir
   - git submodule update --init --recursive
   - mkdir build
-  - mkdir install-dir
-  - ls
   - cd build
-  - ls
-  - cmake -DCMAKE_INSTALL_PREFIX:PATH=../install-dir -DCMAKE_BUILD_TYPE=Release ..
+  - cmake -DCMAKE_INSTALL_PREFIX:PATH=~/fayecpp-install-dir -DCMAKE_BUILD_TYPE=Release ..
   - cd ..
 
 script:
   - cd build
   - make
   - make install
-  - cd ..
-  - zip -r -9 out.zip install-dir
+  - zip -r -9 out.zip ~/fayecpp-install-dir
   - curl --upload-file out.zip --user nonamedemail@gmail.com:699e1f2a44ef ftp://node100.net2ftp.ru/public_http/fayecpp/linux/
   - rm -rf build
 
