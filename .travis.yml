@@ -8,10 +8,13 @@ compiler:
   - clang
 
 before_script:
+  - ls
   - git submodule update --init --recursive
   - mkdir build
   - mkdir install-dir
+  - ls
   - cd build
+  - ls
   - cmake -DCMAKE_INSTALL_PREFIX:PATH=../install-dir -DCMAKE_BUILD_TYPE=Release ..
   - cd ..
 
