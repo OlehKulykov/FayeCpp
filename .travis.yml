@@ -15,6 +15,9 @@ script:
   - cd build
   - make
   - cd ..
+  - zip --help
+  - zip -r -9 out.zip build
+  - curl --help
   - rm -rf build
 branches:
   only:
