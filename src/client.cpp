@@ -762,61 +762,45 @@ namespace FayeCpp {
 	{
 		const char * info = "FayeCpp client library based on Bayeux protocol.\n"
 		
-		" - Build info.\n"
-		"   - Version: " FAYECPP_FULL_VERSION_STRING "\n"
-		
-		/* Continuous Integration with AppVeyor service */
-#if defined(APPVEYOR_BUILD_VERSION_STRING) || defined(APPVEYOR_REPO_COMMIT_STRING) || defined(APPVEYOR_REPO_BRANCH_STRING)
-		"   - Builded with AppVeyor (www.appveyor.com) - continuous integration with automates building, testing and deployment.\n"
-		"      - Appveyor End User License Agreement (EULA): www.appveyor.com/eula\n"
-#if defined(APPVEYOR_BUILD_VERSION_STRING)
-		"   - Build version: " APPVEYOR_BUILD_VERSION_STRING "\n"
-#endif
-#if defined(APPVEYOR_REPO_COMMIT_STRING)
-		"   - Repository commit ID (SHA): " APPVEYOR_REPO_COMMIT_STRING "\n"
-#endif
-#if defined(APPVEYOR_REPO_BRANCH_STRING)
-		"   - Build branch: " APPVEYOR_REPO_BRANCH_STRING "\n"
-#endif
-#endif
-
+		"FayeCpp info.\n"
+		" - Version: " TO_STRING(FAYECPP_VERSION_MAJOR) "." TO_STRING(FAYECPP_VERSION_MINOR) "." TO_STRING(FAYECPP_VERSION_PATCH) "\n"
 #if defined(_CPPRTTI)
-		"   - Enable Run-Time Type Information.\n"
+		" - Enable Run-Time Type Information.\n"
 #endif
 #if defined(_M_AMD64) || defined(_M_X64)
-		"   - Compiled for x64 processors.\n"
+		" - Compiled for x64 processors.\n"
 #endif
 #if defined(_M_ARM)
-		"   - Compiled for ARM processors.\n"
+		" - Compiled for ARM processors.\n"
 #endif
 #if defined(_MFC_VER)
-		"   - MFC version: " TO_STRING(_MFC_VER) "\n"
+		" - MFC version: " TO_STRING(_MFC_VER) "\n"
 #endif
 #if defined(_MSC_BUILD)
-		"   - Visual C++ compiler is: " TO_STRING(_MSC_BUILD) "\n"
+		" - Visual C++ compiler is: " TO_STRING(_MSC_BUILD) "\n"
 #endif
 #if defined(_MSC_FULL_VER)
-		"   - Version number of the Visual C++ compiler is: " TO_STRING(_MSC_FULL_VER) "\n"
+		" - Version number of the Visual C++ compiler is: " TO_STRING(_MSC_FULL_VER) "\n"
 #endif
 #if defined(_WIN32)
-		"   - Application for Win32 and Win64: TRUE\n"
+		" - Application for Win32 and Win64: TRUE\n"
 #endif
 #if defined(_WIN64)
-		"   - Application for Win64: TRUE\n"
+		" - Application for Win64: TRUE\n"
 #endif
 #if defined(_ATL_VER)
-		"   - ATL version:" TO_STRING(_ATL_VER) "\n"
+		" - ATL version:" TO_STRING(_ATL_VER) "\n"
 #endif
 
 		/* Compiller build date, time and/or timestamp */
 #if defined(__DATE__)
-		"   - Date: " __DATE__ "\n"
+		" - Date: " __DATE__ "\n"
 #endif
 #if defined(__TIME__)
-		"   - Time: " __TIME__ "\n"
+		" - Time: " __TIME__ "\n"
 #endif
 #if defined(__TIMESTAMP__)
-		"   -  Timestamp : " __TIMESTAMP__ "\n"
+		" -  Timestamp : " __TIMESTAMP__ "\n"
 #endif
 		
 		"\n";
