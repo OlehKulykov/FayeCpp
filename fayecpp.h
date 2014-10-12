@@ -59,12 +59,16 @@
 #define FAYECPP_VERSION_PATCH 5
 
 
-#if !defined(HAVE_SUITABLE_QT_VERSION) && defined(QT_VERSION) && defined(QT_VERSION_CHECK)
+#if !defined(HAVE_SUITABLE_QT_VERSION) 
+
+/* Try to check Qt version, should be more or equal than 5.3.0 */
+#if defined(QT_VERSION) && defined(QT_VERSION_CHECK)
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 3, 0))
 #define HAVE_SUITABLE_QT_VERSION 1
 #endif
 
+#endif /* End check Qt version */
 #endif
 
 
