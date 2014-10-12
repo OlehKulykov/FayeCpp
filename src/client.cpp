@@ -764,6 +764,9 @@ namespace FayeCpp {
 		
 		"Build info.\n"
 		" - Version: " TO_STRING(FAYECPP_VERSION_MAJOR) "." TO_STRING(FAYECPP_VERSION_MINOR) "." TO_STRING(FAYECPP_VERSION_PATCH) "\n"
+#if defined(__unix__)
+		" - Compiler targeting Unix systems.\n"
+#endif
 #if defined(__STDC__)
 		" - Compiler conforms to ISO Standard C.\n"
 #endif
