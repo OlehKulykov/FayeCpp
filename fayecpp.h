@@ -69,7 +69,7 @@
 #endif
 
 #endif /* End check Qt version */
-#endif
+#endif /* End check exestance of Qt suitable version */
 
 
 #if !defined(__RE_OS_WINDOWS__) && !defined(__RE_OS_ANDROID__)
