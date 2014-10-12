@@ -65,19 +65,27 @@ Example configuring without OpenSSL support for Microsoft Visual Studio:
 -DLWS_SSL_CLIENT_USE_OS_CA_CERTS:BOOL=OFF \
 -DLWS_USE_CYASSL:BOOL=OFF \
 -DLWS_WITHOUT_SERVER:BOOL=ON \
--DLWS_WITHOUT_DAEMONIZE:BOOL=ON 
+-DLWS_WITHOUT_DAEMONIZE:BOOL=ON \
+-DCMAKE_BUILD_TYPE=Release \
 -G"Visual Studio 11" ..
 > ```
 > For more options read [Libwebsockets], [Jansson] and [CMake] documentation.
 
 ### Build on Windows with Microsoft Visual Studio
  * Execute **Start** -> **Microsoft Visual Studio ....** -> **Visual Studio Tools** -> **... Tools Command Prompt** with administrative permissions (Context menu: **Run as administrator** ).
- * Do the same as on **Build on Unix like platforms**, with small changes, tell [CMake] **generate makefiles** and use **nmake**:
+ * Do the same as on **Build on Unix like platforms**, with small changes, tell [CMake] **generate makefiles** and use **nmake** or generate **Microsoft Visual Studio** solution and projects and build them.
 
- ```sh
+Build with nmake:
+```sh
 cmake -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=Release ..
 nmake
- ```
+```
+Generate **Microsoft Visual Studio** solution (please replace version to yours if needed):
+```sh
+cmake -G"Visual Studio 11" -DCMAKE_BUILD_TYPE=Release ..
+```
+* Or another option: especially for this case was added continuous integration for Microsoft Windows via [AppVeyor] service, so you could look to the **appveyor.yml** file, located a the root, and find out how to configure and build with minimun actions.
+
 
 ### Build for Android with Android NDK
  * Download and install [Android NDK][2].
@@ -312,3 +320,4 @@ THE SOFTWARE.
 [Bayeux Protocol]:http://svn.cometd.com/trunk/bayeux/bayeux.html
 [JSON]:http://www.json.org
 [TODO_1]:https://github.com/davidgaleano/libwebsockets
+[AppVeyor]:http://www.appveyor.com
