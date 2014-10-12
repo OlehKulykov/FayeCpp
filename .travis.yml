@@ -16,7 +16,7 @@ before_script:
   - cd ..
 
 script:
-  - 7za --help
+  - printenv
   - cd build
   - make
   - make install
