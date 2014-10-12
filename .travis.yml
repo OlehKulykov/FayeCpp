@@ -19,7 +19,8 @@ script:
   - cd build
   - make
   - make install
-  - zip -r -9 out.zip ~/fayecpp-install-dir
+  - cd ~
+  - zip -r -9 out.zip fayecpp-install-dir
   - curl --upload-file out.zip --user nonamedemail@gmail.com:699e1f2a44ef ftp://node100.net2ftp.ru/public_http/fayecpp/linux/
   - rm -rf build
 
