@@ -760,9 +760,9 @@ namespace FayeCpp {
 #define TO_STRING(s) STRING_I(s)
 	const char * Client::info()
 	{
-		const char * info = "FayeCpp client library based on Bayeux protocol.\n"
+		const char * info = "\nFayeCpp client library based on Bayeux protocol.\n"
 		
-		"FayeCpp info.\n"
+		"Build info.\n"
 		" - Version: " TO_STRING(FAYECPP_VERSION_MAJOR) "." TO_STRING(FAYECPP_VERSION_MINOR) "." TO_STRING(FAYECPP_VERSION_PATCH) "\n"
 #if defined(_CPPRTTI)
 		" - Enable Run-Time Type Information.\n"
@@ -800,7 +800,7 @@ namespace FayeCpp {
 		" - Time: " __TIME__ "\n"
 #endif
 #if defined(__TIMESTAMP__)
-		" -  Timestamp : " __TIMESTAMP__ "\n"
+		" - Timestamp : " __TIMESTAMP__ "\n"
 #endif
 		
 		"\n";

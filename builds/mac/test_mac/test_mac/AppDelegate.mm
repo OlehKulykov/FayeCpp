@@ -195,6 +195,7 @@ using namespace FayeCpp;
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {	
 	// Insert code here to initialize your application
+	NSLog([NSString stringWithUTF8String:FayeCpp::Client::info()]);
 }
 
 @end
