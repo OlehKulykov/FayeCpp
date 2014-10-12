@@ -764,6 +764,15 @@ namespace FayeCpp {
 		
 		"Build info.\n"
 		" - Version: " TO_STRING(FAYECPP_VERSION_MAJOR) "." TO_STRING(FAYECPP_VERSION_MINOR) "." TO_STRING(FAYECPP_VERSION_PATCH) "\n"
+#if defined(__STDC__)
+		" - Compiler conforms to ISO Standard C.\n"
+#endif
+#if defined(__STDC_VERSION__)
+		" - C Standard's version number: " TO_STRING(__STDC_VERSION__) "\n"
+#endif
+#if defined(__OBJC__)
+		" - Objective-C compiler is in use.\n"
+#endif
 #if defined(_CPPRTTI)
 		" - Enable Run-Time Type Information.\n"
 #endif
