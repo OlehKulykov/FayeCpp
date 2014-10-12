@@ -67,8 +67,8 @@ Example configuring without OpenSSL support for Microsoft Visual Studio:
 -DLWS_WITHOUT_SERVER:BOOL=ON \
 -DLWS_WITHOUT_DAEMONIZE:BOOL=ON 
 -G"Visual Studio 11" ..
-> ````
-> For more options read [Libwebsockets] [Jansson] and [CMake] documentation.
+> ```
+> For more options read [Libwebsockets] and [Jansson] also [CMake] documentation.
 
 ### Build on Windows with Microsoft Visual Studio
  * Execute **Start** -> **Microsoft Visual Studio ....** -> **Visual Studio Tools** -> **... Tools Command Prompt** with administrative permissions (Context menu: **Run as administrator** ).
