@@ -814,7 +814,7 @@ namespace FayeCpp {
 #if defined(__TIMESTAMP__)
 		" - Timestamp : " __TIMESTAMP__ "\n"
 #endif
-		
+
 		;
 		return info;
 	}
