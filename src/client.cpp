@@ -756,6 +756,38 @@ namespace FayeCpp {
 		return Transport::isSupportsSSLConnection();
 	}
 
+/*   Detect building platform 32bit/64bit  */
+#if ( (!defined(__RE_32BIT_PLATFORM__)) && (!defined(__RE_64BIT_PLATFORM__)) )
+
+#if ( defined(__amd64__) || defined(__amd64) || defined(__x86_64__) || defined(__x86_64) || defined(_M_X64) || defined(_AMD64_) || defined(_M_AMD64) )
+#define __RE_64BIT_PLATFORM__
+#endif /* Detect 64bit AMD64 */
+
+#ifndef __RE_64BIT_PLATFORM__
+#if ( defined(__LP64__) || defined(__ia64__) || defined(_IA64) || defined(__IA64__) || defined(__ia64) || defined(_M_IA64) )
+#define __RE_64BIT_PLATFORM__
+#endif /* Detect 64bit Intel Architecture-64 */
+#endif
+
+#ifndef __RE_64BIT_PLATFORM__
+#if ( defined(_WIN64) || defined(__X86_64__) || defined(WIN64) || defined(_LP64) || defined(ppc64) || defined(x86_64) )
+#define __RE_64BIT_PLATFORM__
+#endif /* Detect 64bit common defines */
+#endif
+
+#ifndef __RE_64BIT_PLATFORM__
+#if ( defined(__x86_64__) || defined(__ppc64__) )
+#define __RE_64BIT_PLATFORM__
+#endif /* Detect 64bit common defines */
+#endif
+
+
+#ifndef __RE_64BIT_PLATFORM__
+#define __RE_32BIT_PLATFORM__
+#endif /* if not 64bit than select 32bit */
+	
+#endif
+
 #define STRING_I(s) #s
 #define TO_STRING(s) STRING_I(s)
 	const char * Client::info()
@@ -779,7 +811,10 @@ namespace FayeCpp {
 #if defined(_CPPRTTI)
 		" - Enable Run-Time Type Information.\n"
 #endif
-#if defined(_M_AMD64) || defined(_M_X64)
+#if defined(__RE_32BIT_PLATFORM__)
+		" - Compiled for x86 processors.\n"
+#endif
+#if defined(__RE_64BIT_PLATFORM__)
 		" - Compiled for x64 processors.\n"
 #endif
 #if defined(_M_ARM)
@@ -793,12 +828,6 @@ namespace FayeCpp {
 #endif
 #if defined(_MSC_FULL_VER)
 		" - Version number of the Visual C++ compiler is: " TO_STRING(_MSC_FULL_VER) "\n"
-#endif
-#if defined(_WIN32)
-		" - Application for Win32 and Win64: TRUE\n"
-#endif
-#if defined(_WIN64)
-		" - Application for Win64: TRUE\n"
 #endif
 #if defined(_ATL_VER)
 		" - ATL version:" TO_STRING(_ATL_VER) "\n"
