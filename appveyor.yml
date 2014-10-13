@@ -29,6 +29,7 @@ install:
   - cmd: echo PLATFORM
   - cmd: set MSBUILD_PLATFORM_STRING=Win64
   - ps: if($env:PLATFORM -eq "x86") { $env:MSBUILD_PLATFORM_STRING = Win32 }
+  - cmd: echo MSBUILD_PLATFORM_STRING
 
 build:
 
