@@ -1,7 +1,7 @@
 language: cpp
 os:
   - linux
-  - osx
+###  - osx
 
 compiler:
   - gcc
@@ -12,6 +12,12 @@ before_script:
   - mkdir ~/fayecpp-install-dir
   - git submodule update --init --recursive
   - mkdir build
+  - mkdir an
+  - cd an
+  - curl -o ndk.tar.bz2 http://dl.google.com/android/ndk/android-ndk32-r10b-linux-x86_64.tar.bz2
+  - tar yxf ndk.tar.bz2
+  - rm ndk.tar.bz2
+  - cd ..
   - cd build
   - cmake -DCMAKE_INSTALL_PREFIX:PATH=~/fayecpp-install-dir -DCMAKE_BUILD_TYPE=Release ..
   - cd ..
@@ -26,6 +32,7 @@ script:
   - 7z a -t7z -mx=9 -xr!cmake -xr!pkgconfig -xr!bin -xr!share $_system_name-$_system_version-$_system_arch-$CXX-$CC-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.7z fayecpp-install-dir
   - curl --upload-file $_system_name-$_system_version-$_system_arch-$CXX-$CC-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.7z --user b257145@trbvm.com:ff42af47a623 ftp://node100.net2ftp.ru/public_http/fayecpp/
   - rm -rf build
+  - rm -rf ~/fayecpp-install-dir
 
 branches:
   only:
