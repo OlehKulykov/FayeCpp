@@ -27,12 +27,12 @@ install:
   - cd c:\dev\FayeCpp
   - git submodule update --init --recursive
   - cmd: echo %PLATFORM%
-  - cmd: set MSBUILD_PLATFORM_STRING="Win64"
-  - cmd: set CMAKE_GENERATOR_STRING="Visual Studio 11 Win64"
-  - ps: if($env:PLATFORM -eq "x86") { $env:MSBUILD_PLATFORM_STRING="Win32" }
-  - ps: if($env:PLATFORM -eq "x86") { $env:CMAKE_GENERATOR_STRING="Visual Studio 11 Win32" }
-  - cmd: echo %MSBUILD_PLATFORM_STRING%
-  - cmd: echo %CMAKE_GENERATOR_STRING%
+#  - cmd: set MSBUILD_PLATFORM_STRING="Win64"
+#  - cmd: set CMAKE_GENERATOR_STRING="Visual Studio 11 Win64"
+#  - ps: if($env:PLATFORM -eq "x86") { $env:MSBUILD_PLATFORM_STRING="Win32" }
+#  - ps: if($env:PLATFORM -eq "x86") { $env:CMAKE_GENERATOR_STRING="Visual Studio 11 Win32" }
+#  - cmd: echo %MSBUILD_PLATFORM_STRING%
+#  - cmd: echo %CMAKE_GENERATOR_STRING%
 
 build:
 
@@ -41,8 +41,8 @@ build_script:
   - md build
   - md fayecpp-install-dir
   - cd build
-  - cmake -DCMAKE_INSTALL_PREFIX:PATH=c:\dev\FayeCpp\fayecpp-install-dir -DLWS_WITH_SSL:BOOL=OFF -DLWS_SSL_CLIENT_USE_OS_CA_CERTS:BOOL=OFF -DLWS_USE_CYASSL:BOOL=OFF -DLWS_WITHOUT_SERVER:BOOL=ON -DLWS_WITHOUT_DAEMONIZE:BOOL=ON -DCMAKE_BUILD_TYPE=Release -G%CMAKE_GENERATOR_STRING% ..
-  - msbuild /m /p:Configuration=Release /p:Platform="%MSBUILD_PLATFORM_STRING%" FayeCpp.sln
+  - cmake -DCMAKE_INSTALL_PREFIX:PATH=c:\dev\FayeCpp\fayecpp-install-dir -DLWS_WITH_SSL:BOOL=OFF -DLWS_SSL_CLIENT_USE_OS_CA_CERTS:BOOL=OFF -DLWS_USE_CYASSL:BOOL=OFF -DLWS_WITHOUT_SERVER:BOOL=ON -DLWS_WITHOUT_DAEMONIZE:BOOL=ON -DCMAKE_BUILD_TYPE=Release -G"Visual Studio 11" ..
+  - msbuild /m /p:Configuration=Release FayeCpp.sln
   - cmd: cmake --build C:\dev\FayeCpp\build --config RELEASE --target INSTALL
   - cd c:\dev\FayeCpp\fayecpp-install-dir
   - cmd: 7za a -t7z -mx=9 -xr!cmake -xr!pkgconfig -xr!bin c:\dev\%OS%-%PLATFORM%-%APPVEYOR_REPO_BRANCH%-%APPVEYOR_BUILD_VERSION%.7z c:\dev\FayeCpp\fayecpp-install-dir
