@@ -12,11 +12,17 @@ before_script:
   - mkdir ~/fayecpp-install-dir
   - git submodule update --init --recursive
   - mkdir build
-  - mkdir an
-  - cd an
-  - curl -o ndk.tar.bz2 http://dl.google.com/android/ndk/android-ndk32-r10b-linux-x86_64.tar.bz2
-  - tar yxf ndk.tar.bz2
-  - rm ndk.tar.bz2
+  - mkdir an32
+  - mkdir an64
+  - cd an32
+  - curl -o ndk32.tar.bz2 http://dl.google.com/android/ndk/android-ndk32-r10b-linux-x86_64.tar.bz2
+  - tar xjf ndk32.tar.bz2
+  - rm ndk32.tar.bz2
+  - cd ..
+  - cd an64
+  - curl -o ndk64.tar.bz2 http://dl.google.com/android/ndk/android-ndk64-r10b-linux-x86_64.tar.bz2
+  - tar xjf ndk64.tar.bz2
+  - rm ndk64.tar.bz2
   - cd ..
   - cd build
   - cmake -DCMAKE_INSTALL_PREFIX:PATH=~/fayecpp-install-dir -DCMAKE_BUILD_TYPE=Release ..
