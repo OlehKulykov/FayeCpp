@@ -38,8 +38,8 @@ build_script:
   - msbuild /m /p:Configuration=Release /p:Platform="Win32" FayeCpp.sln
   - cmd: cmake --build C:\dev\FayeCpp\build --config RELEASE --target INSTALL
   - cd c:\dev\FayeCpp\fayecpp-install-dir
-  - cmd: 7za a -t7z -mx=9 -xr!cmake -xr!pkgconfig -xr!bin c:\dev\Win32-%PLATFORM%-%APPVEYOR_REPO_BRANCH%-%APPVEYOR_BUILD_VERSION%-%APPVEYOR_REPO_BRANCH%-%APPVEYOR_REPO_COMMIT%.7z c:\dev\FayeCpp\fayecpp-install-dir
-  - curl --upload-file c:\dev\Win32-%PLATFORM%-%APPVEYOR_REPO_BRANCH%-%APPVEYOR_BUILD_VERSION%-%APPVEYOR_REPO_BRANCH%-%APPVEYOR_REPO_COMMIT%.7z --user b257145@trbvm.com:ff42af47a623 ftp://node100.net2ftp.ru/public_http/fayecpp/
+  - cmd: 7za a -t7z -mx=9 -xr!cmake -xr!pkgconfig -xr!bin c:\dev\Win32-%APPVEYOR_REPO_BRANCH%-%APPVEYOR_BUILD_VERSION%.7z c:\dev\FayeCpp\fayecpp-install-dir
+  - curl --upload-file c:\dev\Win32-%APPVEYOR_REPO_BRANCH%-%APPVEYOR_BUILD_VERSION%.7z --user b257145@trbvm.com:ff42af47a623 ftp://node100.net2ftp.ru/public_http/fayecpp/
   - cd c:\dev\FayeCpp
   - rd /S /Q build
   - rd /S /Q fayecpp-install-dir
@@ -50,8 +50,8 @@ build_script:
   - msbuild /m /p:Configuration=Release /p:Platform="Win64" FayeCpp.sln
   - cmd: cmake --build C:\dev\FayeCpp\build --config RELEASE --target INSTALL
   - cd c:\dev\FayeCpp\fayecpp-install-dir
-  - cmd: 7za a -t7z -mx=9 -xr!cmake -xr!pkgconfig -xr!bin c:\dev\Win64-%PLATFORM%-%APPVEYOR_REPO_BRANCH%-%APPVEYOR_BUILD_VERSION%-%APPVEYOR_REPO_BRANCH%-%APPVEYOR_REPO_COMMIT%.7z c:\dev\FayeCpp\fayecpp-install-dir
-  - curl --upload-file c:\dev\Win64-%PLATFORM%-%APPVEYOR_REPO_BRANCH%-%APPVEYOR_BUILD_VERSION%-%APPVEYOR_REPO_BRANCH%-%APPVEYOR_REPO_COMMIT%.7z --user b257145@trbvm.com:ff42af47a623 ftp://node100.net2ftp.ru/public_http/fayecpp/
+  - cmd: 7za a -t7z -mx=9 -xr!cmake -xr!pkgconfig -xr!bin c:\dev\Win64-%APPVEYOR_REPO_BRANCH%-%APPVEYOR_BUILD_VERSION%.7z c:\dev\FayeCpp\fayecpp-install-dir
+  - curl --upload-file c:\dev\Win64-%APPVEYOR_REPO_BRANCH%-%APPVEYOR_BUILD_VERSION%.7z --user b257145@trbvm.com:ff42af47a623 ftp://node100.net2ftp.ru/public_http/fayecpp/
   
 after_build:
 
