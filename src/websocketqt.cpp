@@ -74,7 +74,6 @@ namespace FayeCpp {
 #ifdef FAYECPP_DEBUG_MESSAGES
 		qDebug() << "SocketQt:" << "send bin:" << (const char*)data;
 #endif
-		this->updateLastSendTime();
 		_socket->sendBinaryMessage(QByteArray((char*)data, (int)dataSize));
 	}
 
@@ -83,7 +82,6 @@ namespace FayeCpp {
 #ifdef FAYECPP_DEBUG_MESSAGES
 		qDebug() << "SocketQt:" << "send text:" << text;
 #endif
-		this->updateLastSendTime();
 		_socket->sendTextMessage(QString(text));
 		(void)textSize;
 	}
@@ -163,7 +161,7 @@ namespace FayeCpp {
 	void WebSocketQt::connectToServer()
 	{
 #ifdef FAYECPP_DEBUG_MESSAGES
-		qDebug() << "SocketQT:" << "start connect url:" << this->url().UTF8String();
+		qDebug() << "SocketQT:" << "start connect url:" << this->client()->url().UTF8String();
 #endif
 
 		SSLDataSource * dataSource = this->sslDataSource();
@@ -172,7 +170,7 @@ namespace FayeCpp {
 			this->setupSocketWithSSLDataSource(dataSource);
 		}
 
-		_socket->open(QUrl(this->url().UTF8String()));
+		_socket->open(QUrl(this->client()->url().UTF8String()));
 	}
 
 	void WebSocketQt::disconnectFromServer()

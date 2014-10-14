@@ -21,15 +21,27 @@
 ##
 
 
-DEFINES += HAVE_SUITABLE_QT_VERSION=1
+##DEFINES += HAVE_SUITABLE_QT_VERSION=1
 
-QT += websockets
+##QT += websockets
 
 DEFINES += HAVE_QT=1
+
+######################################
+DEFINES += HAVE_FAYECPP_CONFIG_H=1
+DEFINES += HAVE_LIBWEBSOCKETS_H=1
+
 
 INCLUDEPATH += $$PWD
 INCLUDEPATH += $$PWD/builds/qt/
 INCLUDEPATH += $$PWD/jansson/src/
+
+#################################
+INCLUDEPATH += $$PWD/builds/qt/win/
+INCLUDEPATH += "c:/Program Files/libwebsockets/include"
+
+
+
 
 
 DEPENDPATH += $$PWD
@@ -52,11 +64,13 @@ SOURCES += $$PWD/src/client.cpp \
            $$PWD/src/variant.cpp \
            $$PWD/src/variantlist.cpp \
            $$PWD/src/variantmap.cpp \
-           $$PWD/src/websocketqt.cpp
+           $$PWD/src/websocket.cpp
+#################           $$PWD/src/websocketqt.cpp
 
 ## FayeCpp headers
 HEADERS += $$PWD/fayecpp.h \
-           $$PWD/src/websocketqt.h
+           $$PWD/src/websocket.h
+#######################           $$PWD/src/websocketqt.h
 
 ## jansson sources
 SOURCES += $$PWD/jansson/src/dump.c \

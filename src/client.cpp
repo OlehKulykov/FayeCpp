@@ -302,7 +302,7 @@ namespace FayeCpp {
 		{
 			urlString.replace("http://");
 #if defined(HAVE_SUITABLE_QT_VERSION)
-			REMutableString u(url);
+			REMutableString u(client->_url.UTF8String());
 			u.replace("http://", "ws://");
 			client->_url = u.UTF8String();
 #endif
@@ -313,7 +313,7 @@ namespace FayeCpp {
 		{
 			urlString.replace("https://");
 #if defined(HAVE_SUITABLE_QT_VERSION)
-			REMutableString u(url);
+			REMutableString u(client->_url.UTF8String());
 			u.replace("https://", "wss://");
 			client->_url = u.UTF8String();
 #endif
