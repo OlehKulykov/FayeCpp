@@ -25,6 +25,10 @@
 #define __FAYECPP_CONFIG_H__ 
 
 
+/* Build number, if avaiable */
+#cmakedefine FAYECPP_BUILD_NUMBER @FAYECPP_BUILD_NUMBER@ 
+
+
 /* libwebsockets.h */
 #cmakedefine HAVE_LIBWEBSOCKETS_H @HAVE_LIBWEBSOCKETS_H@ 
 
