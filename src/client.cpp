@@ -43,6 +43,10 @@
 #include <mach/mach_time.h>
 #endif
 
+#if defined(HAVE_LIBWEBSOCKETS_H)
+#include <libwebsockets.h>
+#endif
+
 #if defined(HAVE_ASSERT_H)
 #include <assert.h>
 #define RE_ASSERT(r) assert(r)
@@ -794,40 +798,40 @@ namespace FayeCpp {
 	{
 		const char * info = "\nFayeCpp client library based on Bayeux protocol.\n"
 		
-		"Build info.\n"
+		"Build info\n"
 		" - Version: " TO_STRING(FAYECPP_VERSION_MAJOR) "." TO_STRING(FAYECPP_VERSION_MINOR) "." TO_STRING(FAYECPP_VERSION_PATCH) "\n"
 #if defined(FAYECPP_BUILD_NUMBER)
 		" - Build number: " TO_STRING(FAYECPP_BUILD_NUMBER) "\n"
 #endif
 #if defined(__unix__)
-		" - Compiler targeting Unix systems.\n"
+		" - Compiler targeting Unix systems\n"
 #endif
 #if defined(__STDC__)
-		" - Compiler conforms to ISO Standard C.\n"
+		" - Compiler conforms to ISO Standard C\n"
 #endif
 #if defined(__STDC_VERSION__)
 		" - C Standard's version number: " TO_STRING(__STDC_VERSION__) "\n"
 #endif
 #if defined(__OBJC__)
-		" - Objective-C compiler is in use.\n"
+		" - Objective-C compiler is in use\n"
 #endif
 #if defined(_CPPRTTI)
-		" - Enable Run-Time Type Information.\n"
+		" - Enable Run-Time Type Information\n"
 #endif
 #if defined(__RE_32BIT_PLATFORM__)
-		" - Compiled for x86 processors.\n"
+		" - Compiled for x86 processors\n"
 #endif
 #if defined(__RE_64BIT_PLATFORM__)
-		" - Compiled for x64 processors.\n"
+		" - Compiled for x64 processors\n"
 #endif
 #if defined(_M_ARM)
-		" - Compiled for ARM processors.\n"
+		" - Compiled for ARM processors\n"
 #endif
 #if defined(_MFC_VER)
 		" - MFC version: " TO_STRING(_MFC_VER) "\n"
 #endif
 #if defined(_MSC_BUILD)
-		" - Visual C++ compiler is in use.\n"
+		" - Visual C++ compiler is in use\n"
 #endif
 #if defined(_MSC_FULL_VER)
 		" - Version number of the Visual C++ compiler is: " TO_STRING(_MSC_FULL_VER) "\n"
@@ -836,6 +840,19 @@ namespace FayeCpp {
 		" - ATL version:" TO_STRING(_ATL_VER) "\n"
 #endif
 
+#if defined(HAVE_LIBWEBSOCKETS_H)
+		" - Using Libwebsocket library"
+#if defined(LWS_LIBRARY_VERSION)
+		", version: " LWS_LIBRARY_VERSION
+#endif
+#if defined(LWS_BUILD_HASH)
+		", build hash: " LWS_BUILD_HASH
+#endif
+		"\n"
+#endif
+		
+		" - Using jansson library\n"
+			
 		/* Compiller build date, time and/or timestamp */
 #if defined(__DATE__) && defined(__TIME__)
 		" - Timestamp: " __DATE__ " " __TIME__ "\n"
