@@ -827,7 +827,7 @@ namespace FayeCpp {
 		" - MFC version: " TO_STRING(_MFC_VER) "\n"
 #endif
 #if defined(_MSC_BUILD)
-		" - Visual C++ compiler is: " TO_STRING(_MSC_BUILD) "\n"
+		" - Visual C++ compiler is in use.\n"
 #endif
 #if defined(_MSC_FULL_VER)
 		" - Version number of the Visual C++ compiler is: " TO_STRING(_MSC_FULL_VER) "\n"
@@ -837,14 +837,10 @@ namespace FayeCpp {
 #endif
 
 		/* Compiller build date, time and/or timestamp */
-#if defined(__DATE__)
-		" - Date: " __DATE__ "\n"
-#endif
-#if defined(__TIME__)
-		" - Time: " __TIME__ "\n"
-#endif
-#if defined(__TIMESTAMP__)
-		" - Timestamp : " __TIMESTAMP__ "\n"
+#if defined(__DATE__) && defined(__TIME__)
+		" - Timestamp: " __DATE__ " " __TIME__ "\n"
+#elif defined(__TIMESTAMP__)
+		" - Timestamp: " __TIMESTAMP__ "\n"
 #endif
 
 		;
