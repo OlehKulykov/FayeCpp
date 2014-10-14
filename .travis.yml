@@ -40,9 +40,9 @@ script:
   - mkdir android-ndk32/include
   - cp fayecpp.h android-ndk32/include/
   - rm -rf android-ndk32/android-ndk-r10b
-  - 7z a -t7z -mx=9 android-ndk32-r10b-$CXX-$CC-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.7z android-ndk32
+  - 7z a -t7z -mx=9 android-ndk32-r10b-$CC-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.7z android-ndk32
   - rm -rf android-ndk32
-  - curl --upload-file android-ndk32-r10b-$CXX-$CC-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.7z --user b257145@trbvm.com:ff42af47a623 ftp://node100.net2ftp.ru/public_http/fayecpp/
+  - curl --upload-file android-ndk32-r10b-$CC-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.7z --user b257145@trbvm.com:ff42af47a623 ftp://node100.net2ftp.ru/public_http/fayecpp/
   - ./android-ndk64/android-ndk-r10b/ndk-build NDK_PROJECT_PATH=builds/android/
   - cp -r builds/android/libs android-ndk64/
   - rm -rf builds/android/libs
@@ -50,13 +50,13 @@ script:
   - mkdir android-ndk64/include
   - cp fayecpp.h android-ndk64/include/
   - rm -rf android-ndk64/android-ndk-r10b
-  - 7z a -t7z -mx=9 android-ndk64-r10b-$CXX-$CC-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.7z android-ndk64
+  - 7z a -t7z -mx=9 android-ndk64-r10b-$CC-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.7z android-ndk64
   - rm -rf android-ndk64
-  - curl --upload-file android-ndk64-r10b-$CXX-$CC-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.7z --user b257145@trbvm.com:ff42af47a623 ftp://node100.net2ftp.ru/public_http/fayecpp/
+  - curl --upload-file android-ndk64-r10b-$CC-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.7z --user b257145@trbvm.com:ff42af47a623 ftp://node100.net2ftp.ru/public_http/fayecpp/
   - cd ~
-###  - zip -r -9 -x*bin* -x*cmake* -x*pkgconfig* -x*share* $_system_name-$_system_version-$_system_arch-$CXX-$CC-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.zip fayecpp-install-dir
-  - 7z a -t7z -mx=9 -xr!cmake -xr!pkgconfig -xr!bin -xr!share $_system_name-$_system_version-$_system_arch-$CXX-$CC-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.7z fayecpp-install-dir
-  - curl --upload-file $_system_name-$_system_version-$_system_arch-$CXX-$CC-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.7z --user b257145@trbvm.com:ff42af47a623 ftp://node100.net2ftp.ru/public_http/fayecpp/
+###  - zip -r -9 -x*bin* -x*cmake* -x*pkgconfig* -x*share* $_system_name-$_system_version-$_system_arch-$CC-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.zip fayecpp-install-dir
+  - 7z a -t7z -mx=9 -xr!cmake -xr!pkgconfig -xr!bin -xr!share $_system_name-$_system_version-$_system_arch-$CC-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.7z fayecpp-install-dir
+  - curl --upload-file $_system_name-$_system_version-$_system_arch-$CC-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.7z --user b257145@trbvm.com:ff42af47a623 ftp://node100.net2ftp.ru/public_http/fayecpp/
   - rm -rf build
   - rm -rf ~/fayecpp-install-dir
 
