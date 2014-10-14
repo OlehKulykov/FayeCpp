@@ -335,7 +335,7 @@ typedef REFloat64 RETimeInterval;
  @brief Define for default signed integer(int) minimum value.
  */
 #ifndef INT_MIN
-#define INT_MIN (−2147483648)
+#define INT_MIN (-2147483648)
 #endif
 
 
