@@ -38,6 +38,8 @@
  *   - Removed unused classes RETime, REThread and REMutex.
  *   - Redused size of code and library size thanks to previous two punkts.
  *   - Added client library build information.
+ *   - Build results(binary library/framework & headers) from continuous integration systems now stores
+ *      and available on GitHub release page: https://github.com/OlehKulykov/FayeCpp/releases
  *
  *   Changes on version 0.1.4:
  *   - Possibility to switch client between IPV4 & IPV6 if possible.
