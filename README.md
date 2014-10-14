@@ -64,7 +64,7 @@ make
  * Execute **Start** -> **Microsoft Visual Studio ....** -> **Visual Studio Tools** -> **... Tools Command Prompt** with administrative permissions (Context menu: **Run as administrator** ).
  * Do the same as on **Build on Unix like platforms**, with small changes, tell [CMake] **generate makefiles** and use **nmake** or generate **Microsoft Visual Studio** solution and projects and build them.
 
-Build with nmake:
+Build with **nmake**:
 ```sh
 cmake -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=Release ..
 nmake
@@ -73,7 +73,7 @@ How to generate **Microsoft Visual Studio** solution (please replace version to 
 ```sh
 cmake -G"Visual Studio 11" -DCMAKE_BUILD_TYPE=Release ..
 ```
-Example configuring without OpenSSL support for Microsoft Visual Studio:
+Example configuring without **OpenSSL** support for **Microsoft Visual Studio**:
 > ```sh
 > cmake -DCMAKE_INSTALL_PREFIX:PATH=c:\dev\FayeCpp\win-install \
 -DLWS_WITH_SSL:BOOL=OFF \
