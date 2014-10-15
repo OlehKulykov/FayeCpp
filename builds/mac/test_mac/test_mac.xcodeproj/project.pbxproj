@@ -9,9 +9,7 @@
 /* Begin PBXBuildFile section */
 		3D0830731987C9D80038CD79 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D0830721987C9D80038CD79 /* Cocoa.framework */; };
 		3D08307D1987C9D80038CD79 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3D08307B1987C9D80038CD79 /* InfoPlist.strings */; };
-		3D08307F1987C9D80038CD79 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D08307E1987C9D80038CD79 /* main.m */; };
 		3D0830831987C9D80038CD79 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 3D0830811987C9D80038CD79 /* Credits.rtf */; };
-		3D0830861987C9D80038CD79 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830851987C9D80038CD79 /* AppDelegate.mm */; };
 		3D0830891987C9D90038CD79 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D0830871987C9D90038CD79 /* MainMenu.xib */; };
 		3D08308B1987C9D90038CD79 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D08308A1987C9D90038CD79 /* Images.xcassets */; };
 		3D0830921987C9D90038CD79 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D0830911987C9D90038CD79 /* XCTest.framework */; };
@@ -69,6 +67,7 @@
 		3D08311E1987CC1B0038CD79 /* libssl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D08311D1987CC1B0038CD79 /* libssl.dylib */; };
 		3D0831251987CDE30038CD79 /* server-handshake.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D0831231987CDE30038CD79 /* server-handshake.c */; };
 		3D0831281987CE280038CD79 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D0831271987CE280038CD79 /* libcrypto.dylib */; };
+		3D3045E319EE88A600D8B163 /* test_creation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D3045E219EE88A600D8B163 /* test_creation.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -165,6 +164,8 @@
 		3D0831231987CDE30038CD79 /* server-handshake.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "server-handshake.c"; path = "../../../../libwebsockets/lib/server-handshake.c"; sourceTree = "<group>"; };
 		3D0831241987CDE30038CD79 /* server.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = server.c; path = ../../../../libwebsockets/lib/server.c; sourceTree = "<group>"; };
 		3D0831271987CE280038CD79 /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = usr/lib/libcrypto.dylib; sourceTree = SDKROOT; };
+		3D3045E019EE859300D8B163 /* test_header.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = test_header.cpp; path = ../../../../test/test_header.cpp; sourceTree = "<group>"; };
+		3D3045E219EE88A600D8B163 /* test_creation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = test_creation.cpp; path = ../../../../test/test_creation.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -330,6 +331,7 @@
 		3D0830E41987CB390038CD79 /* fayecpp */ = {
 			isa = PBXGroup;
 			children = (
+				3D3045DF19EE857D00D8B163 /* test */,
 				3D0831171987CB570038CD79 /* fayecpp.h */,
 				3D0831181987CB570038CD79 /* FayeCppClient.h */,
 				3D0831191987CB570038CD79 /* FayeCppClient.mm */,
@@ -366,6 +368,15 @@
 				3D0831011987CB4E0038CD79 /* websocket.cpp */,
 			);
 			name = src;
+			sourceTree = "<group>";
+		};
+		3D3045DF19EE857D00D8B163 /* test */ = {
+			isa = PBXGroup;
+			children = (
+				3D3045E019EE859300D8B163 /* test_header.cpp */,
+				3D3045E219EE88A600D8B163 /* test_creation.cpp */,
+			);
+			name = test;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -472,7 +483,6 @@
 				3D0831121987CB4E0038CD79 /* transport.cpp in Sources */,
 				3D0831071987CB4E0038CD79 /* REBuffer.cpp in Sources */,
 				3D0830CB1987CB160038CD79 /* service.c in Sources */,
-				3D0830861987C9D80038CD79 /* AppDelegate.mm in Sources */,
 				3D0830DA1987CB2D0038CD79 /* error.c in Sources */,
 				3D0830C71987CB160038CD79 /* lws-plat-unix.c in Sources */,
 				3D0830C61987CB160038CD79 /* libwebsockets.c in Sources */,
@@ -480,6 +490,7 @@
 				3D0830DE1987CB2D0038CD79 /* memory.c in Sources */,
 				3D0830DD1987CB2D0038CD79 /* load.c in Sources */,
 				3D0830C31987CB160038CD79 /* extension.c in Sources */,
+				3D3045E319EE88A600D8B163 /* test_creation.cpp in Sources */,
 				3D08311A1987CB570038CD79 /* FayeCppClient.mm in Sources */,
 				3D0830DB1987CB2D0038CD79 /* hashtable.c in Sources */,
 				3D08310F1987CB4E0038CD79 /* REStringUtilsPrivate.cpp in Sources */,
@@ -515,7 +526,6 @@
 				3D0831041987CB4E0038CD79 /* client.cpp in Sources */,
 				3D0830BD1987CB160038CD79 /* client-handshake.c in Sources */,
 				3D0830DF1987CB2D0038CD79 /* pack_unpack.c in Sources */,
-				3D08307F1987C9D80038CD79 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
