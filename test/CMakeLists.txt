@@ -27,3 +27,6 @@ add_executable(test_fayecpp_init test_fayecpp_init.cpp)
 target_link_libraries(test_fayecpp_init fayecpp)
 add_test(test_fayecpp_init test_fayecpp_init)
 
+
+install(TARGETS test_fayecpp_header DESTINATION bin)
+install(TARGETS test_fayecpp_init DESTINATION bin)
