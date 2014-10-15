@@ -67,7 +67,7 @@
 		3D08311E1987CC1B0038CD79 /* libssl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D08311D1987CC1B0038CD79 /* libssl.dylib */; };
 		3D0831251987CDE30038CD79 /* server-handshake.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D0831231987CDE30038CD79 /* server-handshake.c */; };
 		3D0831281987CE280038CD79 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D0831271987CE280038CD79 /* libcrypto.dylib */; };
-		3D3045E319EE88A600D8B163 /* test_fayecpp_init.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D3045E219EE88A600D8B163 /* test_fayecpp_init.cpp */; };
+		3D3045E519EEA43500D8B163 /* test_fayecpp_header.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D3045E019EE859300D8B163 /* test_fayecpp_header.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -487,10 +487,10 @@
 				3D0830C71987CB160038CD79 /* lws-plat-unix.c in Sources */,
 				3D0830C61987CB160038CD79 /* libwebsockets.c in Sources */,
 				3D0830D91987CB2D0038CD79 /* dump.c in Sources */,
+				3D3045E519EEA43500D8B163 /* test_fayecpp_header.cpp in Sources */,
 				3D0830DE1987CB2D0038CD79 /* memory.c in Sources */,
 				3D0830DD1987CB2D0038CD79 /* load.c in Sources */,
 				3D0830C31987CB160038CD79 /* extension.c in Sources */,
-				3D3045E319EE88A600D8B163 /* test_fayecpp_init.cpp in Sources */,
 				3D08311A1987CB570038CD79 /* FayeCppClient.mm in Sources */,
 				3D0830DB1987CB2D0038CD79 /* hashtable.c in Sources */,
 				3D08310F1987CB4E0038CD79 /* REStringUtilsPrivate.cpp in Sources */,

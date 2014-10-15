@@ -75,10 +75,39 @@ int testDefines()
 	return EXIT_SUCCESS;
 }
 
+int testTypes()
+{
+	if (sizeof(REByte) != 1) return 1;
+	if (sizeof(REUByte) != 1) return 2;
+	
+	if (sizeof(REInt16) != 2) return 3;
+	if (sizeof(REUInt16) != 2) return 4;
+	
+	if (sizeof(REInt32) != 4) return 5;
+	if (sizeof(REUInt32) != 4) return 6;
+	
+	if (sizeof(REInt64) != 8) return 7;
+	if (sizeof(REUInt64) != 8) return 8;
+	
+	if (sizeof(REFloat32) != 4) return 9;
+	if (sizeof(REFloat64) != 8) return 10;
+	
+	if (sizeof(REUIdentifier) != sizeof(void*)) return 11;
+	
+	return EXIT_SUCCESS;
+}
+
 int main(int argc, char* argv[]) 
 {
 	RELog::log("Start test");
+	
+	RELog::log("Test defines ...");
 	assert(testDefines() == EXIT_SUCCESS);
+	RELog::log("Test defines OK");
+	
+	RELog::log("Test types ...");
+	assert(testTypes() == EXIT_SUCCESS);
+	RELog::log("Test types OK");
 	
 	RELog::log("All done.");
 	return EXIT_SUCCESS;
