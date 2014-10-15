@@ -16,12 +16,14 @@
 
 include_directories(${PROJECT_BINARY_DIR})
 
+
 link_directories(${PROJECT_BINARY_DIR})
 
 
 add_executable(test_fayecpp_header test_fayecpp_header.cpp)
 target_link_libraries(test_fayecpp_header fayecpp)
 add_test(test_fayecpp_header test_fayecpp_header)
+
 
 add_executable(test_fayecpp_init test_fayecpp_init.cpp)
 target_link_libraries(test_fayecpp_init fayecpp)
