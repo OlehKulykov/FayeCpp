@@ -21,12 +21,13 @@
  */
 
 
+#include <stdlib.h>
 #include <assert.h>
 #include <fayecpp.h>
 
 using namespace FayeCpp;
 
-int test_defines()
+int testDefines()
 {
 	void * ptr;
 	ptr = NULL;
@@ -76,7 +77,9 @@ int test_defines()
 
 int main(int argc, char* argv[]) 
 {
-	assert(test_defines() == EXIT_SUCCESS);
+	RELog::log("Start test");
+	assert(testDefines() == EXIT_SUCCESS);
 	
+	RELog::log("All done.");
 	return EXIT_SUCCESS;
 }

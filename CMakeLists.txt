@@ -545,4 +545,5 @@ target_link_libraries(fayecpp jansson)
 install(TARGETS fayecpp DESTINATION lib)
 install(FILES fayecpp.h DESTINATION include)
 
-
+enable_testing()
+add_subdirectory(test)
