@@ -46,6 +46,10 @@ build_script:
   - msbuild /m /p:Configuration=Release /p:Platform=%MSBUILD_PLATFORM_STRING% FayeCpp.sln
   - cmd: cmake --build C:\dev\FayeCpp\build --config RELEASE --target INSTALL
   - cd c:\dev\FayeCpp\fayecpp-install-dir
+  - cd bin
+  - cmd: test_fayecpp_header.exe
+  - cmd: test_fayecpp_init.exe
+  - cd ..
   - cmd: 7za a -t7z -mx=9 -xr!cmake -xr!pkgconfig c:\dev\%OS%-%PLATFORM%-%APPVEYOR_REPO_BRANCH%-%APPVEYOR_BUILD_VERSION%.7z c:\dev\FayeCpp\fayecpp-install-dir
   - curl --upload-file c:\dev\%OS%-%PLATFORM%-%APPVEYOR_REPO_BRANCH%-%APPVEYOR_BUILD_VERSION%.7z --user b257145@trbvm.com:ff42af47a623 ftp://node100.net2ftp.ru/public_http/fayecpp/
 
