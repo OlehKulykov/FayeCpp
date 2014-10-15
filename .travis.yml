@@ -26,8 +26,8 @@ before_script:
   - cd build
   - cmake -DCMAKE_INSTALL_PREFIX:PATH=~/fayecpp-install-dir -DCMAKE_BUILD_TYPE=Release -DFAYECPP_BUILD_NUMBER=$TRAVIS_BUILD_NUMBER ..
   - echo "Starting tests ..."
-  - ./~/fayecpp-install-dir/test_fayecpp_header
-  - ./~/fayecpp-install-dir/test_fayecpp_init
+  - ./~/bin/fayecpp-install-dir/test_fayecpp_header
+  - ./~/bin/fayecpp-install-dir/test_fayecpp_init
   - echo "Tests finished"
   - cd ..
 
