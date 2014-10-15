@@ -538,6 +538,9 @@ add_definitions(-DHAVE_FAYECPP_CONFIG_H)
 ADD_LIBRARY(fayecpp SHARED ${FAYECPP_SOURCES} ${FAYECPP_HEADERS})
 
 add_dependencies(fayecpp websockets jansson)
+if (HAVE_PTHREAD_H)
+add_dependencies(fayecpp pthread)
+endif()
 
 target_link_libraries(fayecpp websockets)
 target_link_libraries(fayecpp jansson)
