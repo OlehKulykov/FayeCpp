@@ -25,10 +25,6 @@ before_script:
   - cd ..
   - cd build
   - cmake -DCMAKE_INSTALL_PREFIX:PATH=~/fayecpp-install-dir -DCMAKE_BUILD_TYPE=Release -DFAYECPP_BUILD_NUMBER=$TRAVIS_BUILD_NUMBER ..
-  - echo "Starting tests ..."
-  - ./~/fayecpp-install-dir/bin/test_fayecpp_header
-  - ./~/fayecpp-install-dir/bin/test_fayecpp_init
-  - echo "Tests finished"
   - cd ..
 
 script:
@@ -37,6 +33,10 @@ script:
   - make
   - make install
   - cd ..
+  - echo "Starting tests ..."
+  - ./~/fayecpp-install-dir/bin/test_fayecpp_header
+  - ./~/fayecpp-install-dir/bin/test_fayecpp_init
+  - echo "Tests finished"
   - ./android-ndk32/android-ndk-r10b/ndk-build NDK_PROJECT_PATH=builds/android/
   - cp -r builds/android/libs android-ndk32/
   - rm -rf builds/android/libs
