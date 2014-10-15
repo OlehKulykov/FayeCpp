@@ -437,11 +437,13 @@ check_function_exists(posix_memalign HAVE_FUNCTION_POSIX_MEMALIGN)
 check_function_exists(usleep HAVE_FUNCTION_USLEEP)
 check_function_exists(getrlimit HAVE_FUNCTION_GETRLIMIT)
 
+if(HAVE_PTHREAD_H)
 check_function_exists(pthread_attr_setscope HAVE_FUNCTION_PTHREAD_ATTR_SETSCOPE)
 check_function_exists(pthread_attr_setstacksize HAVE_FUNCTION_PTHREAD_ATTR_SETSTACKSIZE)
 check_function_exists(pthread_cancel HAVE_FUNCTION_PTHREAD_CANCEL)
 check_function_exists(pthread_setname_np HAVE_FUNCTION_PTHREAD_SETNAME_NP)
 check_function_exists(pthread_set_name_np HAVE_FUNCTION_PTHREAD_SET_NAME_NP)
+endif(HAVE_PTHREAD_H)
 
 check_function_exists(_stat HAVE_FUNCTION__STAT)
 check_function_exists(stat HAVE_FUNCTION_STAT)
@@ -480,11 +482,12 @@ check_function_exists(localtime HAVE_FUNCTION_LOCALTIME)
 check_function_exists(gmtime HAVE_FUNCTION_GMTIME)
 check_function_exists(strftime HAVE_FUNCTION_STRFTIME)
 
+if(HAVE_DISPATCH_DISPATCH_H)
 check_function_exists(dispatch_sync HAVE_FUNCTION_DISPATCH_SYNC)
 check_function_exists(dispatch_async HAVE_FUNCTION_DISPATCH_ASYNC)
 check_function_exists(dispatch_get_global_queue HAVE_FUNCTION_DISPATCH_GET_GLOBAL_QUEUE)
 check_function_exists(dispatch_after HAVE_FUNCTION_DISPATCH_AFTER)
-
+endif(HAVE_DISPATCH_DISPATCH_H)
 
 SET(__FAYECPP_HAVE_CONFIG__ 1)
 
