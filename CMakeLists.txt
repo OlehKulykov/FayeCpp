@@ -16,7 +16,21 @@
 
 cmake_minimum_required(VERSION 2.8)
 
+
 project(fayecpp)
+
+
+set(PACKAGE "fayecpp")
+set(CPACK_PACKAGE_NAME "${PACKAGE}")
+set(CPACK_PACKAGE_VERSION_MAJOR "0")
+set(CPACK_PACKAGE_VERSION_MINOR "1")
+set(CPACK_PACKAGE_VERSION "${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}")
+set(CPACK_PACKAGE_VENDOR "info@resident.name")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "${PACKAGE} ${PACKAGE_VERSION}")
+set(SOVERSION "0.1.5")
+set(CPACK_SOURCE_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}")
+set(VERSION "${CPACK_PACKAGE_VERSION}")
+
 
 include(CheckLibraryExists)
 include(CheckFunctionExists)
@@ -89,11 +103,6 @@ message("jansson include dirs: ${JANSSON_INCLUDE_DIRS}")
 message("jansson libraries: ${JANSSON_LIBRARIES}")
 include_directories(${JANSSON_INCLUDE_DIRS})
 set(HAVE_JANSSON_H 1)
-
-
-#if (NOT WIN32 AND (CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX))
-#   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
-#endif() 
 
 
 
@@ -496,8 +505,28 @@ if(NOT DEFINED CMAKE_INSTALL_LIBDIR)
 	set(CMAKE_INSTALL_LIBDIR lib)
 endif(NOT DEFINED CMAKE_INSTALL_LIBDIR)
 
-set(prefix ${CMAKE_INSTALL_PREFIX})
-set(libdir ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR})
+
+if(UNIX)
+# Generate and install pkgconfig.
+# (This is not indented, because the tabs will be part of the output)
+file(WRITE "${PROJECT_BINARY_DIR}/fayecpp.pc"
+"prefix=\"${CMAKE_INSTALL_PREFIX}\"
+exec_prefix=\${prefix}
+libdir=\${exec_prefix}/lib${LIB_SUFFIX}
+includedir=\${prefix}/include
+
+Name: FayeCpp
+Description: FayeCpp (C++) client library for desktop & mobile platforms.
+Version: 0.1
+
+Libs: -L\${libdir} -lfayecpp
+Cflags: -I\${includedir}"
+)
+
+install(FILES "${PROJECT_BINARY_DIR}/fayecpp.pc"
+		DESTINATION lib${LIB_SUFFIX}/pkgconfig)
+endif(UNIX)
+
 
 configure_file("${PROJECT_SOURCE_DIR}/fayecpp_config.h.in" 
 				"${PROJECT_BINARY_DIR}/fayecpp_config.h")
@@ -531,11 +560,13 @@ set(FAYECPP_SOURCES	src/client.cpp
 set(FAYECPP_HEADERS 	fayecpp.h
 				fayecpp_config.h)
 
+
 add_definitions(-DHAVE_FAYECPP_CONFIG_H)
 
-
 #add_library(fayecpp STATIC ${FAYECPP_SOURCES} ${FAYECPP_HEADERS})
+
 add_library(fayecpp SHARED ${FAYECPP_SOURCES} ${FAYECPP_HEADERS})
+
 
 add_dependencies(fayecpp websockets jansson)
 
@@ -545,8 +576,15 @@ if (HAVE_PTHREAD_H)
 target_link_libraries(fayecpp pthread)
 endif()
 
-install(TARGETS fayecpp DESTINATION lib)
-install(FILES fayecpp.h DESTINATION include)
+install(TARGETS fayecpp
+		DESTINATION lib)
+
+
+install(FILES fayecpp.h 
+		DESTINATION include)
 
 enable_testing()
 add_subdirectory(test)
+
+# This must always be last!
+include(CPack)
