@@ -110,5 +110,6 @@ int main(int argc, char* argv[])
 	RELog::log("Test types OK");
 	
 	RELog::log("All done.");
+	
 	return EXIT_SUCCESS;
 }
