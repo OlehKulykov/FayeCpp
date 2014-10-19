@@ -1971,6 +1971,7 @@ namespace FayeCpp {
 		virtual ~REStaticString();
 	};
 	
+	
 	class REMutableString;
 	
 
