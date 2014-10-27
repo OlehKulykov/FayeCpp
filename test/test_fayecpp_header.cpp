@@ -100,6 +100,7 @@ int testTypes()
 int main(int argc, char* argv[]) 
 {
 	RELog::log("Start test");
+
 	
 	RELog::log("Test defines ...");
 	assert(testDefines() == EXIT_SUCCESS);
@@ -108,8 +109,8 @@ int main(int argc, char* argv[])
 	RELog::log("Test types ...");
 	assert(testTypes() == EXIT_SUCCESS);
 	RELog::log("Test types OK");
-	
+
+
 	RELog::log("All done.");
-	
 	return EXIT_SUCCESS;
 }
