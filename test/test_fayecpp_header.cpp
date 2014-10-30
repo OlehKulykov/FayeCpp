@@ -101,7 +101,7 @@ int main(int argc, char* argv[])
 {
 	RELog::log("Start test");
 
-	
+
 	RELog::log("Test defines ...");
 	assert(testDefines() == EXIT_SUCCESS);
 	RELog::log("Test defines OK");
