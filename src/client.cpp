@@ -102,17 +102,12 @@ namespace FayeCpp {
 		return _isUsingIPV6;
 	}
 	
-    static unsigned int __client_messageId = 0;
+    static unsigned int __client_messageId = 1;
 	unsigned int Client::nextMessageId()
 	{
-		__client_messageId++;
-#if defined(UINT_MAX)
-		if (__client_messageId == UINT_MAX) __client_messageId = 1;
-#else
-		/// more than enougth
-		if (__client_messageId == 9999999) __client_messageId = 1;
-#endif
-		return __client_messageId;
+		const unsigned int mID = __client_messageId++;
+		if (__client_messageId >= 9999999) __client_messageId = 1;
+		return mID;
 	}
 	
 	void Client::processMessage(Responce * responce)
