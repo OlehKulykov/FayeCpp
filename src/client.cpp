@@ -159,7 +159,7 @@ namespace FayeCpp {
 		if (_delegate)
 		{
 			if (message->errorString())	_delegate->onFayeErrorString(this, *message->errorString());
-			else _delegate->onFayeErrorString(this, REStaticString("Internal application error."));
+			else _delegate->onFayeErrorString(this, REString("Internal application error."));
 		}
 	}
 	
@@ -430,7 +430,7 @@ namespace FayeCpp {
 		
 		if (_clientId.isEmpty()) 
 		{
-			if (_delegate) _delegate->onFayeErrorString(this, REStaticString("Handshake clientId is empty."));
+			if (_delegate) _delegate->onFayeErrorString(this, REString("Handshake clientId is empty."));
 			return;
 		}
 
@@ -438,7 +438,7 @@ namespace FayeCpp {
 		
 		if (_supportedConnectionTypes.isEmpty()) 
 		{
-			if (_delegate) _delegate->onFayeErrorString(this, REStaticString("Handshake supported connection types is empty."));
+			if (_delegate) _delegate->onFayeErrorString(this, REString("Handshake supported connection types is empty."));
 			return;
 		}
 		
