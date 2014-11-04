@@ -26,7 +26,7 @@ before_script:
   - cd ../android-ndk-10c
   - curl -o ndk.bin http://dl.google.com/android/ndk/android-ndk-r10c-linux-x86_64.bin
   - chmod a+x ndk.bin
-  - 7z x ndk.bin
+  - 7z x -y ndk.bin > nul
   - rm ndk.bin
   - cd ..
   - cd build
