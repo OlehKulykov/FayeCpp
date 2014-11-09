@@ -24,10 +24,10 @@ before_script:
   - tar xjf ndk64.tar.bz2
   - rm ndk64.tar.bz2
   - cd ../android-ndk-10c
-  - curl -o ndk.bin http://dl.google.com/android/ndk/android-ndk-r10c-linux-x86_64.bin
-  - chmod a+x ndk.bin
-  - ./ndk.bin
-  - rm ndk.bin
+#  - curl -o ndk.bin http://dl.google.com/android/ndk/android-ndk-r10c-linux-x86_64.bin
+#  - chmod a+x ndk.bin
+#  - ./ndk.bin
+#  - rm ndk.bin
   - cd ..
   - cd build
   - cmake -DCMAKE_INSTALL_PREFIX:PATH=~/fayecpp-install-dir -DCMAKE_BUILD_TYPE=Release -DFAYECPP_BUILD_NUMBER=$TRAVIS_BUILD_NUMBER ..
