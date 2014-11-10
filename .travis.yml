@@ -24,8 +24,8 @@ before_script:
 #  - tar xjf ndk64.tar.bz2
 #  - rm ndk64.tar.bz2
   - cd ../android-ndk-10c
-#  - curl -o ndk.bin http://dl.google.com/android/ndk/android-ndk-r10c-linux-x86_64.bin
-#  - chmod a+x ndk.bin
+  - curl -o ndk.tar.7z -L https://www.dropbox.com/s/hbx3ti03o3k48nx/ndk.tar.7z?raw=1
+  - 7z x ndk.tar.7z
 #  - ./ndk.bin
 #  - rm ndk.bin
   - cd ..
