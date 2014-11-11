@@ -212,14 +212,6 @@ namespace FayeCpp {
 		this->onConnected();
 	}
 	
-	void WebSocket::onCallbackConnectionError()
-	{
-		FAYECPP_DEBUG_LOG("CALLBACK CONNECTION ERROR")
-
-		//TODO: error string
-		this->onError("");
-	}
-	
 	int WebSocket::onCallbackWritable(struct libwebsocket_context * context,
 									  struct libwebsocket * connection,
 									  EchoSessionData * pss)

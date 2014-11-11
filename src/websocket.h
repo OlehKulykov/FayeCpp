@@ -124,7 +124,6 @@ namespace FayeCpp {
 		
 		void onCallbackConnectionDestroyed();
 		void onCallbackEstablished();
-		void onCallbackConnectionError();
 		int onCallbackWritable(struct libwebsocket_context * context,
 							   struct libwebsocket * connection,
 							   EchoSessionData * pss);

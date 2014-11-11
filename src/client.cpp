@@ -237,7 +237,8 @@ namespace FayeCpp {
 		}
 		if (responce->messageBuffer())
 		{
-			//TODO: process unknown buffer data.
+			FAYECPP_DEBUG_LOG("Client responce error: unknown responce data.")
+			if (_delegate) _delegate->onFayeErrorString(this, REString("Client responce error: unknown responce data."));
 		}
 	}
 	
@@ -556,7 +557,8 @@ namespace FayeCpp {
 		Variant * channel = message.findTypedValue(_bayeuxSubscriptionKey, Variant::TypeString);
 		if (!channel) 
 		{
-			//TODO: error;
+			FAYECPP_DEBUG_LOG("Client subscription error: can't find subscription key.")
+			if (_delegate) _delegate->onFayeErrorString(this, REString("Subscription error: can't find subscription key."));
 			return;
 		}
 		
@@ -588,7 +590,8 @@ namespace FayeCpp {
 		Variant * channel = message.findTypedValue(_bayeuxSubscriptionKey, Variant::TypeString);
 		if (!channel) 
 		{
-			//TODO: error;
+			FAYECPP_DEBUG_LOG("Client unsubscribe error: can't locate subscription key.")
+			if (_delegate) _delegate->onFayeErrorString(this, REString("Client unsubscribe error: can't locate subscription key."));
 			return;
 		}
 		
