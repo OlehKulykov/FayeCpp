@@ -49,11 +49,11 @@
 #endif /* __RE_OS_WINDOWS__ */
 
 #if defined(HAVE_PTHREAD_H)
-#define LOCK_MUTEX(mPtr) pthread_mutex_lock(mPtr)
-#define UNLOCK_MUTEX(mPtr) pthread_mutex_unlock(mPtr)
+#define LOCK_MUTEX(mPtr) pthread_mutex_lock(mPtr);
+#define UNLOCK_MUTEX(mPtr) pthread_mutex_unlock(mPtr);
 #elif defined(__RE_USING_WINDOWS_THREADS__)
-#define LOCK_MUTEX(mPtr) TryEnterCriticalSection(mPtr)
-#define UNLOCK_MUTEX(mPtr) LeaveCriticalSection(mPtr)
+#define LOCK_MUTEX(mPtr) TryEnterCriticalSection(mPtr);
+#define UNLOCK_MUTEX(mPtr) LeaveCriticalSection(mPtr);
 #endif
 
 #ifndef SAFE_DELETE
@@ -100,9 +100,9 @@ namespace FayeCpp {
 		Client * client() const;
 		SSLDataSource * sslDataSource() const;
 		bool isUsingIPV6() const;
-		RETimeInterval adviceInterval() const { return _advice.interval; }
-		RETimeInterval adviceTimeout() const { return _advice.timeout; }
-		int adviceReconnect() const { return _advice.reconnect; }
+		RETimeInterval adviceInterval() const;
+		RETimeInterval adviceTimeout() const;
+		int adviceReconnect() const;
 		
 		void onConnected();
 		void onDisconnected();

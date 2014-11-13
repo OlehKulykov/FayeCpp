@@ -37,6 +37,21 @@ namespace FayeCpp {
 		return client ? client->isUsingIPV6() : false;
 	}
 	
+	RETimeInterval Transport::adviceInterval() const 
+	{
+		return _advice.interval; 
+	}
+	
+	RETimeInterval Transport::adviceTimeout() const 
+	{
+		return _advice.timeout; 
+	}
+	
+	int Transport::adviceReconnect() const 
+	{
+		return _advice.reconnect; 
+	}
+	
 	void Transport::receivedAdvice(const VariantMap & advice)
 	{
 		Advice a;
