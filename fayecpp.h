@@ -1939,12 +1939,11 @@ namespace FayeCpp {
 	
 
 	/**
-	  @brief Immutable string wrapper for holding pointer to UTF8 string without creation new buffer and copying string data.
-	  @example
-	  {
-			REStaticString helloString("hello"); // no new string buffer & no copy, just holds pointer to const char * C string.
-			// do something with helloString & forgot.
-	  }
+	 @brief Immutable string wrapper for holding pointer to UTF8 string without creation new buffer and copying string data.
+	 @code
+		REStaticString helloString("hello"); // no new string buffer & no copy, just holds pointer to const char * C string.
+		// do something with helloString & forgot.
+	 @endcode
 	 */
 	class __RE_PUBLIC_CLASS_API__ REStaticString : public REString
 	{
@@ -2488,7 +2487,9 @@ namespace FayeCpp {
 		/**
 		 @brief Get client sertificate file path.
 		 @detailed Path to certificate file. Currently supports rsa algorithm & pem encoding format.
-		 @example return REString("/Volumes/Data/faye/client.crt");
+		 @code 
+		 return REString("/Volumes/Data/faye/client.crt");
+		 @endcode
 		 @return String with file path or empty string.
 		 */
 		virtual FayeCpp::REString clientLocalCertificateFilePath() const = 0;
@@ -2497,7 +2498,9 @@ namespace FayeCpp {
 		/**
 		 @brief Get client private key file path.
 		 @detailed Path to key file. Currently supports rsa algorithm & pem encoding format.
-		 @example return REString("/Volumes/Data/faye/client.key");
+		 @code 
+		 return REString("/Volumes/Data/faye/client.key");
+		 @endcode
 		 @return String with file path or empty string.
 		 */
 		virtual FayeCpp::REString clientPrivateKeyFilePath() const = 0;
