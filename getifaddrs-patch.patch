@@ -1,0 +1,12 @@
+diff --git a/lib/getifaddrs.c b/lib/getifaddrs.c
+index 5823c06..da71583 100644
+--- a/lib/getifaddrs.c
++++ b/lib/getifaddrs.c
+@@ -58,6 +58,7 @@
+ #endif
+ 
+ #include "getifaddrs.h"
++#include "private-libwebsockets.h"
+ 
+ static int
+ getifaddrs2(struct ifaddrs **ifap,

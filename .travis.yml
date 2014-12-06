@@ -11,6 +11,9 @@ before_script:
   - sudo apt-get install p7zip-full
   - mkdir ~/fayecpp-install-dir
   - git submodule update --init --recursive
+  - cd libwebsockets
+  - git apply < ../getifaddrs-patch.patch
+  - cd ..
   - mkdir build
   - mkdir android-ndk32
   - mkdir android-ndk64

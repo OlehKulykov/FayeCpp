@@ -9,6 +9,7 @@ ALL_SOURCES := \
 	../../../libwebsockets/lib/context.c \
 	../../../libwebsockets/lib/extension-deflate-frame.c \
 	../../../libwebsockets/lib/extension-deflate-stream.c \
+	../../../libwebsockets/lib/getifaddrs.c \
 	../../../libwebsockets/lib/extension.c \
 	../../../libwebsockets/lib/handshake.c \
 	../../../libwebsockets/lib/libwebsockets.c \
