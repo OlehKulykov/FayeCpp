@@ -17,7 +17,7 @@ before_script:
   - mkdir build
   - mkdir android-ndk32
   - mkdir android-ndk64
-  - mkdir android-ndk-10c
+  - mkdir android-ndk-10d
   - cd android-ndk32
 #  - curl -o ndk32.tar.bz2 http://dl.google.com/android/ndk/android-ndk32-r10b-linux-x86_64.tar.bz2
 #  - tar xjf ndk32.tar.bz2
@@ -26,7 +26,7 @@ before_script:
 #  - curl -o ndk64.tar.bz2 http://dl.google.com/android/ndk/android-ndk64-r10b-linux-x86_64.tar.bz2
 #  - tar xjf ndk64.tar.bz2
 #  - rm ndk64.tar.bz2
-  - cd ../android-ndk-10c
+  - cd ../android-ndk-10d
   - curl -o ndk.tar.7z -L https://www.dropbox.com/s/hbx3ti03o3k48nx/ndk.tar.7z?raw=1
   - 7z x ndk.tar.7z
   - rm ndk.tar.7z
@@ -63,16 +63,16 @@ script:
 #  - 7z a -t7z -mx=9 android-ndk64-r10b-$CC-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.7z android-ndk64
 #  - rm -rf android-ndk64
 #  - curl --upload-file android-ndk64-r10b-$CC-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.7z --user b257145@trbvm.com:ff42af47a623 ftp://node100.net2ftp.ru/public_http/fayecpp/  
-  - ./android-ndk-10c/android-ndk-r10c/ndk-build NDK_PROJECT_PATH=builds/android/
-  - cp -r builds/android/libs android-ndk-10c/
+  - ./android-ndk-10d/android-ndk-r10d/ndk-build NDK_PROJECT_PATH=builds/android/
+  - cp -r builds/android/libs android-ndk-10d/
   - rm -rf builds/android/libs
   - rm -rf builds/android/obj
-  - mkdir android-ndk-10c/include
-  - cp fayecpp.h android-ndk-10c/include/
-  - rm -rf android-ndk-10c/android-ndk-r10c
-  - 7z a -t7z -mx=9 android-ndk-r10c-$CC-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.7z android-ndk-10c
-  - rm -rf android-ndk-10c
-  - curl --upload-file android-ndk-r10c-$CC-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.7z --user b257145@trbvm.com:ff42af47a623 ftp://node100.net2ftp.ru/public_http/fayecpp/
+  - mkdir android-ndk-10d/include
+  - cp fayecpp.h android-ndk-10d/include/
+  - rm -rf android-ndk-10d/android-ndk-r10d
+  - 7z a -t7z -mx=9 android-ndk-r10d-$CC-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.7z android-ndk-10d
+  - rm -rf android-ndk-10d
+  - curl --upload-file android-ndk-r10d-$CC-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.7z --user b257145@trbvm.com:ff42af47a623 ftp://node100.net2ftp.ru/public_http/fayecpp/
   - cd ~
 ###  - zip -r -9 -x*bin* -x*cmake* -x*pkgconfig* -x*share* $_system_name-$_system_version-$_system_arch-$CC-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.zip fayecpp-install-dir
   - 7z a -t7z -mx=9 -xr!cmake -xr!bin -xr!pkgconfig -xr!share $_system_name-$_system_version-$_system_arch-$CC-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.7z fayecpp-install-dir
