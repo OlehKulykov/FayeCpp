@@ -19,6 +19,7 @@ ALL_SOURCES := \
 	../../../libwebsockets/lib/pollfd.c \
 	../../../libwebsockets/lib/service.c \
 	../../../libwebsockets/lib/sha-1.c \
+	../../../libwebsockets/lib/alloc.c \
 	../../../jansson/src/dump.c \
 	../../../jansson/src/error.c \
 	../../../jansson/src/hashtable.c \

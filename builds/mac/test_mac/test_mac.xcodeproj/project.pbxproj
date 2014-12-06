@@ -24,7 +24,6 @@
 		3D0830C11987CB160038CD79 /* extension-deflate-frame.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830B01987CB160038CD79 /* extension-deflate-frame.c */; };
 		3D0830C21987CB160038CD79 /* extension-deflate-stream.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830B11987CB160038CD79 /* extension-deflate-stream.c */; };
 		3D0830C31987CB160038CD79 /* extension.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830B21987CB160038CD79 /* extension.c */; };
-		3D0830C41987CB160038CD79 /* getifaddrs.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830B31987CB160038CD79 /* getifaddrs.c */; };
 		3D0830C51987CB160038CD79 /* handshake.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830B41987CB160038CD79 /* handshake.c */; };
 		3D0830C61987CB160038CD79 /* libwebsockets.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830B51987CB160038CD79 /* libwebsockets.c */; };
 		3D0830C71987CB160038CD79 /* lws-plat-unix.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830B61987CB160038CD79 /* lws-plat-unix.c */; };
@@ -69,6 +68,7 @@
 		3D0831281987CE280038CD79 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D0831271987CE280038CD79 /* libcrypto.dylib */; };
 		3D85BCC219F3DEA70057DAEC /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830851987C9D80038CD79 /* AppDelegate.mm */; };
 		3D85BCC319F3DEAC0057DAEC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D08307E1987C9D80038CD79 /* main.m */; };
+		3DAD75F91A32F8900054F999 /* alloc.c in Sources */ = {isa = PBXBuildFile; fileRef = 3DAD75F81A32F8900054F999 /* alloc.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -113,7 +113,6 @@
 		3D0830B01987CB160038CD79 /* extension-deflate-frame.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "extension-deflate-frame.c"; path = "../../../../libwebsockets/lib/extension-deflate-frame.c"; sourceTree = "<group>"; };
 		3D0830B11987CB160038CD79 /* extension-deflate-stream.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "extension-deflate-stream.c"; path = "../../../../libwebsockets/lib/extension-deflate-stream.c"; sourceTree = "<group>"; };
 		3D0830B21987CB160038CD79 /* extension.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = extension.c; path = ../../../../libwebsockets/lib/extension.c; sourceTree = "<group>"; };
-		3D0830B31987CB160038CD79 /* getifaddrs.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = getifaddrs.c; path = ../../../../libwebsockets/lib/getifaddrs.c; sourceTree = "<group>"; };
 		3D0830B41987CB160038CD79 /* handshake.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = handshake.c; path = ../../../../libwebsockets/lib/handshake.c; sourceTree = "<group>"; };
 		3D0830B51987CB160038CD79 /* libwebsockets.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = libwebsockets.c; path = ../../../../libwebsockets/lib/libwebsockets.c; sourceTree = "<group>"; };
 		3D0830B61987CB160038CD79 /* lws-plat-unix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "lws-plat-unix.c"; path = "../../../../libwebsockets/lib/lws-plat-unix.c"; sourceTree = "<group>"; };
@@ -167,6 +166,7 @@
 		3D0831271987CE280038CD79 /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = usr/lib/libcrypto.dylib; sourceTree = SDKROOT; };
 		3D3045E019EE859300D8B163 /* test_fayecpp_header.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = test_fayecpp_header.cpp; path = ../../../../test/test_fayecpp_header.cpp; sourceTree = "<group>"; };
 		3D3045E219EE88A600D8B163 /* test_fayecpp_init.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = test_fayecpp_init.cpp; path = ../../../../test/test_fayecpp_init.cpp; sourceTree = "<group>"; };
+		3DAD75F81A32F8900054F999 /* alloc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = alloc.c; path = ../../../../libwebsockets/lib/alloc.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -295,7 +295,6 @@
 				3D0830B01987CB160038CD79 /* extension-deflate-frame.c */,
 				3D0830B11987CB160038CD79 /* extension-deflate-stream.c */,
 				3D0830B21987CB160038CD79 /* extension.c */,
-				3D0830B31987CB160038CD79 /* getifaddrs.c */,
 				3D0830B41987CB160038CD79 /* handshake.c */,
 				3D0830B51987CB160038CD79 /* libwebsockets.c */,
 				3D0830B61987CB160038CD79 /* lws-plat-unix.c */,
@@ -307,6 +306,7 @@
 				3D0831211987CD8A0038CD79 /* ssl.c */,
 				3D0831231987CDE30038CD79 /* server-handshake.c */,
 				3D0831241987CDE30038CD79 /* server.c */,
+				3DAD75F81A32F8900054F999 /* alloc.c */,
 			);
 			name = libwebsockets;
 			sourceTree = "<group>";
@@ -497,7 +497,6 @@
 				3D08310F1987CB4E0038CD79 /* REStringUtilsPrivate.cpp in Sources */,
 				3D0830C11987CB160038CD79 /* extension-deflate-frame.c in Sources */,
 				3D0830E01987CB2D0038CD79 /* strbuffer.c in Sources */,
-				3D0830C41987CB160038CD79 /* getifaddrs.c in Sources */,
 				3D0830C21987CB160038CD79 /* extension-deflate-stream.c in Sources */,
 				3D0831111987CB4E0038CD79 /* REWideString.cpp in Sources */,
 				3D0831081987CB4E0038CD79 /* REBufferNoCopy.cpp in Sources */,
@@ -511,6 +510,7 @@
 				3D0831161987CB4E0038CD79 /* websocket.cpp in Sources */,
 				3D0831051987CB4E0038CD79 /* jsonutils.cpp in Sources */,
 				3D0831141987CB4E0038CD79 /* variantlist.cpp in Sources */,
+				3DAD75F91A32F8900054F999 /* alloc.c in Sources */,
 				3D08310E1987CB4E0038CD79 /* REStringList.cpp in Sources */,
 				3D0831131987CB4E0038CD79 /* variant.cpp in Sources */,
 				3D0830E21987CB2D0038CD79 /* utf.c in Sources */,
