@@ -238,7 +238,7 @@ value = false;   // set boolean value with false, value.type() is Variant::TypeB
 // Map object (hash or dictionary), stores values by string keys
 VariantMap message;   // or FayeCpp::VariantMap message; if manespace not used.
 message["text"] = "Hello world";   // set C (const char *) string value
-message[L"wide charectes key"] = L"Hello world !!!";   // set wide (const wchar_t *) string value with wide string key.
+message[L"wide characters key"] = L"Hello world !!!";   // set wide (const wchar_t *) string value with wide string key.
 message[L"Сообщение"] = L"Привет мир !!!";   // set wide (const wchar_t *) string value with wide string key.
 message["integer key"] = 1;   // set integer value
 message["float key"] = 3.14f;   // set float value
