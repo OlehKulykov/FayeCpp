@@ -117,7 +117,7 @@ namespace FayeCpp {
 		{
 			case TypeInteger: return (double)_u.int64Value; break;
 			case TypeUnsignedInteger: return (double)_u.uint64Value; break;
-			case TypeReal: return (double)_u.doubleValue; break;
+			case TypeReal: return _u.doubleValue; break;
 			case TypeBool: return _u.boolValue ? (double)1 : (double)0; break;
 			case TypeString:
 			{
@@ -160,12 +160,14 @@ namespace FayeCpp {
 		_t = TypeInteger;
 		return *this;
 	}
+	
 	Variant & Variant::operator=(float v)
 	{
 		_u.doubleValue = v;
 		_t = TypeReal;
 		return *this;
 	}
+	
 	Variant & Variant::operator=(double v)
 	{
 		_u.doubleValue = v;
@@ -179,24 +181,28 @@ namespace FayeCpp {
 		_t = TypeInteger;
 		return *this;
 	}
+	
 	Variant & Variant::operator=(unsigned long long v)
 	{
 		_u.uint64Value = v;
 		_t = TypeUnsignedInteger;
 		return *this;
 	}
+	
 	Variant & Variant::operator=(long double v)
 	{
 		_u.doubleValue = v;
 		_t = TypeReal;
 		return *this;
 	}
+	
 	Variant & Variant::operator=(bool v)
 	{
 		_u.boolValue = v;
 		_t = TypeBool;
 		return *this;
 	}
+	
 	Variant & Variant::operator=(const REString & s)
 	{
 		this->clean();
@@ -208,6 +214,7 @@ namespace FayeCpp {
 		}
 		return *this;
 	}
+	
 	Variant & Variant::operator=(const char * s)
 	{
 		this->clean();
@@ -249,6 +256,7 @@ namespace FayeCpp {
 		}
 		return *this;
 	}
+	
 	Variant & Variant::operator=(const VariantList & l)
 	{
 		this->clean();
