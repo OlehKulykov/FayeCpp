@@ -14,11 +14,14 @@
 #   limitations under the License.
 #
 
-include_directories(${PROJECT_BINARY_DIR})
+include(CheckLibraryExists)
 
+include_directories(${PROJECT_BINARY_DIR})
 
 link_directories(${PROJECT_BINARY_DIR})
 
+check_include_file("curl/curl.h" HAVE_CURL_CURL_H)
+find_package(CURL)
 
 add_executable(test_fayecpp_header test_fayecpp_header.cpp)
 target_link_libraries(test_fayecpp_header fayecpp)
@@ -30,5 +33,15 @@ target_link_libraries(test_fayecpp_init fayecpp)
 add_test(test_fayecpp_init test_fayecpp_init)
 
 
+if(HAVE_CURL_CURL_H)
+add_executable(dbuploader dbuploader.cpp)
+target_link_libraries(dbuploader ${CURL_LIBRARIES})
+endif(HAVE_CURL_CURL_H)
+
+
 install(TARGETS test_fayecpp_header DESTINATION bin)
 install(TARGETS test_fayecpp_init DESTINATION bin)
+
+if(HAVE_CURL_CURL_H)
+install(TARGETS dbuploader DESTINATION bin)
+endif(HAVE_CURL_CURL_H)

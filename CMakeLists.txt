@@ -105,7 +105,6 @@ include_directories(${JANSSON_INCLUDE_DIRS})
 set(HAVE_JANSSON_H 1)
 
 
-
 check_include_file("stdlib.h" HAVE_STDLIB_H)
 if(HAVE_STDLIB_H)
 	LIST(APPEND CMAKE_EXTRA_INCLUDE_FILES stdlib.h)
