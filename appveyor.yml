@@ -23,17 +23,20 @@ clone_folder: c:\dev\FayeCpp
 # scripts that run after cloning repository
 install:
   - cinst 7zip.commandline -x86
-  - cinst curl
   - cd c:\dev\FayeCpp
   - md fayecpp-install-dir
   - git submodule update --init --recursive
+  - cd libwebsockets
+  - git apply < ../getifaddrs-patch.patch
+  - git apply < ../libwebsockets_h.patch
+  - cd ..
   - cmd: echo PLATFORM=%PLATFORM%
   - cmd: echo APPVEYOR_REPO_BRANCH=%APPVEYOR_REPO_BRANCH%
   - cmd: echo APPVEYOR_BUILD_VERSION=%APPVEYOR_BUILD_VERSION%
   - cmd: set CMAKE_GENERATOR_STRING="Wrong CMake generator"
   - cmd: set MSBUILD_PLATFORM_STRING="Wrong Platform"
-  - ps: if($env:PLATFORM -eq "x86") { $env:CMAKE_GENERATOR_STRING='"Visual Studio 12"'; }
-  - ps: if($env:PLATFORM -eq "x64") { $env:CMAKE_GENERATOR_STRING='"Visual Studio 12 Win64"'; }
+  - ps: if($env:PLATFORM -eq "x86") { $env:CMAKE_GENERATOR_STRING='"Visual Studio 11"'; }
+  - ps: if($env:PLATFORM -eq "x64") { $env:CMAKE_GENERATOR_STRING='"Visual Studio 11 Win64"'; }
   - ps: if($env:PLATFORM -eq "x86") { $env:MSBUILD_PLATFORM_STRING='"Win32"'; }
   - ps: if($env:PLATFORM -eq "x64") { $env:MSBUILD_PLATFORM_STRING='"x64"'; }
   - cmd: echo CMAKE_GENERATOR_STRING=%CMAKE_GENERATOR_STRING%
