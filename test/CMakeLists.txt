@@ -34,7 +34,7 @@ add_test(test_fayecpp_init test_fayecpp_init)
 
 
 if(HAVE_CURL_CURL_H)
-add_executable(dbuploader dbuploader.cpp)
+add_executable(dbuploader dbuploader.c)
 target_link_libraries(dbuploader ${CURL_LIBRARIES})
 endif(HAVE_CURL_CURL_H)
 
