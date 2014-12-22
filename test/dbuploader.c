@@ -12,9 +12,15 @@ const char * _token = NULL;
 const char * _tokenSecret = NULL;
 const char * _fileName = NULL;
 const char * _filePath = NULL;
+FILE * _sendFile = NULL;
 
-void freeParams()
+void cleanParams()
 {
+	if (_sendFile)
+	{
+		fclose(_sendFile);
+		_sendFile = NULL;
+	}
 	SAFE_FREE(_appKey)
 	SAFE_FREE(_appSecret)
 	SAFE_FREE(_token)
@@ -69,19 +75,18 @@ int main(int argc, char **argv)
 	if (!_appKey || !_appSecret || !_token || !_tokenSecret || !_fileName || !_filePath)
 	{
 		fprintf(stdout, "Format: -fp FILE_PATH -fn FILE_NAME -ak APP_KEY -as APP_SECRET -t TOKEN -ts TOKEN_SECRET");
-		freeParams();
+		cleanParams();
 		return EXIT_SUCCESS;
 	}
 	
-	
 	CURL * curl = NULL;
-	CURLcode res;
+	CURLcode res = 0;
 	
-	FILE * rfp = fopen(_filePath, "r+b");
-	if (!rfp)
+	_sendFile = fopen(_filePath, "r+b");
+	if (!_sendFile)
 	{
 		fprintf(stderr, "Can't open file: %s", _filePath);
-		freeParams();
+		cleanParams();
 		return EXIT_FAILURE;
 	}
 	
@@ -89,7 +94,7 @@ int main(int argc, char **argv)
 	if (!curl) 
 	{
 		fprintf(stderr, "Can't initialize curl.");
-		freeParams();
+		cleanParams();
 		return EXIT_FAILURE;
 	}
 	
@@ -97,7 +102,7 @@ int main(int argc, char **argv)
 	if (sprintf(url, "https://api-content.dropbox.com/1/files_put/sandbox/%s", _fileName) <= 0)
 	{
 		fprintf(stderr, "Can't initialize url string.");
-		freeParams();
+		cleanParams();
 		return EXIT_FAILURE;
 	}
 	
@@ -110,7 +115,7 @@ int main(int argc, char **argv)
 			_appKey, _token, _appSecret, _tokenSecret) <= 0)
 	{
 		fprintf(stderr, "Can't initialize header.");
-		freeParams();
+		cleanParams();
 		return EXIT_FAILURE;
 	}
 	headers = curl_slist_append(headers, header);
@@ -118,7 +123,7 @@ int main(int argc, char **argv)
 	
 	curl_easy_setopt(curl, CURLOPT_PUT, 1L);
 	curl_easy_setopt(curl, CURLOPT_READFUNCTION, readFile);
-	curl_easy_setopt(curl, CURLOPT_READDATA, rfp);
+	curl_easy_setopt(curl, CURLOPT_READDATA, _sendFile);
 	
 	res = curl_easy_perform(curl);
 	
@@ -126,15 +131,13 @@ int main(int argc, char **argv)
 	if(res != CURLE_OK)
 	{
 		fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
-		freeParams();
+		cleanParams();
 		return EXIT_FAILURE;
 	}
 	
 	curl_easy_cleanup(curl);
 	
-	fclose(rfp);
-	
-	freeParams();
+	cleanParams();
 	
 	return EXIT_SUCCESS;
 }
