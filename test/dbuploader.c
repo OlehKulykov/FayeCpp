@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -13,6 +12,9 @@ const char * _tokenSecret = NULL;
 const char * _fileName = NULL;
 const char * _filePath = NULL;
 FILE * _sendFile = NULL;
+char _url[1024] = { 0 };
+char _header[2048] = { 0 };
+struct curl_slist * _headers = NULL;
 
 void cleanParams()
 {
@@ -28,7 +30,7 @@ void cleanParams()
 	SAFE_FREE(_fileName)
 	SAFE_FREE(_filePath)
 }
- 
+
 size_t readFile(void * ptr, size_t size, size_t nmeb, void * stream)
 {
 	return (ptr && stream) ? fread(ptr, size, nmeb, (FILE *)stream) : 0;
@@ -50,7 +52,7 @@ const char * copyString(const char * src)
 	return NULL;
 }
 
-int main(int argc, char **argv)
+void readParams(int argc, char **argv)
 {
 	argc--; argv++;
 	
@@ -72,15 +74,12 @@ int main(int argc, char **argv)
 		argc-= 2;
 	}
 	
-	if (!_appKey || !_appSecret || !_token || !_tokenSecret || !_fileName || !_filePath)
-	{
-		fprintf(stdout, "Format: -fp FILE_PATH -fn FILE_NAME -ak APP_KEY -as APP_SECRET -t TOKEN -ts TOKEN_SECRET");
-		cleanParams();
-		return EXIT_SUCCESS;
-	}
-	
-	CURL * curl = NULL;
-	CURLcode res = 0;
+}
+
+int post()
+{
+	CURL * curl;
+	CURLcode res;
 	
 	_sendFile = fopen(_filePath, "r+b");
 	if (!_sendFile)
@@ -98,28 +97,26 @@ int main(int argc, char **argv)
 		return EXIT_FAILURE;
 	}
 	
-	char url[1024] = { 0 };
-	if (sprintf(url, "https://api-content.dropbox.com/1/files_put/sandbox/%s", _fileName) <= 0)
+	if (sprintf(_url, "https://api-content.dropbox.com/1/files_put/sandbox/%s", _fileName) <= 0)
 	{
 		fprintf(stderr, "Can't initialize url string.");
 		cleanParams();
 		return EXIT_FAILURE;
 	}
 	
-	curl_easy_setopt(curl, CURLOPT_URL, url);
+	curl_easy_setopt(curl, CURLOPT_URL, _url);
 	
-	struct curl_slist * headers = NULL;
-	
-	char header[2048] = { 0 };
-	if (sprintf(header, "Authorization: OAuth oauth_version=\"1.0\", oauth_signature_method=\"PLAINTEXT\", oauth_consumer_key=\"%s\", oauth_token=\"%s\", oauth_signature=\"%s&%s\"",
-			_appKey, _token, _appSecret, _tokenSecret) <= 0)
-	{
-		fprintf(stderr, "Can't initialize header.");
-		cleanParams();
-		return EXIT_FAILURE;
+	{		
+		if (sprintf(_header, "Authorization: OAuth oauth_version=\"1.0\", oauth_signature_method=\"PLAINTEXT\", oauth_consumer_key=\"%s\", oauth_token=\"%s\", oauth_signature=\"%s&%s\"",
+					_appKey, _token, _appSecret, _tokenSecret) <= 0)
+		{
+			fprintf(stderr, "Can't initialize header.");
+			cleanParams();
+			return EXIT_FAILURE;
+		}
+		_headers = curl_slist_append(_headers, _header);
+		curl_easy_setopt(curl, CURLOPT_HTTPHEADER, _headers);
 	}
-	headers = curl_slist_append(headers, header);
-	curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
 	
 	curl_easy_setopt(curl, CURLOPT_PUT, 1L);
 	curl_easy_setopt(curl, CURLOPT_READFUNCTION, readFile);
@@ -127,7 +124,7 @@ int main(int argc, char **argv)
 	
 	res = curl_easy_perform(curl);
 	
-	curl_slist_free_all(headers);
+	curl_slist_free_all(_headers);
 	if(res != CURLE_OK)
 	{
 		fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
@@ -140,4 +137,19 @@ int main(int argc, char **argv)
 	cleanParams();
 	
 	return EXIT_SUCCESS;
+}
+
+
+int main(int argc, char **argv)
+{
+	readParams(argc, argv);
+	
+	if (!_appKey || !_appSecret || !_token || !_tokenSecret || !_fileName || !_filePath)
+	{
+		fprintf(stdout, "Format: -fp FILE_PATH -fn FILE_NAME -ak APP_KEY -as APP_SECRET -t TOKEN -ts TOKEN_SECRET");
+		cleanParams();
+		return EXIT_SUCCESS;
+	}
+	
+	return post();
 }
