@@ -58,4 +58,4 @@ script:
 branches:
   only:
     - master
-###    - dev
+    - dev
