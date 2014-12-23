@@ -43,11 +43,11 @@ ALL_SOURCES := \
 	../../../src/REStringBase.cpp \
 	../../../src/REStringList.cpp \
 	../../../src/REStringUtilsPrivate.cpp \
+	../../../src/REVariant.cpp \
+	../../../src/REVariantList.cpp \
+	../../../src/REVariantMap.cpp \
 	../../../src/REWideString.cpp \
 	../../../src/transport.cpp \
-	../../../src/variant.cpp \
-	../../../src/variantlist.cpp \
-	../../../src/variantmap.cpp \
 	../../../src/websocket.cpp \
 	../getdtablesize.c
 

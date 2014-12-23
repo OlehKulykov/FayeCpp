@@ -112,7 +112,7 @@ namespace FayeCpp {
 		void onError(const char * error);
 	
 	public:
-		void receivedAdvice(const VariantMap & advice);
+		void receivedAdvice(const REVariantMap & advice);
 		bool isConnected() const;
 		
 		virtual const REString name() const = 0;

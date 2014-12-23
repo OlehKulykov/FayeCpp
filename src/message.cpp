@@ -40,12 +40,12 @@ namespace FayeCpp {
 		return _errorString;
 	}
 	
-	VariantList * Responce::messageList() const
+	REVariantList * Responce::messageList() const
 	{
 		return _messageList;
 	}
 	
-	VariantMap * Responce::messageMap() const
+	REVariantMap * Responce::messageMap() const
 	{
 		return _messageMap;
 	}
@@ -109,12 +109,12 @@ namespace FayeCpp {
 			JsonParser parser((const char *)data);
 			if (parser.isList()) 
 			{
-				_messageList = new VariantList();
+				_messageList = new REVariantList();
 				if (_messageList) isOk = parser.toList(*_messageList);
 			}
 			else if (parser.isMap())
 			{
-				_messageMap = new VariantMap();
+				_messageMap = new REVariantMap();
 				if (_messageMap) isOk = parser.toMap(*_messageMap);
 			}
 			

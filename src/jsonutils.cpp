@@ -35,7 +35,7 @@ namespace FayeCpp {
 		return _json ? json_is_array(_json) : false;
 	}
 	
-	bool JsonParser::toMap(VariantMap & map)
+	bool JsonParser::toMap(REVariantMap & map)
 	{
 		if (this->isMap())
 		{
@@ -45,7 +45,7 @@ namespace FayeCpp {
 		return false;
 	}
 	
-	void JsonParser::jsonToMap(json_t * json, VariantMap & map)
+	void JsonParser::jsonToMap(json_t * json, REVariantMap & map)
 	{
 		void * iter = json_object_iter(json);
 		while (iter)
@@ -58,7 +58,7 @@ namespace FayeCpp {
 				{
 					case JSON_OBJECT: 
 					{
-						VariantMap m;
+						REVariantMap m;
 						JsonParser::jsonToMap(o, m);
 						map[k] = m;
 					}
@@ -66,18 +66,18 @@ namespace FayeCpp {
 						
 					case JSON_ARRAY:
 					{
-						VariantList l;
+						REVariantList l;
 						JsonParser::jsonToList(o, l);
 						map[k] = l;
 					}
 						break;
 						
 					case JSON_STRING: map[k] = REString(json_string_value(o)); break;
-					case JSON_INTEGER: map[k] = Variant((long long)json_integer_value(o)); break;
-					case JSON_REAL: map[k] = Variant((double)json_real_value(o)); break;
-					case JSON_TRUE: map[k] = Variant(true); break;
-					case JSON_FALSE: map[k] = Variant(false); break;
-					case JSON_NULL: map[k] = Variant(); break;
+					case JSON_INTEGER: map[k] = REVariant((long long)json_integer_value(o)); break;
+					case JSON_REAL: map[k] = REVariant((double)json_real_value(o)); break;
+					case JSON_TRUE: map[k] = REVariant(true); break;
+					case JSON_FALSE: map[k] = REVariant(false); break;
+					case JSON_NULL: map[k] = REVariant(); break;
 					default: break;
 				}
 			}
@@ -85,7 +85,7 @@ namespace FayeCpp {
 		}
 	}
 	
-	void JsonParser::jsonToList(json_t * json, VariantList & list)
+	void JsonParser::jsonToList(json_t * json, REVariantList & list)
 	{
 		const size_t count = json_array_size(json);
 		for (size_t i = 0; i < count; i++) 
@@ -97,7 +97,7 @@ namespace FayeCpp {
 				{
 					case JSON_OBJECT: 
 					{
-						VariantMap m;
+						REVariantMap m;
 						JsonParser::jsonToMap(o, m);
 						list.add(m);
 					}
@@ -105,25 +105,25 @@ namespace FayeCpp {
 						
 					case JSON_ARRAY:
 					{
-						VariantList l;
+						REVariantList l;
 						JsonParser::jsonToList(o, l);
 						list.add(l);
 					}
 						break;
 						
 					case JSON_STRING: list.add(REString(json_string_value(o))); break;
-					case JSON_INTEGER: list.add(Variant((long long)json_integer_value(o))); break;
-					case JSON_REAL: list.add(Variant((double)json_real_value(o))); break;
-					case JSON_TRUE: list.add(Variant(true)); break;
-					case JSON_FALSE: list.add(Variant(false)); break;
-					case JSON_NULL: list.add(Variant()); break;
+					case JSON_INTEGER: list.add(REVariant((long long)json_integer_value(o))); break;
+					case JSON_REAL: list.add(REVariant((double)json_real_value(o))); break;
+					case JSON_TRUE: list.add(REVariant(true)); break;
+					case JSON_FALSE: list.add(REVariant(false)); break;
+					case JSON_NULL: list.add(REVariant()); break;
 					default: break;
 				}
 			}
 		}
 	}
 	
-	bool JsonParser::toList(VariantList & list)
+	bool JsonParser::toList(REVariantList & list)
 	{
 		if (this->isList())
 		{
@@ -164,7 +164,7 @@ namespace FayeCpp {
 	
 	
 	
-	char * JsonGenerator::jsonStringFromMap(const VariantMap & message)
+	char * JsonGenerator::jsonStringFromMap(const REVariantMap & message)
     {
         char * jsonString = NULL;
         json_t * json = json_object();
@@ -177,7 +177,7 @@ namespace FayeCpp {
         return jsonString;
     }
 	
-    char * JsonGenerator::jsonStringFromList(const VariantList & message)
+    char * JsonGenerator::jsonStringFromList(const REVariantList & message)
     {
         char * jsonString = NULL;
         json_t * json = JsonGenerator::jsonObjectFromList(message);
@@ -189,12 +189,12 @@ namespace FayeCpp {
         return jsonString;
     }
 	
-    json_t * JsonGenerator::jsonObjectFromList(const VariantList & list)
+    json_t * JsonGenerator::jsonObjectFromList(const REVariantList & list)
 	{
 		json_t * array = json_array();
 		if (array)
 		{
-			VariantList::Iterator i = list.iterator();
+			REVariantList::Iterator i = list.iterator();
 			while (i.next()) 
 			{
 				json_t * object = JsonGenerator::jsonObjectFromValue(i.value());
@@ -208,16 +208,16 @@ namespace FayeCpp {
 		return array;
 	}
 	
-    json_t * JsonGenerator::jsonObjectFromValue(const Variant & value)
+    json_t * JsonGenerator::jsonObjectFromValue(const REVariant & value)
 	{
 		switch (value.type())
 		{
-			case Variant::TypeInteger: return json_integer(value.toInt64()); break;
-			case Variant::TypeUnsignedInteger: return json_integer(value.toUInt64()); break;
-			case Variant::TypeReal: return json_real(value.toDouble()); break;
-			case Variant::TypeBool: return value.toBool() ? json_true() : json_false(); break;
-			case Variant::TypeString: return json_string(value.toString()); break;
-			case Variant::TypeMap:
+			case REVariant::TypeInteger: return json_integer(value.toInt64()); break;
+			case REVariant::TypeUnsignedInteger: return json_integer(value.toUInt64()); break;
+			case REVariant::TypeReal: return json_real(value.toDouble()); break;
+			case REVariant::TypeBool: return value.toBool() ? json_true() : json_false(); break;
+			case REVariant::TypeString: return json_string(value.toString()); break;
+			case REVariant::TypeMap:
 			{
 				json_t * subMapJson = json_object();
 				if (subMapJson)
@@ -227,15 +227,15 @@ namespace FayeCpp {
 				}
 			}
 				break;
-            case Variant::TypeList:	return JsonGenerator::jsonObjectFromList(value.toList()); break;
+            case REVariant::TypeList: return JsonGenerator::jsonObjectFromList(value.toList()); break;
 			default: break;
 		}
 		return json_null();
 	}
 	
-    void JsonGenerator::addMapToJson(const VariantMap & map, json_t * json)
+    void JsonGenerator::addMapToJson(const REVariantMap & map, json_t * json)
 	{
-		VariantMap::Iterator i = map.iterator();
+		REVariantMap::Iterator i = map.iterator();
 		while (i.next()) 
 		{
 			json_t * object = JsonGenerator::jsonObjectFromValue(i.value());
@@ -252,12 +252,12 @@ namespace FayeCpp {
 		return _string;
 	}
 	
-	JsonGenerator::JsonGenerator(const VariantMap & map) : _string(NULL)
+	JsonGenerator::JsonGenerator(const REVariantMap & map) : _string(NULL)
 	{
 		_string = JsonGenerator::jsonStringFromMap(map);
 	}
 	
-	JsonGenerator::JsonGenerator(const VariantList & list) : _string(NULL)
+	JsonGenerator::JsonGenerator(const REVariantList & list) : _string(NULL)
 	{
 		_string = JsonGenerator::jsonStringFromList(list);
 	}

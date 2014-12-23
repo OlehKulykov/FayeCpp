@@ -33,17 +33,17 @@
 
 namespace FayeCpp {
 	
-	Variant * VariantMap::findTypedValue(const char * key, const Variant::VariantType type) const
+	REVariant * REVariantMap::findTypedValue(const char * key, const REVariant::VariantType type) const
 	{
 		return this->findTypedValue(REStaticString(key), type);
 	}
 	
-	Variant * VariantMap::findTypedValue(const wchar_t * key, const Variant::VariantType type) const
+	REVariant * REVariantMap::findTypedValue(const wchar_t * key, const REVariant::VariantType type) const
 	{
 		return this->findTypedValue(REStaticString(key), type);
 	}
 	
-	Variant * VariantMap::findTypedValue(const REString & key, const Variant::VariantType type) const
+	REVariant * REVariantMap::findTypedValue(const REString & key, const REVariant::VariantType type) const
 	{
 		Node * node = this->findNode(key);
 		if (node)
@@ -56,38 +56,38 @@ namespace FayeCpp {
 		return NULL;
 	}
 	
-	const Variant VariantMap::operator[](const char * key) const
+	const REVariant REVariantMap::operator[](const char * key) const
 	{
 		return (*this)[REStaticString(key)];
 	}
 	
-	const Variant VariantMap::operator[](const wchar_t * key) const
+	const REVariant REVariantMap::operator[](const wchar_t * key) const
 	{
 		return (*this)[REStaticString(key)];
 	}
 	
-	const Variant VariantMap::operator[](const REString & key) const
+	const REVariant REVariantMap::operator[](const REString & key) const
 	{
 		Node * node = this->findNode(key);
-		return node ? node->value : Variant();
+		return node ? node->value : REVariant();
 	}
 	
-    Variant & VariantMap::operator[](const char * key)
+    REVariant & REVariantMap::operator[](const char * key)
 	{
 		return (*this)[REString(key)];
 	}
 	
-	Variant & VariantMap::operator[](const wchar_t * key)
+	REVariant & REVariantMap::operator[](const wchar_t * key)
 	{
 		return (*this)[REString(key)];
 	}
 	
-	Variant & VariantMap::operator[](const REString & key)
+	REVariant & REVariantMap::operator[](const REString & key)
 	{
 		Node * node = this->findNode(key);
 		if (node) return node->value;
 		
-		node = this->addNewNodeWithKeyValue(key, Variant());
+		node = this->addNewNodeWithKeyValue(key, REVariant());
 		
 #if defined(HAVE_ASSERT_H)		
 		assert(node);
@@ -96,10 +96,10 @@ namespace FayeCpp {
 		return node->value;
 	}
 	
-	VariantMap & VariantMap::operator=(const VariantMap & map)
+	REVariantMap & REVariantMap::operator=(const REVariantMap & map)
 	{
 		this->clear();
-		VariantMap::Iterator i = map.iterator();
+		REVariantMap::Iterator i = map.iterator();
 		while (i.next()) 
 		{
 			this->add(i.key(), i.value());
@@ -107,17 +107,17 @@ namespace FayeCpp {
 		return *this;
 	}
 	
-	VariantMap::VariantMap(const VariantMap & map)
+	REVariantMap::REVariantMap(const REVariantMap & map)
 	{
 		*this = map;
 	}
 	
-	VariantMap::VariantMap()
+	REVariantMap::REVariantMap()
 	{
 		
 	}
 	
-	VariantMap::~VariantMap()
+	REVariantMap::~REVariantMap()
 	{
 		
 	}

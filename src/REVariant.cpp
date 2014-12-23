@@ -29,15 +29,15 @@
 
 namespace FayeCpp {
 	
-	void Variant::clean()
+	void REVariant::clean()
 	{
 		if (_u.pointerValue)
 		{
 			switch (_t)
 			{
 				case TypeString: delete (REString *)_u.pointerValue; break;
-				case TypeMap: delete (VariantMap *)_u.pointerValue; break;
-				case TypeList: delete (VariantList *)_u.pointerValue; break;
+				case TypeMap: delete (REVariantMap *)_u.pointerValue; break;
+				case TypeList: delete (REVariantList *)_u.pointerValue; break;
 				default: break;
 			}
 		}
@@ -45,27 +45,27 @@ namespace FayeCpp {
 		_t = TypeNone;
 	}
 
-	bool Variant::isNULL() const
+	bool REVariant::isNULL() const
 	{
 		return _u.pointerValue ? false : true;
 	}
 	
-	bool Variant::isNumber() const 
+	bool REVariant::isNumber() const 
 	{
 		return (_t == TypeInteger) || (_t == TypeReal); 
 	}
 	
-	Variant::VariantType Variant::type() const
+	REVariant::VariantType REVariant::type() const
 	{
 		return _t;
 	}
 	
-	int Variant::toInt() const
+	int REVariant::toInt() const
 	{
 		return (int)this->toInt64();
 	}
 	
-	int64_t Variant::toInt64() const
+	int64_t REVariant::toInt64() const
 	{
 		switch (_t)
 		{
@@ -88,7 +88,7 @@ namespace FayeCpp {
 		return 0;
 	}
 	
-	uint64_t Variant::toUInt64() const
+	uint64_t REVariant::toUInt64() const
 	{
 		switch (_t)
 		{
@@ -111,7 +111,7 @@ namespace FayeCpp {
 		return 0;
 	}
 	
-	double Variant::toDouble() const
+	double REVariant::toDouble() const
 	{
 		switch (_t)
 		{
@@ -134,7 +134,7 @@ namespace FayeCpp {
 		return 0;
 	}
 		
-	bool Variant::toBool() const
+	bool REVariant::toBool() const
 	{
 		switch (_t)
 		{
@@ -154,56 +154,56 @@ namespace FayeCpp {
 		return false;
 	}
 	
-	Variant & Variant::operator=(int v)
+	REVariant & REVariant::operator=(int v)
 	{
 		_u.int64Value = v;
 		_t = TypeInteger;
 		return *this;
 	}
 	
-	Variant & Variant::operator=(float v)
+	REVariant & REVariant::operator=(float v)
 	{
 		_u.doubleValue = v;
 		_t = TypeReal;
 		return *this;
 	}
 	
-	Variant & Variant::operator=(double v)
+	REVariant & REVariant::operator=(double v)
 	{
 		_u.doubleValue = v;
 		_t = TypeReal;
 		return *this;
 	}
 	
-	Variant & Variant::operator=(long long v)
+	REVariant & REVariant::operator=(long long v)
 	{
 		_u.int64Value = v;
 		_t = TypeInteger;
 		return *this;
 	}
 	
-	Variant & Variant::operator=(unsigned long long v)
+	REVariant & REVariant::operator=(unsigned long long v)
 	{
 		_u.uint64Value = v;
 		_t = TypeUnsignedInteger;
 		return *this;
 	}
 	
-	Variant & Variant::operator=(long double v)
+	REVariant & REVariant::operator=(long double v)
 	{
 		_u.doubleValue = v;
 		_t = TypeReal;
 		return *this;
 	}
 	
-	Variant & Variant::operator=(bool v)
+	REVariant & REVariant::operator=(bool v)
 	{
 		_u.boolValue = v;
 		_t = TypeBool;
 		return *this;
 	}
 	
-	Variant & Variant::operator=(const REString & s)
+	REVariant & REVariant::operator=(const REString & s)
 	{
 		this->clean();
 		REString * p = new REString(s);
@@ -215,7 +215,7 @@ namespace FayeCpp {
 		return *this;
 	}
 	
-	Variant & Variant::operator=(const char * s)
+	REVariant & REVariant::operator=(const char * s)
 	{
 		this->clean();
 		if (s)
@@ -230,7 +230,7 @@ namespace FayeCpp {
 		return *this;
 	}
 	
-	Variant & Variant::operator=(const wchar_t * s)
+	REVariant & REVariant::operator=(const wchar_t * s)
 	{
 		this->clean();
 		if (s)
@@ -245,10 +245,10 @@ namespace FayeCpp {
 		return *this;
 	}
 	
-	Variant & Variant::operator=(const VariantMap & m)
+	REVariant & REVariant::operator=(const REVariantMap & m)
 	{
 		this->clean();
-		VariantMap * p = new VariantMap(m);
+		REVariantMap * p = new REVariantMap(m);
 		if (p)
 		{
 			_u.pointerValue = p;
@@ -257,10 +257,10 @@ namespace FayeCpp {
 		return *this;
 	}
 	
-	Variant & Variant::operator=(const VariantList & l)
+	REVariant & REVariant::operator=(const REVariantList & l)
 	{
 		this->clean();
-		VariantList * p = new VariantList(l);
+		REVariantList * p = new REVariantList(l);
 		if (p)
 		{
 			_u.pointerValue = p;
@@ -269,7 +269,7 @@ namespace FayeCpp {
 		return *this;
 	}
 	
-	Variant & Variant::operator=(const Variant & v)
+	REVariant & REVariant::operator=(const REVariant & v)
 	{
 		switch (v._t)
 		{
@@ -281,149 +281,149 @@ namespace FayeCpp {
 		return *this;
 	}
 
-	bool Variant::isString() const
+	bool REVariant::isString() const
 	{
 		return _t == TypeString; 
 	}
 	
-	const REString & Variant::toString() const
+	const REString & REVariant::toString() const
 	{
 		return *(const REString *)_u.pointerValue;
 	}
 	
-	bool Variant::isMap() const
+	bool REVariant::isMap() const
 	{
 		return _t == TypeMap; 
 	}
 	
-	const VariantMap & Variant::toMap() const
+	const REVariantMap & REVariant::toMap() const
 	{
-		return *(const VariantMap *)_u.pointerValue;
+		return *(const REVariantMap *)_u.pointerValue;
 	}
 	
-	bool Variant::isList() const
+	bool REVariant::isList() const
 	{
 		return _t == TypeList; 
 	}
 	
-	const VariantList & Variant::toList() const
+	const REVariantList & REVariant::toList() const
 	{
-		return *((VariantList *)_u.pointerValue);
+		return *((REVariantList *)_u.pointerValue);
 	}
 	
-	REString & Variant::toString()
+	REString & REVariant::toString()
 	{
 		return *(REString *)_u.pointerValue;
 	}
 	
-	VariantMap & Variant::toMap()
+	REVariantMap & REVariant::toMap()
 	{
-		return *(VariantMap *)_u.pointerValue;
+		return *(REVariantMap *)_u.pointerValue;
 	}
 	
-	VariantList & Variant::toList()
+	REVariantList & REVariant::toList()
 	{
-		return *((VariantList *)_u.pointerValue);
+		return *((REVariantList *)_u.pointerValue);
 	}
 	
-	Variant::Variant() :
+	REVariant::REVariant() :
 		_t(TypeNone)
 	{
 		memset(&_u, 0, sizeof(VariantUnion));
 	}
 	
-	Variant::Variant(int v) :
-		_t(TypeNone)
-	{
-		memset(&_u, 0, sizeof(VariantUnion));
-		*this = v;
-	}
-	
-	Variant::Variant(float v) :
+	REVariant::REVariant(int v) :
 		_t(TypeNone)
 	{
 		memset(&_u, 0, sizeof(VariantUnion));
 		*this = v;
 	}
 	
-	Variant::Variant(double v) :
+	REVariant::REVariant(float v) :
 		_t(TypeNone)
 	{
 		memset(&_u, 0, sizeof(VariantUnion));
 		*this = v;
 	}
 	
-	Variant::Variant(long long v) :
+	REVariant::REVariant(double v) :
 		_t(TypeNone)
 	{
 		memset(&_u, 0, sizeof(VariantUnion));
 		*this = v;
 	}
 	
-	Variant::Variant(unsigned long long v) :
+	REVariant::REVariant(long long v) :
 		_t(TypeNone)
 	{
 		memset(&_u, 0, sizeof(VariantUnion));
 		*this = v;
 	}
 	
-	Variant::Variant(long double v) :
+	REVariant::REVariant(unsigned long long v) :
 		_t(TypeNone)
 	{
 		memset(&_u, 0, sizeof(VariantUnion));
 		*this = v;
 	}
 	
-	Variant::Variant(bool v) :
+	REVariant::REVariant(long double v) :
 		_t(TypeNone)
 	{
 		memset(&_u, 0, sizeof(VariantUnion));
 		*this = v;
 	}
 	
-	Variant::Variant(const char * v) :
+	REVariant::REVariant(bool v) :
 		_t(TypeNone)
 	{
 		memset(&_u, 0, sizeof(VariantUnion));
 		*this = v;
 	}
 	
-	Variant::Variant(const wchar_t * v) :
+	REVariant::REVariant(const char * v) :
 		_t(TypeNone)
 	{
 		memset(&_u, 0, sizeof(VariantUnion));
 		*this = v;
 	}
 	
-	Variant::Variant(const REString & v) :
+	REVariant::REVariant(const wchar_t * v) :
 		_t(TypeNone)
 	{
 		memset(&_u, 0, sizeof(VariantUnion));
 		*this = v;
 	}
 	
-	Variant::Variant(const VariantMap & v) :
+	REVariant::REVariant(const REString & v) :
 		_t(TypeNone)
 	{
 		memset(&_u, 0, sizeof(VariantUnion));
 		*this = v;
 	}
 	
-	Variant::Variant(const VariantList & v) :
+	REVariant::REVariant(const REVariantMap & v) :
 		_t(TypeNone)
 	{
 		memset(&_u, 0, sizeof(VariantUnion));
 		*this = v;
 	}
 	
-	Variant::Variant(const Variant & v) :
+	REVariant::REVariant(const REVariantList & v) :
 		_t(TypeNone)
 	{
 		memset(&_u, 0, sizeof(VariantUnion));
 		*this = v;
 	}
 	
-	Variant::~Variant()
+	REVariant::REVariant(const REVariant & v) :
+		_t(TypeNone)
+	{
+		memset(&_u, 0, sizeof(VariantUnion));
+		*this = v;
+	}
+	
+	REVariant::~REVariant()
 	{
 		this->clean();
 	}

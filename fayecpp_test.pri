@@ -59,11 +59,11 @@ SOURCES += $$PWD/src/client.cpp \
            $$PWD/src/REStringBase.cpp \
            $$PWD/src/REStringList.cpp \
            $$PWD/src/REStringUtilsPrivate.cpp \
+           $$PWD/src/REVariant.cpp \
+           $$PWD/src/REVariantList.cpp \
+           $$PWD/src/REVariantMap.cpp \
            $$PWD/src/REWideString.cpp \
            $$PWD/src/transport.cpp \
-           $$PWD/src/variant.cpp \
-           $$PWD/src/variantlist.cpp \
-           $$PWD/src/variantmap.cpp \
            $$PWD/src/websocket.cpp
 #################           $$PWD/src/websocketqt.cpp
 

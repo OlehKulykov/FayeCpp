@@ -57,9 +57,9 @@
 		3D08310F1987CB4E0038CD79 /* REStringUtilsPrivate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830F61987CB4E0038CD79 /* REStringUtilsPrivate.cpp */; };
 		3D0831111987CB4E0038CD79 /* REWideString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830FA1987CB4E0038CD79 /* REWideString.cpp */; };
 		3D0831121987CB4E0038CD79 /* transport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830FC1987CB4E0038CD79 /* transport.cpp */; };
-		3D0831131987CB4E0038CD79 /* variant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830FD1987CB4E0038CD79 /* variant.cpp */; };
-		3D0831141987CB4E0038CD79 /* variantlist.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830FE1987CB4E0038CD79 /* variantlist.cpp */; };
-		3D0831151987CB4E0038CD79 /* variantmap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830FF1987CB4E0038CD79 /* variantmap.cpp */; };
+		3D0831131987CB4E0038CD79 /* REVariant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830FD1987CB4E0038CD79 /* REVariant.cpp */; };
+		3D0831141987CB4E0038CD79 /* REVariantList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830FE1987CB4E0038CD79 /* REVariantList.cpp */; };
+		3D0831151987CB4E0038CD79 /* REVariantMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830FF1987CB4E0038CD79 /* REVariantMap.cpp */; };
 		3D0831161987CB4E0038CD79 /* websocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D0831011987CB4E0038CD79 /* websocket.cpp */; };
 		3D08311A1987CB570038CD79 /* FayeCppClient.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D0831191987CB570038CD79 /* FayeCppClient.mm */; };
 		3D08311C1987CC020038CD79 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D08311B1987CC020038CD79 /* libz.dylib */; };
@@ -150,9 +150,9 @@
 		3D0830FA1987CB4E0038CD79 /* REWideString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REWideString.cpp; path = ../../../../src/REWideString.cpp; sourceTree = "<group>"; };
 		3D0830FB1987CB4E0038CD79 /* transport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = transport.h; path = ../../../../src/transport.h; sourceTree = "<group>"; };
 		3D0830FC1987CB4E0038CD79 /* transport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = transport.cpp; path = ../../../../src/transport.cpp; sourceTree = "<group>"; };
-		3D0830FD1987CB4E0038CD79 /* variant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = variant.cpp; path = ../../../../src/variant.cpp; sourceTree = "<group>"; };
-		3D0830FE1987CB4E0038CD79 /* variantlist.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = variantlist.cpp; path = ../../../../src/variantlist.cpp; sourceTree = "<group>"; };
-		3D0830FF1987CB4E0038CD79 /* variantmap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = variantmap.cpp; path = ../../../../src/variantmap.cpp; sourceTree = "<group>"; };
+		3D0830FD1987CB4E0038CD79 /* REVariant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REVariant.cpp; path = ../../../../src/REVariant.cpp; sourceTree = "<group>"; };
+		3D0830FE1987CB4E0038CD79 /* REVariantList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REVariantList.cpp; path = ../../../../src/REVariantList.cpp; sourceTree = "<group>"; };
+		3D0830FF1987CB4E0038CD79 /* REVariantMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REVariantMap.cpp; path = ../../../../src/REVariantMap.cpp; sourceTree = "<group>"; };
 		3D0831001987CB4E0038CD79 /* websocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = websocket.h; path = ../../../../src/websocket.h; sourceTree = "<group>"; };
 		3D0831011987CB4E0038CD79 /* websocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = websocket.cpp; path = ../../../../src/websocket.cpp; sourceTree = "<group>"; };
 		3D0831171987CB570038CD79 /* fayecpp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fayecpp.h; path = ../../../../fayecpp.h; sourceTree = "<group>"; };
@@ -360,11 +360,11 @@
 				3D0830F71987CB4E0038CD79 /* REStringUtilsPrivate.h */,
 				3D0830F61987CB4E0038CD79 /* REStringUtilsPrivate.cpp */,
 				3D0830FA1987CB4E0038CD79 /* REWideString.cpp */,
+				3D0830FD1987CB4E0038CD79 /* REVariant.cpp */,
+				3D0830FE1987CB4E0038CD79 /* REVariantList.cpp */,
+				3D0830FF1987CB4E0038CD79 /* REVariantMap.cpp */,
 				3D0830FB1987CB4E0038CD79 /* transport.h */,
 				3D0830FC1987CB4E0038CD79 /* transport.cpp */,
-				3D0830FD1987CB4E0038CD79 /* variant.cpp */,
-				3D0830FE1987CB4E0038CD79 /* variantlist.cpp */,
-				3D0830FF1987CB4E0038CD79 /* variantmap.cpp */,
 				3D0831001987CB4E0038CD79 /* websocket.h */,
 				3D0831011987CB4E0038CD79 /* websocket.cpp */,
 			);
@@ -509,10 +509,10 @@
 				3D0830DC1987CB2D0038CD79 /* hashtable_seed.c in Sources */,
 				3D0831161987CB4E0038CD79 /* websocket.cpp in Sources */,
 				3D0831051987CB4E0038CD79 /* jsonutils.cpp in Sources */,
-				3D0831141987CB4E0038CD79 /* variantlist.cpp in Sources */,
+				3D0831141987CB4E0038CD79 /* REVariantList.cpp in Sources */,
 				3DAD75F91A32F8900054F999 /* alloc.c in Sources */,
 				3D08310E1987CB4E0038CD79 /* REStringList.cpp in Sources */,
-				3D0831131987CB4E0038CD79 /* variant.cpp in Sources */,
+				3D0831131987CB4E0038CD79 /* REVariant.cpp in Sources */,
 				3D0830E21987CB2D0038CD79 /* utf.c in Sources */,
 				3D08310C1987CB4E0038CD79 /* REString.cpp in Sources */,
 				3D0830BF1987CB160038CD79 /* client.c in Sources */,
@@ -521,7 +521,7 @@
 				3D85BCC319F3DEAC0057DAEC /* main.m in Sources */,
 				3D0830E11987CB2D0038CD79 /* strconv.c in Sources */,
 				3D0830C51987CB160038CD79 /* handshake.c in Sources */,
-				3D0831151987CB4E0038CD79 /* variantmap.cpp in Sources */,
+				3D0831151987CB4E0038CD79 /* REVariantMap.cpp in Sources */,
 				3D0830BC1987CB160038CD79 /* base64-decode.c in Sources */,
 				3D0831251987CDE30038CD79 /* server-handshake.c in Sources */,
 				3D0830C01987CB160038CD79 /* context.c in Sources */,

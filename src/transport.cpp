@@ -52,13 +52,13 @@ namespace FayeCpp {
 		return _advice.reconnect; 
 	}
 	
-	void Transport::receivedAdvice(const VariantMap & advice)
+	void Transport::receivedAdvice(const REVariantMap & advice)
 	{
 		Advice a;
 		a.reconnect = ADVICE_RECONNECT_NONE;
 		a.timeout = a.interval = -1;
 		
-		VariantMap::Iterator i = advice.iterator();
+		REVariantMap::Iterator i = advice.iterator();
 		while (i.next())
 		{
 			if (i.key().isEqual("reconnect") && i.value().isString())
@@ -76,7 +76,7 @@ namespace FayeCpp {
 		
 		_advice = a;
 		
-		Variant * thisTransportAdvice = advice.findTypedValue(this->name(), Variant::TypeMap);
+		REVariant * thisTransportAdvice = advice.findTypedValue(this->name(), REVariant::TypeMap);
 		if (thisTransportAdvice) this->receivedAdvice(thisTransportAdvice->toMap());
 	}
 	

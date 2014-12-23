@@ -364,9 +364,9 @@ namespace FayeCpp {
 	
 	class Client;
 	class Responce;
-	class VariantList;
-	class VariantMap;
-	class Variant;
+	class REVariantList;
+	class REVariantMap;
+	class REVariant;
 
 	/*
 #if defined(__RE_OS_WINDOWS__) && defined(_MSC_VER)
@@ -2451,7 +2451,7 @@ namespace FayeCpp {
 		 @param channel Subscribed channel which received message data.
 		 */
 		virtual void onFayeClientReceivedMessageFromChannel(FayeCpp::Client * client,
-															const FayeCpp::VariantMap & message,
+															const FayeCpp::REVariantMap & message,
 															const FayeCpp::REString & channel) = 0;
 		
 		
@@ -2462,7 +2462,7 @@ namespace FayeCpp {
 		 @param message Message map.
 		 */
 		virtual void onFayeClientWillSendMessage(FayeCpp::Client * client,
-												 FayeCpp::VariantMap & message) = 0;
+												 FayeCpp::REVariantMap & message) = 0;
 		
 		
 		/**
@@ -2562,25 +2562,25 @@ namespace FayeCpp {
 		void onTransportConnected();
 		void onTransportDisconnected();
 		
-		void onClientResponceMessageReceived(const VariantMap & message);
-		void onClientResponceMessagesListReceived(const VariantList & messagesList);
+		void onClientResponceMessageReceived(const REVariantMap & message);
+		void onClientResponceMessagesListReceived(const REVariantList & messagesList);
 		void onClientResponceReceived(Responce * responce);
 		
-		void onReceivedMessageOnChannel(const VariantMap & message, const REString & channel);
+		void onReceivedMessageOnChannel(const REVariantMap & message, const REString & channel);
 		
 		void onClientError(Responce * responce);
 		
-		void onHandshakeDone(const VariantMap & message);
+		void onHandshakeDone(const REVariantMap & message);
 		void handshake();
 		
-		void onConnectFayeDone(const VariantMap & message);
+		void onConnectFayeDone(const REVariantMap & message);
 		void connectFaye();
 		
-		void onSubscriptionDone(const VariantMap & message);
+		void onSubscriptionDone(const REVariantMap & message);
 		void subscribePendingSubscriptions();
 		
-		void onUnsubscribingDone(const VariantMap & message);
-		void onDisconnectFayeDone(const VariantMap & message);
+		void onUnsubscribingDone(const REVariantMap & message);
+		void onDisconnectFayeDone(const REVariantMap & message);
 		
 		bool isPendingChannel(const char * channel) const;
 
@@ -2748,7 +2748,7 @@ namespace FayeCpp {
 		 @param channel Non empty, subscribed channel.
 		 @return True - if connected and parameters non empty and sended, othervice false.
 		 */
-		bool sendMessageToChannel(const VariantMap & message, const char * channel);
+		bool sendMessageToChannel(const REVariantMap & message, const char * channel);
 		
 		
 		/**
@@ -2825,7 +2825,7 @@ namespace FayeCpp {
 	};
 	
 	
-	class __RE_PUBLIC_CLASS_API__ Variant
+	class __RE_PUBLIC_CLASS_API__ REVariant
 	{
 	public:
 		typedef enum _variantType
@@ -2873,96 +2873,96 @@ namespace FayeCpp {
 		
 		bool toBool() const;
 		
-		Variant & operator=(int v);
-		Variant & operator=(float v);
-		Variant & operator=(double v);
+		REVariant & operator=(int v);
+		REVariant & operator=(float v);
+		REVariant & operator=(double v);
 		
-		Variant & operator=(long long v);
-		Variant & operator=(unsigned long long v);
-		Variant & operator=(long double v);
-		Variant & operator=(bool v);
-		Variant & operator=(const REString & s);
-		Variant & operator=(const char * s);
-		Variant & operator=(const wchar_t * s);
+		REVariant & operator=(long long v);
+		REVariant & operator=(unsigned long long v);
+		REVariant & operator=(long double v);
+		REVariant & operator=(bool v);
+		REVariant & operator=(const REString & s);
+		REVariant & operator=(const char * s);
+		REVariant & operator=(const wchar_t * s);
 		
-		Variant & operator=(const VariantMap & m);
-		Variant & operator=(const VariantList & l);
+		REVariant & operator=(const REVariantMap & m);
+		REVariant & operator=(const REVariantList & l);
 		
-		Variant & operator=(const Variant & v);
+		REVariant & operator=(const REVariant & v);
 		
 		bool isString() const;
 		const REString & toString() const;
 		
 		bool isMap() const;
-		const VariantMap & toMap() const;
+		const REVariantMap & toMap() const;
 		
 		bool isList() const;
-		const VariantList & toList() const;
+		const REVariantList & toList() const;
 		
 		REString & toString();
 		
-		VariantMap & toMap();
+		REVariantMap & toMap();
 		
-		VariantList & toList();
+		REVariantList & toList();
 		
-		Variant();
+		REVariant();
 		
-		Variant(int v);
-		Variant(float v);
-		Variant(double v);
-		Variant(long long v);
-		Variant(unsigned long long v);
-		Variant(long double v);
-		Variant(bool v);
-		Variant(const char * v);
-		Variant(const wchar_t * v);
-		Variant(const REString & v);
-		Variant(const VariantMap & v);
-		Variant(const VariantList & v);
-		Variant(const Variant & v);
+		REVariant(int v);
+		REVariant(float v);
+		REVariant(double v);
+		REVariant(long long v);
+		REVariant(unsigned long long v);
+		REVariant(long double v);
+		REVariant(bool v);
+		REVariant(const char * v);
+		REVariant(const wchar_t * v);
+		REVariant(const REString & v);
+		REVariant(const REVariantMap & v);
+		REVariant(const REVariantList & v);
+		REVariant(const REVariant & v);
 		
-		~Variant();
+		virtual ~REVariant();
 	};
 	
-	class __RE_PUBLIC_CLASS_API__ VariantMap : public REMap<REString, Variant>
+	class __RE_PUBLIC_CLASS_API__ REVariantMap : public REMap<REString, REVariant>
 	{
 	public:
-		Variant * findTypedValue(const char * key, const Variant::VariantType type) const;
-		Variant * findTypedValue(const wchar_t * key, const Variant::VariantType type) const;
-		Variant * findTypedValue(const REString & key, const Variant::VariantType type) const;
-		const Variant operator[](const char * key) const;
-		const Variant operator[](const wchar_t * key) const;
-		const Variant operator[](const REString & key) const;
-		Variant & operator[](const char * key);
-		Variant & operator[](const wchar_t * key);
-		Variant & operator[](const REString & key);
-		VariantMap & operator=(const VariantMap & map);
-		VariantMap(const VariantMap & map);
-		VariantMap();
-		virtual ~VariantMap();
+		REVariant * findTypedValue(const char * key, const REVariant::VariantType type) const;
+		REVariant * findTypedValue(const wchar_t * key, const REVariant::VariantType type) const;
+		REVariant * findTypedValue(const REString & key, const REVariant::VariantType type) const;
+		const REVariant operator[](const char * key) const;
+		const REVariant operator[](const wchar_t * key) const;
+		const REVariant operator[](const REString & key) const;
+		REVariant & operator[](const char * key);
+		REVariant & operator[](const wchar_t * key);
+		REVariant & operator[](const REString & key);
+		REVariantMap & operator=(const REVariantMap & map);
+		REVariantMap(const REVariantMap & map);
+		REVariantMap();
+		virtual ~REVariantMap();
 	};
 	
-	class __RE_PUBLIC_CLASS_API__ VariantList : public REList<Variant>
+	class __RE_PUBLIC_CLASS_API__ REVariantList : public REList<REVariant>
 	{
 	public:
-		VariantList & operator+=(int v);
-		VariantList & operator+=(float v);
-		VariantList & operator+=(double v);
-		VariantList & operator+=(long long v);
-		VariantList & operator+=(unsigned long long v);
-		VariantList & operator+=(long double v);
-		VariantList & operator+=(bool v);
-		VariantList & operator+=(const REString & s);
-		VariantList & operator+=(const char * s);
-		VariantList & operator+=(const wchar_t * s);
-		VariantList & operator+=(const VariantMap & m);
-		VariantList & operator+=(const VariantList & l);
-		VariantList & operator+=(const Variant & v);
+		REVariantList & operator+=(int v);
+		REVariantList & operator+=(float v);
+		REVariantList & operator+=(double v);
+		REVariantList & operator+=(long long v);
+		REVariantList & operator+=(unsigned long long v);
+		REVariantList & operator+=(long double v);
+		REVariantList & operator+=(bool v);
+		REVariantList & operator+=(const REString & s);
+		REVariantList & operator+=(const char * s);
+		REVariantList & operator+=(const wchar_t * s);
+		REVariantList & operator+=(const REVariantMap & m);
+		REVariantList & operator+=(const REVariantList & l);
+		REVariantList & operator+=(const REVariant & v);
 		
-		VariantList & operator=(const VariantList & list);
-		VariantList(const VariantList & list);
-		VariantList();
-		virtual ~VariantList();
+		REVariantList & operator=(const REVariantList & list);
+		REVariantList(const REVariantList & list);
+		REVariantList();
+		virtual ~REVariantList();
 	};
 	
 	/**
@@ -3011,8 +3011,8 @@ namespace FayeCpp {
 		ResponceType;
 		
 	private:
-		VariantList * _messageList;
-		VariantMap * _messageMap;
+		REVariantList * _messageList;
+		REVariantMap * _messageMap;
 		REBuffer * _messageBuffer;
 		REString * _errorString;
 		ResponceType _type;
@@ -3029,14 +3029,14 @@ namespace FayeCpp {
 		 @brief Get message list pointer.
 		 @return Variant list pointer or NULL.
 		 */
-		VariantList * messageList() const;
+		REVariantList * messageList() const;
 		
 		
 		/**
 		 @brief Get message map pointer.
 		 @return Variant map pointer or NULL.
 		 */
-		VariantMap * messageMap() const;
+		REVariantMap * messageMap() const;
 		
 		
 		/**

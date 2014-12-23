@@ -20,9 +20,6 @@
 		3D12B48D194AF31000B8E9D9 /* REStringUtilsPrivate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B474194AF31000B8E9D9 /* REStringUtilsPrivate.cpp */; };
 		3D12B48F194AF31000B8E9D9 /* REWideString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B478194AF31000B8E9D9 /* REWideString.cpp */; };
 		3D12B490194AF31000B8E9D9 /* transport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B479194AF31000B8E9D9 /* transport.cpp */; };
-		3D12B491194AF31000B8E9D9 /* variant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B47B194AF31000B8E9D9 /* variant.cpp */; };
-		3D12B492194AF31000B8E9D9 /* variantlist.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B47C194AF31000B8E9D9 /* variantlist.cpp */; };
-		3D12B493194AF31000B8E9D9 /* variantmap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B47D194AF31000B8E9D9 /* variantmap.cpp */; };
 		3D12B494194AF31000B8E9D9 /* websocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B47E194AF31000B8E9D9 /* websocket.cpp */; };
 		3D50938B194D0AFF000EF310 /* RELog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D50938A194D0AFF000EF310 /* RELog.cpp */; };
 		3D8CB880194898B400943B53 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D8CB87F194898B400943B53 /* Foundation.framework */; };
@@ -55,6 +52,9 @@
 		3D8CB8DE1948996200943B53 /* value.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CB8D31948996200943B53 /* value.c */; };
 		3DA2A4BB196601C7002B7C09 /* FayeCppClient.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3DA2A4BA196601C7002B7C09 /* FayeCppClient.mm */; };
 		3DAD75FD1A32FEA40054F999 /* alloc.c in Sources */ = {isa = PBXBuildFile; fileRef = 3DAD75FC1A32FEA40054F999 /* alloc.c */; };
+		3DF2CAFB1A496715003005FC /* REVariant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DF2CAF81A496715003005FC /* REVariant.cpp */; };
+		3DF2CAFC1A496715003005FC /* REVariantList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DF2CAF91A496715003005FC /* REVariantList.cpp */; };
+		3DF2CAFD1A496715003005FC /* REVariantMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DF2CAFA1A496715003005FC /* REVariantMap.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -87,9 +87,6 @@
 		3D12B478194AF31000B8E9D9 /* REWideString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REWideString.cpp; path = ../../src/REWideString.cpp; sourceTree = "<group>"; };
 		3D12B479194AF31000B8E9D9 /* transport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = transport.cpp; path = ../../src/transport.cpp; sourceTree = "<group>"; };
 		3D12B47A194AF31000B8E9D9 /* transport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = transport.h; path = ../../src/transport.h; sourceTree = "<group>"; };
-		3D12B47B194AF31000B8E9D9 /* variant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = variant.cpp; path = ../../src/variant.cpp; sourceTree = "<group>"; };
-		3D12B47C194AF31000B8E9D9 /* variantlist.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = variantlist.cpp; path = ../../src/variantlist.cpp; sourceTree = "<group>"; };
-		3D12B47D194AF31000B8E9D9 /* variantmap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = variantmap.cpp; path = ../../src/variantmap.cpp; sourceTree = "<group>"; };
 		3D12B47E194AF31000B8E9D9 /* websocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = websocket.cpp; path = ../../src/websocket.cpp; sourceTree = "<group>"; };
 		3D12B47F194AF31000B8E9D9 /* websocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = websocket.h; path = ../../src/websocket.h; sourceTree = "<group>"; };
 		3D50938A194D0AFF000EF310 /* RELog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RELog.cpp; path = ../../src/RELog.cpp; sourceTree = "<group>"; };
@@ -127,6 +124,9 @@
 		3DA2A4B9196601C7002B7C09 /* FayeCppClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FayeCppClient.h; path = ../../contrib/objc/FayeCppClient.h; sourceTree = "<group>"; };
 		3DA2A4BA196601C7002B7C09 /* FayeCppClient.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = FayeCppClient.mm; path = ../../contrib/objc/FayeCppClient.mm; sourceTree = "<group>"; };
 		3DAD75FC1A32FEA40054F999 /* alloc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = alloc.c; path = ../../libwebsockets/lib/alloc.c; sourceTree = "<group>"; };
+		3DF2CAF81A496715003005FC /* REVariant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REVariant.cpp; path = ../../src/REVariant.cpp; sourceTree = "<group>"; };
+		3DF2CAF91A496715003005FC /* REVariantList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REVariantList.cpp; path = ../../src/REVariantList.cpp; sourceTree = "<group>"; };
+		3DF2CAFA1A496715003005FC /* REVariantMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REVariantMap.cpp; path = ../../src/REVariantMap.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -240,11 +240,11 @@
 				3D12B474194AF31000B8E9D9 /* REStringUtilsPrivate.cpp */,
 				3D12B475194AF31000B8E9D9 /* REStringUtilsPrivate.h */,
 				3D12B478194AF31000B8E9D9 /* REWideString.cpp */,
+				3DF2CAF81A496715003005FC /* REVariant.cpp */,
+				3DF2CAF91A496715003005FC /* REVariantList.cpp */,
+				3DF2CAFA1A496715003005FC /* REVariantMap.cpp */,
 				3D12B479194AF31000B8E9D9 /* transport.cpp */,
 				3D12B47A194AF31000B8E9D9 /* transport.h */,
-				3D12B47B194AF31000B8E9D9 /* variant.cpp */,
-				3D12B47C194AF31000B8E9D9 /* variantlist.cpp */,
-				3D12B47D194AF31000B8E9D9 /* variantmap.cpp */,
 				3D12B47E194AF31000B8E9D9 /* websocket.cpp */,
 				3D12B47F194AF31000B8E9D9 /* websocket.h */,
 			);
@@ -314,12 +314,12 @@
 				3D12B487194AF31000B8E9D9 /* REMutableString.cpp in Sources */,
 				3D8CB8DD1948996200943B53 /* utf.c in Sources */,
 				3DAD75FD1A32FEA40054F999 /* alloc.c in Sources */,
+				3DF2CAFB1A496715003005FC /* REVariant.cpp in Sources */,
 				3D8CB8D51948996200943B53 /* error.c in Sources */,
 				3D50938B194D0AFF000EF310 /* RELog.cpp in Sources */,
 				3D8CB8D81948996200943B53 /* load.c in Sources */,
 				3D8CB8BA1948994500943B53 /* client.c in Sources */,
 				3D12B48A194AF31000B8E9D9 /* REString.cpp in Sources */,
-				3D12B492194AF31000B8E9D9 /* variantlist.cpp in Sources */,
 				3D8CB8C11948994500943B53 /* libwebsockets.c in Sources */,
 				3D12B486194AF31000B8E9D9 /* REBufferNoCopy.cpp in Sources */,
 				3D8CB8BE1948994500943B53 /* extension.c in Sources */,
@@ -329,15 +329,14 @@
 				3D12B48F194AF31000B8E9D9 /* REWideString.cpp in Sources */,
 				3D8CB8D41948996200943B53 /* dump.c in Sources */,
 				3D8CB8B81948994500943B53 /* client-handshake.c in Sources */,
-				3D12B493194AF31000B8E9D9 /* variantmap.cpp in Sources */,
 				3D12B48C194AF31000B8E9D9 /* REStringList.cpp in Sources */,
 				3D8CB8D91948996200943B53 /* memory.c in Sources */,
 				3D12B484194AF31000B8E9D9 /* message.cpp in Sources */,
 				3D8CB8DC1948996200943B53 /* strconv.c in Sources */,
-				3D12B491194AF31000B8E9D9 /* variant.cpp in Sources */,
 				3D12B490194AF31000B8E9D9 /* transport.cpp in Sources */,
 				3D12B485194AF31000B8E9D9 /* REBuffer.cpp in Sources */,
 				3D8CB8DE1948996200943B53 /* value.c in Sources */,
+				3DF2CAFD1A496715003005FC /* REVariantMap.cpp in Sources */,
 				3D8CB8C01948994500943B53 /* handshake.c in Sources */,
 				3D12B482194AF31000B8E9D9 /* client.cpp in Sources */,
 				3D8CB8DB1948996200943B53 /* strbuffer.c in Sources */,
@@ -345,6 +344,7 @@
 				3D8CB8BC1948994500943B53 /* extension-deflate-frame.c in Sources */,
 				3D12B483194AF31000B8E9D9 /* jsonutils.cpp in Sources */,
 				3D12B48D194AF31000B8E9D9 /* REStringUtilsPrivate.cpp in Sources */,
+				3DF2CAFC1A496715003005FC /* REVariantList.cpp in Sources */,
 				3D8CB8C71948994500943B53 /* sha-1.c in Sources */,
 				3D8CB8D61948996200943B53 /* hashtable.c in Sources */,
 				3D8CB8B71948994500943B53 /* base64-decode.c in Sources */,

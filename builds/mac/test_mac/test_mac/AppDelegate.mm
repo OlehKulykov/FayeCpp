@@ -74,7 +74,7 @@ public:
 	}
 	
 	virtual void onFayeClientReceivedMessageFromChannel(FayeCpp::Client * client, 
-														const FayeCpp::VariantMap & message, 
+														const FayeCpp::REVariantMap & message, 
 														const FayeCpp::REString & channel)
 	{
 		dispatch_async(dispatch_get_main_queue(), ^{
@@ -83,7 +83,7 @@ public:
 	}
 	
 	virtual void onFayeClientWillSendMessage(FayeCpp::Client * client,
-											 FayeCpp::VariantMap & message)
+											 FayeCpp::REVariantMap & message)
 	{
 		dispatch_async(dispatch_get_main_queue(), ^{
 			FayeCpp::RELog::log("DELEGATE onFayeClientWillSendMessage");
@@ -91,7 +91,7 @@ public:
 	}
 	
 	virtual void onFayeClientWillReceiveMessage(FayeCpp::Client * client, 
-												FayeCpp::VariantMap & message)
+												FayeCpp::REVariantMap & message)
 	{
 		dispatch_async(dispatch_get_main_queue(), ^{
 			FayeCpp::RELog::log("DELEGATE onFayeClientWillReceiveMessage");
@@ -145,7 +145,7 @@ using namespace FayeCpp;
 {
 	if (_client) 
 	{
-		VariantMap message;
+		REVariantMap message;
 				
 		RELog::log("Try send text: %s", [[_textField stringValue] UTF8String]);
 		

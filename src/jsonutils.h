@@ -34,14 +34,14 @@ namespace FayeCpp {
 	{
 	private:
 		json_t * _json;
-		static void jsonToMap(json_t * json, VariantMap & map);
-		static void jsonToList(json_t * json, VariantList & list);
+		static void jsonToMap(json_t * json, REVariantMap & map);
+		static void jsonToList(json_t * json, REVariantList & list);
 		
 	public:
 		bool isMap() const;
 		bool isList() const;
-		bool toMap(VariantMap & map);
-		bool toList(VariantList & list);
+		bool toMap(REVariantMap & map);
+		bool toList(REVariantList & list);
 		JsonParser(const char * text);
 		~JsonParser();
 	};
@@ -50,16 +50,16 @@ namespace FayeCpp {
 	{
 	private:
 		char * _string;
-		static json_t * jsonObjectFromList(const VariantList & list);
-		static json_t * jsonObjectFromValue(const Variant & value);
-		static void addMapToJson(const VariantMap & map, json_t * json);
-		static char * jsonStringFromMap(const VariantMap & message);
-		static char * jsonStringFromList(const VariantList & message);
+		static json_t * jsonObjectFromList(const REVariantList & list);
+		static json_t * jsonObjectFromValue(const REVariant & value);
+		static void addMapToJson(const REVariantMap & map, json_t * json);
+		static char * jsonStringFromMap(const REVariantMap & message);
+		static char * jsonStringFromList(const REVariantList & message);
 		
 	public:
 		const char * string() const;
-		JsonGenerator(const VariantMap & map);
-		JsonGenerator(const VariantList & list);
+		JsonGenerator(const REVariantMap & map);
+		JsonGenerator(const REVariantList & list);
 		~JsonGenerator();
 	};
 	

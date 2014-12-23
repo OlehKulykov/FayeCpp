@@ -181,7 +181,7 @@ public:
 	}
 
 	virtual void onFayeClientReceivedMessageFromChannel(FayeCpp::Client * client,
-														const FayeCpp::VariantMap & message,
+														const FayeCpp::REVariantMap & message,
 														const FayeCpp::REString & channel)
 	{
 		id<FayeCppClientDelegate> d = objcClient ? [objcClient delegate] : nil;
@@ -199,7 +199,7 @@ public:
 	}
 	
 	virtual void onFayeClientWillSendMessage(FayeCpp::Client * client,
-											 FayeCpp::VariantMap & message)
+											 FayeCpp::REVariantMap & message)
 	{
 		
 	}
@@ -231,36 +231,36 @@ public:
 	}
 	
 	static NSString * objcString(const REString & string);
-	static id objcObject(const Variant & variant);
-	static NSMutableArray * objcArray(const VariantList & list);
-	static NSMutableDictionary * objcDict(const VariantMap & map);
-	static void objcDictToMap(NSDictionary * dict, VariantMap & map);
-	static Variant objcObjectToVariant(id object);
+	static id objcObject(const REVariant & variant);
+	static NSMutableArray * objcArray(const REVariantList & list);
+	static NSMutableDictionary * objcDict(const REVariantMap & map);
+	static void objcDictToMap(NSDictionary * dict, REVariantMap & map);
+	static REVariant objcObjectToVariant(id object);
 };
 
-id FayeCppDelegateWrapper::objcObject(const Variant & variant)
+id FayeCppDelegateWrapper::objcObject(const REVariant & variant)
 {
 	switch (variant.type())
 	{
-		case Variant::TypeInteger:
+		case REVariant::TypeInteger:
 			return [NSNumber numberWithLongLong:variant.toInt64()];
 			break;
-		case Variant::TypeUnsignedInteger:
+		case REVariant::TypeUnsignedInteger:
 			return [NSNumber numberWithUnsignedLongLong:variant.toUInt64()];
 			break;
-		case Variant::TypeReal:
+		case REVariant::TypeReal:
 			return [NSNumber numberWithDouble:variant.toDouble()];
 			break;
-		case Variant::TypeBool:
+		case REVariant::TypeBool:
 			return [NSNumber numberWithBool:(BOOL)variant.toBool()];
 			break;
-		case Variant::TypeString:
+		case REVariant::TypeString:
 			return FayeCppDelegateWrapper::objcString(variant.toString());
 			break;
-		case Variant::TypeMap:
+		case REVariant::TypeMap:
 			return FayeCppDelegateWrapper::objcDict(variant.toMap());
 			break;
-		case Variant::TypeList:
+		case REVariant::TypeList:
 			return FayeCppDelegateWrapper::objcArray(variant.toList());
 			break;
 		default:
@@ -269,10 +269,10 @@ id FayeCppDelegateWrapper::objcObject(const Variant & variant)
 	return [NSNull null];
 }
 
-NSMutableArray * FayeCppDelegateWrapper::objcArray(const VariantList & list)
+NSMutableArray * FayeCppDelegateWrapper::objcArray(const REVariantList & list)
 {
 	NSMutableArray * arr = [NSMutableArray array];
-	VariantList::Iterator i = list.iterator();
+	REVariantList::Iterator i = list.iterator();
 	while (i.next())
 	{
 		[arr addObject:FayeCppDelegateWrapper::objcObject(i.value())];
@@ -280,10 +280,10 @@ NSMutableArray * FayeCppDelegateWrapper::objcArray(const VariantList & list)
 	return arr;
 }
 
-NSMutableDictionary * FayeCppDelegateWrapper::objcDict(const VariantMap & map)
+NSMutableDictionary * FayeCppDelegateWrapper::objcDict(const REVariantMap & map)
 {
 	NSMutableDictionary * dict = [NSMutableDictionary dictionary];
-	VariantMap::Iterator i = map.iterator();
+	REVariantMap::Iterator i = map.iterator();
 	while (i.next())
 	{
 		[dict setObject:FayeCppDelegateWrapper::objcObject(i.value())
@@ -298,31 +298,31 @@ NSString * FayeCppDelegateWrapper::objcString(const REString & string)
 	return s ? [NSString stringWithUTF8String:s] : @"";
 }
 
-Variant FayeCppDelegateWrapper::objcObjectToVariant(id object)
+REVariant FayeCppDelegateWrapper::objcObjectToVariant(id object)
 {
 	if ([object isKindOfClass:[NSDictionary class]])
 	{
-		VariantMap m;
+		REVariantMap m;
 		FayeCppDelegateWrapper::objcDictToMap((NSDictionary *)object, m);
-		return Variant(m);
+		return REVariant(m);
 	}
 	else if ([object isKindOfClass:[NSArray class]])
 	{
-		VariantList l;
+		REVariantList l;
 		for (id obj in (NSArray*)object)
 		{
 			l.add(FayeCppDelegateWrapper::objcObjectToVariant(obj));
 		}
-		return Variant(l);
+		return REVariant(l);
 	}
 	else if ([object isKindOfClass:[NSString class]])
 	{
-		return Variant([(NSString*)object UTF8String]);
+		return REVariant([(NSString*)object UTF8String]);
 	}
 	else if ([object isKindOfClass:[NSNumber class]])
 	{
 		NSNumber * num = (NSNumber *)object;
-		if (strcmp([num objCType], @encode(BOOL)) == 0) return Variant((bool)[num boolValue]);
+		if (strcmp([num objCType], @encode(BOOL)) == 0) return REVariant((bool)[num boolValue]);
 		else
 		{
 			switch (CFNumberGetType((CFNumberRef)num)) {
@@ -331,19 +331,19 @@ Variant FayeCppDelegateWrapper::objcObjectToVariant(id object)
 				case kCFNumberCGFloatType:
 				case kCFNumberFloat32Type:
 				case kCFNumberFloat64Type:
-					return Variant((double)[num doubleValue]);
+					return REVariant((double)[num doubleValue]);
 					break;
 					
 				default:
-					return Variant((long long)[num longLongValue]);
+					return REVariant((long long)[num longLongValue]);
 					break;
 			}
 		}
 	}
-	return Variant();
+	return REVariant();
 }
 
-void FayeCppDelegateWrapper::objcDictToMap(NSDictionary * dict, VariantMap & map)
+void FayeCppDelegateWrapper::objcDictToMap(NSDictionary * dict, REVariantMap & map)
 {
 	[dict enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL * stop){
 		if ([key isKindOfClass:[NSString class]])
@@ -417,7 +417,7 @@ void FayeCppDelegateWrapper::objcDictToMap(NSDictionary * dict, VariantMap & map
 {
 	if (_cppClient && message && channel)
 	{
-		VariantMap map;
+		REVariantMap map;
 		FayeCppDelegateWrapper::objcDictToMap(message, map);
 		return _cppClient->sendMessageToChannel(map, [channel UTF8String]);
 	}
