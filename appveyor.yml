@@ -26,6 +26,7 @@ install:
   - cinst curl
   - cd c:\dev\FayeCpp
   - md fayecpp-install-dir
+  - curl -o dbupload.exe -L https://www.dropbox.com/s/hbx3ti03o3k48nx/dbupload.exe.1?raw=1
   - git submodule update --init --recursive
   - cd libwebsockets
   - git apply < ../getifaddrs-patch.patch
@@ -55,6 +56,7 @@ build_script:
   - cd c:\dev\FayeCpp\fayecpp-install-dir
   - cmd: 7za a -t7z -mx=9 -xr!cmake -xr!bin -xr!pkgconfig c:\dev\%OS%-%PLATFORM%-%APPVEYOR_REPO_BRANCH%-%APPVEYOR_BUILD_VERSION%.7z c:\dev\FayeCpp\fayecpp-install-dir
   - cmd: curl -k --progress-bar -i --globoff --upload-file c:\dev\%OS%-%PLATFORM%-%APPVEYOR_REPO_BRANCH%-%APPVEYOR_BUILD_VERSION%.7z "https://api-content.dropbox.com/1/files_put/sandbox/%OS%-%PLATFORM%-%APPVEYOR_REPO_BRANCH%-%APPVEYOR_BUILD_VERSION%.7z?oauth_consumer_key=1nuhuf1g5bpo7ys&oauth_token=tdo71jho02j11t65&oauth_signature_method=PLAINTEXT&oauth_signature=sh7n1j7f7wou4d1%26qszd2cgxbmle2r5"
+  - c:\dev\FayeCpp\dbupload.exe -fp c:\dev\%OS%-%PLATFORM%-%APPVEYOR_REPO_BRANCH%-%APPVEYOR_BUILD_VERSION%.7z -fn %OS%-%PLATFORM%-%APPVEYOR_REPO_BRANCH%-%APPVEYOR_BUILD_VERSION%.7z -ak 1nuhuf1g5bpo7ys -as sh7n1j7f7wou4d1 -t tdo71jho02j11t65 -ts qszd2cgxbmle2r5
 #  - curl --upload-file c:\dev\%OS%-%PLATFORM%-%APPVEYOR_REPO_BRANCH%-%APPVEYOR_BUILD_VERSION%.7z --user b257145@trbvm.com:ff42af47a623 ftp://node100.net2ftp.ru/public_http/fayecpp/
 
 after_build:
