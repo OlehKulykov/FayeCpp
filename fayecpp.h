@@ -2923,6 +2923,7 @@ namespace FayeCpp {
 		
 		virtual ~REVariant();
 	};
+
 	
 	class __RE_PUBLIC_CLASS_API__ REVariantMap : public REMap<REString, REVariant>
 	{
@@ -2941,6 +2942,7 @@ namespace FayeCpp {
 		REVariantMap();
 		virtual ~REVariantMap();
 	};
+	
 	
 	class __RE_PUBLIC_CLASS_API__ REVariantList : public REList<REVariant>
 	{
@@ -2964,6 +2966,7 @@ namespace FayeCpp {
 		REVariantList();
 		virtual ~REVariantList();
 	};
+
 	
 	/**
 	 @brief Message class for internal logic communication.
@@ -3105,7 +3108,23 @@ namespace FayeCpp {
 		 */
 		~Responce();
 	};
-
+	
+	
+	/* Deprecated */
+#if defined(__GNUC__)	
+	typedef REVariantList VariantList __attribute__((deprecated));
+	typedef REVariantMap VariantMap __attribute__((deprecated));
+	typedef REVariant Variant __attribute__((deprecated));
+#elif defined(_MSC_VER)
+	typedef __declspec(deprecated) REVariantList VariantList;
+	typedef __declspec(deprecated) REVariantMap VariantMap;
+	typedef __declspec(deprecated) REVariant Variant;
+#else
+	typedef REVariantList VariantList;
+	typedef REVariantMap VariantMap;
+	typedef REVariant Variant;
+#endif
+	
 }
 
 #endif /* __FAYECPP_FAYECPP_H__ */

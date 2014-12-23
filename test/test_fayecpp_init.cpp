@@ -100,20 +100,20 @@ public:
 	}
 	
 	virtual void onFayeClientReceivedMessageFromChannel(FayeCpp::Client * client, 
-														const FayeCpp::VariantMap & message, 
+														const FayeCpp::REVariantMap & message, 
 														const FayeCpp::REString & channel)
 	{
 
 	}
 	
 	virtual void onFayeClientWillSendMessage(FayeCpp::Client * client,
-											 FayeCpp::VariantMap & message)
+											 FayeCpp::REVariantMap & message)
 	{
 
 	}
 	
 	virtual void onFayeClientWillReceiveMessage(FayeCpp::Client * client, 
-												FayeCpp::VariantMap & message)
+												FayeCpp::REVariantMap & message)
 	{
 
 	}
@@ -192,20 +192,20 @@ public:
 	}
 	
 	virtual void onFayeClientReceivedMessageFromChannel(FayeCpp::Client * client, 
-														const FayeCpp::VariantMap & message, 
+														const FayeCpp::REVariantMap & message, 
 														const FayeCpp::REString & channel)
 	{
 		
 	}
 	
 	virtual void onFayeClientWillSendMessage(FayeCpp::Client * client,
-											 FayeCpp::VariantMap & message)
+											 FayeCpp::REVariantMap & message)
 	{
 		
 	}
 	
 	virtual void onFayeClientWillReceiveMessage(FayeCpp::Client * client, 
-												FayeCpp::VariantMap & message)
+												FayeCpp::REVariantMap & message)
 	{
 		
 	}
