@@ -169,7 +169,7 @@ public:
 	}
 	
 	virtual void onFayeClientReceivedMessageFromChannel(FayeCpp::Client * client, 
-														const FayeCpp::VariantMap & message, 
+														const FayeCpp::REVariantMap & message, 
 														const FayeCpp::REString & channel)
 	{
 	    
@@ -177,7 +177,7 @@ public:
 		RELog::log("Received message from channel: \"%s\"", channel.UTF8String());
 		
 		// Iterate all message (VariantMap) pairs
-		VariantMap::Iterator iterator = message.iterator();
+		REVariantMap::Iterator iterator = message.iterator();
 		while (iterator.next()) 
 		{
 			iterator.key();   // get key
@@ -225,18 +225,18 @@ _client->subscribeToChannel("/something/faye_channel_2");
 
 ```cpp
 // Variant object can hold basic types + list and maps
-Variant value;   // create null value, value.type() is Variant::TypeNone;
-value = Variant();   // set null value, value.type() is Variant::TypeNone;
-value = "C string value";   // set C (const char *) string value, value.type() is Variant::TypeString;
-value = L"Строка";   // set wide (const wchar_t *) string value, value.type() is Variant::TypeString;
-value = 5;   // set integer value, value.type() is Variant::TypeInteger;
-value = 3.14f;   // set float value, value.type() is Variant::TypeReal;
-value = 3.14159265359;   // set double value, value.type() is Variant::TypeReal;
-value = true;   // set boolean value with true, value.type() is Variant::TypeBool;
-value = false;   // set boolean value with false, value.type() is Variant::TypeBool;
+REVariant value;   // create null value, value.type() is REVariant::TypeNone;
+value = REVariant();   // set null value, value.type() is REVariant::TypeNone;
+value = "C string value";   // set C (const char *) string value, value.type() is REVariant::TypeString;
+value = L"Строка";   // set wide (const wchar_t *) string value, value.type() is REVariant::TypeString;
+value = 5;   // set integer value, value.type() is REVariant::TypeInteger;
+value = 3.14f;   // set float value, value.type() is REVariant::TypeReal;
+value = 3.14159265359;   // set double value, value.type() is REVariant::TypeReal;
+value = true;   // set boolean value with true, value.type() is REVariant::TypeBool;
+value = false;   // set boolean value with false, value.type() is REVariant::TypeBool;
 
 // Map object (hash or dictionary), stores values by string keys
-VariantMap message;   // or FayeCpp::VariantMap message; if manespace not used.
+REVariantMap message;   // or FayeCpp::REVariantMap message; if namespace not used.
 message["text"] = "Hello world";   // set C (const char *) string value
 message[L"wide characters key"] = L"Hello world !!!";   // set wide (const wchar_t *) string value with wide string key.
 message[L"Сообщение"] = L"Привет мир !!!";   // set wide (const wchar_t *) string value with wide string key.
@@ -245,12 +245,12 @@ message["float key"] = 3.14f;   // set float value
 message["double key"] = 3.14159265359;   // set double value
 message["is_use_something_1"] = true;   // set boolean value with true
 message["is_use_something_2"] = false;   // set boolean value with false
-message["null key"] = Variant();   // set null value
+message["null key"] = REVariant();   // set null value
 
-value = message;   // set map value, value.type() is Variant::TypeMap;
+value = message;   // set map value, value.type() is REVariant::TypeMap;
 
 // List object
-VariantList parameters;   // or VariantList::VariantMap message; if namespace not used.
+REVariantList parameters;   // or FayeCpp::REVariantList if namespace not used.
 parameters += "Text value";   // add C (const char *) string value, or use 'parameters.add()' method.
 parameters += L"Текстовое значение";   // add wide (const wchar_t *) string value with wide string key, or use 'parameters.add()' method.
 parameters += 2;   // add integer value, or use 'parameters.add()' method.
@@ -258,9 +258,9 @@ parameters += 3.14f;   // add float value, or use 'parameters.add()' method.
 parameters += 3.14159265359;   // add double value, or use 'parameters.add()' method.
 parameters += true;   // add boolean value with true, or use 'parameters.add()' method.
 parameters += false;   // add boolean value with false, or use 'parameters.add()' method.
-parameters += Variant();   // add null value, or use 'parameters.add()' method.
+parameters += REVariant();   // add null value, or use 'parameters.add()' method.
 
-value = parameters;   // set list value, value.type() is Variant::TypeList;
+value = parameters;   // set list value, value.type() is REVariant::TypeList;
 
 message["parameters"] = parameters;   // set list value for key
 ```
@@ -269,7 +269,7 @@ message["parameters"] = parameters;   // set list value for key
 ### Send message
 ```cpp
 // Create dummy message
-VariantMap message;
+REVariantMap message;
 message["text"] = "Hello world";
 message[L"wide charectes key"] = L"Hello world !!!";
 message["integer key"] = 1;
