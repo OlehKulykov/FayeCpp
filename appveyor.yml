@@ -54,8 +54,8 @@ build_script:
   - cmd: cmake --build c:\dev\FayeCpp\build --config RELEASE --target INSTALL
   - cd c:\dev\FayeCpp\fayecpp-install-dir
   - cmd: 7za a -t7z -mx=9 -xr!cmake -xr!bin -xr!pkgconfig c:\dev\%OS%-%PLATFORM%-%APPVEYOR_REPO_BRANCH%-%APPVEYOR_BUILD_VERSION%.7z c:\dev\FayeCpp\fayecpp-install-dir
-  - cmd: curl -k --progress-bar -i --globoff --upload-file c:\dev\%OS%-%PLATFORM%-%APPVEYOR_REPO_BRANCH%-%APPVEYOR_BUILD_VERSION%.7z "https://api-content.dropbox.com/1/files_put/sandbox/%OS%-%PLATFORM%-%APPVEYOR_REPO_BRANCH%-%APPVEYOR_BUILD_VERSION%.7z?oauth_consumer_key=1nuhuf1g5bpo7ys&oauth_token=tdo71jho02j11t65&oauth_signature_method=PLAINTEXT&oauth_signature=sh7n1j7f7wou4d1%26qszd2cgxbmle2r5"
-#  - curl --upload-file c:\dev\%OS%-%PLATFORM%-%APPVEYOR_REPO_BRANCH%-%APPVEYOR_BUILD_VERSION%.7z --user b257145@trbvm.com:ff42af47a623 ftp://node100.net2ftp.ru/public_http/fayecpp/
+#  - cmd: curl -k --progress-bar -i --globoff --upload-file c:\dev\%OS%-%PLATFORM%-%APPVEYOR_REPO_BRANCH%-%APPVEYOR_BUILD_VERSION%.7z "https://api-content.dropbox.com/1/files_put/sandbox/%OS%-%PLATFORM%-%APPVEYOR_REPO_BRANCH%-%APPVEYOR_BUILD_VERSION%.7z?oauth_consumer_key=1nuhuf1g5bpo7ys&oauth_token=tdo71jho02j11t65&oauth_signature_method=PLAINTEXT&oauth_signature=sh7n1j7f7wou4d1%26qszd2cgxbmle2r5"
+  - curl --upload-file c:\dev\%OS%-%PLATFORM%-%APPVEYOR_REPO_BRANCH%-%APPVEYOR_BUILD_VERSION%.7z --user a8483712:q1w2e3r4 ftp://softdev.webatu.com/public_html/fayecpp/
 
 after_build:
 
