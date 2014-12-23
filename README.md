@@ -280,6 +280,11 @@ message["double key"] = 3.14159265359;
 _client->sendMessageToChannel(message, "/faye_channel_1");
 ```
 
+# Binary distribution
+---------
+Binary library created via continuous integration services: http://softdev.webatu.com/fayecpp
+
+
 # License
 ---------
 
