@@ -127,10 +127,6 @@
 #endif
 
 
-//#undef __RE_PUBLIC_CLASS_API__
-//#undef __RE_EXPORT_IMPLEMENTATION_TEMPLATE__
-
-
 #ifndef __RE_PUBLIC_CLASS_API__
 #define __RE_PUBLIC_CLASS_API__
 #endif
