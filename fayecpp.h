@@ -107,20 +107,16 @@
 #if defined(CMAKE_BUILD) || defined(__BUILDING_RECORE_DYNAMIC_LIBRARY__)
 #	if defined(_MSC_VER)
 #		define __RE_PUBLIC_CLASS_API__ __declspec(dllexport)
-#       define __RE_EXTERN__ extern __declspec(dllexport)
 #       define __RE_EXPORT_IMPLEMENTATION_TEMPLATE__
 #	elif defined(__GNUC__)
-#		define __RE_PUBLIC_CLASS_API__ __attribute__(dllexport)
-#       define __RE_EXTERN__ extern __attribute__(dllexport)
+#		define __RE_PUBLIC_CLASS_API__ __attribute__((dllexport))
 #	endif
 #else
 #	if defined(_MSC_VER)
 #		define __RE_PUBLIC_CLASS_API__ __declspec(dllimport)
-#       define __RE_EXTERN__ extern __declspec(dllimport)
 #       define __RE_EXPORT_IMPLEMENTATION_TEMPLATE__ extern
 #	elif defined(__GNUC__)
-#		define __RE_PUBLIC_CLASS_API__ __attribute__(dllimport)
-#       define __RE_EXTERN__ extern __attribute__(dllimport)
+#		define __RE_PUBLIC_CLASS_API__ __attribute__((dllimport))
 #	endif
 #endif
 
@@ -133,11 +129,6 @@
 
 #ifndef __RE_PUBLIC_CLASS_API__
 #define __RE_PUBLIC_CLASS_API__
-#endif
-
-
-#ifndef __RE_EXTERN__
-#define __RE_EXTERN__ extern
 #endif
 
 
@@ -3114,23 +3105,6 @@ namespace FayeCpp {
 		~Responce();
 	};
 	
-	__RE_EXTERN__ const char * const kBayeuxHandshakeChannel;
-	__RE_EXTERN__ const char * const kBayeuxConnectChannel;
-	__RE_EXTERN__ const char * const kBayeuxDisconnectChannel;
-	__RE_EXTERN__ const char * const kBayeuxSubscribeChannel;
-	__RE_EXTERN__ const char * const kBayeuxUnsubscribeChannel;
-	
-	/* Keys */
-	__RE_EXTERN__ const char * const kBayeuxChannelKey;
-	__RE_EXTERN__ const char * const kBayeuxClientIdKey;
-	__RE_EXTERN__ const char * const kBayeuxDataKey;
-	__RE_EXTERN__ const char * const kBayeuxSubscriptionKey;
-	__RE_EXTERN__ const char * const kBayeuxSupportedConnectionTypesKey;
-	__RE_EXTERN__ const char * const kBayeuxConnectionTypeKey;
-	__RE_EXTERN__ const char * const kBayeuxIdKey;
-	__RE_EXTERN__ const char * const kBayeuxAdviceKey;
-	__RE_EXTERN__ const char * const kBayeuxMinimumVersionKey;
-	__RE_EXTERN__ const char * const kBayeuxVersionKey;
 	
 	/* Deprecated */
 #if defined(__GNUC__)	
