@@ -11,12 +11,16 @@
 #include "../../../../src/jsonutils.h"
 
 #include <signal.h>
-
 #include <stdlib.h>
 #include <thread>
 
+#define OBJC_CLIENT 1
+
 class FayeDelegate;
 
+#if defined(OBJC_CLIENT)
+#import "FayeCppClient.h"
+#else
 FayeCpp::Client * _client = NULL;
 FayeDelegate * _delegate = NULL;
 
@@ -136,13 +140,29 @@ public:
 	
 	virtual ~FayeSSLDataSource() { }
 };
+#endif
 
 using namespace FayeCpp;
+
+@interface AppDelegate()
+#if defined(OBJC_CLIENT)
+<FayeCppClientDelegate, FayeCppClientSSLDataSource>
+
+@property (nonatomic, strong) FayeCppClient * client;
+#endif
+@end
 
 @implementation AppDelegate
 
 - (IBAction) onSendText:(id)sender
 {
+#if defined(OBJC_CLIENT)
+	if (_client) 
+	{
+		[_client sendMessage:@{@"text" : [_textField stringValue]} 
+				   toChannel:@"/seminars/5322e93d8ee60a422400008f"];
+	}
+#else
 	if (_client) 
 	{
 		REVariantMap message;
@@ -153,6 +173,7 @@ using namespace FayeCpp;
 		
 		_client->sendMessageToChannel(message, "/seminars/5322e93d8ee60a422400008f");
 	}
+#endif
 	NSLog(@"Done");
 }
 
@@ -160,6 +181,21 @@ using namespace FayeCpp;
 {
 	NSLog(@"SSL: %@", FayeCpp::Client::isSupportsSSLConnection() ? @"YES" : @"NO");
 	
+#if defined(OBJC_CLIENT)
+	FayeCppClient * client = self.client;
+	self.client = nil;
+	if (client) 
+	{
+		[client setDelegate:nil];
+		[client setSSLDataSource:nil];
+	}
+	
+	client = [[FayeCppClient alloc] init];
+	[client setDelegate:self];
+	[client setSSLDataSource:self];
+	[client setUrlString:@"http://messages.presentain.com:80/faye"];
+	self.client = client;
+#else
 	if (_client) 
 	{
 		delete _client;
@@ -181,14 +217,21 @@ using namespace FayeCpp;
 	//_client->setUrl("https://localhost:6001/faye");
 	_client->setDelegate(_delegate);
 //	_client->setSSLDataSource(new FayeSSLDataSource());
+#endif
 	NSLog(@"Done");
 }
 
 - (IBAction) onConnect:(id)sender
 {
+#if defined(OBJC_CLIENT)
+	[_client connect];
+	[_client subscribeToChannel:@"/seminars/5322e93d8ee60a422400008f"];
+	[_client subscribeToChannel:@"/seminars_service/5322e93d8ee60a422400008f"];
+#else
 	_client->connect();
 	_client->subscribeToChannel("/seminars/5322e93d8ee60a422400008f");
 	_client->subscribeToChannel("/seminars_service/5322e93d8ee60a422400008f");
+#endif
 	NSLog(@"Done");
 }
 
@@ -197,5 +240,7 @@ using namespace FayeCpp;
 	// Insert code here to initialize your application
 	NSLog([NSString stringWithUTF8String:FayeCpp::Client::info()]);
 }
+
+#pragma mark - FayeCppClientDelegate & FayeCppClientSSLDataSource
 
 @end
