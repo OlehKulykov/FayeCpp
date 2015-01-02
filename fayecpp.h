@@ -2821,20 +2821,64 @@ namespace FayeCpp {
 	};
 	
 	
+	/**
+	 @brief Class of variant for storing base types, such as integers, reals, strings, lists and maps.
+	 */
 	class __RE_PUBLIC_CLASS_API__ REVariant
 	{
 	public:
 		typedef enum _variantType
 		{
+			/**
+			 @brief Variant type is undefined.
+			 */
 			TypeNone,
+			
+			
+			/**
+			 @brief Type is signed integer, used 64 bit signed int for storing values.
+			 */
 			TypeInteger,
+			
+			
+			/**
+			 @brief Type is unsigned integer, used 64 bit unsigned int for storing values.
+			 */
 			TypeUnsignedInteger,
+			
+			
+			/**
+			 @brief Type is real, used double type for storing values.
+			 */
 			TypeReal,
+			
+			
+			/**
+			 @brief Type is boolean, used bool type for storing values.
+			 */
 			TypeBool,
+			
+			
+			/**
+			 @brief Type is string object.
+			 */
 			TypeString,
+			
+			
+			/**
+			 @brief Type is map object.
+			 */
 			TypeMap,
+			
+			
+			/**
+			 @brief Type is list object.
+			 */
 			TypeList
 		}
+		/**
+		 @brief Type of the variant object.
+		 */
 		VariantType;
 		
 	protected:
@@ -2845,37 +2889,154 @@ namespace FayeCpp {
 			double doubleValue;
 			bool boolValue;
 			void * pointerValue;
-		} VariantUnion;
+		} 
+		/**
+		 @brief Union for storing varian data.
+		 */
+		VariantUnion;
 		
+		
+		/**
+		 @brief Union with variant data.
+		 */
 		VariantUnion _u;
+		
+		
+		/**
+		 @brief Type of the data.
+		 */
 		VariantType _t;
 		
+		
+		/**
+		 @brief Cleans the varint object, releases any alloced value and sets type to TypeNone
+		 */
 		void clean();
 		
 	public:
+		/**
+		 @brief Checks union pointer for NULL, used for detecting strings, lists and maps.
+		 @return True if NULL, othervice false.
+		 */
 		bool isNULL() const;
 		
+		
+		/**
+		 @brief Checks variant for number type(integers and reals)
+		 @return True if varian is integer or real, othervice false.
+		 */
 		bool isNumber() const;
 		
+		
+		/**
+		 @brief Getter for type of the variant.
+		 */
 		VariantType type() const;
 		
+		
+		/**
+		 @brief Getter for signed int value.
+		 @return Signed int for integers or reals, or 0 for other types.
+		 */
 		int toInt() const;
 		
+		
+		/**
+		 @brief Getter for unsigned int value.
+		 @return Signed int for unintegers or reals, or 0 for other types.
+		 */
+		unsigned int toUInt() const;
+		
+		
+		/**
+		 @brief Getter for signed int 64 bit value.
+		 @return 64 bit signed int for integers or reals, or 0 for other types.
+		 */
 		int64_t toInt64() const;
 		
+		
+		/**
+		 @brief Getter for unsigned int 64 bit value.
+		 @return 64 bit unsigned int for integers or reals, or 0 for other types.
+		 */
 		uint64_t toUInt64() const;
 		
+		
+		/**
+		 @brief Getter for double value.
+		 @return Double value for integers or reals, or 0 for other types.
+		 */
 		double toDouble() const;
 		
+		
+		/**
+		 @brief Getter for boolean value.
+		 @return True on type is boolean or any digit value is 1, othervice false.
+		 */
 		bool toBool() const;
 		
+		
+		/**
+		 @brief Setter operator for the variant with signed int value.
+		 @detailed Type of the variant becomes TypeInteger.
+		 @return Address of the variant.
+		 */
 		REVariant & operator=(int v);
+		
+		
+		/**
+		 @brief Setter operator for the variant with unsigned int value.
+		 @detailed Type of the variant becomes TypeUnsignedInteger.
+		 @return Address of the variant.
+		 */
+		REVariant & operator=(unsigned int v);
+		
+		
+		/**
+		 @brief Setter operator for the variant with float value.
+		 @detailed Type of the variant becomes TypeReal.
+		 @return Address of the variant.
+		 */
 		REVariant & operator=(float v);
+		
+		
+		/**
+		 @brief Setter operator for the variant with double value.
+		 @detailed Type of the variant becomes TypeReal.
+		 @return Address of the variant.
+		 */
 		REVariant & operator=(double v);
 		
+		
+		/**
+		 @brief Setter operator for the variant with long long value.
+		 @detailed Type of the variant becomes TypeInteger.
+		 @return Address of the variant.
+		 */
 		REVariant & operator=(long long v);
+		
+		
+		/**
+		 @brief Setter operator for the variant with unsigned long long value.
+		 @detailed Type of the variant becomes TypeUnsignedInteger.
+		 @return Address of the variant.
+		 */
 		REVariant & operator=(unsigned long long v);
+		
+		
+		/**
+		 @brief Setter operator for the variant with long double value.
+		 @detailed Type of the variant becomes TypeReal and value will be truncated to double value.
+		 @return Address of the variant.
+		 */
 		REVariant & operator=(long double v);
+		
+		
+		/**
+		 @brief Setter operator for the variant with long double value.
+		 @detailed Type of the variant becomes TypeReal.
+		 @return Address of the variant.
+		 */
 		REVariant & operator=(bool v);
 		REVariant & operator=(const REString & s);
 		REVariant & operator=(const char * s);
@@ -3106,7 +3267,9 @@ namespace FayeCpp {
 	};
 	
 	
-	/* Deprecated */
+	/**
+	 @brief Section with deprecated types.
+	 */
 #if defined(__GNUC__)	
 	typedef REVariantList VariantList __attribute__((deprecated));
 	typedef REVariantMap VariantMap __attribute__((deprecated));

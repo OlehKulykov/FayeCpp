@@ -65,6 +65,11 @@ namespace FayeCpp {
 		return (int)this->toInt64();
 	}
 	
+	unsigned int REVariant::toUInt() const
+	{
+		return (unsigned int)this->toUInt64();
+	}
+	
 	int64_t REVariant::toInt64() const
 	{
 		switch (_t)
@@ -156,20 +161,31 @@ namespace FayeCpp {
 	
 	REVariant & REVariant::operator=(int v)
 	{
-		_u.int64Value = v;
+		this->clean();
+		_u.int64Value = (int64_t)v;
+		_t = TypeInteger;
+		return *this;
+	}
+	
+	REVariant & REVariant::operator=(unsigned int v)
+	{
+		this->clean();
+		_u.uint64Value = (uint64_t)v;
 		_t = TypeInteger;
 		return *this;
 	}
 	
 	REVariant & REVariant::operator=(float v)
 	{
-		_u.doubleValue = v;
+		this->clean();
+		_u.doubleValue = (double)v;
 		_t = TypeReal;
 		return *this;
 	}
 	
 	REVariant & REVariant::operator=(double v)
 	{
+		this->clean();
 		_u.doubleValue = v;
 		_t = TypeReal;
 		return *this;
@@ -177,27 +193,31 @@ namespace FayeCpp {
 	
 	REVariant & REVariant::operator=(long long v)
 	{
-		_u.int64Value = v;
+		this->clean();
+		_u.int64Value = (int64_t)v;
 		_t = TypeInteger;
 		return *this;
 	}
 	
 	REVariant & REVariant::operator=(unsigned long long v)
 	{
-		_u.uint64Value = v;
+		this->clean();
+		_u.uint64Value = (uint64_t)v;
 		_t = TypeUnsignedInteger;
 		return *this;
 	}
 	
 	REVariant & REVariant::operator=(long double v)
 	{
-		_u.doubleValue = v;
+		this->clean();
+		_u.doubleValue = (double)v;
 		_t = TypeReal;
 		return *this;
 	}
 	
 	REVariant & REVariant::operator=(bool v)
 	{
+		this->clean();
 		_u.boolValue = v;
 		_t = TypeBool;
 		return *this;
@@ -271,6 +291,7 @@ namespace FayeCpp {
 	
 	REVariant & REVariant::operator=(const REVariant & v)
 	{
+		this->clean();
 		switch (v._t)
 		{
 			case TypeString: *this = v.toString(); break;
