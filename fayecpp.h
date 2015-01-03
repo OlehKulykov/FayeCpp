@@ -3046,7 +3046,21 @@ namespace FayeCpp {
 		 @return Address of the variant.
 		 */
 		REVariant & operator=(const REString & s);
+		
+		
+		/**
+		 @brief Setter operator for the variant C string value if not NULL.
+		 @detailed Type of the variant becomes TypeString.
+		 @return Address of the variant.
+		 */
 		REVariant & operator=(const char * s);
+		
+		
+		/**
+		 @brief Setter operator for the variant wide string value if not NULL.
+		 @detailed Type of the variant becomes TypeString.
+		 @return Address of the variant.
+		 */
 		REVariant & operator=(const wchar_t * s);
 		
 		REVariant & operator=(const REVariantMap & m);
