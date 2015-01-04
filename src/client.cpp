@@ -823,6 +823,17 @@ namespace FayeCpp {
 #if defined(__RE_64BIT_PLATFORM__)
 		" - Compiled for x64 processors\n"
 #endif
+#if defined(__llvm__)
+		" - Compiled with LLVM\n"
+#endif
+#if defined(__clang__)
+		" - Compiled with clang"
+#if defined(__clang_version__)
+		", version: " TO_STRING(__clang_version__) "\n"
+#else
+		"\n"
+#endif	
+#endif
 #if defined(_M_ARM)
 		" - Compiled for ARM processors\n"
 #endif
