@@ -133,7 +133,8 @@ namespace FayeCpp {
 		return false;
 	}
 	
-	JsonParser::JsonParser(const char * text) : _json(NULL)
+	JsonParser::JsonParser(const char * text) : 
+		_json(NULL)
 	{
 		const size_t len = text ? strlen(text) : 0;
 		if (len > 0)
@@ -252,12 +253,14 @@ namespace FayeCpp {
 		return _string;
 	}
 	
-	JsonGenerator::JsonGenerator(const REVariantMap & map) : _string(NULL)
+	JsonGenerator::JsonGenerator(const REVariantMap & map) : 
+		_string(NULL)
 	{
 		_string = JsonGenerator::jsonStringFromMap(map);
 	}
 	
-	JsonGenerator::JsonGenerator(const REVariantList & list) : _string(NULL)
+	JsonGenerator::JsonGenerator(const REVariantList & list) : 
+		_string(NULL)
 	{
 		_string = JsonGenerator::jsonStringFromList(list);
 	}

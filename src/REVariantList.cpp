@@ -32,6 +32,12 @@ namespace FayeCpp {
 		return *this;
 	}
 	
+	REVariantList & REVariantList::operator+=(unsigned int v)
+	{
+		this->add(v);
+		return *this;
+	}
+	
 	REVariantList & REVariantList::operator+=(float v)
 	{
 		this->add(v);

@@ -3063,61 +3063,317 @@ namespace FayeCpp {
 		 */
 		REVariant & operator=(const wchar_t * s);
 		
+		
+		/**
+		 @brief Setter operator for the variant map value.
+		 @detailed Type of the variant becomes TypeMap.
+		 @return Address of the variant.
+		 */
 		REVariant & operator=(const REVariantMap & m);
+		
+		
+		/**
+		 @brief Setter operator for the variant list value.
+		 @detailed Type of the variant becomes TypeList.
+		 @return Address of the variant.
+		 */
 		REVariant & operator=(const REVariantList & l);
 		
+		
+		/**
+		 @brief Setter operator for the variant value.
+		 @detailed Type of the variant becomes same as setted variant.
+		 @return Address of the variant.
+		 */
 		REVariant & operator=(const REVariant & v);
 		
+		
+		/**
+		 @brief Checks variant is string value.
+		 @detailed Checks type for TypeString.
+		 @return True if variant is string, othervice false.
+		 */
 		bool isString() const;
+		
+		
+		/**
+		 @brief Getter of the string address.
+		 @warning Unsequre method. Use this ONLY if variant is string.
+		 Check with 'isString()' mathod.
+		 @return Const address of the string, or undefined address if not string.
+		 */
 		const REString & toString() const;
 		
-		bool isMap() const;
-		const REVariantMap & toMap() const;
 		
-		bool isList() const;
-		const REVariantList & toList() const;
-		
+		/**
+		 @brief Getter of the string address.
+		 @warning Unsequre method. Use this ONLY if variant is string.
+		 Check with 'isString()' mathod.
+		 @return Address of the string, or undefined address if not string.
+		 */
 		REString & toString();
 		
+		
+		/**
+		 @brief Checks variant is map value.
+		 @detailed Checks type for TypeMap.
+		 @return True if variant is map, othervice false.
+		 */
+		bool isMap() const;
+		
+		
+		/**
+		 @brief Getter of the map address.
+		 @warning Unsequre method. Use this ONLY if variant is map.
+		 Check with 'isMap()' method.
+		 @return Const address of the map, or undefined address if not map.
+		 */
+		const REVariantMap & toMap() const;
+		
+		
+		/**
+		 @brief Getter of the map address.
+		 @warning Unsequre method. Use this ONLY if variant is map.
+		 Check with 'isMap()' method.
+		 @return Address of the map, or undefined address if not map.
+		 */
 		REVariantMap & toMap();
 		
+		
+		/**
+		 @brief Checks variant is list value.
+		 @detailed Checks type for TypeList.
+		 @return True if variant is list, othervice false.
+		 */
+		bool isList() const;
+		
+		
+		/**
+		 @brief Getter of the list address.
+		 @warning Unsequre method. Use this ONLY if variant is list.
+		 Check with 'isList()' method.
+		 @return Const address of the list, or undefined address if not list.
+		 */
+		const REVariantList & toList() const;
+		
+		
+		/**
+		 @brief Getter of the list address.
+		 @warning Unsequre method. Use this ONLY if variant is list.
+		 Check with 'isList()' method.
+		 @return Address of the list, or undefined address if not list.
+		 */
 		REVariantList & toList();
 		
+		
+		/**
+		 @brief Constructs empty variant object.
+		 */
 		REVariant();
 		
+		
+		/**
+		 @brief Constructs variant object with int value.
+		 @param v The int value.
+		 */
 		REVariant(int v);
+		
+		
+		/**
+		 @brief Constructs variant object with unsigned int value.
+		 @param v The unsigned int value.
+		 */
+		REVariant(unsigned int v);
+		
+		
+		/**
+		 @brief Constructs variant object with float value.
+		 @param v The float value.
+		 */
 		REVariant(float v);
+		
+		
+		/**
+		 @brief Constructs variant object with double value.
+		 @param v The double value.
+		 */
 		REVariant(double v);
-		REVariant(long long v);
-		REVariant(unsigned long long v);
+		
+		
+		/**
+		 @brief Constructs variant object with long double value.
+		 @param v The long double value.
+		 */
 		REVariant(long double v);
+		
+		
+		/**
+		 @brief Constructs variant object with long long value.
+		 @param v The long long value.
+		 */
+		REVariant(long long v);
+		
+		
+		/**
+		 @brief Constructs variant object with unsigned long long value.
+		 @param v The unsigned long long value.
+		 */
+		REVariant(unsigned long long v);
+		
+		
+		/**
+		 @brief Constructs variant object with boolean value.
+		 @param v The boolean value.
+		 */
 		REVariant(bool v);
+		
+		
+		/**
+		 @brief Constructs variant object with C string pointer.
+		 @param v The C string pointer.
+		 */
 		REVariant(const char * v);
+		
+		
+		/**
+		 @brief Constructs variant object with wide string pointer.
+		 @param v The wide string pointer.
+		 */
 		REVariant(const wchar_t * v);
+		
+		
+		/**
+		 @brief Constructs variant object with string object.
+		 @param v The string object.
+		 */
 		REVariant(const REString & v);
+		
+		
+		/**
+		 @brief Constructs variant object with map object.
+		 @param v The map object.
+		 */
 		REVariant(const REVariantMap & v);
+		
+		
+		/**
+		 @brief Constructs variant object with list object.
+		 @param v The list object.
+		 */
 		REVariant(const REVariantList & v);
+		
+		
+		/**
+		 @brief Constructs variant object with variant object.
+		 @param v The variant object.
+		 */
 		REVariant(const REVariant & v);
 		
+		
+		/**
+		 @brief Default virtual destructor.
+		 */
 		virtual ~REVariant();
 	};
 
 	
+	/**
+	 @brief Class of the variant map. Keys is string objects and values is variants.
+	 */
 	class __RE_PUBLIC_CLASS_API__ REVariantMap : public REMap<REString, REVariant>
 	{
 	public:
+		/**
+		 @brief Locates pointer of the variant object by C string key with specific variant type of the value.
+		 @param key C string of the key.
+		 @param type Type of the finded value.
+		 @return Pointer of the variant value or NULL if not finded or wrong type.
+		 */
 		REVariant * findTypedValue(const char * key, const REVariant::VariantType type) const;
+		
+		
+		/**
+		 @brief Locates pointer of the variant object by wide string key with specific variant type of the value.
+		 @param key Wide string of the key.
+		 @param type Type of the finded value.
+		 @return Pointer of the variant value or NULL if not finded or wrong type.
+		 */
 		REVariant * findTypedValue(const wchar_t * key, const REVariant::VariantType type) const;
+		
+		
+		/**
+		 @brief Locates pointer of the variant object by string object key with specific variant type of the value.
+		 @param key String object of the key.
+		 @param type Type of the finded value.
+		 @return Pointer of the variant value or NULL if not finded or wrong type.
+		 */
 		REVariant * findTypedValue(const REString & key, const REVariant::VariantType type) const;
+		
+		
+		/**
+		 @brief Getter operator with key.
+		 @param key String key.
+		 */
 		const REVariant operator[](const char * key) const;
+		
+		
+		/**
+		 @brief Getter operator with key.
+		 @param key String key.
+		 */
 		const REVariant operator[](const wchar_t * key) const;
+		
+		
+		/**
+		 @brief Getter operator with key.
+		 @param key String key.
+		 */
 		const REVariant operator[](const REString & key) const;
+		
+		
+		/**
+		 @brief Getter operator with key.
+		 @param key String key.
+		 */
 		REVariant & operator[](const char * key);
+		
+		
+		/**
+		 @brief Getter operator with key.
+		 @param key String key.
+		 */
 		REVariant & operator[](const wchar_t * key);
+		
+		
+		/**
+		 @brief Getter operator with key.
+		 @param key String key.
+		 */
 		REVariant & operator[](const REString & key);
+		
+		
+		/**
+		 @brief Add key/values from another map.
+		 @param map Map object.
+		 */
 		REVariantMap & operator=(const REVariantMap & map);
+		
+		
+		/**
+		 @brief Contructs map with keys/values from another map.
+		 */
 		REVariantMap(const REVariantMap & map);
+		
+		
+		/**
+		 @brief Constructs empty map.
+		 */
 		REVariantMap();
+		
+		
+		/**
+		 @brief Default virtual destructor.
+		 */
 		virtual ~REVariantMap();
 	};
 	
@@ -3126,6 +3382,7 @@ namespace FayeCpp {
 	{
 	public:
 		REVariantList & operator+=(int v);
+		REVariantList & operator+=(unsigned int v);
 		REVariantList & operator+=(float v);
 		REVariantList & operator+=(double v);
 		REVariantList & operator+=(long long v);

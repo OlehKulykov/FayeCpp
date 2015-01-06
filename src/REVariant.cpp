@@ -329,7 +329,7 @@ namespace FayeCpp {
 	
 	const REVariantList & REVariant::toList() const
 	{
-		return *((REVariantList *)_u.pointerValue);
+		return *(const REVariantList *)_u.pointerValue;
 	}
 	
 	REString & REVariant::toString()
@@ -354,6 +354,13 @@ namespace FayeCpp {
 	}
 	
 	REVariant::REVariant(int v) :
+		_t(TypeNone)
+	{
+		memset(&_u, 0, sizeof(VariantUnion));
+		*this = v;
+	}
+	
+	REVariant::REVariant(unsigned int v) :
 		_t(TypeNone)
 	{
 		memset(&_u, 0, sizeof(VariantUnion));
