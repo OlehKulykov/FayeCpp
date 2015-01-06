@@ -36,6 +36,7 @@ script:
   - printenv
   - cd build
   - make
+  - make test
   - make install
   - cd ..  
   - ./android-ndk-10d/android-ndk-r10d/ndk-build NDK_PROJECT_PATH=builds/android/
