@@ -242,5 +242,49 @@ using namespace FayeCpp;
 }
 
 #pragma mark - FayeCppClientDelegate & FayeCppClientSSLDataSource
+- (void) onFayeTransportConnected:(FayeCppClient *) client
+{
+	NSLog(@"onFayeTransportConnected");
+}
+
+- (void) onFayeTransportDisconnected:(FayeCppClient *) client
+{
+	NSLog(@"onFayeTransportDisconnected");
+}
+
+- (void) onFayeClientConnected:(FayeCppClient *) client
+{
+	NSLog(@"onFayeClientConnected");
+}
+
+- (void) onFayeClientDisconnected:(FayeCppClient *) client
+{
+	NSLog(@"onFayeClientDisconnected");
+}
+
+- (void) onFayeClient:(FayeCppClient *) client
+  subscribedToChannel:(NSString *) channel
+{
+	NSLog(@"onFayeClient subscribedToChannel: %@", channel);
+}
+
+- (void) onFayeClient:(FayeCppClient *) client
+unsubscribedFromChannel:(NSString *) channel
+{
+	NSLog(@"onFayeClient unsubscribedFromChannel: %@", channel);
+}
+
+- (void) onFayeClient:(FayeCppClient *) client
+	  receivedMessage:(NSDictionary *) message
+		  fromChannel:(NSString *) channel
+{
+	NSLog(@"onFayeClient receivedMessage fromChannel: %@ \n%@", channel, message);
+}
+
+- (void) onFayeClient:(FayeCppClient *) client
+				error:(NSError *) error
+{
+	NSLog(@"onFayeClient error: %@", error);
+}
 
 @end
