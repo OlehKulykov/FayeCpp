@@ -3378,27 +3378,132 @@ namespace FayeCpp {
 	};
 	
 	
+	/**
+	 @brief Class of the list containes variants objects.
+	 */
 	class __RE_PUBLIC_CLASS_API__ REVariantList : public REList<REVariant>
 	{
 	public:
+		/**
+		 @brief Add variant to the list with int value.
+		 @return Address of this list object.
+		 */
 		REVariantList & operator+=(int v);
+		
+		
+		/**
+		 @brief Add variant to the list with unsigned int value.
+		 @return Address of this list object.
+		 */
 		REVariantList & operator+=(unsigned int v);
+		
+		
+		/**
+		 @brief Add variant to the list with float value.
+		 @return Address of this list object.
+		 */
 		REVariantList & operator+=(float v);
+		
+		
+		/**
+		 @brief Add variant to the list with double value.
+		 @return Address of this list object.
+		 */
 		REVariantList & operator+=(double v);
+		
+		
+		/**
+		 @brief Add variant to the list with long long value.
+		 @return Address of this list object.
+		 */
 		REVariantList & operator+=(long long v);
+		
+		
+		/**
+		 @brief Add variant to the list with unsigned long long value.
+		 @return Address of this list object.
+		 */
 		REVariantList & operator+=(unsigned long long v);
+		
+		
+		/**
+		 @brief Add variant to the list with long double value.
+		 @return Address of this list object.
+		 */
 		REVariantList & operator+=(long double v);
+		
+		
+		/**
+		 @brief Add variant to the list with boolean value.
+		 @return Address of this list object.
+		 */
 		REVariantList & operator+=(bool v);
+		
+		
+		/**
+		 @brief Add variant to the list with string object.
+		 @return Address of this list object.
+		 */
 		REVariantList & operator+=(const REString & s);
+		
+		
+		/**
+		 @brief Add variant to the list with C string.
+		 @return Address of this list object.
+		 */
 		REVariantList & operator+=(const char * s);
+		
+		
+		/**
+		 @brief Add variant to the list with wide string.
+		 @return Address of this list object.
+		 */
 		REVariantList & operator+=(const wchar_t * s);
+		
+		
+		/**
+		 @brief Add variant to the list with map object.
+		 @return Address of this list object.
+		 */
 		REVariantList & operator+=(const REVariantMap & m);
+		
+		
+		/**
+		 @brief Add variant to the list with list object.
+		 @return Address of this list object.
+		 */
 		REVariantList & operator+=(const REVariantList & l);
+		
+		
+		/**
+		 @brief Add variant to the list with varing object.
+		 @return Address of this list object.
+		 */
 		REVariantList & operator+=(const REVariant & v);
 		
+		
+		/**
+		 @brief Set variant objects from another list.
+		 @return Address of this list object.
+		 */
 		REVariantList & operator=(const REVariantList & list);
+		
+		
+		/**
+		 @brief Constructs list with objects from another list.
+		 */
 		REVariantList(const REVariantList & list);
+		
+		
+		/**
+		 @brief Constructs empty list.
+		 */
 		REVariantList();
+		
+		
+		/**
+		 @brief Default virtual destructor.
+		 */
 		virtual ~REVariantList();
 	};
 

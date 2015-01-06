@@ -859,6 +859,14 @@ namespace FayeCpp {
 		", build hash: " LWS_BUILD_HASH
 #endif
 		"\n"
+		
+#if defined(LWS_USE_IPV6)	
+		"     with IPv6 support\n"
+#endif
+#if defined(LWS_OPENSSL_SUPPORT)
+		"     with OpenSSL support\n"
+#endif
+		
 #endif
 		
 		" - Using jansson library\n"
