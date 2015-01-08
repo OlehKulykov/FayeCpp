@@ -111,6 +111,12 @@ cd builds/ios/
 So after finishing you will get ```FayeCpp.framework``` framework in folder ```builds/ios/``` which includes ```i386```, ```x86_64```, ```armv7```, ```armv7s``` and ```arm64``` architectures.
 
 
+### Build iOS framework with sequre connection via OpenSSL
+For building iOS framework with OpenSSL navigate to folder ```builds/ios-with-openssl/``` and do the same as described above.
+Or, you can download framework, see **Binary distribution** section below.
+
+
+
 # Integration
 -------------
 
