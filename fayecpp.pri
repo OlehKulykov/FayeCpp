@@ -1,5 +1,5 @@
 ##
-##   Copyright (c) 2014 Kulykov Oleh <nonamedemail@gmail.com>
+##   Copyright (c) 2014 - 2015 Kulykov Oleh <nonamedemail@gmail.com>
 ##
 ##   Permission is hereby granted, free of charge, to any person obtaining a copy
 ##   of this software and associated documentation files (the "Software"), to deal
@@ -123,6 +123,7 @@ DEFINES += HAVE_FUNCTION_USLEEP=1
 DEFINES += HAVE_FUNCTION_PTHREAD_ATTR_SETSCOPE=1
 DEFINES += HAVE_FUNCTION_PTHREAD_ATTR_SETSTACKSIZE=1
 DEFINES += HAVE_MACH_MACH_TIME_H=1
+DEFINES += HAVE_ASSERT_H=1
 
 ## jansson defines
 DEFINES += JSON_INLINE=inline

@@ -27,6 +27,10 @@
 #include "fayecpp_config.h"
 #endif
 
+#if defined(HAVE_SUITABLE_QT_VERSION)
+#include <QObject>
+#endif
+
 #include "transport.h"
 #include "classmethodwrapper.h"
 #include "jsonutils.h"
@@ -869,6 +873,15 @@ namespace FayeCpp {
 		
 #endif
 		
+#if defined(HAVE_SUITABLE_QT_VERSION)
+		" - Using Qt"
+#if defined(QT_VERSION_STR)
+		", version: " QT_VERSION_STR "\n"
+#else
+		"\n"
+#endif
+#endif
+
 		" - Using jansson library\n"
 			
 		/* Compiller build date, time and/or timestamp */
