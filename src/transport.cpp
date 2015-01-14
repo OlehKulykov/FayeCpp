@@ -103,7 +103,7 @@ namespace FayeCpp {
 
 		_isConnected = true;
 		
-		Responce message; message.setType(Responce::ResponceTransportConnected);
+		Responce message(Responce::ResponceTransportConnected);
 		if (_processMethod) _processMethod->invokeWithPointer(&message);	
 	}
 	
@@ -113,7 +113,7 @@ namespace FayeCpp {
 
 		_isConnected = false;
 		
-		Responce message; message.setType(Responce::ResponceTransportDisconnected);
+		Responce message(Responce::ResponceTransportDisconnected);
 		if (_processMethod) _processMethod->invokeWithPointer(&message);
 	}
 	
@@ -121,13 +121,13 @@ namespace FayeCpp {
 	{
 		FAYECPP_DEBUG_LOGA("TRANSPORT RECEIVED: %s", text)
 		
-		Responce message; message.setMessageText(text).setType(Responce::ResponceMessage);
+		Responce message(Responce::ResponceMessage); message.setMessageText(text);
 		if (_processMethod) _processMethod->invokeWithPointer(&message);
 	}
 	
 	void Transport::onDataReceived(const unsigned char * data, const size_t dataSize)
 	{
-		Responce message; message.setMessageData(data, dataSize).setType(Responce::ResponceMessage);
+		Responce message(Responce::ResponceMessage); message.setMessageData(data, dataSize);
 		if (_processMethod) _processMethod->invokeWithPointer(&message);
 	}
 	
@@ -135,7 +135,7 @@ namespace FayeCpp {
 	{
 		FAYECPP_DEBUG_LOGA("TRANSPORT ERROR: %s", error.UTF8String())
 		
-		Responce message; message.setType(Responce::ResponceTransportError).setErrorString(error);
+		Responce message(Responce::ResponceTransportError); message.setErrorString(error);
 		if (_processMethod) _processMethod->invokeWithPointer(&message);
 	}
 	
@@ -143,7 +143,7 @@ namespace FayeCpp {
 	{
 		FAYECPP_DEBUG_LOGA("TRANSPORT ERROR: %s", error)
 		
-		Responce message; message.setType(Responce::ResponceTransportError).setErrorString(error);
+		Responce message(Responce::ResponceTransportError); message.setErrorString(error);
 		if (_processMethod) _processMethod->invokeWithPointer(&message);
 	}
 	

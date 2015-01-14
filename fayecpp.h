@@ -3641,6 +3641,13 @@ namespace FayeCpp {
 		
 		
 		/**
+		 @brief Contructs typed responce object.
+		 @param type Type of the responce.
+		 */
+		Responce(const Responce::ResponceType type);
+		
+		
+		/**
 		 @brief Default contructor for the message.
 		 */
 		Responce();

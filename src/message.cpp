@@ -126,6 +126,16 @@ namespace FayeCpp {
 		return *this;
 	}
 	
+	Responce::Responce(const Responce::ResponceType type) :
+		_messageList(NULL),
+		_messageMap(NULL),
+		_messageBuffer(NULL),
+		_errorString(NULL),
+		_type(type)
+	{
+		
+	}
+	
 	Responce::Responce() :
 		_messageList(NULL),
 		_messageMap(NULL),
