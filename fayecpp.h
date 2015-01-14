@@ -122,8 +122,11 @@
 
 #endif /* __RE_OS_WINDOWS__ */
 
-#if __GNUC__ >= 4
-#	define __RE_PUBLIC_CLASS_API__ __attribute__ ((visibility("default")))
+
+#if defined(__GNUC__) 
+#	if __GNUC__ >= 4
+#		define __RE_PUBLIC_CLASS_API__ __attribute__ ((visibility("default")))
+#	endif
 #endif
 
 
