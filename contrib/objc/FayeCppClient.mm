@@ -382,6 +382,39 @@ void FayeCppDelegateWrapper::objcDictToMap(NSDictionary * dict, REVariantMap & m
 
 @implementation FayeCppClient
 
+- (id) extValue
+{
+	REVariant e;
+	if (_cppClient) e = _cppClient->extValue();
+
+	if (e.type() != REVariant::TypeNone)
+	{
+		id ext = FayeCppDelegateWrapper::objcObject(e);
+		return ext;
+	}
+
+	return nil;
+}
+
+- (void) setExtValue:(id) value
+{
+	if (!_cppClient) return;
+
+	if (value)
+	{
+		if ([value isKindOfClass:[NSNull class]]) _cppClient->setExtValue(REVariant());
+		else
+		{
+			REVariant e = FayeCppDelegateWrapper::objcObjectToVariant(value);
+			_cppClient->setExtValue(e);
+		}
+	}
+	else
+	{
+		_cppClient->setExtValue(REVariant());
+	}
+}
+
 - (BOOL) isUsingIPV6
 {
 	return _cppClient ? (BOOL)_cppClient->isUsingIPV6() : NO;

@@ -175,6 +175,35 @@ unsubscribedFromChannel:(NSString *) channel;
 
 
 /**
+ @brief Property for ext value.
+ @detailed This property used custom methods 'extValue' and 'setExtValue:'.
+ */
+@property (nonatomic, assign, getter = extValue, setter = setExtValue:) id extValue;
+
+
+/**
+ @brief Getter for an ext message field which MAY be included in any Bayeux message.
+ @detailed By default this value is empty(nil)
+ and will not included to messages.
+ @return ext message value.
+ */
+- (id) extValue;
+
+
+/**
+ @brief An ext message field MAY be included in any Bayeux message.
+ @detailed The contents of ext message field may be arbitrary values
+ that allow extensions to be negotiated and implemented between server and client implementations.
+ If this value is not empty(type not REVariant::TypeNone), than will added to each message.
+ http://docs.cometd.org/2/reference/bayeux_message_fields.html
+ By default this value is empty(nil) and will not included to messages.
+ For clean up this value just set nil or NSNull value.
+ @param value Variant value of the ext field.
+ */
+- (void) setExtValue:(id) value;
+
+
+/**
  @brief Check client should use IPV6.
  @detailed Default value is NO, no matter client supports it or not.
  To check posibility of using IPV6 by the client use static method '[Client isSupportsIPV6]'.

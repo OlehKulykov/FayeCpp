@@ -88,6 +88,22 @@ namespace FayeCpp {
 	static const char * const _bayeuxAdviceKey = "advice";
 	static const char * const _bayeuxMinimumVersionKey = "minimumVersion";
 	static const char * const _bayeuxVersionKey = "version";
+	static const char * const _bayeuxExtKey = "ext";
+
+	const REVariant & Client::extValue() const
+	{
+		return _extValue;
+	}
+
+	REVariant & Client::extValue()
+	{
+		return _extValue;
+	}
+
+	void Client::setExtValue(const REVariant & value)
+	{
+		_extValue = value;
+	}
 
 	bool Client::isUsingIPV6() const
 	{
@@ -489,6 +505,7 @@ namespace FayeCpp {
 		message[_bayeuxMinimumVersionKey] = "1.0beta";
 		message[_bayeuxChannelKey] = _bayeuxHandshakeChannel;
 		message[_bayeuxVersionKey] = "1.0";
+		if (_extValue.type() != REVariant::TypeNone) message[_bayeuxExtKey] = _extValue;
 		if (_delegate) _delegate->onFayeClientWillSendMessage(this, message);
 		if (!_transport) return;
 		
@@ -521,6 +538,7 @@ namespace FayeCpp {
 		message[_bayeuxChannelKey] = _bayeuxConnectChannel;
 		message[_bayeuxClientIdKey] = _clientId;
 		message[_bayeuxConnectionTypeKey] = _transport->name();
+		if (_extValue.type() != REVariant::TypeNone) message[_bayeuxExtKey] = _extValue;
 		if (_delegate) _delegate->onFayeClientWillSendMessage(this, message);
 		if (!_transport) return;
 		
@@ -536,6 +554,7 @@ namespace FayeCpp {
 		REVariantMap message;
 		message[_bayeuxChannelKey] = _bayeuxDisconnectChannel;
 		message[_bayeuxClientIdKey] = _clientId;
+		if (_extValue.type() != REVariant::TypeNone) message[_bayeuxExtKey] = _extValue;
 		if (_delegate) _delegate->onFayeClientWillSendMessage(this, message);
 		if (!_transport) return;
 		
@@ -636,6 +655,7 @@ namespace FayeCpp {
 					message[_bayeuxChannelKey] = _bayeuxSubscribeChannel;
 					message[_bayeuxClientIdKey] = _clientId;
 					message[_bayeuxSubscriptionKey] = i.value();
+					if (_extValue.type() != REVariant::TypeNone) message[_bayeuxExtKey] = _extValue;
 					if (_delegate) _delegate->onFayeClientWillSendMessage(this, message);
 					if (!_transport) return;
 					
@@ -676,6 +696,7 @@ namespace FayeCpp {
 		message[_bayeuxChannelKey] = _bayeuxUnsubscribeChannel;
 		message[_bayeuxClientIdKey] = _clientId;
 		message[_bayeuxSubscriptionKey] = channel;
+		if (_extValue.type() != REVariant::TypeNone) message[_bayeuxExtKey] = _extValue;
 		if (_delegate) _delegate->onFayeClientWillSendMessage(this, message);
 		if (!_transport) return false;
 		
@@ -714,7 +735,8 @@ namespace FayeCpp {
 			mes[_bayeuxClientIdKey] = _clientId;
 			mes[_bayeuxDataKey] = message;
 			mes[_bayeuxIdKey] = (unsigned long long)Client::nextMessageId();
-			
+			if (_extValue.type() != REVariant::TypeNone) mes[_bayeuxExtKey] = _extValue;
+
 			return this->sendText(JsonGenerator(mes).string());
 		}
 		return false;

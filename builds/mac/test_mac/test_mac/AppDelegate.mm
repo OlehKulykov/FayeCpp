@@ -189,7 +189,7 @@ using namespace FayeCpp;
 		[client setDelegate:nil];
 		[client setSSLDataSource:nil];
 	}
-	
+
 	client = [[FayeCppClient alloc] init];
 	[client setDelegate:self];
 	[client setSSLDataSource:self];
@@ -211,7 +211,13 @@ using namespace FayeCpp;
 	_delegate = new FayeDelegate();
 	
 	_client = new FayeCpp::Client();
-	
+
+	_client->setExtValue(22222);
+	REVariant v = _client->extValue();
+
+	_client->setExtValue(REVariant());
+	v = _client->extValue();
+
 	_client->setUsingIPV6(false);
 	_client->setUrl("http://messages.presentain.com:80/faye");
 	//_client->setUrl("https://localhost:6001/faye");
@@ -241,6 +247,7 @@ using namespace FayeCpp;
 	NSLog([NSString stringWithUTF8String:FayeCpp::Client::info()]);
 }
 
+#if defined(OBJC_CLIENT)
 #pragma mark - FayeCppClientDelegate & FayeCppClientSSLDataSource
 - (void) onFayeTransportConnected:(FayeCppClient *) client
 {
@@ -286,5 +293,6 @@ unsubscribedFromChannel:(NSString *) channel
 {
 	NSLog(@"onFayeClient error: %@", error);
 }
+#endif
 
 @end
