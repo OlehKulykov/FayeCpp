@@ -1,5 +1,6 @@
 rm -rf FayeCpp.framework
 rm -f *.a
+rm -rf openssl
 
 git clone git://github.com/krzyzanowskim/OpenSSL.git openssl
 cd openssl
