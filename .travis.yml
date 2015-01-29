@@ -12,7 +12,6 @@ before_script:
   - mkdir ~/fayecpp-install-dir
   - git submodule update --init --recursive
   - cd libwebsockets
-  - git apply < ../getifaddrs-patch.patch
   - git apply < ../libwebsockets_h.patch
   - cd ..
   - mkdir build

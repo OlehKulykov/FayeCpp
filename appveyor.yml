@@ -28,7 +28,6 @@ install:
   - md fayecpp-install-dir
   - git submodule update --init --recursive
   - cd libwebsockets
-  - git apply < ../getifaddrs-patch.patch
   - git apply < ../libwebsockets_h.patch
   - cd ..
   - cmd: echo PLATFORM=%PLATFORM%
