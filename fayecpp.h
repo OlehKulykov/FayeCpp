@@ -27,7 +27,10 @@
 /*
  *   Faye C++ client main and one header file.
  *   All class interfaces added to namespace, preventing include files mess.
- *   Changes on version 0.1.6 (current):
+ *   Changes on version 0.1.7 (current):
+ *   - Minor libwebsockets fixes.
+ *
+ *   Changes on version 0.1.6:
  *   - Added extra(ext) message field included in any Bayeux message.
  *      The contents of ext message field may be arbitrary values that allow extensions
  *      to be negotiated and implemented between server and client implementations.
@@ -63,7 +66,7 @@
 
 #define FAYECPP_VERSION_MAJOR 0
 #define FAYECPP_VERSION_MINOR 1
-#define FAYECPP_VERSION_PATCH 6
+#define FAYECPP_VERSION_PATCH 7
 
 
 #if !defined(HAVE_SUITABLE_QT_VERSION) 
