@@ -303,7 +303,7 @@ _client->sendMessageToChannel(message, "/faye_channel_1");
 
 # Binary distribution
 ---------
-Binary library created via continuous integration services: http://softdev.webatu.com/fayecpp
+Binary library created via continuous integration services: http://fayecpp.zz.vc/fayecpp
 
 
 # License
