@@ -41,7 +41,8 @@ You can use Objective-C wrapper or C++ client directly.
     'libwebsockets/lib/parsers.c',
     'libwebsockets/lib/pollfd.c',
     'libwebsockets/lib/service.c',
-    'libwebsockets/lib/sha-1.c'
+    'libwebsockets/lib/sha-1.c',
+    'libwebsockets/lib/alloc.c'
   
   s.compiler_flags = '-DHAVE_FAYECPP_CONFIG_H=1', '-DHAVE_CONFIG_H=1', '-DCMAKE_BUILD=1'
   s.xcconfig = { 'HEADER_SEARCH_PATHS' => '"${PODS_ROOT}/FayeCpp/contrib/objc" "${PODS_ROOT}/FayeCpp/libwebsockets/lib" "${PODS_ROOT}/FayeCpp/jansson/src"' }
