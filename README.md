@@ -36,6 +36,21 @@ git submodule update --init --recursive
  * [pthreads] OR [Windows Threads] which used by [RECore] threads, or use **FayeCpp** with [Qt SDK][1] (see below).
 
 
+### Installation with CocoaPods
+#### Podfile
+```ruby
+pod 'FayeCpp', '~> 0.1.7'
+```
+
+
+### Patch
+For Android and Windows build with [Libwebsockets] you need to apply patch:
+```sh
+cd libwebsockets
+git apply < ../libwebsockets_h.patch
+```
+
+
 # Building
 ----------
 
