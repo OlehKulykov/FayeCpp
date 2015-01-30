@@ -66,9 +66,17 @@ if(MSVC)
 endif(MSVC)
 
 
+if(WIN32)
+add_definitions(-DWIN32=1)
+add_definitions(-D_WIN32=1)
+endif(WIN32)
+
+
 add_definitions(-DCMAKE_BUILD)
 
+
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+
 
 message("Looking for libwebsockets...")
 find_package(LIBWEBSOCKETS QUIET)
