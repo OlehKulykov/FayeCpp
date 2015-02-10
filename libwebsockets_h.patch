@@ -1,34 +1,14 @@
 diff --git a/lib/libwebsockets.h b/lib/libwebsockets.h
-index 3c717ff..520ea57 100644
+index b63c591..b2153c4 100644
 --- a/lib/libwebsockets.h
 +++ b/lib/libwebsockets.h
-@@ -24,7 +24,11 @@
+@@ -24,7 +24,9 @@
  
  #ifdef __cplusplus
  #include <cstddef>
-+
 +#if !defined(ANDROID_NDK) && !defined(__ANDROID__) && !defined(ANDROID)
  #include <cstdarg>
 +#endif
-+
  extern "C" {
- #endif
- 	
-@@ -81,7 +85,7 @@ extern "C" {
- #define LWS_EXTERN extern
- #endif
- 	
--#ifdef _WIN32
-+#if defined(WIN32) || defined(_WIN32)
- #define random rand
  #else
- #include <sys/time.h>
-@@ -227,7 +231,7 @@ struct libwebsocket_pollargs {
-     int prev_events;   // the previous event mask
- };
- 
--#ifdef _WIN32
-+#if defined(WIN32) || defined(_WIN32)
- struct libwebsocket_pollfd {
- 	SOCKET fd;
- 	SHORT events;
+ #include <stdarg.h>
