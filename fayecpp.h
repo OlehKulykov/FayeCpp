@@ -29,6 +29,7 @@
  *   All class interfaces added to namespace, preventing include files mess.
  *   Changes on version 0.1.7 (current):
  *   - Minor libwebsockets fixes.
+ *   - Added error processing of received messages.
  *
  *   Changes on version 0.1.6:
  *   - Added extra(ext) message field included in any Bayeux message.

@@ -89,6 +89,8 @@ namespace FayeCpp {
 	static const char * const _bayeuxMinimumVersionKey = "minimumVersion";
 	static const char * const _bayeuxVersionKey = "version";
 	static const char * const _bayeuxExtKey = "ext";
+	static const char * const _bayeuxErrorKey = "error";
+	static const char * const _bayeuxSuccessfulKey = "successful";
 
 	const REVariant & Client::extValue() const
 	{
@@ -193,37 +195,42 @@ namespace FayeCpp {
 	
 	void Client::onClientResponceMessageReceived(const REVariantMap & message)
 	{
+		int channelType = -1;
+		REString channel;
+
 		REVariantMap::Iterator i = message.iterator();
 		while (i.next()) 
 		{
 			if (i.key().isEqual(_bayeuxChannelKey))
 			{
-				REString channel = i.value().toString();
-				if (channel.isEqual(_bayeuxHandshakeChannel))
+				channel = i.value().toString();
+
+				if (channel.isEqual(_bayeuxHandshakeChannel)) channelType = 1;
+				else if (channel.isEqual(_bayeuxConnectChannel)) channelType = 2;
+				else if (channel.isEqual(_bayeuxDisconnectChannel)) channelType = 3;
+				else if (channel.isEqual(_bayeuxSubscribeChannel)) channelType = 4;
+				else if (channel.isEqual(_bayeuxUnsubscribeChannel)) channelType = 5;
+				else if (_subscribedChannels.isContaines(channel)) channelType = 6;
+			}
+			else if (i.key().isEqual(_bayeuxErrorKey))
+			{
+				if (_delegate && i.value().isString())
 				{
-					this->onHandshakeDone(message);
-				}
-				else if (channel.isEqual(_bayeuxConnectChannel))
-				{
-					this->onConnectFayeDone(message);
-				}
-				else if (channel.isEqual(_bayeuxDisconnectChannel))
-				{
-					this->onDisconnectFayeDone(message);
-				}
-				else if (channel.isEqual(_bayeuxSubscribeChannel))
-				{
-					this->onSubscriptionDone(message);
-				}
-				else if (channel.isEqual(_bayeuxUnsubscribeChannel))
-				{
-					this->onUnsubscribingDone(message);
-				}
-				else if (_subscribedChannels.isContaines(channel))
-				{
-					this->onReceivedMessageOnChannel(message, channel);
+					REString errorString = i.value().toString();
+					if (errorString.isNotEmpty()) _delegate->onFayeErrorString(this, errorString);
 				}
 			}
+		}
+
+		switch (channelType)
+		{
+			case 1: this->onHandshakeDone(message); break;
+			case 2: this->onConnectFayeDone(message); break;
+			case 3: this->onDisconnectFayeDone(message); break;
+			case 4: this->onSubscriptionDone(message); break;
+			case 5: this->onUnsubscribingDone(message); break;
+			case 6: this->onReceivedMessageOnChannel(message, channel); break;
+			default: FAYECPP_DEBUG_LOG("Unprocessed message") break;
 		}
 	}
 
@@ -585,17 +592,18 @@ namespace FayeCpp {
 			if (_delegate) _delegate->onFayeErrorString(this, REString("Subscription error: can't find subscription key."));
 			return;
 		}
-		
-		if (_pendingSubscriptions.isContaines(channel->toString())) 
+
+		REStringList::Node * pendingChannelNode = _pendingSubscriptions.findNode(channel->toString());
+		if (pendingChannelNode)
 		{
 			REVariant * advice = message.findTypedValue(_bayeuxAdviceKey, REVariant::TypeMap);
 			if (advice && _transport) _transport->receivedAdvice(advice->toMap());
 			
-			REStringList::Node * node = _pendingSubscriptions.findNode(channel->toString());
-			if (node) _pendingSubscriptions.removeNode(node);
-			
-			_subscribedChannels.add(channel->toString());
-			
+			_pendingSubscriptions.removeNode(pendingChannelNode);
+
+			REVariantMap::Node * successfulNode = message.findNode(REStaticString(_bayeuxSuccessfulKey));
+			const bool isSuccessful = successfulNode ? successfulNode->value.toBool() : true;
+
 			if (!_isFayeConnected)
 			{
 				_isFayeConnected = true;
@@ -603,9 +611,17 @@ namespace FayeCpp {
 				if (!_transport) return;
 			}
 
-			FAYECPP_DEBUG_LOGA("Client: Subscribed to channel: %s", channel->toString().UTF8String())
-
-			if (_delegate) _delegate->onFayeClientSubscribedToChannel(this, channel->toString());
+			if (isSuccessful)
+			{
+				FAYECPP_DEBUG_LOGA("Client: Subscribed to channel: %s", channel->toString().UTF8String())
+				_subscribedChannels.add(channel->toString());
+				if (_delegate) _delegate->onFayeClientSubscribedToChannel(this, channel->toString());
+			}
+			else
+			{
+				FAYECPP_DEBUG_LOGA("Client: Unsuccessful subscribing to channel: %s", channel->toString().UTF8String())
+				if (_delegate) _delegate->onFayeErrorString(this, REString::createWithFormat("Subscription error: Unsuccessful subscribing to channel: %s", channel->toString().UTF8String()));
+			}
 		}
 	}
 	
@@ -621,11 +637,22 @@ namespace FayeCpp {
 		
 		REStringList::Node * node = _pendingSubscriptions.findNode(channel->toString());
 		if (node) _pendingSubscriptions.removeNode(node);
-		
-		node = _subscribedChannels.findNode(channel->toString());
-		if (node) _subscribedChannels.removeNode(node);
-		
-		if (_delegate) _delegate->onFayeClientUnsubscribedFromChannel(this, channel->toString());
+
+		REVariantMap::Node * successfulNode = message.findNode(REStaticString(_bayeuxSuccessfulKey));
+		const bool isSuccessful = successfulNode ? successfulNode->value.toBool() : true;
+
+		if (isSuccessful)
+		{
+			node = _subscribedChannels.findNode(channel->toString());
+			if (node) _subscribedChannels.removeNode(node);
+
+			if (_delegate) _delegate->onFayeClientUnsubscribedFromChannel(this, channel->toString());
+		}
+		else
+		{
+			FAYECPP_DEBUG_LOGA("Client: Unsuccessful unsubscribing to channel: %s", channel->toString().UTF8String())
+			if (_delegate) _delegate->onFayeErrorString(this, REString::createWithFormat("Client unsubscribe error: Unsuccessful unsubscribing to channel: %s", channel->toString().UTF8String()));
+		}
 	}
 	
 	void Client::onDisconnectFayeDone(const REVariantMap & message)
