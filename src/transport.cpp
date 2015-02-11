@@ -146,15 +146,31 @@ namespace FayeCpp {
 		Responce message(Responce::ResponceTransportError); message.setErrorString(error);
 		if (_processMethod) _processMethod->invokeWithPointer(&message);
 	}
-	
+
+	void Transport::onTransportWillSelfDestruct()
+	{
+		FAYECPP_DEBUG_LOG("TRANSPORT WILL SELF DESTRUCT")
+
+		_isSelfDestructing = true;
+
+		Responce message(Responce::ResponceTransportWillSelfDestruct);
+		if (_processMethod) _processMethod->invokeWithPointer(&message);
+	}
+
 	bool Transport::isConnected() const
 	{
 		return _isConnected;
 	}
-	
+
+	bool Transport::isSelfDestructing() const
+	{
+		return _isSelfDestructing;
+	}
+
 	Transport::Transport(ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * processMethod) :
 		_processMethod(processMethod),
-		_isConnected(false)
+		_isConnected(false),
+		_isSelfDestructing(false)
 	{
 #if defined(HAVE_ASSERT_H) 
 		assert(_processMethod);
@@ -195,7 +211,7 @@ namespace FayeCpp {
 #if defined(HAVE_SUITABLE_QT_VERSION)
 			delete transport;
 #elif defined(HAVE_LIBWEBSOCKETS_H)
-			///
+			/// will self destruct
 #endif	
 		}
 	}

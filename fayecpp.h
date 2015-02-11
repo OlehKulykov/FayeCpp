@@ -30,6 +30,7 @@
  *   Changes on version 0.1.7 (current):
  *   - Minor libwebsockets fixes.
  *   - Added error processing of received messages.
+ *   - Client transport based on Libwebsockets can automatically self destruct on socket error.
  *
  *   Changes on version 0.1.6:
  *   - Added extra(ext) message field included in any Bayeux message.
@@ -3025,6 +3026,7 @@ namespace FayeCpp {
 		
 		void onTransportConnected();
 		void onTransportDisconnected();
+		void onTransportWillSelfDestruct();
 		
 		void onClientResponceMessageReceived(const REVariantMap & message);
 		void onClientResponceMessagesListReceived(const REVariantList & messagesList);
@@ -3589,7 +3591,13 @@ namespace FayeCpp {
 			/**
 			 @brief Faye transport protocol received message.
 			 */
-			ResponceMessage
+			ResponceMessage,
+
+
+			/**
+			 @brief Faye transport will self destruct
+			 */
+			ResponceTransportWillSelfDestruct
 		}
 		/**
 		 @brief Faye message type.

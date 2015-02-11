@@ -93,7 +93,8 @@ namespace FayeCpp {
 		Advice _advice;
 		
 		bool _isConnected;
-		
+		bool _isSelfDestructing;
+
 		Delegate * delegate() const;
 		
 	protected:
@@ -110,8 +111,10 @@ namespace FayeCpp {
 		void onDataReceived(const unsigned char * data, const size_t dataSize);
 		void onError(const REString & error);
 		void onError(const char * error);
-	
+		void onTransportWillSelfDestruct();
+
 	public:
+		bool isSelfDestructing() const;
 		void receivedAdvice(const REVariantMap & advice);
 		bool isConnected() const;
 		

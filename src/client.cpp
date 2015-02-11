@@ -141,6 +141,7 @@ namespace FayeCpp {
 			case Responce::ResponceTransportDisconnected: this->onTransportDisconnected();  break;
 			case Responce::ResponceTransportError: this->onClientError(responce); break;
 			case Responce::ResponceMessage: this->onClientResponceReceived(responce); break;
+			case Responce::ResponceTransportWillSelfDestruct: this->onTransportWillSelfDestruct(); break;
 			default: this->onClientError(responce); break;
 		}
 	}
@@ -170,6 +171,16 @@ namespace FayeCpp {
 		Transport::deleteTransport(unusedTransport);
 		
 		if (_delegate) _delegate->onFayeTransportDisconnected(this);
+	}
+
+	void Client::onTransportWillSelfDestruct()
+	{
+		if (_transport)
+		{
+			if (_transport->isSelfDestructing()) _transport = NULL;
+		}
+
+		this->onTransportDisconnected();
 	}
 	
 	void Client::onClientError(Responce * message)

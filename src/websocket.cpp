@@ -320,6 +320,7 @@ namespace FayeCpp {
 		socket->workMethod();
 		pthread_t * t = socket->_workThread;
 		socket->_workThread = NULL;
+		socket->onTransportWillSelfDestruct();
 		delete socket;
 		ThreadsJoiner::add(t);
 		return NULL;
@@ -331,6 +332,7 @@ namespace FayeCpp {
 		socket->workMethod();
 		HANDLE t = socket->_workThread;
 		socket->_workThread = NULL;
+		socket->onTransportWillSelfDestruct();
 		delete socket;
 		ThreadsJoiner::add(t);
 		return 0;
