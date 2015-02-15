@@ -3113,6 +3113,7 @@ namespace FayeCpp {
 
 	__RE_EXPORT__ const char * const kErrorDomainClient;
 	__RE_EXPORT__ const char * const kErrorDomainTransport;
+	__RE_EXPORT__ const char * const kErrorChannelKey;
 
 	/** 
 	 @brief Error object described error reason.

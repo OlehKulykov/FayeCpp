@@ -32,6 +32,7 @@ namespace FayeCpp {
 
 	const char * const kErrorDomainClient = "Faye client";
 	const char * const kErrorDomainTransport = "Faye transport";
+	const char * const kErrorChannelKey = "channel";
 
 	const REVariantMap & Error::userInfo() const
 	{
