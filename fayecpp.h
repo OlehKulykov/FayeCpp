@@ -3135,42 +3135,42 @@ namespace FayeCpp {
 	 @brief Domain for error of the client.
 	 @detailed The corresponding value is string object.
 	 */
-	__RE_EXTERN__ const char * const kErrorDomainClient;
+	__RE_EXTERN__ const char * kErrorDomainClient;
 
 
 	/**
 	 @brief Domain for error of the transport.
 	 @detailed The corresponding value is string object.
 	 */
-	__RE_EXTERN__ const char * const kErrorDomainTransport;
+	__RE_EXTERN__ const char * kErrorDomainTransport;
 
 
 	/**
 	 @brief User info key for error localized description.
 	 @detailed The corresponding localized description value is string object.
 	 */
-	__RE_EXTERN__ const char * const kErrorLocalizedDescriptionKey;
+	__RE_EXTERN__ const char * kErrorLocalizedDescriptionKey;
 
 
 	/**
 	 @brief User info key for place in the code, file, method, line.
 	 @detailed The corresponding value is string object.
 	 */
-	__RE_EXTERN__ const char * const kErrorPlaceInTheCodeKey;
+	__RE_EXTERN__ const char * kErrorPlaceInTheCodeKey;
 
 
 	/**
 	 @brief User info key for url.
 	 @detailed The corresponding URL value is string object.
 	 */
-	__RE_EXTERN__ const char * const kErrorURLKey;
+	__RE_EXTERN__ const char * kErrorURLKey;
 
 
 	/**
 	 @brief User info key for Bayeux channel.
 	 @detailed The corresponding channel value is string object.
 	 */
-	__RE_EXTERN__ const char * const kErrorChannelKey;
+	__RE_EXTERN__ const char * kErrorChannelKey;
 
 
 	/**
