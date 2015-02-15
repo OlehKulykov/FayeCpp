@@ -122,35 +122,19 @@
 #	if defined(_MSC_VER)
 #		define __RE_PUBLIC_CLASS_API__ __declspec(dllexport)
 #       define __RE_EXPORT_IMPLEMENTATION_TEMPLATE__
-//#		if defined(__cplusplus) || defined(_cplusplus)
-//#			define __RE_EXTERN__ extern "C" __declspec(dllexport)
-//#		else
-#			define __RE_EXTERN__ extern __declspec(dllexport)
-//#		endif
+#		define __RE_EXTERN__ extern __declspec(dllexport)
 #	elif defined(__GNUC__)
 #		define __RE_PUBLIC_CLASS_API__ __attribute__((dllexport))
-//#		if defined(__cplusplus) || defined(_cplusplus)
-//#			define __RE_EXTERN__ extern "C" __attribute__((dllexport))
-//#		else
-#			define __RE_EXTERN__ extern __attribute__((dllexport))
-//#		endif
+#		define __RE_EXTERN__ extern __attribute__((dllexport))
 #	endif
 #else
 #	if defined(_MSC_VER)
 #		define __RE_PUBLIC_CLASS_API__ __declspec(dllimport)
-//#		if defined(__cplusplus) || defined(_cplusplus)
-//#			define __RE_EXTERN__ extern "C" __declspec(dllimport)
-//#		else
-#			define __RE_EXTERN__ extern __declspec(dllimport)
-//#		endif
+#		define __RE_EXTERN__ extern __declspec(dllimport)
 #       define __RE_EXPORT_IMPLEMENTATION_TEMPLATE__ extern
 #	elif defined(__GNUC__)
 #		define __RE_PUBLIC_CLASS_API__ __attribute__((dllimport))
-//#		if defined(__cplusplus) || defined(_cplusplus)
-//#			define __RE_EXTERN__ extern "C" __attribute__((dllimport))
-//#		else
-#			define __RE_EXTERN__ extern __attribute__((dllimport))
-//#		endif
+#		define __RE_EXTERN__ extern __attribute__((dllimport))
 #	endif
 #endif
 
@@ -165,11 +149,7 @@
 
 
 #ifndef __RE_EXTERN__
-//#	if defined(__cplusplus) || defined(_cplusplus)
-//#		define __RE_EXTERN__ extern "C"
-//#	else
-#		define __RE_EXTERN__ extern
-//#	endif
+#	define __RE_EXTERN__ extern
 #endif
 
 
