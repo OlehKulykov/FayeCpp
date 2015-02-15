@@ -42,79 +42,105 @@
 
 /**
  @brief There is no error. Empty error object.
+ @detailed Value is FayeCpp::Error::None.
  */
-FAYECPP_EXTERN NSInteger FayeCppErrorCodeNone;
+FAYECPP_EXTERN NSInteger kFayeCppErrorCodeNone;
+
 
 /**
  @brief Used for tracking unsuccessful object creation, initializations or wrong logic.
  @detailed User info map contains place in the code where error ocupared.
+ Value is FayeCpp::Error::InternalApplicationError.
  */
-FAYECPP_EXTERN NSInteger FayeCppErrorCodeInternalApplicationError;
+FAYECPP_EXTERN NSInteger kFayeCppErrorCodeInternalApplicationError;
 
 
 /**
  @brief Send buffer data extends maximum send size.
+ @detailed Value is FayeCpp::Error::SendingBufferTooLarge.
  */
-FAYECPP_EXTERN NSInteger FayeCppErrorCodeSendingBufferTooLarge;
+FAYECPP_EXTERN NSInteger kFayeCppErrorCodeSendingBufferTooLarge;
 
 
 /**
  @brief Can't connect to remote host.
+ @detailed Value is FayeCpp::Error::FailedConnectToHost.
  */
-FAYECPP_EXTERN NSInteger FayeCppErrorCodeFailedConnectToHost;
+FAYECPP_EXTERN NSInteger kFayeCppErrorCodeFailedConnectToHost;
 
 
 /**
  @brief Handshake error returned from faye server.
  @detailed Containes in handshake json responce.
  In this case used error message provided by server implementation.
+ Value is FayeCpp::Error::HandshakeBayeuxError.
  */
-FAYECPP_EXTERN NSInteger FayeCppErrorCodeHandshakeBayeuxError;
+FAYECPP_EXTERN NSInteger kFayeCppErrorCodeHandshakeBayeuxError;
 
 
 /**
  @brief Handshake error: can't find client ID.
+ @detailed Value is FayeCpp::Error::HandshakeClientIdIsEmpty.
  */
-FAYECPP_EXTERN NSInteger FayeCppErrorCodeHandshakeClientIdIsEmpty;
+FAYECPP_EXTERN NSInteger kFayeCppErrorCodeHandshakeClientIdIsEmpty;
 
 
 /**
  @brief Handshake error: supported connection types is empty.
+ @detailed Value is FayeCpp::Error::HandshakeSupportedConnectionTypesIsEmpty.
  */
-FAYECPP_EXTERN NSInteger FayeCppErrorCodeHandshakeSupportedConnectionTypesIsEmpty;
+FAYECPP_EXTERN NSInteger kFayeCppErrorCodeHandshakeSupportedConnectionTypesIsEmpty;
 
 
 /**
  @brief Handshake error: implemented transport not found.
+ @detailed Value is FayeCpp::Error::HandshakeImplementedTransportNotFound.
  */
-FAYECPP_EXTERN NSInteger FayeCppErrorCodeHandshakeImplementedTransportNotFound;
+FAYECPP_EXTERN NSInteger kFayeCppErrorCodeHandshakeImplementedTransportNotFound;
 
 
 /**
  @brief Subscription error: can't locate channel.
+ @detailed Value is FayeCpp::Error::SubscriptionChannelNotFound.
  */
-FAYECPP_EXTERN NSInteger FayeCppErrorCodeSubscriptionChannelNotFound;
+FAYECPP_EXTERN NSInteger kFayeCppErrorCodeSubscriptionChannelNotFound;
 
 
 /**
  @brief Subscription error.
  @detailed Error string can be provided by server implementation or use implemented by the client.
+ Value is FayeCpp::Error::SubscriptionError.
  */
-FAYECPP_EXTERN NSInteger FayeCppErrorCodeSubscriptionError;
+FAYECPP_EXTERN NSInteger kFayeCppErrorCodeSubscriptionError;
 
 
 /**
  @brief Unsubscription error: can't locate channel.
+ @detailed Value is FayeCpp::Error::UnsubscriptionChannelNotFound.
  */
-FAYECPP_EXTERN NSInteger FayeCppErrorCodeUnsubscriptionChannelNotFound;
+FAYECPP_EXTERN NSInteger kFayeCppErrorCodeUnsubscriptionChannelNotFound;
 
 
 /**
  @brief Unsubscription error.
  @detailed Error string can be provided by server implementation or use implemented by the client.
+ Value is FayeCpp::Error::UnsubscriptionError.
  */
-FAYECPP_EXTERN NSInteger FayeCppErrorCodeUnsubscriptionError;
+FAYECPP_EXTERN NSInteger kFayeCppErrorCodeUnsubscriptionError;
 
+
+/**
+ @brief User info key for place in the code, file, method, line.
+ @detailed The corresponding value is string object.
+ */
+FAYECPP_EXTERN NSString * kFayeCppErrorPlaceInTheCodeKey;
+
+
+/**
+ @brief User info key for Bayeux channel.
+ @detailed The corresponding channel value is string object.
+ */
+FAYECPP_EXTERN NSString * kFayeCppErrorChannelKey;
 
 
 /**
@@ -181,8 +207,12 @@ unsubscribedFromChannel:(NSString *) channel;
 	  receivedMessage:(NSDictionary *) message
 		  fromChannel:(NSString *) channel;
 
+
 /**
  @brief Called on faye client or transport error.
+ @detailed For the user info dictionary use NSLocalizedDescriptionKey, NSURLErrorKey
+ and keys defined above.
+ Error code also used codes defined above.
  @param client Faye client object.
  @param error Error object with localized string. See key NSLocalizedDescriptionKey.
  */

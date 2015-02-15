@@ -31,18 +31,21 @@
 
 #include <fayecpp.h>
 
-NSInteger FayeCppErrorCodeNone = FayeCpp::Error::None;
-NSInteger FayeCppErrorCodeInternalApplicationError = FayeCpp::Error::InternalApplicationError;
-NSInteger FayeCppErrorCodeSendingBufferTooLarge = FayeCpp::Error::SendingBufferTooLarge;
-NSInteger FayeCppErrorCodeFailedConnectToHost = FayeCpp::Error::FailedConnectToHost;
-NSInteger FayeCppErrorCodeHandshakeBayeuxError = FayeCpp::Error::HandshakeBayeuxError;
-NSInteger FayeCppErrorCodeHandshakeClientIdIsEmpty = FayeCpp::Error::HandshakeClientIdIsEmpty;
-NSInteger FayeCppErrorCodeHandshakeSupportedConnectionTypesIsEmpty = FayeCpp::Error::HandshakeSupportedConnectionTypesIsEmpty;
-NSInteger FayeCppErrorCodeHandshakeImplementedTransportNotFound  = FayeCpp::Error::HandshakeImplementedTransportNotFound;
-NSInteger FayeCppErrorCodeSubscriptionChannelNotFound = FayeCpp::Error::SubscriptionChannelNotFound;
-NSInteger FayeCppErrorCodeSubscriptionError = FayeCpp::Error::SubscriptionError;
-NSInteger FayeCppErrorCodeUnsubscriptionChannelNotFound = FayeCpp::Error::UnsubscriptionChannelNotFound;
-NSInteger FayeCppErrorCodeUnsubscriptionError = FayeCpp::Error::UnsubscriptionError;
+NSInteger kFayeCppErrorCodeNone = FayeCpp::Error::None;
+NSInteger kFayeCppErrorCodeInternalApplicationError = FayeCpp::Error::InternalApplicationError;
+NSInteger kFayeCppErrorCodeSendingBufferTooLarge = FayeCpp::Error::SendingBufferTooLarge;
+NSInteger kFayeCppErrorCodeFailedConnectToHost = FayeCpp::Error::FailedConnectToHost;
+NSInteger kFayeCppErrorCodeHandshakeBayeuxError = FayeCpp::Error::HandshakeBayeuxError;
+NSInteger kFayeCppErrorCodeHandshakeClientIdIsEmpty = FayeCpp::Error::HandshakeClientIdIsEmpty;
+NSInteger kFayeCppErrorCodeHandshakeSupportedConnectionTypesIsEmpty = FayeCpp::Error::HandshakeSupportedConnectionTypesIsEmpty;
+NSInteger kFayeCppErrorCodeHandshakeImplementedTransportNotFound  = FayeCpp::Error::HandshakeImplementedTransportNotFound;
+NSInteger kFayeCppErrorCodeSubscriptionChannelNotFound = FayeCpp::Error::SubscriptionChannelNotFound;
+NSInteger kFayeCppErrorCodeSubscriptionError = FayeCpp::Error::SubscriptionError;
+NSInteger kFayeCppErrorCodeUnsubscriptionChannelNotFound = FayeCpp::Error::UnsubscriptionChannelNotFound;
+NSInteger kFayeCppErrorCodeUnsubscriptionError = FayeCpp::Error::UnsubscriptionError;
+NSString * kFayeCppErrorPlaceInTheCodeKey = @"kFayeCppErrorPlaceInTheCodeKey";
+NSString * kFayeCppErrorChannelKey = @"kFayeCppErrorChannelKey";
+
 
 using namespace FayeCpp;
 
@@ -261,10 +264,30 @@ NSError * FayeCppDelegateWrapper::objcError(Error * error)
 		REVariantMap::Iterator iterator = error->userInfo().iterator();
 		while (iterator.next())
 		{
-
+			if (iterator.key().isEqual(kErrorLocalizedDescriptionKey))
+			{
+				[userInfo setObject:FayeCppDelegateWrapper::objcString(iterator.value().toString())
+							 forKey:NSLocalizedDescriptionKey];
+			}
+			else if (iterator.key().isEqual(kErrorURLKey))
+			{
+				NSURL * url = [NSURL URLWithString:FayeCppDelegateWrapper::objcString(iterator.value().toString())];
+				if (url) [userInfo setObject:url forKey:NSURLErrorKey];
+			}
+			else if (iterator.key().isEqual(kErrorPlaceInTheCodeKey))
+			{
+				[userInfo setObject:FayeCppDelegateWrapper::objcString(iterator.value().toString())
+							 forKey:kFayeCppErrorPlaceInTheCodeKey];
+			}
+			else if (iterator.key().isEqual(kErrorChannelKey))
+			{
+				[userInfo setObject:FayeCppDelegateWrapper::objcString(iterator.value().toString())
+							 forKey:kFayeCppErrorChannelKey];
+			}
 		}
 		code = (NSInteger)error->code();
 		domain = FayeCppDelegateWrapper::objcString(error->domain());
+		if ([userInfo count] == 0) userInfo = nil;
 	}
 	else
 	{
