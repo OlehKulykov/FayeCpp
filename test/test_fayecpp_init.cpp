@@ -53,6 +53,10 @@
 #define CA_SERTIFICATE_FILE_PATH "ca.crt"
 #endif
 
+#ifndef SAFE_DELETE
+#define SAFE_DELETE(o) if(o){delete o;o=NULL;}
+#endif
+
 using namespace FayeCpp;
 
 class FayeDelegate;
@@ -343,13 +347,43 @@ int testDelete()
 	return EXIT_SUCCESS;
 }
 
+int testExternUserInfo()
+{
+	REVariantMap info;
+
+	info[kErrorLocalizedDescriptionKey] = kErrorLocalizedDescriptionKey;
+	info[kErrorPlaceInTheCodeKey] = kErrorPlaceInTheCodeKey;
+	info[kErrorURLKey] = kErrorURLKey;
+	info[kErrorChannelKey] = kErrorChannelKey;
+
+	REVariant * result = info.findTypedValue(kErrorLocalizedDescriptionKey, REVariant::TypeString);
+	if (!result) return 1;
+
+	result = info.findTypedValue(kErrorPlaceInTheCodeKey, REVariant::TypeString);
+	if (!result) return 2;
+
+	result = info.findTypedValue(kErrorURLKey, REVariant::TypeString);
+	if (!result) return 3;
+
+	result = info.findTypedValue(kErrorChannelKey, REVariant::TypeString);
+	if (!result) return 4;
+
+	return EXIT_SUCCESS;
+}
+
 int testExterns()
 {
-	Error error(kErrorDomainClient, 0, REVariantMap());
-
-	if ( !error.domain().isEqual(kErrorDomainClient) )
+	Error * error = new Error(kErrorDomainClient, 0, REVariantMap());
+	if (error && !error->domain().isEqual(kErrorDomainClient))
 	{
 		return 1;
+	}
+
+	SAFE_DELETE(error)
+	error = new Error(kErrorDomainTransport, 0, REVariantMap());
+	if (error && !error->domain().isEqual(kErrorDomainTransport))
+	{
+		return 2;
 	}
 
 	return EXIT_SUCCESS;
@@ -380,6 +414,10 @@ int main(int argc, char* argv[])
 	assert(testCreate2() == EXIT_SUCCESS);
 	assert(testDelete2() == EXIT_SUCCESS);
 	RELog::log("Test create2 OK");
+
+	RELog::log("Test extern user info ...");
+	assert(testExternUserInfo() == EXIT_SUCCESS);
+	RELog::log("Test extern user info OK");
 
 	RELog::log("Test externs ...");
 	assert(testExterns() == EXIT_SUCCESS);

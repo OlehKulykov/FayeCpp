@@ -122,35 +122,35 @@
 #	if defined(_MSC_VER)
 #		define __RE_PUBLIC_CLASS_API__ __declspec(dllexport)
 #       define __RE_EXPORT_IMPLEMENTATION_TEMPLATE__
-#		if defined(__cplusplus) || defined(_cplusplus)
-#			define __RE_EXTERN__ extern "C" __declspec(dllexport)
-#		else
+//#		if defined(__cplusplus) || defined(_cplusplus)
+//#			define __RE_EXTERN__ extern "C" __declspec(dllexport)
+//#		else
 #			define __RE_EXTERN__ extern __declspec(dllexport)
-#		endif
+//#		endif
 #	elif defined(__GNUC__)
 #		define __RE_PUBLIC_CLASS_API__ __attribute__((dllexport))
-#		if defined(__cplusplus) || defined(_cplusplus)
-#			define __RE_EXTERN__ extern "C" __attribute__((dllexport))
-#		else
+//#		if defined(__cplusplus) || defined(_cplusplus)
+//#			define __RE_EXTERN__ extern "C" __attribute__((dllexport))
+//#		else
 #			define __RE_EXTERN__ extern __attribute__((dllexport))
-#		endif
+//#		endif
 #	endif
 #else
 #	if defined(_MSC_VER)
 #		define __RE_PUBLIC_CLASS_API__ __declspec(dllimport)
-#		if defined(__cplusplus) || defined(_cplusplus)
-#			define __RE_EXTERN__ extern "C" __declspec(dllimport)
-#		else
+//#		if defined(__cplusplus) || defined(_cplusplus)
+//#			define __RE_EXTERN__ extern "C" __declspec(dllimport)
+//#		else
 #			define __RE_EXTERN__ extern __declspec(dllimport)
-#		endif
+//#		endif
 #       define __RE_EXPORT_IMPLEMENTATION_TEMPLATE__ extern
 #	elif defined(__GNUC__)
 #		define __RE_PUBLIC_CLASS_API__ __attribute__((dllimport))
-#		if defined(__cplusplus) || defined(_cplusplus)
-#			define __RE_EXTERN__ extern "C" __attribute__((dllimport))
-#		else
+//#		if defined(__cplusplus) || defined(_cplusplus)
+//#			define __RE_EXTERN__ extern "C" __attribute__((dllimport))
+//#		else
 #			define __RE_EXTERN__ extern __attribute__((dllimport))
-#		endif
+//#		endif
 #	endif
 #endif
 
@@ -165,11 +165,11 @@
 
 
 #ifndef __RE_EXTERN__
-#	if defined(__cplusplus) || defined(_cplusplus)
-#		define __RE_EXTERN__ extern "C"
-#	else
+//#	if defined(__cplusplus) || defined(_cplusplus)
+//#		define __RE_EXTERN__ extern "C"
+//#	else
 #		define __RE_EXTERN__ extern
-#	endif
+//#	endif
 #endif
 
 
