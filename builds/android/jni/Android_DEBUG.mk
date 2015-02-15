@@ -31,6 +31,7 @@ ALL_SOURCES := \
 	../../../jansson/src/utf.c \
 	../../../jansson/src/value.c \
 	../../../src/client.cpp \
+	../../../src/error.cpp \
 	../../../src/jsonutils.cpp \
 	../../../src/message.cpp \
 	../../../src/REBuffer.cpp \

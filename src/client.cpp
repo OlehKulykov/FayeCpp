@@ -187,6 +187,8 @@ namespace FayeCpp {
 	{
 		if (_delegate)
 		{
+			REVariantMap userInfo;
+			Error(kErrorDomainClient, Error::InternalApplicationError, userInfo);
 			if (message->errorString())	_delegate->onFayeErrorString(this, *message->errorString());
 			else _delegate->onFayeErrorString(this, REString("Internal application error."));
 		}

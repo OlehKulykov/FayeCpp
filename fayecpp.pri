@@ -36,6 +36,7 @@ DEPENDPATH += $$PWD
 
 ## FayeCpp sources
 SOURCES += $$PWD/src/client.cpp \
+           $$PWD/src/error.cpp \
            $$PWD/src/jsonutils.cpp \
            $$PWD/src/message.cpp \
            $$PWD/src/REBuffer.cpp \

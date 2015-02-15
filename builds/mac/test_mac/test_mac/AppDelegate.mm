@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include <thread>
 
-#define OBJC_CLIENT 1
+//#define OBJC_CLIENT 1
 
 class FayeDelegate;
 
@@ -29,44 +29,34 @@ class FayeDelegate : public FayeCpp::Delegate
 public:
 	virtual void onFayeTransportConnected(FayeCpp::Client * client)
 	{
-//		dispatch_async(dispatch_get_main_queue(), ^{
-			FayeCpp::RELog::log("DELEGATE onFayeTransportConnected");
-//		});
+		FayeCpp::RELog::log("DELEGATE onFayeTransportConnected");
 	}
 	
 	virtual void onFayeTransportDisconnected(FayeCpp::Client * client)
 	{
-//		dispatch_async(dispatch_get_main_queue(), ^{
-			FayeCpp::RELog::log("DELEGATE onFayeTransportDisconnected");
-			
-			NSLog(@"Try reconnect.");
-			client->connect();
-			client->subscribeToChannel("/seminars/5322e93d8ee60a422400008f");
-			client->subscribeToChannel("/seminars_service/5322e93d8ee60a422400008f");
-			NSLog(@"Done reconnect.");
-//		});
+		FayeCpp::RELog::log("DELEGATE onFayeTransportDisconnected");
+
+		FayeCpp::RELog::log("Try reconnect.");
+		client->connect();
+		client->subscribeToChannel("/seminars/5322e93d8ee60a422400008f");
+		client->subscribeToChannel("/seminars_service/5322e93d8ee60a422400008f");
+		FayeCpp::RELog::log("Done reconnect.");
 	}
-	
+
 	virtual void onFayeClientConnected(FayeCpp::Client * client)
 	{
-		dispatch_async(dispatch_get_main_queue(), ^{
-			FayeCpp::RELog::log("DELEGATE onFayeClientConnected");
-		});
+		FayeCpp::RELog::log("DELEGATE onFayeClientConnected");
 	}
 	
 	virtual void onFayeClientDisconnected(FayeCpp::Client * client)
 	{
-		dispatch_async(dispatch_get_main_queue(), ^{
-			FayeCpp::RELog::log("DELEGATE onFayeClientDisconnected");
-		});
+		FayeCpp::RELog::log("DELEGATE onFayeClientDisconnected");
 	}
 	
 	virtual void onFayeClientSubscribedToChannel(FayeCpp::Client * client, 
 												 const FayeCpp::REString & channel)
 	{
-		dispatch_async(dispatch_get_main_queue(), ^{
-			FayeCpp::RELog::log("DELEGATE onFayeClientSubscribedToChannel");
-		});
+		FayeCpp::RELog::log("DELEGATE onFayeClientSubscribedToChannel");
 	}
 	
 	virtual void onFayeClientUnsubscribedFromChannel(FayeCpp::Client * client, 
@@ -81,35 +71,26 @@ public:
 														const FayeCpp::REVariantMap & message, 
 														const FayeCpp::REString & channel)
 	{
-		dispatch_async(dispatch_get_main_queue(), ^{
-			FayeCpp::RELog::log("DELEGATE onFayeClientReceivedMessageFromChannel");
-		});
+		FayeCpp::RELog::log("DELEGATE onFayeClientReceivedMessageFromChannel");
 	}
 	
 	virtual void onFayeClientWillSendMessage(FayeCpp::Client * client,
 											 FayeCpp::REVariantMap & message)
 	{
-		dispatch_async(dispatch_get_main_queue(), ^{
-			FayeCpp::RELog::log("DELEGATE onFayeClientWillSendMessage");
-		});
+		FayeCpp::RELog::log("DELEGATE onFayeClientWillSendMessage");
 	}
 	
 	virtual void onFayeClientWillReceiveMessage(FayeCpp::Client * client, 
 												FayeCpp::REVariantMap & message)
 	{
-		dispatch_async(dispatch_get_main_queue(), ^{
-			FayeCpp::RELog::log("DELEGATE onFayeClientWillReceiveMessage");
-		});
+		FayeCpp::RELog::log("DELEGATE onFayeClientWillReceiveMessage");
 	}
 	
 	virtual void onFayeErrorString(FayeCpp::Client * client,
 								   const FayeCpp::REString & errorString)
 	{
-		dispatch_async(dispatch_get_main_queue(), ^{
-			FayeCpp::RELog::log("DELEGATE ERROR: %s", errorString.UTF8String());
-		});
+		FayeCpp::RELog::log("DELEGATE ERROR: %s", errorString.UTF8String());
 	}
-	
 	
 	FayeDelegate() { }
 	virtual ~FayeDelegate() { }

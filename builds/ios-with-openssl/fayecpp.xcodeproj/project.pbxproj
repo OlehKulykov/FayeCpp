@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3D0E0C361A90DEF600E8C0A9 /* error.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D0E0C351A90DEF600E8C0A9 /* error.cpp */; };
 		3D12B482194AF31000B8E9D9 /* client.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B467194AF31000B8E9D9 /* client.cpp */; };
 		3D12B483194AF31000B8E9D9 /* jsonutils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B468194AF31000B8E9D9 /* jsonutils.cpp */; };
 		3D12B484194AF31000B8E9D9 /* message.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B46A194AF31000B8E9D9 /* message.cpp */; };
@@ -72,6 +73,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3D0E0C351A90DEF600E8C0A9 /* error.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = error.cpp; path = ../../src/error.cpp; sourceTree = "<group>"; };
 		3D12B466194AF31000B8E9D9 /* classmethodwrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = classmethodwrapper.h; path = ../../src/classmethodwrapper.h; sourceTree = "<group>"; };
 		3D12B467194AF31000B8E9D9 /* client.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = client.cpp; path = ../../src/client.cpp; sourceTree = "<group>"; };
 		3D12B468194AF31000B8E9D9 /* jsonutils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = jsonutils.cpp; path = ../../src/jsonutils.cpp; sourceTree = "<group>"; };
@@ -232,6 +234,7 @@
 			children = (
 				3D12B466194AF31000B8E9D9 /* classmethodwrapper.h */,
 				3D12B467194AF31000B8E9D9 /* client.cpp */,
+				3D0E0C351A90DEF600E8C0A9 /* error.cpp */,
 				3D12B468194AF31000B8E9D9 /* jsonutils.cpp */,
 				3D12B469194AF31000B8E9D9 /* jsonutils.h */,
 				3D12B46A194AF31000B8E9D9 /* message.cpp */,
@@ -321,6 +324,7 @@
 				3D8CB8DD1948996200943B53 /* utf.c in Sources */,
 				3DAD75FD1A32FEA40054F999 /* alloc.c in Sources */,
 				3DF2CAFB1A496715003005FC /* REVariant.cpp in Sources */,
+				3D0E0C361A90DEF600E8C0A9 /* error.cpp in Sources */,
 				3D8CB8D51948996200943B53 /* error.c in Sources */,
 				3D50938B194D0AFF000EF310 /* RELog.cpp in Sources */,
 				3D8CB8D81948996200943B53 /* load.c in Sources */,

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3D0E0C341A90DEC100E8C0A9 /* error.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D0E0C331A90DEC100E8C0A9 /* error.cpp */; };
 		3D12B482194AF31000B8E9D9 /* client.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B467194AF31000B8E9D9 /* client.cpp */; };
 		3D12B483194AF31000B8E9D9 /* jsonutils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B468194AF31000B8E9D9 /* jsonutils.cpp */; };
 		3D12B484194AF31000B8E9D9 /* message.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B46A194AF31000B8E9D9 /* message.cpp */; };
@@ -70,6 +71,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3D0E0C331A90DEC100E8C0A9 /* error.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = error.cpp; path = ../../src/error.cpp; sourceTree = "<group>"; };
 		3D12B466194AF31000B8E9D9 /* classmethodwrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = classmethodwrapper.h; path = ../../src/classmethodwrapper.h; sourceTree = "<group>"; };
 		3D12B467194AF31000B8E9D9 /* client.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = client.cpp; path = ../../src/client.cpp; sourceTree = "<group>"; };
 		3D12B468194AF31000B8E9D9 /* jsonutils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = jsonutils.cpp; path = ../../src/jsonutils.cpp; sourceTree = "<group>"; };
@@ -226,6 +228,7 @@
 			children = (
 				3D12B466194AF31000B8E9D9 /* classmethodwrapper.h */,
 				3D12B467194AF31000B8E9D9 /* client.cpp */,
+				3D0E0C331A90DEC100E8C0A9 /* error.cpp */,
 				3D12B468194AF31000B8E9D9 /* jsonutils.cpp */,
 				3D12B469194AF31000B8E9D9 /* jsonutils.h */,
 				3D12B46A194AF31000B8E9D9 /* message.cpp */,
@@ -331,6 +334,7 @@
 				3D8CB8B81948994500943B53 /* client-handshake.c in Sources */,
 				3D12B48C194AF31000B8E9D9 /* REStringList.cpp in Sources */,
 				3D8CB8D91948996200943B53 /* memory.c in Sources */,
+				3D0E0C341A90DEC100E8C0A9 /* error.cpp in Sources */,
 				3D12B484194AF31000B8E9D9 /* message.cpp in Sources */,
 				3D8CB8DC1948996200943B53 /* strconv.c in Sources */,
 				3D12B490194AF31000B8E9D9 /* transport.cpp in Sources */,

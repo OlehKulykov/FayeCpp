@@ -111,6 +111,13 @@
 #endif
 
 
+#if defined(__cplusplus) || defined(_cplusplus)
+#define __RE_EXTERN__ extern "C"
+#else
+#define __RE_EXTERN__ extern
+#endif
+
+
 #if defined(__RE_OS_WINDOWS__) && !defined(HAVE_SUITABLE_QT_VERSION)
 #include <windows.h>
 
@@ -118,6 +125,7 @@
 #	if defined(_MSC_VER)
 #		define __RE_PUBLIC_CLASS_API__ __declspec(dllexport)
 #       define __RE_EXPORT_IMPLEMENTATION_TEMPLATE__
+#       define __RE_EXPORT__ __RE_EXTERN__ __declspec(dllexport)
 #	elif defined(__GNUC__)
 #		define __RE_PUBLIC_CLASS_API__ __attribute__((dllexport))
 #	endif
@@ -125,6 +133,7 @@
 #	if defined(_MSC_VER)
 #		define __RE_PUBLIC_CLASS_API__ __declspec(dllimport)
 #       define __RE_EXPORT_IMPLEMENTATION_TEMPLATE__ extern
+#       define __RE_EXPORT__ __RE_EXTERN__ __declspec(dllimport)
 #	elif defined(__GNUC__)
 #		define __RE_PUBLIC_CLASS_API__ __attribute__((dllimport))
 #	endif
@@ -137,6 +146,11 @@
 #	if __GNUC__ >= 4
 #		define __RE_PUBLIC_CLASS_API__ __attribute__ ((visibility("default")))
 #	endif
+#endif
+
+
+#ifndef __RE_EXPORT__
+#	define __RE_EXPORT__  __RE_EXTERN__
 #endif
 
 
@@ -2996,8 +3010,144 @@ namespace FayeCpp {
 		virtual ~REVariant();
 	};
 
+
 	/**
-	  @brief Faye clent object.
+	 @brief Class of the variant map. Keys is string objects and values is variants.
+	 */
+	class __RE_PUBLIC_CLASS_API__ REVariantMap : public REMap<REString, REVariant>
+	{
+	public:
+		/**
+		 @brief Locates pointer of the variant object by C string key with specific variant type of the value.
+		 @param key C string of the key.
+		 @param type Type of the finded value.
+		 @return Pointer of the variant value or NULL if not finded or wrong type.
+		 */
+		REVariant * findTypedValue(const char * key, const REVariant::VariantType type) const;
+
+
+		/**
+		 @brief Locates pointer of the variant object by wide string key with specific variant type of the value.
+		 @param key Wide string of the key.
+		 @param type Type of the finded value.
+		 @return Pointer of the variant value or NULL if not finded or wrong type.
+		 */
+		REVariant * findTypedValue(const wchar_t * key, const REVariant::VariantType type) const;
+
+
+		/**
+		 @brief Locates pointer of the variant object by string object key with specific variant type of the value.
+		 @param key String object of the key.
+		 @param type Type of the finded value.
+		 @return Pointer of the variant value or NULL if not finded or wrong type.
+		 */
+		REVariant * findTypedValue(const REString & key, const REVariant::VariantType type) const;
+
+
+		/**
+		 @brief Getter operator with key.
+		 @param key String key.
+		 */
+		const REVariant operator[](const char * key) const;
+
+
+		/**
+		 @brief Getter operator with key.
+		 @param key String key.
+		 */
+		const REVariant operator[](const wchar_t * key) const;
+
+
+		/**
+		 @brief Getter operator with key.
+		 @param key String key.
+		 */
+		const REVariant operator[](const REString & key) const;
+
+
+		/**
+		 @brief Getter operator with key.
+		 @param key String key.
+		 */
+		REVariant & operator[](const char * key);
+
+
+		/**
+		 @brief Getter operator with key.
+		 @param key String key.
+		 */
+		REVariant & operator[](const wchar_t * key);
+
+
+		/**
+		 @brief Getter operator with key.
+		 @param key String key.
+		 */
+		REVariant & operator[](const REString & key);
+
+
+		/**
+		 @brief Add key/values from another map.
+		 @param map Map object.
+		 */
+		REVariantMap & operator=(const REVariantMap & map);
+
+
+		/**
+		 @brief Contructs map with keys/values from another map.
+		 */
+		REVariantMap(const REVariantMap & map);
+
+
+		/**
+		 @brief Constructs empty map.
+		 */
+		REVariantMap();
+
+
+		/**
+		 @brief Default virtual destructor.
+		 */
+		virtual ~REVariantMap();
+	};
+
+	__RE_EXPORT__ const char * const kErrorDomainClient;
+	__RE_EXPORT__ const char * const kErrorDomainTransport;
+
+	/** 
+	 @brief Error object described error reason.
+	 */
+	class __RE_PUBLIC_CLASS_API__ Error
+	{
+	private:
+		REVariantMap _userInfo;
+		REString _domain;
+		int _code;
+
+	public:
+		typedef enum _errorCode
+		{
+			InternalApplicationError = -777000
+
+		} ErrorCode;
+
+		const REVariantMap & userInfo() const;
+
+		/**
+		 Faye client, Faye transport
+		 */
+		REString domain() const;
+		REString localizedDescription() const;
+		int code() const;
+
+		Error(const REString & domain, int code, const REVariantMap & info);
+		Error();
+		virtual ~Error();
+	};
+
+
+	/**
+	 @brief Faye clent object.
 	 */
 	class __RE_PUBLIC_CLASS_API__ Client
 	{
@@ -3319,107 +3469,6 @@ namespace FayeCpp {
 		 @return Pointer to the C string with client library information.
 		 */
 		static const char * info();
-	};
-
-	
-	/**
-	 @brief Class of the variant map. Keys is string objects and values is variants.
-	 */
-	class __RE_PUBLIC_CLASS_API__ REVariantMap : public REMap<REString, REVariant>
-	{
-	public:
-		/**
-		 @brief Locates pointer of the variant object by C string key with specific variant type of the value.
-		 @param key C string of the key.
-		 @param type Type of the finded value.
-		 @return Pointer of the variant value or NULL if not finded or wrong type.
-		 */
-		REVariant * findTypedValue(const char * key, const REVariant::VariantType type) const;
-		
-		
-		/**
-		 @brief Locates pointer of the variant object by wide string key with specific variant type of the value.
-		 @param key Wide string of the key.
-		 @param type Type of the finded value.
-		 @return Pointer of the variant value or NULL if not finded or wrong type.
-		 */
-		REVariant * findTypedValue(const wchar_t * key, const REVariant::VariantType type) const;
-		
-		
-		/**
-		 @brief Locates pointer of the variant object by string object key with specific variant type of the value.
-		 @param key String object of the key.
-		 @param type Type of the finded value.
-		 @return Pointer of the variant value or NULL if not finded or wrong type.
-		 */
-		REVariant * findTypedValue(const REString & key, const REVariant::VariantType type) const;
-		
-		
-		/**
-		 @brief Getter operator with key.
-		 @param key String key.
-		 */
-		const REVariant operator[](const char * key) const;
-		
-		
-		/**
-		 @brief Getter operator with key.
-		 @param key String key.
-		 */
-		const REVariant operator[](const wchar_t * key) const;
-		
-		
-		/**
-		 @brief Getter operator with key.
-		 @param key String key.
-		 */
-		const REVariant operator[](const REString & key) const;
-		
-		
-		/**
-		 @brief Getter operator with key.
-		 @param key String key.
-		 */
-		REVariant & operator[](const char * key);
-		
-		
-		/**
-		 @brief Getter operator with key.
-		 @param key String key.
-		 */
-		REVariant & operator[](const wchar_t * key);
-		
-		
-		/**
-		 @brief Getter operator with key.
-		 @param key String key.
-		 */
-		REVariant & operator[](const REString & key);
-		
-		
-		/**
-		 @brief Add key/values from another map.
-		 @param map Map object.
-		 */
-		REVariantMap & operator=(const REVariantMap & map);
-		
-		
-		/**
-		 @brief Contructs map with keys/values from another map.
-		 */
-		REVariantMap(const REVariantMap & map);
-		
-		
-		/**
-		 @brief Constructs empty map.
-		 */
-		REVariantMap();
-		
-		
-		/**
-		 @brief Default virtual destructor.
-		 */
-		virtual ~REVariantMap();
 	};
 	
 	

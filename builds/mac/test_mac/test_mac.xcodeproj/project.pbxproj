@@ -69,6 +69,7 @@
 		3D85BCC219F3DEA70057DAEC /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830851987C9D80038CD79 /* AppDelegate.mm */; };
 		3D85BCC319F3DEAC0057DAEC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D08307E1987C9D80038CD79 /* main.m */; };
 		3DAD75F91A32F8900054F999 /* alloc.c in Sources */ = {isa = PBXBuildFile; fileRef = 3DAD75F81A32F8900054F999 /* alloc.c */; };
+		3DBF97B21A90D323006DE817 /* error.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DBF97B11A90D323006DE817 /* error.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -167,6 +168,7 @@
 		3D3045E019EE859300D8B163 /* test_fayecpp_header.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = test_fayecpp_header.cpp; path = ../../../../test/test_fayecpp_header.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		3D3045E219EE88A600D8B163 /* test_fayecpp_init.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = test_fayecpp_init.cpp; path = ../../../../test/test_fayecpp_init.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		3DAD75F81A32F8900054F999 /* alloc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = alloc.c; path = ../../../../libwebsockets/lib/alloc.c; sourceTree = "<group>"; };
+		3DBF97B11A90D323006DE817 /* error.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = error.cpp; path = ../../../../src/error.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -347,6 +349,7 @@
 				3D0830E61987CB4E0038CD79 /* RELog.cpp */,
 				3D0830E81987CB4E0038CD79 /* classmethodwrapper.h */,
 				3D0830E91987CB4E0038CD79 /* client.cpp */,
+				3DBF97B11A90D323006DE817 /* error.cpp */,
 				3D0830EA1987CB4E0038CD79 /* jsonutils.h */,
 				3D0830EB1987CB4E0038CD79 /* jsonutils.cpp */,
 				3D0830EC1987CB4E0038CD79 /* message.cpp */,
@@ -480,6 +483,7 @@
 			files = (
 				3D08310D1987CB4E0038CD79 /* REStringBase.cpp in Sources */,
 				3D0830C81987CB160038CD79 /* output.c in Sources */,
+				3DBF97B21A90D323006DE817 /* error.cpp in Sources */,
 				3D08310B1987CB4E0038CD79 /* REStaticString.cpp in Sources */,
 				3D85BCC219F3DEA70057DAEC /* AppDelegate.mm in Sources */,
 				3D0831121987CB4E0038CD79 /* transport.cpp in Sources */,
