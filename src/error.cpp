@@ -30,12 +30,12 @@
 
 namespace FayeCpp {
 
-	const char * const kErrorDomainClient = "Faye client";
-	const char * const kErrorDomainTransport = "Faye transport";
-	const char * const kErrorLocalizedDescriptionKey = "localizedDescription";
-	const char * const kErrorPlaceInTheCodeKey = "placeInTheCode";
-	const char * const kErrorURLKey = "url";
-	const char * const kErrorChannelKey = "channel";
+	__RE_EXTERN__ const char * const kErrorDomainClient = "Faye client";
+	__RE_EXTERN__ const char * const kErrorDomainTransport = "Faye transport";
+	__RE_EXTERN__ const char * const kErrorLocalizedDescriptionKey = "localizedDescription";
+	__RE_EXTERN__ const char * const kErrorPlaceInTheCodeKey = "placeInTheCode";
+	__RE_EXTERN__ const char * const kErrorURLKey = "url";
+	__RE_EXTERN__ const char * const kErrorChannelKey = "channel";
 
 	bool Error::isExists() const
 	{
