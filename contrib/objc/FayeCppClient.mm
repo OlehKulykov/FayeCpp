@@ -31,6 +31,19 @@
 
 #include <fayecpp.h>
 
+NSInteger FayeCppErrorCodeNone = FayeCpp::Error::None;
+NSInteger FayeCppErrorCodeInternalApplicationError = FayeCpp::Error::InternalApplicationError;
+NSInteger FayeCppErrorCodeSendingBufferTooLarge = FayeCpp::Error::SendingBufferTooLarge;
+NSInteger FayeCppErrorCodeFailedConnectToHost = FayeCpp::Error::FailedConnectToHost;
+NSInteger FayeCppErrorCodeHandshakeBayeuxError = FayeCpp::Error::HandshakeBayeuxError;
+NSInteger FayeCppErrorCodeHandshakeClientIdIsEmpty = FayeCpp::Error::HandshakeClientIdIsEmpty;
+NSInteger FayeCppErrorCodeHandshakeSupportedConnectionTypesIsEmpty = FayeCpp::Error::HandshakeSupportedConnectionTypesIsEmpty;
+NSInteger FayeCppErrorCodeHandshakeImplementedTransportNotFound  = FayeCpp::Error::HandshakeImplementedTransportNotFound;
+NSInteger FayeCppErrorCodeSubscriptionChannelNotFound = FayeCpp::Error::SubscriptionChannelNotFound;
+NSInteger FayeCppErrorCodeSubscriptionError = FayeCpp::Error::SubscriptionError;
+NSInteger FayeCppErrorCodeUnsubscriptionChannelNotFound = FayeCpp::Error::UnsubscriptionChannelNotFound;
+NSInteger FayeCppErrorCodeUnsubscriptionError = FayeCpp::Error::UnsubscriptionError;
+
 using namespace FayeCpp;
 
 class FayeCppClientSSLDataSourceWrapper : public SSLDataSource
@@ -210,10 +223,8 @@ public:
 		id<FayeCppClientDelegate> d = objcClient ? [objcClient delegate] : nil;
 		if (d && [d respondsToSelector:@selector(onFayeClient:error:)])
 		{
-			NSString * errString = FayeCppDelegateWrapper::objcString(errorString);
-			NSError * error = [NSError errorWithDomain:@"Faye client"
-												  code:-1
-											  userInfo:errString ? [NSDictionary dictionaryWithObject:errString forKey:NSLocalizedDescriptionKey] : nil];
+			NSError * error = FayeCppDelegateWrapper::objcError(client->lastError());
+
 			dispatch_async(dispatch_get_main_queue(), ^{
 				[d onFayeClient:objcClient error:error];
 			});
@@ -234,9 +245,34 @@ public:
 	static id objcObject(const REVariant & variant);
 	static NSMutableArray * objcArray(const REVariantList & list);
 	static NSMutableDictionary * objcDict(const REVariantMap & map);
+	static NSError * objcError(Error * error);
 	static void objcDictToMap(NSDictionary * dict, REVariantMap & map);
 	static REVariant objcObjectToVariant(id object);
 };
+
+NSError * FayeCppDelegateWrapper::objcError(Error * error)
+{
+	NSMutableDictionary * userInfo = nil;
+	NSInteger code = (NSInteger)kCFHostErrorUnknown;
+	NSString * domain = nil;
+	if (error)
+	{
+		userInfo = [NSMutableDictionary dictionary];
+		REVariantMap::Iterator iterator = error->userInfo().iterator();
+		while (iterator.next())
+		{
+
+		}
+		code = (NSInteger)error->code();
+		domain = FayeCppDelegateWrapper::objcString(error->domain());
+	}
+	else
+	{
+		domain = [NSString stringWithUTF8String:kErrorDomainClient];
+	}
+
+	return [NSError errorWithDomain:domain code:code userInfo:userInfo];
+}
 
 id FayeCppDelegateWrapper::objcObject(const REVariant & variant)
 {

@@ -131,19 +131,11 @@ namespace FayeCpp {
 		if (_processMethod) _processMethod->invokeWithPointer(&message);
 	}
 	
-	void Transport::onError(const REString & error)
+	void Transport::onError(const Error & error)
 	{
-		FAYECPP_DEBUG_LOGA("TRANSPORT ERROR: %s", error.UTF8String())
+		FAYECPP_DEBUG_LOG("TRANSPORT ERROR")
 		
-		Responce message(Responce::ResponceTransportError); message.setErrorString(error);
-		if (_processMethod) _processMethod->invokeWithPointer(&message);
-	}
-	
-	void Transport::onError(const char * error)
-	{
-		FAYECPP_DEBUG_LOGA("TRANSPORT ERROR: %s", error)
-		
-		Responce message(Responce::ResponceTransportError); message.setErrorString(error);
+		Responce message(Responce::ResponceTransportError); message.setError(error);
 		if (_processMethod) _processMethod->invokeWithPointer(&message);
 	}
 

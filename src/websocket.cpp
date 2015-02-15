@@ -29,6 +29,24 @@
 #include <stdlib.h>
 #include <string.h>
 
+
+#if !defined(__FUNCTION__)
+#if defined(__func__)
+#define __FUNCTION__ __func__
+#else
+#define NO__FUNCTION__
+#endif
+#endif
+
+#ifndef ERROR_LINE_INFO_STRING
+#ifdef NO__FUNCTION__
+#define ERROR_LINE_INFO_STRING REString::createWithFormat("File: %s, line: %i", __FILE__, (int)__LINE__)
+#else
+#define ERROR_LINE_INFO_STRING REString::createWithFormat("File: %s, function: %s, line: %i", __FILE__, __FUNCTION__, (int)__LINE__)
+#endif
+#endif
+
+
 namespace FayeCpp {
 
 #if defined(HAVE_PTHREAD_H)			
@@ -260,7 +278,12 @@ namespace FayeCpp {
 	{
 		if (dataSize > MAX_ECHO_PAYLOAD) 
 		{
-			this->onError(REString::createWithFormat("Error sending %u bytes. Can't send more than %i bytes.", (unsigned int)dataSize, (int)MAX_ECHO_PAYLOAD));
+			REVariantMap info;
+			info[kErrorPlaceInTheCodeKey] = ERROR_LINE_INFO_STRING;
+			REString format = Error::localizedStringForErrorCode(Error::SendingBufferTooLarge);
+			info[kErrorLocalizedDescriptionKey] = REString::createWithFormat(format.UTF8String(), (unsigned int)dataSize, (int)MAX_ECHO_PAYLOAD);
+
+			this->onError(Error(kErrorDomainTransport, Error::SendingBufferTooLarge, info));
 			return;
 		}
 		
@@ -285,7 +308,13 @@ namespace FayeCpp {
 		
 		UNLOCK_MUTEX(&_mutex)
 		
-		if (isError) this->onError("Can't send buffer data");
+		if (isError)
+		{
+			REVariantMap info;
+			info[kErrorPlaceInTheCodeKey] = ERROR_LINE_INFO_STRING;
+			info[kErrorLocalizedDescriptionKey] = Error::localizedStringForErrorCode(Error::InternalApplicationError);
+			this->onError(Error(kErrorDomainTransport, Error::InternalApplicationError, info));
+		}
 	}
 	
 	void WebSocket::sendData(const unsigned char * data, const REUInt32 dataSize)
@@ -485,8 +514,11 @@ namespace FayeCpp {
 		if (!_context)
 		{
 			UNLOCK_MUTEX(&_mutex)
-			
-			this->onError("Socket initialization failed");
+
+			REVariantMap info;
+			info[kErrorPlaceInTheCodeKey] = ERROR_LINE_INFO_STRING;
+			info[kErrorLocalizedDescriptionKey] = Error::localizedStringForErrorCode(Error::InternalApplicationError);
+			this->onError(Error(kErrorDomainTransport, Error::InternalApplicationError, info));
 			return;
 		}
 
@@ -507,8 +539,14 @@ namespace FayeCpp {
 			_context = NULL;
 			
 			UNLOCK_MUTEX(&_mutex)
-			
-			this->onError(REString::createWithFormat("Failed to connect to %s:%i", this->client()->host().UTF8String(), this->client()->port()));
+
+			REVariantMap info;
+			info[kErrorPlaceInTheCodeKey] = ERROR_LINE_INFO_STRING;
+			REString format = Error::localizedStringForErrorCode(Error::FailedConnectToHost);
+			info[kErrorLocalizedDescriptionKey] = REString::createWithFormat(format.UTF8String(), this->client()->host().UTF8String(), this->client()->port());
+			info[kErrorURLKey] = this->client()->url();
+
+			this->onError(Error(kErrorDomainTransport, Error::FailedConnectToHost, info));
 			return;
 		}
 		

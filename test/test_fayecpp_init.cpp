@@ -343,6 +343,18 @@ int testDelete()
 	return EXIT_SUCCESS;
 }
 
+int testExterns()
+{
+	Error error(kErrorDomainClient, 0, REVariantMap());
+
+	if ( !error.domain().isEqual(kErrorDomainClient) )
+	{
+		return 1;
+	}
+
+	return EXIT_SUCCESS;
+}
+
 int main(int argc, char* argv[]) 
 {
 	RELog::log("Start test");
@@ -368,6 +380,10 @@ int main(int argc, char* argv[])
 	assert(testCreate2() == EXIT_SUCCESS);
 	assert(testDelete2() == EXIT_SUCCESS);
 	RELog::log("Test create2 OK");
+
+	RELog::log("Test externs ...");
+	assert(testExterns() == EXIT_SUCCESS);
+	RELog::log("Test externs OK");
 	
 	RELog::log("All done.");
 	return EXIT_SUCCESS;

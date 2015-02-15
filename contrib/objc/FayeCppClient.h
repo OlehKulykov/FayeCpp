@@ -27,6 +27,96 @@
 @class FayeCppClient;
 
 
+#if defined(UIKIT_EXTERN)
+#define FAYECPP_EXTERN UIKIT_EXTERN
+#elif defined(FOUNDATION_EXTERN)
+#define FAYECPP_EXTERN FOUNDATION_EXTERN
+#else
+#ifdef __cplusplus
+#define FAYECPP_EXTERN extern "C"
+#else
+#define FAYECPP_EXTERN extern
+#endif
+#endif
+
+
+/**
+ @brief There is no error. Empty error object.
+ */
+FAYECPP_EXTERN NSInteger FayeCppErrorCodeNone;
+
+/**
+ @brief Used for tracking unsuccessful object creation, initializations or wrong logic.
+ @detailed User info map contains place in the code where error ocupared.
+ */
+FAYECPP_EXTERN NSInteger FayeCppErrorCodeInternalApplicationError;
+
+
+/**
+ @brief Send buffer data extends maximum send size.
+ */
+FAYECPP_EXTERN NSInteger FayeCppErrorCodeSendingBufferTooLarge;
+
+
+/**
+ @brief Can't connect to remote host.
+ */
+FAYECPP_EXTERN NSInteger FayeCppErrorCodeFailedConnectToHost;
+
+
+/**
+ @brief Handshake error returned from faye server.
+ @detailed Containes in handshake json responce.
+ In this case used error message provided by server implementation.
+ */
+FAYECPP_EXTERN NSInteger FayeCppErrorCodeHandshakeBayeuxError;
+
+
+/**
+ @brief Handshake error: can't find client ID.
+ */
+FAYECPP_EXTERN NSInteger FayeCppErrorCodeHandshakeClientIdIsEmpty;
+
+
+/**
+ @brief Handshake error: supported connection types is empty.
+ */
+FAYECPP_EXTERN NSInteger FayeCppErrorCodeHandshakeSupportedConnectionTypesIsEmpty;
+
+
+/**
+ @brief Handshake error: implemented transport not found.
+ */
+FAYECPP_EXTERN NSInteger FayeCppErrorCodeHandshakeImplementedTransportNotFound;
+
+
+/**
+ @brief Subscription error: can't locate channel.
+ */
+FAYECPP_EXTERN NSInteger FayeCppErrorCodeSubscriptionChannelNotFound;
+
+
+/**
+ @brief Subscription error.
+ @detailed Error string can be provided by server implementation or use implemented by the client.
+ */
+FAYECPP_EXTERN NSInteger FayeCppErrorCodeSubscriptionError;
+
+
+/**
+ @brief Unsubscription error: can't locate channel.
+ */
+FAYECPP_EXTERN NSInteger FayeCppErrorCodeUnsubscriptionChannelNotFound;
+
+
+/**
+ @brief Unsubscription error.
+ @detailed Error string can be provided by server implementation or use implemented by the client.
+ */
+FAYECPP_EXTERN NSInteger FayeCppErrorCodeUnsubscriptionError;
+
+
+
 /**
  @brief Objective-c FayeCpp client wrapper delegate interface.
  @detailed All delegate methods are optional and all of them called from main thread.

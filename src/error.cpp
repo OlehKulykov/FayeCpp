@@ -32,7 +32,22 @@ namespace FayeCpp {
 
 	const char * const kErrorDomainClient = "Faye client";
 	const char * const kErrorDomainTransport = "Faye transport";
+	const char * const kErrorLocalizedDescriptionKey = "localizedDescription";
+	const char * const kErrorPlaceInTheCodeKey = "placeInTheCode";
+	const char * const kErrorURLKey = "url";
 	const char * const kErrorChannelKey = "channel";
+
+	bool Error::isExists() const
+	{
+		return (_code != Error::None);
+	}
+
+	void Error::clear()
+	{
+		_userInfo.clear();
+		_domain.clear();
+		_code = Error::None;
+	}
 
 	const REVariantMap & Error::userInfo() const
 	{
@@ -46,7 +61,8 @@ namespace FayeCpp {
 
 	REString Error::localizedDescription() const
 	{
-		return REString();
+		REVariant * descr = _userInfo.findTypedValue(kErrorLocalizedDescriptionKey, REVariant::TypeString);
+		return descr ? descr->toString() : REString();
 	}
 
 	int Error::code() const
@@ -62,15 +78,70 @@ namespace FayeCpp {
 
 	}
 
-	Error::Error() :
-		_code(0)
+	Error & Error::operator=(const Error & anotherError)
 	{
+		_userInfo = anotherError._userInfo;
+		_domain = anotherError._domain;
+		_code = anotherError._code;
+		return (*this);
+	}
 
+	Error::Error(const Error & anotherError) :
+		_code(Error::None)
+	{
+		(*this) = anotherError;
 	}
 
 	Error::~Error()
 	{
 
+	}
+
+	REString Error::localizedStringForErrorCode(const ErrorCode code)
+	{
+		switch (code)
+		{
+			case InternalApplicationError:
+				return REString("Internal application error.");
+				break;
+
+			case SendingBufferTooLarge:
+				return REString("Error sending %u bytes. Can't send more than %i bytes.");
+				break;
+
+			case FailedConnectToHost:
+				return REString("Failed to connect to host %s:%i.");
+				break;
+
+			case HandshakeClientIdIsEmpty:
+				return REString("Handshake clientId is empty.");
+				break;
+
+			case HandshakeSupportedConnectionTypesIsEmpty:
+				return REString("Handshake supported connection types is empty.");
+				break;
+
+			case HandshakeImplementedTransportNotFound:
+				return REString("Can't find implemented faye transport protocol type from supported by the server:");
+				break;
+
+			case SubscriptionChannelNotFound:
+			case UnsubscriptionChannelNotFound:
+				return REString("Can't find subscription key.");
+				break;
+
+			case SubscriptionError:
+				return REString("Unsuccessful subscribing to channel: %s.");
+				break;
+
+			case UnsubscriptionError:
+				return REString("Unsuccessful unsubscribing to channel: %s.");
+				break;
+
+			default:
+				break;
+		}
+		return REString();
 	}
 
 }

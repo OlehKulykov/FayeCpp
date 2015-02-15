@@ -35,9 +35,9 @@
 
 namespace FayeCpp {
 	
-	REString * Responce::errorString() const
+	Error * Responce::error() const
 	{
-		return _errorString;
+		return _error;
 	}
 	
 	REVariantList * Responce::messageList() const
@@ -66,32 +66,13 @@ namespace FayeCpp {
 		return *this;
 	}
 	
-	Responce & Responce::setErrorString(const char * value)
+	Responce & Responce::setError(const Error & error)
 	{
-		if (_errorString) 
-		{
-			_errorString->setFromUTF8String(value);
-		}
-		else
-		{
-			_errorString = new REString(value);
-		}
+		SAFE_DELETE(_error)
+		_error = new Error(error);
 		return *this;
 	}
-	
-	Responce & Responce::setErrorString(const REString & value)
-	{
-		if (_errorString) 
-		{
-			*_errorString = value;
-		}
-		else
-		{
-			_errorString = new REString(value);
-		}
-		return *this;
-	}
-	
+
 	Responce & Responce::setMessageText(const char * text)
 	{
 		if (text) 
@@ -130,7 +111,7 @@ namespace FayeCpp {
 		_messageList(NULL),
 		_messageMap(NULL),
 		_messageBuffer(NULL),
-		_errorString(NULL),
+		_error(NULL),
 		_type(type)
 	{
 		
@@ -140,7 +121,7 @@ namespace FayeCpp {
 		_messageList(NULL),
 		_messageMap(NULL),
 		_messageBuffer(NULL),
-		_errorString(NULL),
+		_error(NULL),
 		_type(ResponceNone)
 	{
 		
@@ -151,7 +132,7 @@ namespace FayeCpp {
 		SAFE_DELETE(_messageList)
 		SAFE_DELETE(_messageMap)
 		SAFE_DELETE(_messageBuffer)
-		SAFE_DELETE(_errorString)
+		SAFE_DELETE(_error)
 	}
 	
 }

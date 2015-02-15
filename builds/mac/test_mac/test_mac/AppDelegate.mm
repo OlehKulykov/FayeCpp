@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include <thread>
 
-//#define OBJC_CLIENT 1
+#define OBJC_CLIENT 1
 
 class FayeDelegate;
 
@@ -62,9 +62,7 @@ public:
 	virtual void onFayeClientUnsubscribedFromChannel(FayeCpp::Client * client, 
 													 const FayeCpp::REString & channel)
 	{
-		dispatch_async(dispatch_get_main_queue(), ^{
-			FayeCpp::RELog::log("DELEGATE onFayeClientUnsubscribedFromChannel");
-		});
+		FayeCpp::RELog::log("DELEGATE onFayeClientUnsubscribedFromChannel");
 	}
 	
 	virtual void onFayeClientReceivedMessageFromChannel(FayeCpp::Client * client, 

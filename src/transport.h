@@ -109,8 +109,7 @@ namespace FayeCpp {
 		void onDisconnected();
 		void onTextReceived(const char * text);
 		void onDataReceived(const unsigned char * data, const size_t dataSize);
-		void onError(const REString & error);
-		void onError(const char * error);
+		void onError(const Error & error);
 		void onTransportWillSelfDestruct();
 
 	public:

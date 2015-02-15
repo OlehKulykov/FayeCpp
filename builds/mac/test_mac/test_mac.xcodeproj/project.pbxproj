@@ -66,8 +66,8 @@
 		3D08311E1987CC1B0038CD79 /* libssl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D08311D1987CC1B0038CD79 /* libssl.dylib */; };
 		3D0831251987CDE30038CD79 /* server-handshake.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D0831231987CDE30038CD79 /* server-handshake.c */; };
 		3D0831281987CE280038CD79 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D0831271987CE280038CD79 /* libcrypto.dylib */; };
+		3D0E0C381A90EB4A00E8C0A9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D08307E1987C9D80038CD79 /* main.m */; };
 		3D85BCC219F3DEA70057DAEC /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830851987C9D80038CD79 /* AppDelegate.mm */; };
-		3D85BCC319F3DEAC0057DAEC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D08307E1987C9D80038CD79 /* main.m */; };
 		3DAD75F91A32F8900054F999 /* alloc.c in Sources */ = {isa = PBXBuildFile; fileRef = 3DAD75F81A32F8900054F999 /* alloc.c */; };
 		3DBF97B21A90D323006DE817 /* error.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DBF97B11A90D323006DE817 /* error.cpp */; };
 /* End PBXBuildFile section */
@@ -522,12 +522,12 @@
 				3D0830BF1987CB160038CD79 /* client.c in Sources */,
 				3D0830C91987CB160038CD79 /* parsers.c in Sources */,
 				3D0830CA1987CB160038CD79 /* pollfd.c in Sources */,
-				3D85BCC319F3DEAC0057DAEC /* main.m in Sources */,
 				3D0830E11987CB2D0038CD79 /* strconv.c in Sources */,
 				3D0830C51987CB160038CD79 /* handshake.c in Sources */,
 				3D0831151987CB4E0038CD79 /* REVariantMap.cpp in Sources */,
 				3D0830BC1987CB160038CD79 /* base64-decode.c in Sources */,
 				3D0831251987CDE30038CD79 /* server-handshake.c in Sources */,
+				3D0E0C381A90EB4A00E8C0A9 /* main.m in Sources */,
 				3D0830C01987CB160038CD79 /* context.c in Sources */,
 				3D0831041987CB4E0038CD79 /* client.cpp in Sources */,
 				3D0830BD1987CB160038CD79 /* client-handshake.c in Sources */,

@@ -67,6 +67,23 @@
 #endif
 
 
+#if !defined(__FUNCTION__)
+#if defined(__func__)
+#define __FUNCTION__ __func__
+#else
+#define NO__FUNCTION__
+#endif
+#endif
+
+#ifndef ERROR_LINE_INFO_STRING
+#ifdef NO__FUNCTION__
+#define ERROR_LINE_INFO_STRING REString::createWithFormat("File: %s, line: %i", __FILE__, (int)__LINE__)
+#else
+#define ERROR_LINE_INFO_STRING REString::createWithFormat("File: %s, function: %s, line: %i", __FILE__, __FUNCTION__, (int)__LINE__)
+#endif
+#endif
+
+
 namespace FayeCpp {
 
 	/* Bayeux protocol constants */
@@ -91,6 +108,11 @@ namespace FayeCpp {
 	static const char * const _bayeuxExtKey = "ext";
 	static const char * const _bayeuxErrorKey = "error";
 	static const char * const _bayeuxSuccessfulKey = "successful";
+
+	Error * Client::lastError() const
+	{
+		return _lastError;
+	}
 
 	const REVariant & Client::extValue() const
 	{
@@ -135,6 +157,7 @@ namespace FayeCpp {
 	
 	void Client::processMessage(Responce * responce)
 	{
+		SAFE_DELETE(_lastError)
 		switch (responce->type())
 		{
 			case Responce::ResponceTransportConnected: this->onTransportConnected(); break;
@@ -185,13 +208,23 @@ namespace FayeCpp {
 	
 	void Client::onClientError(Responce * message)
 	{
-		if (_delegate)
+		SAFE_DELETE(_lastError)
+
+		Error * error = message->error();
+		if (error)
 		{
-			REVariantMap userInfo;
-			Error(kErrorDomainClient, Error::InternalApplicationError, userInfo);
-			if (message->errorString())	_delegate->onFayeErrorString(this, *message->errorString());
-			else _delegate->onFayeErrorString(this, REString("Internal application error."));
+			_lastError = new Error(*error);
 		}
+		else
+		{
+			REVariantMap info;
+			info[kErrorPlaceInTheCodeKey] = ERROR_LINE_INFO_STRING;
+			info[kErrorLocalizedDescriptionKey] = Error::localizedStringForErrorCode(Error::InternalApplicationError);
+			error = new Error(kErrorDomainClient, Error::InternalApplicationError, info);
+			_lastError = error;
+		}
+
+		if (_delegate) _delegate->onFayeErrorString(this, error->localizedDescription());
 	}
 	
 	void Client::onReceivedMessageOnChannel(const REVariantMap & message, const REString & channel)
@@ -208,42 +241,40 @@ namespace FayeCpp {
 	
 	void Client::onClientResponceMessageReceived(const REVariantMap & message)
 	{
-		int channelType = -1;
-		REString channel;
+		SAFE_DELETE(_lastError)
 
 		REVariantMap::Iterator i = message.iterator();
 		while (i.next()) 
 		{
 			if (i.key().isEqual(_bayeuxChannelKey))
 			{
-				channel = i.value().toString();
+				REString channel = i.value().toString();
 
-				if (channel.isEqual(_bayeuxHandshakeChannel)) channelType = 1;
-				else if (channel.isEqual(_bayeuxConnectChannel)) channelType = 2;
-				else if (channel.isEqual(_bayeuxDisconnectChannel)) channelType = 3;
-				else if (channel.isEqual(_bayeuxSubscribeChannel)) channelType = 4;
-				else if (channel.isEqual(_bayeuxUnsubscribeChannel)) channelType = 5;
-				else if (_subscribedChannels.isContaines(channel)) channelType = 6;
-			}
-			else if (i.key().isEqual(_bayeuxErrorKey))
-			{
-				if (_delegate && i.value().isString())
+				if (channel.isEqual(_bayeuxHandshakeChannel))
 				{
-					REString errorString = i.value().toString();
-					if (errorString.isNotEmpty()) _delegate->onFayeErrorString(this, errorString);
+					this->onHandshakeDone(message); return;
+				}
+				else if (channel.isEqual(_bayeuxConnectChannel))
+				{
+					this->onConnectFayeDone(message); return;
+				}
+				else if (channel.isEqual(_bayeuxDisconnectChannel))
+				{
+					this->onDisconnectFayeDone(message); return;
+				}
+				else if (channel.isEqual(_bayeuxSubscribeChannel))
+				{
+					this->onSubscriptionDone(message); return;
+				}
+				else if (channel.isEqual(_bayeuxUnsubscribeChannel))
+				{
+					this->onUnsubscribingDone(message); return;
+				}
+				else if (_subscribedChannels.isContaines(channel))
+				{
+					this->onReceivedMessageOnChannel(message, channel); return;
 				}
 			}
-		}
-
-		switch (channelType)
-		{
-			case 1: this->onHandshakeDone(message); break;
-			case 2: this->onConnectFayeDone(message); break;
-			case 3: this->onDisconnectFayeDone(message); break;
-			case 4: this->onSubscriptionDone(message); break;
-			case 5: this->onUnsubscribingDone(message); break;
-			case 6: this->onReceivedMessageOnChannel(message, channel); break;
-			default: FAYECPP_DEBUG_LOG("Unprocessed message") break;
 		}
 	}
 
@@ -268,6 +299,8 @@ namespace FayeCpp {
 	
 	void Client::onClientResponceReceived(Responce * responce)
 	{
+		SAFE_DELETE(_lastError)
+
 		if (responce->messageMap()) 
 		{
 			this->onClientResponceMessageReceived(*responce->messageMap());
@@ -279,7 +312,14 @@ namespace FayeCpp {
 		if (responce->messageBuffer())
 		{
 			FAYECPP_DEBUG_LOG("Client responce error: unknown responce data.")
-			if (_delegate) _delegate->onFayeErrorString(this, REString("Client responce error: unknown responce data."));
+
+			REVariantMap info;
+			info[kErrorPlaceInTheCodeKey] = ERROR_LINE_INFO_STRING;
+			info[kErrorLocalizedDescriptionKey] = Error::localizedStringForErrorCode(Error::InternalApplicationError);
+			Error * error = new Error(kErrorDomainClient, Error::InternalApplicationError, info);
+			_lastError = error;
+
+			if (_delegate && error) _delegate->onFayeErrorString(this, error->localizedDescription());
 		}
 	}
 	
@@ -450,7 +490,8 @@ namespace FayeCpp {
 	void Client::onHandshakeDone(const REVariantMap & message)
 	{
 		FAYECPP_DEBUG_LOG("Client: onHandshakeDone")
-		
+		SAFE_DELETE(_lastError)
+		REString errorString;
 		REVariantMap::Iterator i = message.iterator();
 		while (i.next()) 
 		{
@@ -463,11 +504,31 @@ namespace FayeCpp {
 				REVariantList::Iterator j = i.value().toList().iterator();
 				while (j.next()) _supportedConnectionTypes.add(j.value().toString());
 			}
+			else if (i.key().isEqual(_bayeuxErrorKey) && i.value().isString())
+			{
+				errorString = i.value().toString();
+			}
 		}
-		
+
+		if (errorString.isNotEmpty())
+		{
+			REVariantMap info;
+			info[kErrorPlaceInTheCodeKey] = ERROR_LINE_INFO_STRING;
+			info[kErrorLocalizedDescriptionKey] = errorString;
+			Error * error = new Error(kErrorDomainClient, Error::HandshakeBayeuxError, info);
+			_lastError = error;
+			if (_delegate && error) _delegate->onFayeErrorString(this, error->localizedDescription());
+			return;
+		}
+
 		if (_clientId.isEmpty()) 
 		{
-			if (_delegate) _delegate->onFayeErrorString(this, REString("Handshake clientId is empty."));
+			REVariantMap info;
+			info[kErrorPlaceInTheCodeKey] = ERROR_LINE_INFO_STRING;
+			info[kErrorLocalizedDescriptionKey] = Error::localizedStringForErrorCode(Error::HandshakeClientIdIsEmpty);
+			Error * error = new Error(kErrorDomainClient, Error::HandshakeClientIdIsEmpty, info);
+			_lastError = error;
+			if (_delegate && error) _delegate->onFayeErrorString(this, error->localizedDescription());
 			return;
 		}
 
@@ -475,7 +536,12 @@ namespace FayeCpp {
 		
 		if (_supportedConnectionTypes.isEmpty()) 
 		{
-			if (_delegate) _delegate->onFayeErrorString(this, REString("Handshake supported connection types is empty."));
+			REVariantMap info;
+			info[kErrorPlaceInTheCodeKey] = ERROR_LINE_INFO_STRING;
+			info[kErrorLocalizedDescriptionKey] = Error::localizedStringForErrorCode(Error::HandshakeSupportedConnectionTypesIsEmpty);
+			Error * error = new Error(kErrorDomainClient, Error::HandshakeSupportedConnectionTypesIsEmpty, info);
+			_lastError = error;
+			if (_delegate && error) _delegate->onFayeErrorString(this, error->localizedDescription());
 			return;
 		}
 		
@@ -495,20 +561,24 @@ namespace FayeCpp {
 		}
 		else
 		{
-			if (_delegate)
+			REMutableString errorString = Error::localizedStringForErrorCode(Error::HandshakeImplementedTransportNotFound);
+			unsigned int index = 0;
+			j = _supportedConnectionTypes.iterator();
+			while (j.next())
 			{
-				REMutableString error("Can't find implemented faye transport protocol type from supported by the server: [");
-				unsigned int index = 0;
-				j = _supportedConnectionTypes.iterator();
-				while (i.next()) 
-				{
-					if (index) error.append(", ");
-					error.append(i.value().toString());
-					index++;
-				}
-				error.append("]");
-				_delegate->onFayeErrorString(this, error);
+				if (index) errorString.append(", ");
+				else errorString.append(" [");
+				errorString.append(j.value());
+				index++;
 			}
+			errorString.append("]");
+
+			REVariantMap info;
+			info[kErrorPlaceInTheCodeKey] = ERROR_LINE_INFO_STRING;
+			info[kErrorLocalizedDescriptionKey] = errorString;
+			Error * error = new Error(kErrorDomainClient, Error::HandshakeImplementedTransportNotFound, info);
+			_lastError = error;
+			if (_delegate && error) _delegate->onFayeErrorString(this, error->localizedDescription());
 		}
 	}
 	
@@ -598,11 +668,18 @@ namespace FayeCpp {
 	
 	void Client::onSubscriptionDone(const REVariantMap & message)
 	{
+		SAFE_DELETE(_lastError)
 		REVariant * channel = message.findTypedValue(_bayeuxSubscriptionKey, REVariant::TypeString);
 		if (!channel) 
 		{
 			FAYECPP_DEBUG_LOG("Client subscription error: can't find subscription key.")
-			if (_delegate) _delegate->onFayeErrorString(this, REString("Subscription error: can't find subscription key."));
+
+			REVariantMap info;
+			info[kErrorPlaceInTheCodeKey] = ERROR_LINE_INFO_STRING;
+			info[kErrorLocalizedDescriptionKey] = Error::localizedStringForErrorCode(Error::SubscriptionChannelNotFound);
+			Error * error = new Error(kErrorDomainClient, Error::SubscriptionChannelNotFound, info);
+			_lastError = error;
+			if (_delegate && error) _delegate->onFayeErrorString(this, error->localizedDescription());
 			return;
 		}
 
@@ -633,18 +710,42 @@ namespace FayeCpp {
 			else
 			{
 				FAYECPP_DEBUG_LOGA("Client: Unsuccessful subscribing to channel: %s", channel->toString().UTF8String())
-				if (_delegate) _delegate->onFayeErrorString(this, REString::createWithFormat("Subscription error: Unsuccessful subscribing to channel: %s", channel->toString().UTF8String()));
+
+				REString errorString;
+				REVariant * errorVariant = message.findTypedValue(_bayeuxErrorKey, REVariant::TypeString);
+				if (errorVariant)
+				{
+					errorString = errorVariant->toString();
+				}
+				else
+				{
+					REString format = Error::localizedStringForErrorCode(Error::SubscriptionError);
+					errorString = REString::createWithFormat(format.UTF8String(), channel->toString().UTF8String());
+				}
+
+				REVariantMap info;
+				info[kErrorPlaceInTheCodeKey] = ERROR_LINE_INFO_STRING;
+				info[kErrorLocalizedDescriptionKey] = errorString;
+				info[kErrorChannelKey] = channel->toString();
+				Error * error = new Error(kErrorDomainClient, Error::SubscriptionError, info);
+				_lastError = error;
+				if (_delegate && error) _delegate->onFayeErrorString(this, errorString);
 			}
 		}
 	}
 	
 	void Client::onUnsubscribingDone(const REVariantMap & message)
 	{
+		SAFE_DELETE(_lastError)
 		REVariant * channel = message.findTypedValue(_bayeuxSubscriptionKey, REVariant::TypeString);
 		if (!channel) 
 		{
-			FAYECPP_DEBUG_LOG("Client unsubscribe error: can't locate subscription key.")
-			if (_delegate) _delegate->onFayeErrorString(this, REString("Client unsubscribe error: can't locate subscription key."));
+			REVariantMap info;
+			info[kErrorPlaceInTheCodeKey] = ERROR_LINE_INFO_STRING;
+			info[kErrorLocalizedDescriptionKey] = Error::localizedStringForErrorCode(Error::UnsubscriptionChannelNotFound);
+			Error * error = new Error(kErrorDomainClient, Error::UnsubscriptionChannelNotFound, info);
+			_lastError = error;
+			if (_delegate && error) _delegate->onFayeErrorString(this, error->localizedDescription());
 			return;
 		}
 		
@@ -664,7 +765,26 @@ namespace FayeCpp {
 		else
 		{
 			FAYECPP_DEBUG_LOGA("Client: Unsuccessful unsubscribing to channel: %s", channel->toString().UTF8String())
-			if (_delegate) _delegate->onFayeErrorString(this, REString::createWithFormat("Client unsubscribe error: Unsuccessful unsubscribing to channel: %s", channel->toString().UTF8String()));
+
+			REString errorString;
+			REVariant * errorVariant = message.findTypedValue(_bayeuxErrorKey, REVariant::TypeString);
+			if (errorVariant)
+			{
+				errorString = errorVariant->toString();
+			}
+			else
+			{
+				REString format = Error::localizedStringForErrorCode(Error::UnsubscriptionError);
+				errorString = REString::createWithFormat(format.UTF8String(), channel->toString().UTF8String());
+			}
+
+			REVariantMap info;
+			info[kErrorPlaceInTheCodeKey] = ERROR_LINE_INFO_STRING;
+			info[kErrorLocalizedDescriptionKey] = errorString;
+			info[kErrorChannelKey] = channel->toString();
+			Error * error = new Error(kErrorDomainClient, Error::UnsubscriptionError, info);
+			_lastError = error;
+			if (_delegate && error) _delegate->onFayeErrorString(this, errorString);
 		}
 	}
 	
@@ -777,6 +897,8 @@ namespace FayeCpp {
 			mes[_bayeuxIdKey] = (unsigned long long)Client::nextMessageId();
 			if (_extValue.type() != REVariant::TypeNone) mes[_bayeuxExtKey] = _extValue;
 
+			if (_delegate) _delegate->onFayeClientWillSendMessage(this, mes);
+
 			return this->sendText(JsonGenerator(mes).string());
 		}
 		return false;
@@ -786,6 +908,7 @@ namespace FayeCpp {
 		_transport(NULL),
 		_delegate(NULL),
 		_sslDataSource(NULL),
+		_lastError(NULL),
 		_port(0),
 		_isUseSSL(false),
 		_isFayeConnected(false),
@@ -798,6 +921,8 @@ namespace FayeCpp {
 	Client::~Client()
 	{
 		FAYECPP_DEBUG_LOG("Client: descructor ~Client() ...")
+
+		SAFE_DELETE(_lastError)
 
 		_delegate = NULL;
 

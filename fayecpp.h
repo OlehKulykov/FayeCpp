@@ -27,7 +27,11 @@
 /*
  *   Faye C++ client main and one header file.
  *   All class interfaces added to namespace, preventing include files mess.
- *   Changes on version 0.1.7 (current):
+ *
+ *   Changes on version 0.1.8 (current):
+ *   - Added additional error processing with new Error class.
+ *
+ *   Changes on version 0.1.7:
  *   - Minor libwebsockets fixes.
  *   - Added error processing of received messages.
  *   - Client transport based on Libwebsockets can automatically self destruct on socket error.
@@ -68,7 +72,7 @@
 
 #define FAYECPP_VERSION_MAJOR 0
 #define FAYECPP_VERSION_MINOR 1
-#define FAYECPP_VERSION_PATCH 7
+#define FAYECPP_VERSION_PATCH 8
 
 
 #if !defined(HAVE_SUITABLE_QT_VERSION) 
@@ -3111,11 +3115,50 @@ namespace FayeCpp {
 		virtual ~REVariantMap();
 	};
 
+
+	/**
+	 @brief Domain for error of the client.
+	 @detailed The corresponding value is string object.
+	 */
 	__RE_EXPORT__ const char * const kErrorDomainClient;
+
+
+	/**
+	 @brief Domain for error of the transport.
+	 @detailed The corresponding value is string object.
+	 */
 	__RE_EXPORT__ const char * const kErrorDomainTransport;
+
+
+	/**
+	 @brief User info key for error localized description.
+	 @detailed The corresponding localized description value is string object.
+	 */
+	__RE_EXPORT__ const char * const kErrorLocalizedDescriptionKey;
+
+
+	/**
+	 @brief User info key for place in the code, file, method, line.
+	 @detailed The corresponding value is string object.
+	 */
+	__RE_EXPORT__ const char * const kErrorPlaceInTheCodeKey;
+
+
+	/**
+	 @brief User info key for url.
+	 @detailed The corresponding URL value is string object.
+	 */
+	__RE_EXPORT__ const char * const kErrorURLKey;
+
+
+	/**
+	 @brief User info key for Bayeux channel.
+	 @detailed The corresponding channel value is string object.
+	 */
 	__RE_EXPORT__ const char * const kErrorChannelKey;
 
-	/** 
+
+	/**
 	 @brief Error object described error reason.
 	 */
 	class __RE_PUBLIC_CLASS_API__ Error
@@ -3126,24 +3169,173 @@ namespace FayeCpp {
 		int _code;
 
 	public:
+		/**
+		 @brief Error codes used by transport and by the client.
+		 @detailed Used int as type and used negative codes out of 16bit range
+		 for prevent of duplicates with other potentual system/other libs codes.
+		 */
 		typedef enum _errorCode
 		{
-			InternalApplicationError = -777000
+			/**
+			 @brief There is no error. Empty error object.
+			 */
+			None = 0,
 
-		} ErrorCode;
+			/**
+			 @brief Used for tracking unsuccessful object creation, initializations or wrong logic.
+			 @detailed User info map contains place in the code where error ocupared.
+			 */
+			InternalApplicationError = -777000,
 
-		const REVariantMap & userInfo() const;
+
+			/**
+			 @brief Send buffer data extends maximum send size.
+			 */
+			SendingBufferTooLarge = -777001,
+
+
+			/**
+			 @brief Can't connect to remote host.
+			 */
+			FailedConnectToHost = -777002,
+
+
+			/**
+			 @brief Handshake error returned from faye server.
+			 @detailed Containes in handshake json responce. 
+			 In this case used error message provided by server implementation.
+			 */
+			HandshakeBayeuxError = -777003,
+
+
+			/**
+			 @brief Handshake error: can't find client ID.
+			 */
+			HandshakeClientIdIsEmpty = -777004,
+
+
+			/**
+			 @brief Handshake error: supported connection types is empty.
+			 */
+			HandshakeSupportedConnectionTypesIsEmpty = -777005,
+
+
+			/**
+			 @brief Handshake error: implemented transport not found.
+			 */
+			HandshakeImplementedTransportNotFound = -777006,
+
+
+			/**
+			 @brief Subscription error: can't locate channel.
+			 */
+			SubscriptionChannelNotFound = -777007,
+
+
+			/**
+			 @brief Subscription error.
+			 @detailed Error string can be provided by server implementation or use implemented by the client.
+			 */
+			SubscriptionError = -777008,
+
+
+			/**
+			 @brief Unsubscription error: can't locate channel.
+			 */
+			UnsubscriptionChannelNotFound = -777009,
+
+
+			/**
+			 @brief Unsubscription error.
+			 @detailed Error string can be provided by server implementation or use implemented by the client.
+			 */
+			UnsubscriptionError = -777010
+
+		}
+		/**
+		 @brief Error codes used by transport and by the client.
+		 @detailed Used int as type and used negative codes out of 16bit range
+		 for prevent of duplicates with other potentual system/other libs codes.
+		 */
+		ErrorCode;
+
 
 		/**
-		 Faye client, Faye transport
+		 @brief Check is error exists.
+		 @detailed error code should not be None.
+		 */
+		bool isExists() const;
+
+
+		/**
+		 @brief Cleanup error object.
+		 */
+		void clear();
+
+
+		/**
+		 @brief Getter for the user info object.
+		 @return Address of the user info map. Use strings keys described above.
+		 */
+		const REVariantMap & userInfo() const;
+
+
+		/**
+		 @brief Domain of the error. Check error from the client of from the transport.
+		 @return String with error domain.
 		 */
 		REString domain() const;
+
+
+		/**
+		 @brief Localized error string described reason.
+		 @return String with localized description.
+		 */
 		REString localizedDescription() const;
+
+
+		/**
+		 @brief Error code.
+		 */
 		int code() const;
 
+
+		/**
+		 @brief Default copy opertor.
+		 @param anotherError The another error object.
+		 @return Address of the error object.
+		 */
+		Error & operator=(const Error & anotherError);
+
+
+		/**
+		 @brief Constructs error with all params.
+		 @param domain Error domain.
+		 @param code Error code.
+		 @param info User info map.
+		 */
 		Error(const REString & domain, int code, const REVariantMap & info);
-		Error();
+
+
+		/**
+		 @brief Constructs error object with info from another object.
+		 @param anotherError Another error object.
+		 */
+		Error(const Error & anotherError);
+
+
+		/**
+		 @brief Default virtual destructor.
+		 */
 		virtual ~Error();
+
+
+		/**
+		 @brief Converts error code to localized description or localized format error string.
+		 @param code Error code of the error.
+		 @return Localized error string or empty string.
+		 */
+		static REString localizedStringForErrorCode(const ErrorCode code);
 	};
 
 
@@ -3156,6 +3348,7 @@ namespace FayeCpp {
 		Transport * _transport;
 		Delegate * _delegate;
 		SSLDataSource * _sslDataSource;
+		Error * _lastError;
 		REString _url;
 		REString _host;
 		REString _path;
@@ -3205,6 +3398,13 @@ namespace FayeCpp {
 		static void parseURL(Client * client);
 		
 	public:
+		/**
+		 @brief Last occurred error object address.
+		 @detailed This error updates before informing delegate about error.
+		 */
+		Error * lastError() const;
+
+
 		/**
 		 @brief Constant getter for an ext message field which MAY be included in any Bayeux message.
 		 @detailed By default this value is empty(type() is REVariant::TypeNone)
@@ -3658,7 +3858,7 @@ namespace FayeCpp {
 		REVariantList * _messageList;
 		REVariantMap * _messageMap;
 		REBuffer * _messageBuffer;
-		REString * _errorString;
+		Error * _error;
 		ResponceType _type;
 		
 	public:
@@ -3666,7 +3866,7 @@ namespace FayeCpp {
 		 @brief Get message error string pointer.
 		 @return String pointer or NULL.
 		 */
-		REString * errorString() const;
+		Error * error() const;
 		
 		
 		/**
@@ -3703,23 +3903,15 @@ namespace FayeCpp {
 		 @return Address of this message object.
 		 */
 		Responce & setType(Responce::ResponceType type);
-		
-		
-		/**
-		 @brief Setter for message error string.
-		 @param value C error string.
-		 @return Address of this message object.
-		 */
-		Responce & setErrorString(const char * value);
-		
+
 		
 		/**
-		 @brief Setter for message error string.
-		 @param value Error string object.
+		 @brief Setter for error object.
+		 @param value Error object or NULL.
 		 @return Address of this message object.
 		 */
-		Responce & setErrorString(const REString & value);
-		
+		Responce & setError(const Error & error);
+
 		
 		/**
 		 @brief Setter for message text.
