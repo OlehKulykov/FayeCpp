@@ -20,6 +20,8 @@ include_directories(${PROJECT_BINARY_DIR})
 
 link_directories(${PROJECT_BINARY_DIR})
 
+remove_definitions(-DCMAKE_BUILD)
+
 check_include_file("curl/curl.h" HAVE_CURL_CURL_H)
 find_package(CURL)
 

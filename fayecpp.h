@@ -128,40 +128,18 @@
 #if defined(CMAKE_BUILD) || defined(__BUILDING_RECORE_DYNAMIC_LIBRARY__)
 #	if defined(_MSC_VER)
 #		define __RE_PUBLIC_CLASS_API__ __declspec(dllexport)
-#       define __RE_EXPORT_IMPLEMENTATION_TEMPLATE__
-#		define __RE_EXPORT__ __RE_EXTERN__ __declspec(dllexport)
-//#		if defined(__cplusplus) || defined(_cplusplus)
-//#			define __RE_EXTERN__ extern "C" __declspec(dllexport)
-//#		else
-//#			define __RE_EXTERN__ extern __declspec(dllexport)
-//#		endif
+#		define __RE_EXPORT__ __RE_EXTERN__ __declspec(dllexport) 
 #	elif defined(__GNUC__)
 #		define __RE_PUBLIC_CLASS_API__ __attribute__((dllexport))
-#		define __RE_EXPORT__ __RE_EXTERN__ __attribute__((dllexport))
-//#		if defined(__cplusplus) || defined(_cplusplus)
-//#			define __RE_EXTERN__ extern "C" __attribute__((dllexport))
-//#		else
-//#			define __RE_EXTERN__ extern __attribute__((dllexport))
-//#		endif
+#		define __RE_EXPORT__ __RE_EXTERN__ __attribute__((dllexport)) 
 #	endif
 #else
 #	if defined(_MSC_VER)
 #		define __RE_PUBLIC_CLASS_API__ __declspec(dllimport)
-#		define __RE_EXPORT__ __RE_EXTERN__ __declspec(dllimport)
-//#		if defined(__cplusplus) || defined(_cplusplus)
-//#			define __RE_EXTERN__ extern "C" __declspec(dllimport)
-//#		else
-//#			define __RE_EXTERN__ extern __declspec(dllimport)
-//#		endif
-#       define __RE_EXPORT_IMPLEMENTATION_TEMPLATE__ extern
+#		define __RE_EXPORT__ __RE_EXTERN__ __declspec(dllimport) 
 #	elif defined(__GNUC__)
 #		define __RE_PUBLIC_CLASS_API__ __attribute__((dllimport))
-#		define __RE_EXPORT__ __RE_EXTERN__ __attribute__((dllimport))
-//#		if defined(__cplusplus) || defined(_cplusplus)
-//#			define __RE_EXTERN__ extern "C" __attribute__((dllimport))
-//#		else
-//#			define __RE_EXTERN__ extern __attribute__((dllimport))
-//#		endif
+#		define __RE_EXPORT__ __RE_EXTERN__ __attribute__((dllimport)) 
 #	endif
 #endif
 
@@ -182,11 +160,6 @@
 
 #ifndef __RE_PUBLIC_CLASS_API__
 #define __RE_PUBLIC_CLASS_API__
-#endif
-
-
-#ifndef __RE_EXPORT_IMPLEMENTATION_TEMPLATE__
-#define __RE_EXPORT_IMPLEMENTATION_TEMPLATE__
 #endif
 
 
@@ -417,12 +390,7 @@ namespace FayeCpp {
 	class REVariantMap;
 	class REVariant;
 
-	/*
-#if defined(__RE_OS_WINDOWS__) && defined(_MSC_VER)
-	__RE_EXPORT_IMPLEMENTATION_TEMPLATE__ template class __RE_PUBLIC_CLASS_API__ std::map<std::string, FayeCpp::Variant>;
-#endif
-	*/
-	
+
 	/**
 	 @brief Class template of autopointer.
 	 @detailed Holds created pointer and delete when it's need, usually when no referecnces to pointer.

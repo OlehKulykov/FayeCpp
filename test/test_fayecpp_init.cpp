@@ -23,6 +23,16 @@
 
 #include <stdlib.h>
 #include <assert.h>
+
+#if defined(CMAKE_BUILD)
+#undef CMAKE_BUILD
+#endif
+
+#if defined(__BUILDING_RECORE_DYNAMIC_LIBRARY__)
+#undef __BUILDING_RECORE_DYNAMIC_LIBRARY__
+#endif
+
+
 #include <fayecpp.h>
 
 #ifndef CLIENT_URL_WS
