@@ -3159,13 +3159,6 @@ namespace FayeCpp {
 		int _code;
 
 	public:
-//		static REStaticString kErrorDomainClient();
-//		static REStaticString kErrorDomainTransport();
-//		static REStaticString kErrorLocalizedDescriptionKey();
-//		static REStaticString kErrorPlaceInTheCodeKey();
-//		static REStaticString kErrorURLKey();
-//		static REStaticString kErrorChannelKey();
-
 		/**
 		 @brief Error codes used by transport and by the client.
 		 @detailed Used int as type and used negative codes out of 16bit range
