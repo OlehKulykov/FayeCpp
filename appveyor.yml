@@ -51,6 +51,7 @@ build_script:
   - cmake -DCMAKE_INSTALL_PREFIX:PATH=c:\dev\FayeCpp\fayecpp-install-dir -DLWS_WITH_SSL:BOOL=OFF -DLWS_SSL_CLIENT_USE_OS_CA_CERTS:BOOL=OFF -DLWS_USE_CYASSL:BOOL=OFF -DLWS_WITHOUT_SERVER:BOOL=ON -DLWS_WITHOUT_DAEMONIZE:BOOL=ON -DCMAKE_BUILD_TYPE=Release -G%CMAKE_GENERATOR_STRING% -DFAYECPP_BUILD_NUMBER=%APPVEYOR_BUILD_NUMBER% ..
   - msbuild /m /p:Configuration=Release /p:Platform=%MSBUILD_PLATFORM_STRING% FayeCpp.sln
   - cmd: cmake --build c:\dev\FayeCpp\build --config RELEASE --target INSTALL
+  - cmd: cmake --build c:\dev\FayeCpp\build --config RELEASE --target RUN_TESTS
   - cd c:\dev\FayeCpp\fayecpp-install-dir
 #  - cmd: 7za a -t7z -mx=9 -xr!cmake -xr!bin -xr!pkgconfig c:\dev\%OS%-%PLATFORM%-%APPVEYOR_REPO_BRANCH%-%APPVEYOR_BUILD_VERSION%.7z c:\dev\FayeCpp\fayecpp-install-dir
 #  - cmd: curl -k --progress-bar -i --globoff --upload-file c:\dev\%OS%-%PLATFORM%-%APPVEYOR_REPO_BRANCH%-%APPVEYOR_BUILD_VERSION%.7z "https://api-content.dropbox.com/1/files_put/sandbox/%OS%-%PLATFORM%-%APPVEYOR_REPO_BRANCH%-%APPVEYOR_BUILD_VERSION%.7z?oauth_consumer_key=1nuhuf1g5bpo7ys&oauth_token=tdo71jho02j11t65&oauth_signature_method=PLAINTEXT&oauth_signature=sh7n1j7f7wou4d1%26qszd2cgxbmle2r5"
