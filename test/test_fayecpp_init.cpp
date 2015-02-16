@@ -419,7 +419,7 @@ int main(int argc, char* argv[])
 	assert(testCreate() == EXIT_SUCCESS);
 	assert(testSSLDataSourcePaths() == EXIT_SUCCESS);
 	assert(testDelete() == EXIT_SUCCESS);
-	RELog::log("Test SSL data source paths ...");
+	RELog::log("Test SSL data source paths OK");
 	
 	RELog::log("Test create2 ...");
 	assert(testCreate2() == EXIT_SUCCESS);
