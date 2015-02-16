@@ -3106,46 +3106,46 @@ namespace FayeCpp {
 	};
 
 
-//	/**
-//	 @brief Domain for error of the client.
-//	 @detailed The corresponding value is string object.
-//	 */
-//	__RE_EXPORT__ const char * const kErrorDomainClient;
-//
-//
-//	/**
-//	 @brief Domain for error of the transport.
-//	 @detailed The corresponding value is string object.
-//	 */
-//	__RE_EXPORT__ const char * const kErrorDomainTransport;
-//
-//
-//	/**
-//	 @brief User info key for error localized description.
-//	 @detailed The corresponding localized description value is string object.
-//	 */
-//	__RE_EXPORT__ const char * const kErrorLocalizedDescriptionKey;
-//
-//
-//	/**
-//	 @brief User info key for place in the code, file, method, line.
-//	 @detailed The corresponding value is string object.
-//	 */
-//	__RE_EXPORT__ const char * const kErrorPlaceInTheCodeKey;
-//
-//
-//	/**
-//	 @brief User info key for url.
-//	 @detailed The corresponding URL value is string object.
-//	 */
-//	__RE_EXPORT__ const char * const kErrorURLKey;
-//
-//
-//	/**
-//	 @brief User info key for Bayeux channel.
-//	 @detailed The corresponding channel value is string object.
-//	 */
-//	__RE_EXPORT__ const char * const kErrorChannelKey;
+	/**
+	 @brief Domain for error of the client.
+	 @detailed The corresponding value is string object.
+	 */
+	__RE_EXPORT__ const char * const kErrorDomainClient;
+
+
+	/**
+	 @brief Domain for error of the transport.
+	 @detailed The corresponding value is string object.
+	 */
+	__RE_EXPORT__ const char * const kErrorDomainTransport;
+
+
+	/**
+	 @brief User info key for error localized description.
+	 @detailed The corresponding localized description value is string object.
+	 */
+	__RE_EXPORT__ const char * const kErrorLocalizedDescriptionKey;
+
+
+	/**
+	 @brief User info key for place in the code, file, method, line.
+	 @detailed The corresponding value is string object.
+	 */
+	__RE_EXPORT__ const char * const kErrorPlaceInTheCodeKey;
+
+
+	/**
+	 @brief User info key for url.
+	 @detailed The corresponding URL value is string object.
+	 */
+	__RE_EXPORT__ const char * const kErrorURLKey;
+
+
+	/**
+	 @brief User info key for Bayeux channel.
+	 @detailed The corresponding channel value is string object.
+	 */
+	__RE_EXPORT__ const char * const kErrorChannelKey;
 
 
 	/**
@@ -3159,12 +3159,12 @@ namespace FayeCpp {
 		int _code;
 
 	public:
-		static REStaticString kErrorDomainClient();
-		static REStaticString kErrorDomainTransport();
-		static REStaticString kErrorLocalizedDescriptionKey();
-		static REStaticString kErrorPlaceInTheCodeKey();
-		static REStaticString kErrorURLKey();
-		static REStaticString kErrorChannelKey();
+//		static REStaticString kErrorDomainClient();
+//		static REStaticString kErrorDomainTransport();
+//		static REStaticString kErrorLocalizedDescriptionKey();
+//		static REStaticString kErrorPlaceInTheCodeKey();
+//		static REStaticString kErrorURLKey();
+//		static REStaticString kErrorChannelKey();
 
 		/**
 		 @brief Error codes used by transport and by the client.

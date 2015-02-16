@@ -279,11 +279,11 @@ namespace FayeCpp {
 		if (dataSize > MAX_ECHO_PAYLOAD) 
 		{
 			REVariantMap info;
-			info[Error::kErrorPlaceInTheCodeKey()] = ERROR_LINE_INFO_STRING;
+			info[kErrorPlaceInTheCodeKey] = ERROR_LINE_INFO_STRING;
 			REString format = Error::localizedStringForErrorCode(Error::SendingBufferTooLarge);
-			info[Error::kErrorLocalizedDescriptionKey()] = REString::createWithFormat(format.UTF8String(), (unsigned int)dataSize, (int)MAX_ECHO_PAYLOAD);
+			info[kErrorLocalizedDescriptionKey] = REString::createWithFormat(format.UTF8String(), (unsigned int)dataSize, (int)MAX_ECHO_PAYLOAD);
 
-			this->onError(Error(Error::kErrorDomainTransport(), Error::SendingBufferTooLarge, info));
+			this->onError(Error(kErrorDomainTransport, Error::SendingBufferTooLarge, info));
 			return;
 		}
 		
@@ -311,9 +311,9 @@ namespace FayeCpp {
 		if (isError)
 		{
 			REVariantMap info;
-			info[Error::kErrorPlaceInTheCodeKey()] = ERROR_LINE_INFO_STRING;
-			info[Error::kErrorLocalizedDescriptionKey()] = Error::localizedStringForErrorCode(Error::InternalApplicationError);
-			this->onError(Error(Error::kErrorDomainTransport(), Error::InternalApplicationError, info));
+			info[kErrorPlaceInTheCodeKey] = ERROR_LINE_INFO_STRING;
+			info[kErrorLocalizedDescriptionKey] = Error::localizedStringForErrorCode(Error::InternalApplicationError);
+			this->onError(Error(kErrorDomainTransport, Error::InternalApplicationError, info));
 		}
 	}
 	
@@ -516,9 +516,9 @@ namespace FayeCpp {
 			UNLOCK_MUTEX(&_mutex)
 
 			REVariantMap info;
-			info[Error::kErrorPlaceInTheCodeKey()] = ERROR_LINE_INFO_STRING;
-			info[Error::kErrorLocalizedDescriptionKey()] = Error::localizedStringForErrorCode(Error::InternalApplicationError);
-			this->onError(Error(Error::kErrorDomainTransport(), Error::InternalApplicationError, info));
+			info[kErrorPlaceInTheCodeKey] = ERROR_LINE_INFO_STRING;
+			info[kErrorLocalizedDescriptionKey] = Error::localizedStringForErrorCode(Error::InternalApplicationError);
+			this->onError(Error(kErrorDomainTransport, Error::InternalApplicationError, info));
 			return;
 		}
 
@@ -541,12 +541,12 @@ namespace FayeCpp {
 			UNLOCK_MUTEX(&_mutex)
 
 			REVariantMap info;
-			info[Error::kErrorPlaceInTheCodeKey()] = ERROR_LINE_INFO_STRING;
+			info[kErrorPlaceInTheCodeKey] = ERROR_LINE_INFO_STRING;
 			REString format = Error::localizedStringForErrorCode(Error::FailedConnectToHost);
-			info[Error::kErrorLocalizedDescriptionKey()] = REString::createWithFormat(format.UTF8String(), this->client()->host().UTF8String(), this->client()->port());
-			info[Error::kErrorURLKey()] = this->client()->url();
+			info[kErrorLocalizedDescriptionKey] = REString::createWithFormat(format.UTF8String(), this->client()->host().UTF8String(), this->client()->port());
+			info[kErrorURLKey] = this->client()->url();
 
-			this->onError(Error(Error::kErrorDomainTransport(), Error::FailedConnectToHost, info));
+			this->onError(Error(kErrorDomainTransport, Error::FailedConnectToHost, info));
 			return;
 		}
 		

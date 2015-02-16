@@ -218,9 +218,9 @@ namespace FayeCpp {
 		else
 		{
 			REVariantMap info;
-			info[Error::kErrorPlaceInTheCodeKey()] = ERROR_LINE_INFO_STRING;
-			info[Error::kErrorLocalizedDescriptionKey()] = Error::localizedStringForErrorCode(Error::InternalApplicationError);
-			error = new Error(Error::kErrorDomainClient(), Error::InternalApplicationError, info);
+			info[kErrorPlaceInTheCodeKey] = ERROR_LINE_INFO_STRING;
+			info[kErrorLocalizedDescriptionKey] = Error::localizedStringForErrorCode(Error::InternalApplicationError);
+			error = new Error(kErrorDomainClient, Error::InternalApplicationError, info);
 			_lastError = error;
 		}
 
@@ -314,9 +314,9 @@ namespace FayeCpp {
 			FAYECPP_DEBUG_LOG("Client responce error: unknown responce data.")
 
 			REVariantMap info;
-			info[Error::kErrorPlaceInTheCodeKey()] = ERROR_LINE_INFO_STRING;
-			info[Error::kErrorLocalizedDescriptionKey()] = Error::localizedStringForErrorCode(Error::InternalApplicationError);
-			Error * error = new Error(Error::kErrorDomainClient(), Error::InternalApplicationError, info);
+			info[kErrorPlaceInTheCodeKey] = ERROR_LINE_INFO_STRING;
+			info[kErrorLocalizedDescriptionKey] = Error::localizedStringForErrorCode(Error::InternalApplicationError);
+			Error * error = new Error(kErrorDomainClient, Error::InternalApplicationError, info);
 			_lastError = error;
 
 			if (_delegate && error) _delegate->onFayeErrorString(this, error->localizedDescription());
@@ -513,9 +513,9 @@ namespace FayeCpp {
 		if (errorString.isNotEmpty())
 		{
 			REVariantMap info;
-			info[Error::kErrorPlaceInTheCodeKey()] = ERROR_LINE_INFO_STRING;
-			info[Error::kErrorLocalizedDescriptionKey()] = errorString;
-			Error * error = new Error(Error::kErrorDomainClient(), Error::HandshakeBayeuxError, info);
+			info[kErrorPlaceInTheCodeKey] = ERROR_LINE_INFO_STRING;
+			info[kErrorLocalizedDescriptionKey] = errorString;
+			Error * error = new Error(kErrorDomainClient, Error::HandshakeBayeuxError, info);
 			_lastError = error;
 			if (_delegate && error) _delegate->onFayeErrorString(this, error->localizedDescription());
 			return;
@@ -524,9 +524,9 @@ namespace FayeCpp {
 		if (_clientId.isEmpty()) 
 		{
 			REVariantMap info;
-			info[Error::kErrorPlaceInTheCodeKey()] = ERROR_LINE_INFO_STRING;
-			info[Error::kErrorLocalizedDescriptionKey()] = Error::localizedStringForErrorCode(Error::HandshakeClientIdIsEmpty);
-			Error * error = new Error(Error::kErrorDomainClient(), Error::HandshakeClientIdIsEmpty, info);
+			info[kErrorPlaceInTheCodeKey] = ERROR_LINE_INFO_STRING;
+			info[kErrorLocalizedDescriptionKey] = Error::localizedStringForErrorCode(Error::HandshakeClientIdIsEmpty);
+			Error * error = new Error(kErrorDomainClient, Error::HandshakeClientIdIsEmpty, info);
 			_lastError = error;
 			if (_delegate && error) _delegate->onFayeErrorString(this, error->localizedDescription());
 			return;
@@ -537,9 +537,9 @@ namespace FayeCpp {
 		if (_supportedConnectionTypes.isEmpty()) 
 		{
 			REVariantMap info;
-			info[Error::kErrorPlaceInTheCodeKey()] = ERROR_LINE_INFO_STRING;
-			info[Error::kErrorLocalizedDescriptionKey()] = Error::localizedStringForErrorCode(Error::HandshakeSupportedConnectionTypesIsEmpty);
-			Error * error = new Error(Error::kErrorDomainClient(), Error::HandshakeSupportedConnectionTypesIsEmpty, info);
+			info[kErrorPlaceInTheCodeKey] = ERROR_LINE_INFO_STRING;
+			info[kErrorLocalizedDescriptionKey] = Error::localizedStringForErrorCode(Error::HandshakeSupportedConnectionTypesIsEmpty);
+			Error * error = new Error(kErrorDomainClient, Error::HandshakeSupportedConnectionTypesIsEmpty, info);
 			_lastError = error;
 			if (_delegate && error) _delegate->onFayeErrorString(this, error->localizedDescription());
 			return;
@@ -574,9 +574,9 @@ namespace FayeCpp {
 			errorString.append("]");
 
 			REVariantMap info;
-			info[Error::kErrorPlaceInTheCodeKey()] = ERROR_LINE_INFO_STRING;
-			info[Error::kErrorLocalizedDescriptionKey()] = errorString;
-			Error * error = new Error(Error::kErrorDomainClient(), Error::HandshakeImplementedTransportNotFound, info);
+			info[kErrorPlaceInTheCodeKey] = ERROR_LINE_INFO_STRING;
+			info[kErrorLocalizedDescriptionKey] = errorString;
+			Error * error = new Error(kErrorDomainClient, Error::HandshakeImplementedTransportNotFound, info);
 			_lastError = error;
 			if (_delegate && error) _delegate->onFayeErrorString(this, error->localizedDescription());
 		}
@@ -675,9 +675,9 @@ namespace FayeCpp {
 			FAYECPP_DEBUG_LOG("Client subscription error: can't find subscription key.")
 
 			REVariantMap info;
-			info[Error::kErrorPlaceInTheCodeKey()] = ERROR_LINE_INFO_STRING;
-			info[Error::kErrorLocalizedDescriptionKey()] = Error::localizedStringForErrorCode(Error::SubscriptionChannelNotFound);
-			Error * error = new Error(Error::kErrorDomainClient(), Error::SubscriptionChannelNotFound, info);
+			info[kErrorPlaceInTheCodeKey] = ERROR_LINE_INFO_STRING;
+			info[kErrorLocalizedDescriptionKey] = Error::localizedStringForErrorCode(Error::SubscriptionChannelNotFound);
+			Error * error = new Error(kErrorDomainClient, Error::SubscriptionChannelNotFound, info);
 			_lastError = error;
 			if (_delegate && error) _delegate->onFayeErrorString(this, error->localizedDescription());
 			return;
@@ -724,10 +724,10 @@ namespace FayeCpp {
 				}
 
 				REVariantMap info;
-				info[Error::kErrorPlaceInTheCodeKey()] = ERROR_LINE_INFO_STRING;
-				info[Error::kErrorLocalizedDescriptionKey()] = errorString;
-				info[Error::kErrorChannelKey()] = channel->toString();
-				Error * error = new Error(Error::kErrorDomainClient(), Error::SubscriptionError, info);
+				info[kErrorPlaceInTheCodeKey] = ERROR_LINE_INFO_STRING;
+				info[kErrorLocalizedDescriptionKey] = errorString;
+				info[kErrorChannelKey] = channel->toString();
+				Error * error = new Error(kErrorDomainClient, Error::SubscriptionError, info);
 				_lastError = error;
 				if (_delegate && error) _delegate->onFayeErrorString(this, errorString);
 			}
@@ -741,9 +741,9 @@ namespace FayeCpp {
 		if (!channel) 
 		{
 			REVariantMap info;
-			info[Error::kErrorPlaceInTheCodeKey()] = ERROR_LINE_INFO_STRING;
-			info[Error::kErrorLocalizedDescriptionKey()] = Error::localizedStringForErrorCode(Error::UnsubscriptionChannelNotFound);
-			Error * error = new Error(Error::kErrorDomainClient(), Error::UnsubscriptionChannelNotFound, info);
+			info[kErrorPlaceInTheCodeKey] = ERROR_LINE_INFO_STRING;
+			info[kErrorLocalizedDescriptionKey] = Error::localizedStringForErrorCode(Error::UnsubscriptionChannelNotFound);
+			Error * error = new Error(kErrorDomainClient, Error::UnsubscriptionChannelNotFound, info);
 			_lastError = error;
 			if (_delegate && error) _delegate->onFayeErrorString(this, error->localizedDescription());
 			return;
@@ -779,10 +779,10 @@ namespace FayeCpp {
 			}
 
 			REVariantMap info;
-			info[Error::kErrorPlaceInTheCodeKey()] = ERROR_LINE_INFO_STRING;
-			info[Error::kErrorLocalizedDescriptionKey()] = errorString;
-			info[Error::kErrorChannelKey()] = channel->toString();
-			Error * error = new Error(Error::kErrorDomainClient(), Error::UnsubscriptionError, info);
+			info[kErrorPlaceInTheCodeKey] = ERROR_LINE_INFO_STRING;
+			info[kErrorLocalizedDescriptionKey] = errorString;
+			info[kErrorChannelKey] = channel->toString();
+			Error * error = new Error(kErrorDomainClient, Error::UnsubscriptionError, info);
 			_lastError = error;
 			if (_delegate && error) _delegate->onFayeErrorString(this, errorString);
 		}

@@ -264,22 +264,22 @@ NSError * FayeCppDelegateWrapper::objcError(Error * error)
 		REVariantMap::Iterator iterator = error->userInfo().iterator();
 		while (iterator.next())
 		{
-			if (iterator.key().isEqual(Error::kErrorLocalizedDescriptionKey()))
+			if (iterator.key().isEqual(kErrorLocalizedDescriptionKey))
 			{
 				[userInfo setObject:FayeCppDelegateWrapper::objcString(iterator.value().toString())
 							 forKey:NSLocalizedDescriptionKey];
 			}
-			else if (iterator.key().isEqual(Error::kErrorURLKey()))
+			else if (iterator.key().isEqual(kErrorURLKey))
 			{
 				NSURL * url = [NSURL URLWithString:FayeCppDelegateWrapper::objcString(iterator.value().toString())];
 				if (url) [userInfo setObject:url forKey:NSURLErrorKey];
 			}
-			else if (iterator.key().isEqual(Error::kErrorPlaceInTheCodeKey()))
+			else if (iterator.key().isEqual(kErrorPlaceInTheCodeKey))
 			{
 				[userInfo setObject:FayeCppDelegateWrapper::objcString(iterator.value().toString())
 							 forKey:kFayeCppErrorPlaceInTheCodeKey];
 			}
-			else if (iterator.key().isEqual(Error::kErrorChannelKey()))
+			else if (iterator.key().isEqual(kErrorChannelKey))
 			{
 				[userInfo setObject:FayeCppDelegateWrapper::objcString(iterator.value().toString())
 							 forKey:kFayeCppErrorChannelKey];
@@ -291,7 +291,7 @@ NSError * FayeCppDelegateWrapper::objcError(Error * error)
 	}
 	else
 	{
-		domain = [NSString stringWithUTF8String:Error::kErrorDomainClient()];
+		domain = [NSString stringWithUTF8String:kErrorDomainClient];
 	}
 
 	return [NSError errorWithDomain:domain code:code userInfo:userInfo];

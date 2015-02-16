@@ -30,19 +30,19 @@
 
 namespace FayeCpp {
 
-//	const char * const kErrorDomainClient = "Faye client";
-//	const char * const kErrorDomainTransport = "Faye transport";
-//	const char * const kErrorLocalizedDescriptionKey = "localizedDescription";
-//	const char * const kErrorPlaceInTheCodeKey = "placeInTheCode";
-//	const char * const kErrorURLKey = "url";
-//	const char * const kErrorChannelKey = "channel";
+	const char * const kErrorDomainClient = "Faye client";
+	const char * const kErrorDomainTransport = "Faye transport";
+	const char * const kErrorLocalizedDescriptionKey = "localizedDescription";
+	const char * const kErrorPlaceInTheCodeKey = "placeInTheCode";
+	const char * const kErrorURLKey = "url";
+	const char * const kErrorChannelKey = "channel";
 
-	REStaticString Error::kErrorDomainClient() { return REStaticString("Faye client"); }
-	REStaticString Error::kErrorDomainTransport() { return REStaticString("Faye transport"); }
-	REStaticString Error::kErrorLocalizedDescriptionKey() { return REStaticString("localizedDescription"); }
-	REStaticString Error::kErrorPlaceInTheCodeKey() { return REStaticString("placeInTheCode"); }
-	REStaticString Error::kErrorURLKey() { return REStaticString("url"); }
-	REStaticString Error::kErrorChannelKey() { return REStaticString("channel"); }
+//	REStaticString Error::kErrorDomainClient() { return REStaticString("Faye client"); }
+//	REStaticString Error::kErrorDomainTransport() { return REStaticString("Faye transport"); }
+//	REStaticString Error::kErrorLocalizedDescriptionKey() { return REStaticString("localizedDescription"); }
+//	REStaticString Error::kErrorPlaceInTheCodeKey() { return REStaticString("placeInTheCode"); }
+//	REStaticString Error::kErrorURLKey() { return REStaticString("url"); }
+//	REStaticString Error::kErrorChannelKey() { return REStaticString("channel"); }
 
 	bool Error::isExists() const
 	{
@@ -68,7 +68,7 @@ namespace FayeCpp {
 
 	REString Error::localizedDescription() const
 	{
-		REVariant * descr = _userInfo.findTypedValue(Error::kErrorLocalizedDescriptionKey(), REVariant::TypeString);
+		REVariant * descr = _userInfo.findTypedValue(kErrorLocalizedDescriptionKey, REVariant::TypeString);
 		return descr ? descr->toString() : REString();
 	}
 
