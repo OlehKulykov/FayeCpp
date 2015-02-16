@@ -1,32 +1,32 @@
 language: cpp
 os:
   - linux
-###  - osx
+  - osx
 
 compiler:
   - gcc
   - clang
 
 before_script:
-  - sudo apt-get install p7zip-full
+#  - sudo apt-get install p7zip-full
   - mkdir ~/fayecpp-install-dir
   - git submodule update --init --recursive
   - cd libwebsockets
   - git apply < ../libwebsockets_h.patch
   - cd ..
   - mkdir build
-  - mkdir android-ndk32
-  - mkdir android-ndk64
-  - mkdir android-ndk-10d
-  - cd android-ndk32
-  - cd ../android-ndk64
-  - cd ../android-ndk-10d
-  - curl -o ndk.tar.7z -L https://www.dropbox.com/s/hbx3ti03o3k48nx/ndk.tar.7z?raw=1
-  - 7z x ndk.tar.7z
-  - rm ndk.tar.7z
-  - tar xf ndk.tar
-  - rm ndk.tar
-  - cd ..
+#  - mkdir android-ndk32
+#  - mkdir android-ndk64
+#  - mkdir android-ndk-10d
+#  - cd android-ndk32
+#  - cd ../android-ndk64
+#  - cd ../android-ndk-10d
+#  - curl -o ndk.tar.7z -L https://www.dropbox.com/s/hbx3ti03o3k48nx/ndk.tar.7z?raw=1
+#  - 7z x ndk.tar.7z
+#  - rm ndk.tar.7z
+#  - tar xf ndk.tar
+#  - rm ndk.tar
+#  - cd ..
   - cd build
   - cmake -DCMAKE_INSTALL_PREFIX:PATH=~/fayecpp-install-dir -DCMAKE_BUILD_TYPE=Release -DFAYECPP_BUILD_NUMBER=$TRAVIS_BUILD_NUMBER ..
   - cd ..
@@ -37,23 +37,23 @@ script:
   - make
   - make test
   - make install
-  - cd ..  
-  - ./android-ndk-10d/android-ndk-r10d/ndk-build NDK_PROJECT_PATH=builds/android/
-  - cp -r builds/android/libs android-ndk-10d/
-  - rm -rf builds/android/libs
-  - rm -rf builds/android/obj
-  - mkdir android-ndk-10d/include
-  - cp fayecpp.h android-ndk-10d/include/
-  - rm -rf android-ndk-10d/android-ndk-r10d
-  - 7z a -t7z -mx=9 android-ndk-r10d-$CC-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.7z android-ndk-10d
-  - rm -rf android-ndk-10d
+#  - cd ..  
+#  - ./android-ndk-10d/android-ndk-r10d/ndk-build NDK_PROJECT_PATH=builds/android/
+#  - cp -r builds/android/libs android-ndk-10d/
+#  - rm -rf builds/android/libs
+#  - rm -rf builds/android/obj
+#  - mkdir android-ndk-10d/include
+#  - cp fayecpp.h android-ndk-10d/include/
+#  - rm -rf android-ndk-10d/android-ndk-r10d
+#  - 7z a -t7z -mx=9 android-ndk-r10d-$CC-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.7z android-ndk-10d
+#  - rm -rf android-ndk-10d
 #  - curl -k --progress-bar -i --globoff --upload-file android-ndk-r10d-$CC-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.7z "https://api-content.dropbox.com/1/files_put/sandbox/android-ndk-r10d-$CC-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.7z?oauth_consumer_key=1nuhuf1g5bpo7ys&oauth_token=tdo71jho02j11t65&oauth_signature_method=PLAINTEXT&oauth_signature=sh7n1j7f7wou4d1%26qszd2cgxbmle2r5"
-  - curl --upload-file android-ndk-r10d-$CC-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.7z --user u417192312.fayecppuser:KoF81MQeDjPuQrIq8z ftp://fayecpp.zz.vc
-  - cd ~
+#  - curl --upload-file android-ndk-r10d-$CC-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.7z --user u417192312.fayecppuser:KoF81MQeDjPuQrIq8z ftp://fayecpp.zz.vc
+#  - cd ~
 ###  - zip -r -9 -x*bin* -x*cmake* -x*pkgconfig* -x*share* $_system_name-$_system_version-$_system_arch-$CC-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.zip fayecpp-install-dir
-  - 7z a -t7z -mx=9 -xr!cmake -xr!bin -xr!pkgconfig -xr!share $_system_name-$_system_version-$_system_arch-$CC-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.7z fayecpp-install-dir
+#  - 7z a -t7z -mx=9 -xr!cmake -xr!bin -xr!pkgconfig -xr!share $_system_name-$_system_version-$_system_arch-$CC-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.7z fayecpp-install-dir
 #  - curl -k --progress-bar -i --globoff --upload-file $_system_name-$_system_version-$_system_arch-$CC-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.7z "https://api-content.dropbox.com/1/files_put/sandbox/$_system_name-$_system_version-$_system_arch-$CC-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.7z?oauth_consumer_key=1nuhuf1g5bpo7ys&oauth_token=tdo71jho02j11t65&oauth_signature_method=PLAINTEXT&oauth_signature=sh7n1j7f7wou4d1%26qszd2cgxbmle2r5"
-  - curl --upload-file $_system_name-$_system_version-$_system_arch-$CC-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.7z --user u417192312.fayecppuser:KoF81MQeDjPuQrIq8z ftp://fayecpp.zz.vc
+#  - curl --upload-file $_system_name-$_system_version-$_system_arch-$CC-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.7z --user u417192312.fayecppuser:KoF81MQeDjPuQrIq8z ftp://fayecpp.zz.vc
 
 branches:
   only:
