@@ -57,7 +57,6 @@ namespace FayeCpp {
 				}
 			}
 			CFRelease(mainBundle);
-
 			_localizedTableName = CFStringCreateWithCString(NULL, kFayeCppBundleLocalizationTableName ,kCFStringEncodingUTF8);
 		}
 
@@ -211,7 +210,7 @@ namespace FayeCpp {
 				break;
 
 			case UnsubscriptionError:
-				s = "Unsuccessful unsubscribing to channel: %s.";
+				s = "Unsuccessful unsubscribing from channel: %s.";
 				break;
 
 			default:

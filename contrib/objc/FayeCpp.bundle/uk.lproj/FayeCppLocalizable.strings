@@ -1,0 +1,19 @@
+
+"Internal application error." = "Внутрішня помилка програми.";
+
+"Error sending %u bytes. Can't send more than %i bytes." = "Помилка відправлення %u байт. Неможливо відправити біліш ніж %i байт.";
+
+"Failed to connect to host %s:%i." = "Не вдалося підключитись до віддаленого хосту %s:%i.";
+
+"Handshake clientId is empty." = "Пустий clientId під час рукостискання.";
+
+"Handshake supported connection types is empty." = "Відсутні методи підключення під час рукостискання.";
+
+"Can't find implemented faye transport protocol type from supported by the server:" = "Не вдається знайти реалізований faye транспортний протокол серед тих, що підтримуються віддаленим сервером:";
+
+"Can't find subscription key." = "Ключ підписки відсутній.";
+
+"Unsuccessful subscribing to channel: %s." = "Невдала підписка на канал: %s.";
+
+"Unsuccessful unsubscribing from channel: %s." = "Невдала відписка від каналу: %s.";
+

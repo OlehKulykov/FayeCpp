@@ -15,5 +15,5 @@
 
 "Unsuccessful subscribing to channel: %s." = "Unsuccessful subscribing to channel: %s.";
 
-"Unsuccessful unsubscribing to channel: %s." = "Unsuccessful unsubscribing to channel: %s.";
+"Unsuccessful unsubscribing from channel: %s." = "Unsuccessful unsubscribing from channel: %s.";
 

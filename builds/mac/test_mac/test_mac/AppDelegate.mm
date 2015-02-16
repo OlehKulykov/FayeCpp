@@ -223,10 +223,6 @@ using namespace FayeCpp;
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
 	// Insert code here to initialize your application
-
-	NSURL * url = [[NSBundle mainBundle] URLForResource:@"FayeCpp" withExtension:@"bundle"];
-	NSBundle * b = [NSBundle bundleWithURL:url];
-
 	NSLog(@"Client info: %s", FayeCpp::Client::info());
 }
 

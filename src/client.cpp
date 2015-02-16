@@ -769,7 +769,7 @@ namespace FayeCpp {
 		}
 		else
 		{
-			FAYECPP_DEBUG_LOGA("Client: Unsuccessful unsubscribing to channel: %s", channel->toString().UTF8String())
+			FAYECPP_DEBUG_LOGA("Client: Unsuccessful unsubscribing from channel: %s", channel->toString().UTF8String())
 
 			REString errorString;
 			REVariant * errorVariant = message.findTypedValue(_bayeuxErrorKey, REVariant::TypeString);

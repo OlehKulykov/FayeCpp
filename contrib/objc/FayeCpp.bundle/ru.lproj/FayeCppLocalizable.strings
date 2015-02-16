@@ -1,19 +1,19 @@
 
-"Internal application error." = "Internal application error.";
+"Internal application error." = "Внутренняя ошибка приложения.";
 
-"Error sending %u bytes. Can't send more than %i bytes." = "Error sending %u bytes. Can't send more than %i bytes.";
+"Error sending %u bytes. Can't send more than %i bytes." = "Ошибка отправки %u байт. Невозможно отправить более чем %i байт.";
 
-"Failed to connect to host %s:%i." = "Failed to connect to host %s:%i.";
+"Failed to connect to host %s:%i." = "Не удается подключиться в удаленному хосту %s:%i.";
 
-"Handshake clientId is empty." = "Handshake clientId is empty.";
+"Handshake clientId is empty." = "Пустой clientId во время рукопожатия.";
 
-"Handshake supported connection types is empty." = "Handshake supported connection types is empty.";
+"Handshake supported connection types is empty." = "Отсутствуют методы подключения во время рукопожатия.";
 
-"Can't find implemented faye transport protocol type from supported by the server:" = "Can't find implemented faye transport protocol type from supported by the server:";
+"Can't find implemented faye transport protocol type from supported by the server:" = "Не удается найти реализованный faye транспортный протокол среди поддерживаемых удаленным сервером:";
 
-"Can't find subscription key." = "Can't find subscription key.";
+"Can't find subscription key." = "Ключ подписки отсутствует.";
 
-"Unsuccessful subscribing to channel: %s." = "Unsuccessful subscribing to channel: %s.";
+"Unsuccessful subscribing to channel: %s." = "Неудачная подписка на канал: %s.";
 
-"Unsuccessful unsubscribing to channel: %s." = "Unsuccessful unsubscribing to channel: %s.";
+"Unsuccessful unsubscribing from channel: %s." = "Неудачная отписка от канала: %s.";
 
