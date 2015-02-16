@@ -30,12 +30,19 @@
 
 namespace FayeCpp {
 
-	const char * const kErrorDomainClient = "Faye client";
-	const char * const kErrorDomainTransport = "Faye transport";
-	const char * const kErrorLocalizedDescriptionKey = "localizedDescription";
-	const char * const kErrorPlaceInTheCodeKey = "placeInTheCode";
-	const char * const kErrorURLKey = "url";
-	const char * const kErrorChannelKey = "channel";
+//	const char * const kErrorDomainClient = "Faye client";
+//	const char * const kErrorDomainTransport = "Faye transport";
+//	const char * const kErrorLocalizedDescriptionKey = "localizedDescription";
+//	const char * const kErrorPlaceInTheCodeKey = "placeInTheCode";
+//	const char * const kErrorURLKey = "url";
+//	const char * const kErrorChannelKey = "channel";
+
+	const char * Error::kErrorDomainClient() { return "Faye client"; }
+	const char * Error::kErrorDomainTransport() { return "Faye transport"; }
+	const char * Error::kErrorLocalizedDescriptionKey() { return "localizedDescription"; }
+	const char * Error::kErrorPlaceInTheCodeKey() { return "placeInTheCode"; }
+	const char * Error::kErrorURLKey() { return "url"; }
+	const char * Error::kErrorChannelKey() { return "channel"; }
 
 	bool Error::isExists() const
 	{
@@ -61,7 +68,7 @@ namespace FayeCpp {
 
 	REString Error::localizedDescription() const
 	{
-		REVariant * descr = _userInfo.findTypedValue(kErrorLocalizedDescriptionKey, REVariant::TypeString);
+		REVariant * descr = _userInfo.findTypedValue(Error::kErrorLocalizedDescriptionKey(), REVariant::TypeString);
 		return descr ? descr->toString() : REString();
 	}
 

@@ -361,21 +361,21 @@ int testExternUserInfo()
 {
 	REVariantMap info;
 
-	info[kErrorLocalizedDescriptionKey] = kErrorLocalizedDescriptionKey;
-	info[kErrorPlaceInTheCodeKey] = kErrorPlaceInTheCodeKey;
-	info[kErrorURLKey] = kErrorURLKey;
-	info[kErrorChannelKey] = kErrorChannelKey;
+	info[Error::kErrorLocalizedDescriptionKey()] = Error::kErrorLocalizedDescriptionKey();
+	info[Error::Error::kErrorPlaceInTheCodeKey()] = Error::kErrorPlaceInTheCodeKey();
+	info[Error::kErrorURLKey()] = Error::kErrorURLKey();
+	info[Error::kErrorChannelKey()] = Error::kErrorChannelKey();
 
-	REVariant * result = info.findTypedValue(kErrorLocalizedDescriptionKey, REVariant::TypeString);
+	REVariant * result = info.findTypedValue(Error::kErrorLocalizedDescriptionKey(), REVariant::TypeString);
 	if (!result) return 1;
 
-	result = info.findTypedValue(kErrorPlaceInTheCodeKey, REVariant::TypeString);
+	result = info.findTypedValue(Error::kErrorPlaceInTheCodeKey(), REVariant::TypeString);
 	if (!result) return 2;
 
-	result = info.findTypedValue(kErrorURLKey, REVariant::TypeString);
+	result = info.findTypedValue(Error::kErrorURLKey(), REVariant::TypeString);
 	if (!result) return 3;
 
-	result = info.findTypedValue(kErrorChannelKey, REVariant::TypeString);
+	result = info.findTypedValue(Error::kErrorChannelKey(), REVariant::TypeString);
 	if (!result) return 4;
 
 	return EXIT_SUCCESS;
@@ -383,15 +383,15 @@ int testExternUserInfo()
 
 int testExterns()
 {
-	Error * error = new Error(kErrorDomainClient, 0, REVariantMap());
-	if (error && !error->domain().isEqual(kErrorDomainClient))
+	Error * error = new Error(Error::kErrorDomainClient(), 0, REVariantMap());
+	if (error && !error->domain().isEqual(Error::kErrorDomainClient()))
 	{
 		return 1;
 	}
 
 	SAFE_DELETE(error)
-	error = new Error(kErrorDomainTransport, 0, REVariantMap());
-	if (error && !error->domain().isEqual(kErrorDomainTransport))
+	error = new Error(Error::kErrorDomainTransport(), 0, REVariantMap());
+	if (error && !error->domain().isEqual(Error::kErrorDomainTransport()))
 	{
 		return 2;
 	}
