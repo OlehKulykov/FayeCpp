@@ -3159,12 +3159,12 @@ namespace FayeCpp {
 		int _code;
 
 	public:
-		static const char * kErrorDomainClient();
-		static const char * kErrorDomainTransport();
-		static const char * kErrorLocalizedDescriptionKey();
-		static const char * kErrorPlaceInTheCodeKey();
-		static const char * kErrorURLKey();
-		static const char * kErrorChannelKey();
+		static REStaticString kErrorDomainClient();
+		static REStaticString kErrorDomainTransport();
+		static REStaticString kErrorLocalizedDescriptionKey();
+		static REStaticString kErrorPlaceInTheCodeKey();
+		static REStaticString kErrorURLKey();
+		static REStaticString kErrorChannelKey();
 
 		/**
 		 @brief Error codes used by transport and by the client.

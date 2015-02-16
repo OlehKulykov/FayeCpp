@@ -37,12 +37,12 @@ namespace FayeCpp {
 //	const char * const kErrorURLKey = "url";
 //	const char * const kErrorChannelKey = "channel";
 
-	const char * Error::kErrorDomainClient() { return "Faye client"; }
-	const char * Error::kErrorDomainTransport() { return "Faye transport"; }
-	const char * Error::kErrorLocalizedDescriptionKey() { return "localizedDescription"; }
-	const char * Error::kErrorPlaceInTheCodeKey() { return "placeInTheCode"; }
-	const char * Error::kErrorURLKey() { return "url"; }
-	const char * Error::kErrorChannelKey() { return "channel"; }
+	REStaticString Error::kErrorDomainClient() { return REStaticString("Faye client"); }
+	REStaticString Error::kErrorDomainTransport() { return REStaticString("Faye transport"); }
+	REStaticString Error::kErrorLocalizedDescriptionKey() { return REStaticString("localizedDescription"); }
+	REStaticString Error::kErrorPlaceInTheCodeKey() { return REStaticString("placeInTheCode"); }
+	REStaticString Error::kErrorURLKey() { return REStaticString("url"); }
+	REStaticString Error::kErrorChannelKey() { return REStaticString("channel"); }
 
 	bool Error::isExists() const
 	{
