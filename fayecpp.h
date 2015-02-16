@@ -115,6 +115,13 @@
 #endif
 
 
+#if defined(__cplusplus) || defined(_cplusplus)
+#define __RE_EXTERN__ extern "C"
+#else
+#define __RE_EXTERN__ extern
+#endif
+
+
 #if defined(__RE_OS_WINDOWS__) && !defined(HAVE_SUITABLE_QT_VERSION)
 #include <windows.h>
 
@@ -122,35 +129,39 @@
 #	if defined(_MSC_VER)
 #		define __RE_PUBLIC_CLASS_API__ __declspec(dllexport)
 #       define __RE_EXPORT_IMPLEMENTATION_TEMPLATE__
-#		if defined(__cplusplus) || defined(_cplusplus)
-#			define __RE_EXTERN__ extern "C" __declspec(dllexport)
-#		else
-#			define __RE_EXTERN__ extern __declspec(dllexport)
-#		endif
+#		define __RE_EXPORT__ __RE_EXTERN__ __declspec(dllexport)
+//#		if defined(__cplusplus) || defined(_cplusplus)
+//#			define __RE_EXTERN__ extern "C" __declspec(dllexport)
+//#		else
+//#			define __RE_EXTERN__ extern __declspec(dllexport)
+//#		endif
 #	elif defined(__GNUC__)
 #		define __RE_PUBLIC_CLASS_API__ __attribute__((dllexport))
-#		if defined(__cplusplus) || defined(_cplusplus)
-#			define __RE_EXTERN__ extern "C" __attribute__((dllexport))
-#		else
-#			define __RE_EXTERN__ extern __attribute__((dllexport))
-#		endif
+#		define __RE_EXPORT__ __RE_EXTERN__ __attribute__((dllexport))
+//#		if defined(__cplusplus) || defined(_cplusplus)
+//#			define __RE_EXTERN__ extern "C" __attribute__((dllexport))
+//#		else
+//#			define __RE_EXTERN__ extern __attribute__((dllexport))
+//#		endif
 #	endif
 #else
 #	if defined(_MSC_VER)
 #		define __RE_PUBLIC_CLASS_API__ __declspec(dllimport)
-#		if defined(__cplusplus) || defined(_cplusplus)
-#			define __RE_EXTERN__ extern "C" __declspec(dllimport)
-#		else
-#			define __RE_EXTERN__ extern __declspec(dllimport)
-#		endif
+#		define __RE_EXPORT__ __RE_EXTERN__ __declspec(dllimport)
+//#		if defined(__cplusplus) || defined(_cplusplus)
+//#			define __RE_EXTERN__ extern "C" __declspec(dllimport)
+//#		else
+//#			define __RE_EXTERN__ extern __declspec(dllimport)
+//#		endif
 #       define __RE_EXPORT_IMPLEMENTATION_TEMPLATE__ extern
 #	elif defined(__GNUC__)
 #		define __RE_PUBLIC_CLASS_API__ __attribute__((dllimport))
-#		if defined(__cplusplus) || defined(_cplusplus)
-#			define __RE_EXTERN__ extern "C" __attribute__((dllimport))
-#		else
-#			define __RE_EXTERN__ extern __attribute__((dllimport))
-#		endif
+#		define __RE_EXPORT__ __RE_EXTERN__ __attribute__((dllimport))
+//#		if defined(__cplusplus) || defined(_cplusplus)
+//#			define __RE_EXTERN__ extern "C" __attribute__((dllimport))
+//#		else
+//#			define __RE_EXTERN__ extern __attribute__((dllimport))
+//#		endif
 #	endif
 #endif
 
@@ -164,12 +175,8 @@
 #endif
 
 
-#ifndef __RE_EXTERN__
-#	if defined(__cplusplus) || defined(_cplusplus)
-#		define __RE_EXTERN__ extern "C"
-#	else
-#		define __RE_EXTERN__ extern
-#	endif
+#ifndef __RE_EXPORT__
+#define __RE_EXPORT__ __RE_EXTERN__
 #endif
 
 
@@ -3135,42 +3142,42 @@ namespace FayeCpp {
 	 @brief Domain for error of the client.
 	 @detailed The corresponding value is string object.
 	 */
-	__RE_EXTERN__ const char * kErrorDomainClient;
+	__RE_EXPORT__ const char * const kErrorDomainClient;
 
 
 	/**
 	 @brief Domain for error of the transport.
 	 @detailed The corresponding value is string object.
 	 */
-	__RE_EXTERN__ const char * kErrorDomainTransport;
+	__RE_EXPORT__ const char * const kErrorDomainTransport;
 
 
 	/**
 	 @brief User info key for error localized description.
 	 @detailed The corresponding localized description value is string object.
 	 */
-	__RE_EXTERN__ const char * kErrorLocalizedDescriptionKey;
+	__RE_EXPORT__ const char * const kErrorLocalizedDescriptionKey;
 
 
 	/**
 	 @brief User info key for place in the code, file, method, line.
 	 @detailed The corresponding value is string object.
 	 */
-	__RE_EXTERN__ const char * kErrorPlaceInTheCodeKey;
+	__RE_EXPORT__ const char * const kErrorPlaceInTheCodeKey;
 
 
 	/**
 	 @brief User info key for url.
 	 @detailed The corresponding URL value is string object.
 	 */
-	__RE_EXTERN__ const char * kErrorURLKey;
+	__RE_EXPORT__ const char * const kErrorURLKey;
 
 
 	/**
 	 @brief User info key for Bayeux channel.
 	 @detailed The corresponding channel value is string object.
 	 */
-	__RE_EXTERN__ const char * kErrorChannelKey;
+	__RE_EXPORT__ const char * const kErrorChannelKey;
 
 
 	/**

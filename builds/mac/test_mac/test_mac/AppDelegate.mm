@@ -221,7 +221,7 @@ using namespace FayeCpp;
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
-{	
+{
 	// Insert code here to initialize your application
 	NSLog(@"Client info: %s", FayeCpp::Client::info());
 }
