@@ -110,6 +110,7 @@ int testTypes()
 
 int main(int argc, char* argv[]) 
 {
+	RELog::log("Client info: %s", Client::info());
 	RELog::log("Start test");
 
 

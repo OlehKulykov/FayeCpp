@@ -401,6 +401,7 @@ int testExterns()
 
 int main(int argc, char* argv[]) 
 {
+	RELog::log("Client info: %s", Client::info());
 	RELog::log("Start test");
 	
 	RELog::log("Test create ...");
