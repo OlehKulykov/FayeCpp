@@ -362,7 +362,7 @@ int testExternUserInfo()
 	REVariantMap info;
 
 	info[Error::kErrorLocalizedDescriptionKey()] = Error::kErrorLocalizedDescriptionKey();
-	info[Error::Error::kErrorPlaceInTheCodeKey()] = Error::kErrorPlaceInTheCodeKey();
+	info[Error::kErrorPlaceInTheCodeKey()] = Error::kErrorPlaceInTheCodeKey();
 	info[Error::kErrorURLKey()] = Error::kErrorURLKey();
 	info[Error::kErrorChannelKey()] = Error::kErrorChannelKey();
 
