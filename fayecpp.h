@@ -115,6 +115,13 @@
 #endif
 
 
+#if defined(TARGET_OS_MAC) || defined(TARGET_OS_IPHONE) || defined(TARGET_IPHONE_SIMULATOR) || defined(__APPLE__) 
+#ifndef __APPLE__
+#define __APPLE__ 1
+#endif
+#endif
+
+
 #if defined(__cplusplus) || defined(_cplusplus)
 #define __RE_EXTERN__ extern "C"
 #else
@@ -383,7 +390,20 @@ typedef REFloat64 RETimeInterval;
 #endif
 
 namespace FayeCpp {
-	
+
+#if defined(__APPLE__)
+	/**
+	 @brief Name of the bundle contained localization for faye client.
+	 */
+	__RE_EXPORT__ const char * const kFayeCppBundleName;
+
+
+	/**
+	 @brief Localization table name
+	 */
+	__RE_EXPORT__ const char * const kFayeCppBundleLocalizationTableName;
+#endif
+
 	class Client;
 	class Responce;
 	class REVariantList;

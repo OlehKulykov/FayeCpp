@@ -109,6 +109,11 @@ namespace FayeCpp {
 	static const char * const _bayeuxErrorKey = "error";
 	static const char * const _bayeuxSuccessfulKey = "successful";
 
+#if defined(__APPLE__)
+	const char * const kFayeCppBundleName = "FayeCpp";
+	const char * const kFayeCppBundleLocalizationTableName = "FayeCppLocalizable";
+#endif
+
 	Error * Client::lastError() const
 	{
 		return _lastError;

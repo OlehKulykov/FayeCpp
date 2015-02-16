@@ -27,8 +27,82 @@
 #include "fayecpp_config.h"
 #endif
 
+#if defined(__APPLE__)
+#include <CoreFoundation/CoreFoundation.h>
+#endif
 
 namespace FayeCpp {
+
+#if defined(__APPLE__)
+	class AppleErrorLocalizer
+	{
+	private:
+		CFBundleRef _localizedBundle;
+		CFStringRef _localizedTableName;
+
+		void init()
+		{
+			CFBundleRef mainBundle = CFBundleGetMainBundle();
+			if (!mainBundle) return;
+
+			CFStringRef resourceName = CFStringCreateWithCString(NULL, kFayeCppBundleName ,kCFStringEncodingUTF8);
+			if (resourceName)
+			{
+				CFURLRef url = CFBundleCopyResourceURL(mainBundle, resourceName, CFSTR("bundle"), NULL);
+				CFRelease(resourceName);
+				if (url)
+				{
+					_localizedBundle = CFBundleCreate(NULL, url);
+					CFRelease(url);
+				}
+			}
+			CFRelease(mainBundle);
+
+			_localizedTableName = CFStringCreateWithCString(NULL, kFayeCppBundleLocalizationTableName ,kCFStringEncodingUTF8);
+		}
+
+	public:
+		REString localized(const char * s)
+		{
+			REString resString;
+			if (s && _localizedTableName && _localizedBundle)
+			{
+				CFStringRef key = CFStringCreateWithCString(NULL, s ,kCFStringEncodingUTF8);
+				if (key)
+				{
+					CFStringRef loc = CFBundleCopyLocalizedString(_localizedBundle, key, key, _localizedTableName);
+					if (loc)
+					{
+						const size_t buffSize = 512 * sizeof(wchar_t);
+						char buff[buffSize] = { 0 };
+						if (CFStringGetCString(loc, buff, buffSize, kCFStringEncodingUTF8))
+						{
+							resString = buff;
+						}
+						CFRelease(loc);
+					}
+					CFRelease(key);
+				}
+			}
+			if (resString.isEmpty()) resString = s;
+			return resString;
+		}
+
+		AppleErrorLocalizer() :
+			_localizedBundle(NULL),
+			_localizedTableName(NULL)
+		{
+			this->init();
+		}
+
+		~AppleErrorLocalizer()
+		{
+			if (_localizedBundle) CFRelease(_localizedBundle);
+			if (_localizedTableName) CFRelease(_localizedTableName);
+		}
+	};
+#endif
+
 
 	const char * const kErrorDomainClient = "Faye client";
 	const char * const kErrorDomainTransport = "Faye transport";
@@ -99,49 +173,58 @@ namespace FayeCpp {
 
 	REString Error::localizedStringForErrorCode(const ErrorCode code)
 	{
+		const char * s = NULL;
+
 		switch (code)
 		{
 			case InternalApplicationError:
-				return REString("Internal application error.");
+				s = "Internal application error.";
 				break;
 
 			case SendingBufferTooLarge:
-				return REString("Error sending %u bytes. Can't send more than %i bytes.");
+				s = "Error sending %u bytes. Can't send more than %i bytes.";
 				break;
 
 			case FailedConnectToHost:
-				return REString("Failed to connect to host %s:%i.");
+				s = "Failed to connect to host %s:%i.";
 				break;
 
 			case HandshakeClientIdIsEmpty:
-				return REString("Handshake clientId is empty.");
+				s = "Handshake clientId is empty.";
 				break;
 
 			case HandshakeSupportedConnectionTypesIsEmpty:
-				return REString("Handshake supported connection types is empty.");
+				s = "Handshake supported connection types is empty.";
 				break;
 
 			case HandshakeImplementedTransportNotFound:
-				return REString("Can't find implemented faye transport protocol type from supported by the server:");
+				s = "Can't find implemented faye transport protocol type from supported by the server:";
 				break;
 
 			case SubscriptionChannelNotFound:
 			case UnsubscriptionChannelNotFound:
-				return REString("Can't find subscription key.");
+				s = "Can't find subscription key.";
 				break;
 
 			case SubscriptionError:
-				return REString("Unsuccessful subscribing to channel: %s.");
+				s = "Unsuccessful subscribing to channel: %s.";
 				break;
 
 			case UnsubscriptionError:
-				return REString("Unsuccessful unsubscribing to channel: %s.");
+				s = "Unsuccessful unsubscribing to channel: %s.";
 				break;
 
 			default:
 				break;
 		}
-		return REString();
+
+#if defined(__APPLE__)
+		AppleErrorLocalizer localizer;
+		return localizer.localized(s);
+#else
+		return REString(s);
+#endif
+
 	}
 
 }
