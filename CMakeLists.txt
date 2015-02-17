@@ -78,6 +78,18 @@ add_definitions(-DCMAKE_BUILD)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 
+message("Looking for CoreFoundation...")
+find_library(COREFOUNDATION_FRAMEWORK CoreFoundation)
+message("Finding library CoreFoundation: ${COREFOUNDATION_FRAMEWORK}")
+if(COREFOUNDATION_FRAMEWORK)
+set(HAVE_COREFOUNDATION_FRAMEWORK 1)
+endif()
+if(HAVE_COREFOUNDATION_FRAMEWORK)
+message("CoreFoundation found")
+endif()
+
+
+
 message("Looking for libwebsockets...")
 find_package(LIBWEBSOCKETS QUIET)
 if(NOT LIBWEBSOCKETS_FOUND)
@@ -111,6 +123,11 @@ message("jansson include dirs: ${JANSSON_INCLUDE_DIRS}")
 message("jansson libraries: ${JANSSON_LIBRARIES}")
 include_directories(${JANSSON_INCLUDE_DIRS})
 set(HAVE_JANSSON_H 1)
+
+
+
+
+
 
 
 check_include_file("stdlib.h" HAVE_STDLIB_H)
@@ -578,11 +595,18 @@ add_library(fayecpp SHARED ${FAYECPP_SOURCES} ${FAYECPP_HEADERS})
 
 add_dependencies(fayecpp websockets jansson)
 
+
 target_link_libraries(fayecpp websockets)
 target_link_libraries(fayecpp jansson)
-if (HAVE_PTHREAD_H)
+
+if(HAVE_PTHREAD_H)
 target_link_libraries(fayecpp pthread)
 endif()
+
+if(HAVE_COREFOUNDATION_FRAMEWORK)
+target_link_libraries(fayecpp ${COREFOUNDATION_FRAMEWORK})
+endif()
+
 
 install(TARGETS fayecpp
 		DESTINATION lib)

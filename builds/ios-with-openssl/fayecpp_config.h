@@ -25,6 +25,13 @@
 #define __FAYECPP_CONFIG_H__ 
 
 
+/* Build number, if avaiable */
+/* #undef FAYECPP_BUILD_NUMBER */
+
+
+/* CoreFoundation/CoreFoundation.h */
+#define HAVE_COREFOUNDATION_FRAMEWORK 1
+
 
 /* libwebsockets.h */
 #define HAVE_LIBWEBSOCKETS_H 1 
@@ -82,13 +89,8 @@
 #define HAVE_TIME_H 1
 
 
-/* sys/time.h */
-#define HAVE_SYS_TIME_H 1
-
-
 /* locale.h */
 #define HAVE_LOCALE_H 1
-
 
 
 /* assert.h */
@@ -266,6 +268,14 @@
 #define HAVE_FUNCTION_PTHREAD_CANCEL 1
 
 
+/* pthread_setname_np */
+#define HAVE_FUNCTION_PTHREAD_SETNAME_NP 1
+ 
+ 
+/* pthread_set_name_np */
+/* #undef HAVE_FUNCTION_PTHREAD_SET_NAME_NP */
+
+
 /* _stat */
 /* #undef HAVE_FUNCTION__STAT */
 
@@ -304,6 +314,26 @@
 
 /* clock_gettime */
 /* #undef HAVE_FUNCTION_CLOCK_GETTIME */
+
+
+/* difftime */ 
+#define HAVE_FUNCTION_DIFFTIME 1
+
+
+/* time */
+#define HAVE_FUNCTION_TIME 1
+
+
+/* localtime */
+#define HAVE_FUNCTION_LOCALTIME 1
+
+
+/* gmtime */
+#define HAVE_FUNCTION_GMTIME 1
+
+
+/* strftime */ 
+#define HAVE_FUNCTION_STRFTIME 1
 
 
 /* fabsf */

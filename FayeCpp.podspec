@@ -48,6 +48,7 @@ You can use Objective-C wrapper or C++ client directly.
   s.compiler_flags = '-DHAVE_FAYECPP_CONFIG_H=1', '-DHAVE_CONFIG_H=1', '-DCMAKE_BUILD=1'
   s.xcconfig = { 'HEADER_SEARCH_PATHS' => '"${PODS_ROOT}/FayeCpp/contrib/objc" "${PODS_ROOT}/FayeCpp/libwebsockets/lib" "${PODS_ROOT}/FayeCpp/jansson/src"' }
   s.libraries    = 'z', 'stdc++'
+  s.framework = 'CoreFoundation'
   s.requires_arc = false
 
 end

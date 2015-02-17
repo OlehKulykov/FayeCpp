@@ -29,6 +29,10 @@
 #cmakedefine FAYECPP_BUILD_NUMBER @FAYECPP_BUILD_NUMBER@ 
 
 
+/* CoreFoundation/CoreFoundation.h */
+#cmakedefine HAVE_COREFOUNDATION_FRAMEWORK @HAVE_COREFOUNDATION_FRAMEWORK@
+
+
 /* libwebsockets.h */
 #cmakedefine HAVE_LIBWEBSOCKETS_H @HAVE_LIBWEBSOCKETS_H@ 
 
