@@ -79,15 +79,7 @@ namespace FayeCpp {
             vsprintf(buff, logString, arguments);
             qDebug() << buff;
 #else
-
 			fprintf(stdout, "\n");
-#ifndef __RE_OS_WINDOWS__
-			const time_t now = time(NULL);
-			char timeString[32] = { 0 };
-
-			if (strftime(timeString, 32 ,"%Y-%m-%d %X ", localtime(&now)))
-				fprintf(stdout, timeString);
-#endif
 			vfprintf(stdout, logString, arguments);
 			fflush(stdout);
 #endif

@@ -1014,10 +1014,31 @@ namespace FayeCpp {
 		" - Enable Run-Time Type Information\n"
 #endif
 #if defined(__RE_32BIT_PLATFORM__)
-		" - Compiled for x86 processors\n"
+		" - Compiled for 32 bit platform\n"
 #endif
 #if defined(__RE_64BIT_PLATFORM__)
-		" - Compiled for x64 processors\n"
+		" - Compiled for 64 bit platform\n"
+#endif
+#if defined(__arm__) || defined(__thumb__) || defined(_ARM) || defined(_M_ARM) || defined(_M_ARMT) || defined(__arm)
+		" - ARM architecture\n"
+#if defined(__ARM_ARCH_7__)
+		" - ARMv7\n"
+#endif
+#if defined(__ARM_ARCH_7A__)
+		" - ARMv7a\n"
+#endif
+#if defined(__ARM_ARCH_7R__)
+		" - ARMv7r\n"
+#endif
+#if defined(__ARM_ARCH_7M__)
+		" - ARMv7m\n"
+#endif
+#if defined(__ARM_ARCH_7S__)
+		" - ARMv7s\n"
+#endif
+#endif
+#if defined(__aarch64__)
+		" - ARM64 architecture\n"
 #endif
 #if defined(__llvm__)
 		" - Compiled with LLVM\n"

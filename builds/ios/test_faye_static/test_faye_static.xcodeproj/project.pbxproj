@@ -1,0 +1,359 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3DAE52A51A9382BC00C7D82B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DAE52A41A9382BC00C7D82B /* main.m */; };
+		3DAE52A81A9382BD00C7D82B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DAE52A71A9382BD00C7D82B /* AppDelegate.m */; };
+		3DAE52AB1A9382BD00C7D82B /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3DAE52AA1A9382BD00C7D82B /* ViewController.mm */; };
+		3DAE52AE1A9382BD00C7D82B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3DAE52AC1A9382BD00C7D82B /* Main.storyboard */; };
+		3DAE52B01A9382BD00C7D82B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3DAE52AF1A9382BD00C7D82B /* Images.xcassets */; };
+		3DAE52B31A9382BD00C7D82B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DAE52B11A9382BD00C7D82B /* LaunchScreen.xib */; };
+		3DAE52CE1A93833200C7D82B /* libfayecpp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAE52CD1A93831F00C7D82B /* libfayecpp.a */; };
+		3DAE52D01A93851D00C7D82B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAE52CF1A93851D00C7D82B /* libz.dylib */; };
+		3DAE52D21A9387FC00C7D82B /* FayeCpp.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3DAE52D11A9387FC00C7D82B /* FayeCpp.bundle */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3DAE52CC1A93831F00C7D82B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3DAE52C81A93831F00C7D82B /* fayecpp.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D8CB87C194898B400943B53;
+			remoteInfo = fayecpp;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		3DAE529F1A9382BC00C7D82B /* test_faye_static.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = test_faye_static.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3DAE52A31A9382BC00C7D82B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3DAE52A41A9382BC00C7D82B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		3DAE52A61A9382BD00C7D82B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		3DAE52A71A9382BD00C7D82B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		3DAE52A91A9382BD00C7D82B /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		3DAE52AA1A9382BD00C7D82B /* ViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
+		3DAE52AD1A9382BD00C7D82B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		3DAE52AF1A9382BD00C7D82B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		3DAE52B21A9382BD00C7D82B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		3DAE52C81A93831F00C7D82B /* fayecpp.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = fayecpp.xcodeproj; path = ../../fayecpp.xcodeproj; sourceTree = "<group>"; };
+		3DAE52CF1A93851D00C7D82B /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		3DAE52D11A9387FC00C7D82B /* FayeCpp.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = FayeCpp.bundle; path = ../../../../contrib/objc/FayeCpp.bundle; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3DAE529C1A9382BC00C7D82B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3DAE52D01A93851D00C7D82B /* libz.dylib in Frameworks */,
+				3DAE52CE1A93833200C7D82B /* libfayecpp.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3DAE52961A9382BC00C7D82B = {
+			isa = PBXGroup;
+			children = (
+				3DAE52CF1A93851D00C7D82B /* libz.dylib */,
+				3DAE52A11A9382BC00C7D82B /* test_faye_static */,
+				3DAE52A01A9382BC00C7D82B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		3DAE52A01A9382BC00C7D82B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3DAE529F1A9382BC00C7D82B /* test_faye_static.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3DAE52A11A9382BC00C7D82B /* test_faye_static */ = {
+			isa = PBXGroup;
+			children = (
+				3DAE52D11A9387FC00C7D82B /* FayeCpp.bundle */,
+				3DAE52C81A93831F00C7D82B /* fayecpp.xcodeproj */,
+				3DAE52A61A9382BD00C7D82B /* AppDelegate.h */,
+				3DAE52A71A9382BD00C7D82B /* AppDelegate.m */,
+				3DAE52A91A9382BD00C7D82B /* ViewController.h */,
+				3DAE52AA1A9382BD00C7D82B /* ViewController.mm */,
+				3DAE52AC1A9382BD00C7D82B /* Main.storyboard */,
+				3DAE52AF1A9382BD00C7D82B /* Images.xcassets */,
+				3DAE52B11A9382BD00C7D82B /* LaunchScreen.xib */,
+				3DAE52A21A9382BC00C7D82B /* Supporting Files */,
+			);
+			path = test_faye_static;
+			sourceTree = "<group>";
+		};
+		3DAE52A21A9382BC00C7D82B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				3DAE52A31A9382BC00C7D82B /* Info.plist */,
+				3DAE52A41A9382BC00C7D82B /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		3DAE52C91A93831F00C7D82B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3DAE52CD1A93831F00C7D82B /* libfayecpp.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3DAE529E1A9382BC00C7D82B /* test_faye_static */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3DAE52C21A9382BD00C7D82B /* Build configuration list for PBXNativeTarget "test_faye_static" */;
+			buildPhases = (
+				3DAE529B1A9382BC00C7D82B /* Sources */,
+				3DAE529C1A9382BC00C7D82B /* Frameworks */,
+				3DAE529D1A9382BC00C7D82B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = test_faye_static;
+			productName = test_faye_static;
+			productReference = 3DAE529F1A9382BC00C7D82B /* test_faye_static.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3DAE52971A9382BC00C7D82B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = "Resident evil";
+				TargetAttributes = {
+					3DAE529E1A9382BC00C7D82B = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+				};
+			};
+			buildConfigurationList = 3DAE529A1A9382BC00C7D82B /* Build configuration list for PBXProject "test_faye_static" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 3DAE52961A9382BC00C7D82B;
+			productRefGroup = 3DAE52A01A9382BC00C7D82B /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 3DAE52C91A93831F00C7D82B /* Products */;
+					ProjectRef = 3DAE52C81A93831F00C7D82B /* fayecpp.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				3DAE529E1A9382BC00C7D82B /* test_faye_static */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		3DAE52CD1A93831F00C7D82B /* libfayecpp.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libfayecpp.a;
+			remoteRef = 3DAE52CC1A93831F00C7D82B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3DAE529D1A9382BC00C7D82B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3DAE52AE1A9382BD00C7D82B /* Main.storyboard in Resources */,
+				3DAE52B31A9382BD00C7D82B /* LaunchScreen.xib in Resources */,
+				3DAE52D21A9387FC00C7D82B /* FayeCpp.bundle in Resources */,
+				3DAE52B01A9382BD00C7D82B /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3DAE529B1A9382BC00C7D82B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3DAE52AB1A9382BD00C7D82B /* ViewController.mm in Sources */,
+				3DAE52A81A9382BD00C7D82B /* AppDelegate.m in Sources */,
+				3DAE52A51A9382BC00C7D82B /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		3DAE52AC1A9382BD00C7D82B /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3DAE52AD1A9382BD00C7D82B /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		3DAE52B11A9382BD00C7D82B /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3DAE52B21A9382BD00C7D82B /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		3DAE52C01A9382BD00C7D82B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+					"FAYECPP_DEBUG_MESSAGES=1",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					../../../,
+					../../../contrib/objc/,
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		3DAE52C11A9382BD00C7D82B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					../../../,
+					../../../contrib/objc/,
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		3DAE52C31A9382BD00C7D82B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = test_faye_static/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		3DAE52C41A9382BD00C7D82B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = test_faye_static/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3DAE529A1A9382BC00C7D82B /* Build configuration list for PBXProject "test_faye_static" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3DAE52C01A9382BD00C7D82B /* Debug */,
+				3DAE52C11A9382BD00C7D82B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3DAE52C21A9382BD00C7D82B /* Build configuration list for PBXNativeTarget "test_faye_static" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3DAE52C31A9382BD00C7D82B /* Debug */,
+				3DAE52C41A9382BD00C7D82B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 3DAE52971A9382BC00C7D82B /* Project object */;
+}
