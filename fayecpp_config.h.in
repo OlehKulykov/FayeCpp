@@ -265,11 +265,11 @@
 
 
 /* pthread_setname_np */
-#cmakedefine HAVE_FUNCTION_PTHREAD_SETNAME_NP
+#cmakedefine HAVE_FUNCTION_PTHREAD_SETNAME_NP @HAVE_FUNCTION_PTHREAD_SETNAME_NP@
  
  
 /* pthread_set_name_np */
-#cmakedefine HAVE_FUNCTION_PTHREAD_SET_NAME_NP
+#cmakedefine HAVE_FUNCTION_PTHREAD_SET_NAME_NP @HAVE_FUNCTION_PTHREAD_SET_NAME_NP@
 
 
 /* _stat */
@@ -313,23 +313,23 @@
 
 
 /* difftime */ 
-#cmakedefine HAVE_FUNCTION_DIFFTIME
+#cmakedefine HAVE_FUNCTION_DIFFTIME @HAVE_FUNCTION_DIFFTIME@
 
 
 /* time */
-#cmakedefine HAVE_FUNCTION_TIME
+#cmakedefine HAVE_FUNCTION_TIME @HAVE_FUNCTION_TIME@
 
 
 /* localtime */
-#cmakedefine HAVE_FUNCTION_LOCALTIME
+#cmakedefine HAVE_FUNCTION_LOCALTIME @HAVE_FUNCTION_LOCALTIME@
 
 
 /* gmtime */
-#cmakedefine HAVE_FUNCTION_GMTIME
+#cmakedefine HAVE_FUNCTION_GMTIME @HAVE_FUNCTION_GMTIME@
 
 
 /* strftime */ 
-#cmakedefine HAVE_FUNCTION_STRFTIME
+#cmakedefine HAVE_FUNCTION_STRFTIME @HAVE_FUNCTION_STRFTIME@
 
 
 /* fabsf */
