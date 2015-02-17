@@ -61,7 +61,7 @@
 		3D0831141987CB4E0038CD79 /* REVariantList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830FE1987CB4E0038CD79 /* REVariantList.cpp */; };
 		3D0831151987CB4E0038CD79 /* REVariantMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830FF1987CB4E0038CD79 /* REVariantMap.cpp */; };
 		3D0831161987CB4E0038CD79 /* websocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D0831011987CB4E0038CD79 /* websocket.cpp */; };
-		3D08311A1987CB570038CD79 /* FayeCppClient.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D0831191987CB570038CD79 /* FayeCppClient.mm */; };
+		3D08311A1987CB570038CD79 /* FayeCppClient.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D0831191987CB570038CD79 /* FayeCppClient.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		3D08311C1987CC020038CD79 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D08311B1987CC020038CD79 /* libz.dylib */; };
 		3D08311E1987CC1B0038CD79 /* libssl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D08311D1987CC1B0038CD79 /* libssl.dylib */; };
 		3D0831251987CDE30038CD79 /* server-handshake.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D0831231987CDE30038CD79 /* server-handshake.c */; };

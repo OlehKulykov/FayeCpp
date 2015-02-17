@@ -1040,6 +1040,9 @@ namespace FayeCpp {
 #if defined(__aarch64__)
 		" - ARM64 architecture\n"
 #endif
+#if defined(__ARM_ARCH_8A__)
+		" - ARMv8a\n"
+#endif
 #if defined(__llvm__)
 		" - Compiled with LLVM\n"
 #endif

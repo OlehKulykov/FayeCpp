@@ -548,7 +548,7 @@ void FayeCppDelegateWrapper::objcDictToMap(NSDictionary * dict, REVariantMap & m
 #if __has_feature(objc_arc)
 	self.urlStringObject = url;
 #else
-	SAFE_RETAIN(_urlStringObject, url);
+	SAFE_RETAIN(_urlStringObject, url)
 #endif
 	
 	if (_cppClient) _cppClient->setUrl(_urlStringObject ? [_urlStringObject UTF8String] : NULL);

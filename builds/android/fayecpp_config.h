@@ -25,6 +25,13 @@
 #define __FAYECPP_CONFIG_H__ 
 
 
+/* Build number, if avaiable */
+/* #undef FAYECPP_BUILD_NUMBER */
+
+
+/* CoreFoundation/CoreFoundation.h */
+/* #undef HAVE_COREFOUNDATION_FRAMEWORK */
+
 
 /* libwebsockets.h */
 #define HAVE_LIBWEBSOCKETS_H 1 
@@ -80,10 +87,6 @@
 
 /* time.h */
 #define HAVE_TIME_H 1
-
-
-/* sys/time.h */
-#define HAVE_SYS_TIME_H 1
 
 
 /* locale.h */
@@ -159,7 +162,7 @@
 
 
 /* dispatch/dispatch.h */
-//#define HAVE_DISPATCH_DISPATCH_H 1
+/* #undef HAVE_DISPATCH_DISPATCH_H */
 
 
 /* includes */
@@ -250,7 +253,7 @@
 
 
 /* getrlimit */
-//#define HAVE_FUNCTION_GETRLIMIT 1 
+/* #undef HAVE_FUNCTION_GETRLIMIT */
 
 
 /* pthread_attr_setscope */
@@ -262,7 +265,15 @@
 
 
 /* pthread_cancel */
-//#define HAVE_FUNCTION_PTHREAD_CANCEL 1
+/* #undef HAVE_FUNCTION_PTHREAD_CANCEL */
+
+
+/* pthread_setname_np */
+#define HAVE_FUNCTION_PTHREAD_SETNAME_NP 1
+ 
+ 
+/* pthread_set_name_np */
+/* #undef HAVE_FUNCTION_PTHREAD_SET_NAME_NP */
 
 
 /* _stat */
@@ -303,6 +314,26 @@
 
 /* clock_gettime */
 /* #undef HAVE_FUNCTION_CLOCK_GETTIME */
+
+
+/* difftime */ 
+#define HAVE_FUNCTION_DIFFTIME 1
+
+
+/* time */
+#define HAVE_FUNCTION_TIME 1
+
+
+/* localtime */
+#define HAVE_FUNCTION_LOCALTIME 1
+
+
+/* gmtime */
+#define HAVE_FUNCTION_GMTIME 1
+
+
+/* strftime */ 
+#define HAVE_FUNCTION_STRFTIME 1
 
 
 /* fabsf */
@@ -378,19 +409,19 @@
 
 
 /* dispatch_sync */
-//#define HAVE_FUNCTION_DISPATCH_SYNC 1
+/* #undef HAVE_FUNCTION_DISPATCH_SYNC */
 
 
 /* dispatch_async */
-//#define HAVE_FUNCTION_DISPATCH_ASYNC 1
+/* #undef HAVE_FUNCTION_DISPATCH_ASYNC */
 
 
 /* dispatch_get_global_queue */
-//#define HAVE_FUNCTION_DISPATCH_GET_GLOBAL_QUEUE 1
+/* #undef HAVE_FUNCTION_DISPATCH_GET_GLOBAL_QUEUE */
 
 
 /* dispatch_after */
-//#define HAVE_FUNCTION_DISPATCH_AFTER 1
+/* #undef HAVE_FUNCTION_DISPATCH_AFTER */
 
 
 #endif /* __FAYECPP_CONFIG_H__ */

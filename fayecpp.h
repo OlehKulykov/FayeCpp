@@ -2504,6 +2504,7 @@ namespace FayeCpp {
 		
 		/**
 		 @brief Called on faye client or transport error.
+		 @detailed Use client->lastError() for getting error object.
 		 @param client Faye client object.
 		 @param errorString Readable error string.
 		 */
