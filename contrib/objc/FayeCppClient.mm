@@ -22,12 +22,15 @@
 
 
 #import "FayeCppClient.h"
-
+#import <CoreGraphics/CoreGraphics.h>
 
 #ifndef __has_feature
 #define __has_feature(x) 0
 #endif
 
+#if __has_feature(objc_arc)
+#error "ARC enabled. Need disable for this file."
+#endif
 
 #include <fayecpp.h>
 
@@ -46,8 +49,20 @@ NSInteger kFayeCppErrorCodeUnsubscriptionError = FayeCpp::Error::UnsubscriptionE
 NSString * kFayeCppErrorPlaceInTheCodeKey = @"kFayeCppErrorPlaceInTheCodeKey";
 NSString * kFayeCppErrorChannelKey = @"kFayeCppErrorChannelKey";
 
-
 using namespace FayeCpp;
+
+class CFHelper
+{
+public:
+	static CFStringRef string(const REString & string);
+	static CFMutableArrayRef array(const REVariantList & list);
+	static CFTypeRef object(const REVariant & variant);
+	static CFMutableDictionaryRef dict(const REVariantMap & map);
+	static CFErrorRef error(Error * error);
+	static CFURLRef url(const REString & string);
+	static REVariant variant(CFTypeRef object);
+	static void dictToMap(CFDictionaryRef dict, REVariantMap * map);
+};
 
 class FayeCppClientSSLDataSourceWrapper : public SSLDataSource
 {
@@ -110,15 +125,8 @@ public:
 		return FayeCpp::REString();
 	}
 	
-	FayeCppClientSSLDataSourceWrapper() : objcClient(NULL)
-	{
-		
-	}
-	
-	virtual ~FayeCppClientSSLDataSourceWrapper()
-	{
-		
-	}
+	FayeCppClientSSLDataSourceWrapper() : objcClient(NULL) { }
+	virtual ~FayeCppClientSSLDataSourceWrapper() { }
 };
 
 class FayeCppDelegateWrapper : public Delegate
@@ -176,9 +184,10 @@ public:
 		id<FayeCppClientDelegate> d = objcClient ? [objcClient delegate] : nil;
 		if (d && [d respondsToSelector:@selector(onFayeClient:subscribedToChannel:)])
 		{
-			NSString * ch = FayeCppDelegateWrapper::objcString(channel);
+			CFStringRef ch = CFHelper::string(channel);
 			dispatch_async(dispatch_get_main_queue(), ^{
-				[d onFayeClient:objcClient subscribedToChannel:ch];
+				[d onFayeClient:objcClient subscribedToChannel:(NSString *)ch];
+				if (ch) CFRelease(ch);
 			});
 		}
 	}
@@ -189,9 +198,10 @@ public:
 		id<FayeCppClientDelegate> d = objcClient ? [objcClient delegate] : nil;
 		if (d && [d respondsToSelector:@selector(onFayeClient:unsubscribedFromChannel:)])
 		{
-			NSString * ch = FayeCppDelegateWrapper::objcString(channel);
+			CFStringRef ch = CFHelper::string(channel);
 			dispatch_async(dispatch_get_main_queue(), ^{
-				[d onFayeClient:objcClient unsubscribedFromChannel:ch];
+				[d onFayeClient:objcClient unsubscribedFromChannel:(NSString *)ch];
+				if (ch) CFRelease(ch);
 			});
 		}
 	}
@@ -203,13 +213,25 @@ public:
 		id<FayeCppClientDelegate> d = objcClient ? [objcClient delegate] : nil;
 		if (d && [d respondsToSelector:@selector(onFayeClient:receivedMessage:fromChannel:)])
 		{
-			NSString * ch = FayeCppDelegateWrapper::objcString(channel);
-			id obj = FayeCppDelegateWrapper::objcObject(message);
-			if (obj && [obj isKindOfClass:[NSDictionary class]])
+			CFStringRef ch = CFHelper::string(channel);
+			CFTypeRef obj = CFHelper::object(message);
+			bool isPassed = false;
+			if (obj)
 			{
-				dispatch_async(dispatch_get_main_queue(), ^{
-					[d onFayeClient:objcClient receivedMessage:(NSDictionary*)obj fromChannel:ch];
-				});
+				if (CFGetTypeID(obj) == CFDictionaryGetTypeID())
+				{
+					isPassed = true;
+					dispatch_async(dispatch_get_main_queue(), ^{
+						[d onFayeClient:objcClient receivedMessage:(NSDictionary *)obj fromChannel:(NSString *)ch];
+						if (obj) CFRelease(obj);
+						if (ch) CFRelease(ch);
+					});
+				}
+			}
+			if (!isPassed)
+			{
+				if (obj) CFRelease(obj);
+				if (ch) CFRelease(ch);
 			}
 		}
 	}
@@ -226,175 +248,114 @@ public:
 		id<FayeCppClientDelegate> d = objcClient ? [objcClient delegate] : nil;
 		if (d && [d respondsToSelector:@selector(onFayeClient:error:)])
 		{
-			NSError * error = FayeCppDelegateWrapper::objcError(client->lastError());
-
+			CFErrorRef error = CFHelper::error(client->lastError());
 			dispatch_async(dispatch_get_main_queue(), ^{
-				[d onFayeClient:objcClient error:error];
+				[d onFayeClient:objcClient error:(NSError *)error];
+				if (error) CFRelease(error);
 			});
 		}
 	}
 	
-	FayeCppDelegateWrapper() : objcClient(NULL)
-	{
-		
-	}
-	
-	virtual ~FayeCppDelegateWrapper()
-	{
-		
-	}
-	
-	static NSString * objcString(const REString & string);
-	static id objcObject(const REVariant & variant);
-	static NSMutableArray * objcArray(const REVariantList & list);
-	static NSMutableDictionary * objcDict(const REVariantMap & map);
-	static NSError * objcError(Error * error);
-	static void objcDictToMap(NSDictionary * dict, REVariantMap & map);
-	static REVariant objcObjectToVariant(id object);
+	FayeCppDelegateWrapper() : objcClient(NULL) { }
+	virtual ~FayeCppDelegateWrapper() { }
 };
 
-NSError * FayeCppDelegateWrapper::objcError(Error * error)
+void CFHelper::dictToMap(CFDictionaryRef dict, REVariantMap * map)
 {
-	NSMutableDictionary * userInfo = nil;
-	NSInteger code = (NSInteger)kCFHostErrorUnknown;
-	NSString * domain = nil;
-	if (error)
+	if (dict && map)
 	{
-		userInfo = [NSMutableDictionary dictionary];
-		REVariantMap::Iterator iterator = error->userInfo().iterator();
-		while (iterator.next())
+		const CFIndex count = CFDictionaryGetCount(dict);
+		if (count > 0)
 		{
-			if (iterator.key().isEqual(kErrorLocalizedDescriptionKey))
+			const void ** values = (const void **)malloc(sizeof(const void *) * count);
+			const void ** keys = (const void **)malloc(sizeof(const void *) * count);
+			if (values && keys)
 			{
-				[userInfo setObject:FayeCppDelegateWrapper::objcString(iterator.value().toString())
-							 forKey:NSLocalizedDescriptionKey];
+				CFDictionaryGetKeysAndValues(dict, keys, values);
+				for (CFIndex i = 0; i < count; i++)
+				{
+					CFTypeRef key = (CFTypeRef)keys[i];
+					if (CFGetTypeID(key) == CFStringGetTypeID())
+					{
+						REVariant kVariant = CFHelper::variant(key);
+						if (kVariant.isString())
+						{
+							map->setKeyValue(kVariant.toString(), CFHelper::variant((CFTypeRef)values[i]));
+						}
+					}
+				}
 			}
-			else if (iterator.key().isEqual(kErrorURLKey))
-			{
-				NSURL * url = [NSURL URLWithString:FayeCppDelegateWrapper::objcString(iterator.value().toString())];
-				if (url) [userInfo setObject:url forKey:NSURLErrorKey];
-			}
-			else if (iterator.key().isEqual(kErrorPlaceInTheCodeKey))
-			{
-				[userInfo setObject:FayeCppDelegateWrapper::objcString(iterator.value().toString())
-							 forKey:kFayeCppErrorPlaceInTheCodeKey];
-			}
-			else if (iterator.key().isEqual(kErrorChannelKey))
-			{
-				[userInfo setObject:FayeCppDelegateWrapper::objcString(iterator.value().toString())
-							 forKey:kFayeCppErrorChannelKey];
-			}
+			if (keys) free(keys);
+			if (values) free(values);
 		}
-		code = (NSInteger)error->code();
-		domain = FayeCppDelegateWrapper::objcString(error->domain());
-		if ([userInfo count] == 0) userInfo = nil;
 	}
-	else
-	{
-		domain = [NSString stringWithUTF8String:kErrorDomainClient];
-	}
-
-	return [NSError errorWithDomain:domain code:code userInfo:userInfo];
 }
 
-id FayeCppDelegateWrapper::objcObject(const REVariant & variant)
+REVariant CFHelper::variant(CFTypeRef object)
 {
-	switch (variant.type())
+	if (object)
 	{
-		case REVariant::TypeInteger:
-			return [NSNumber numberWithLongLong:variant.toInt64()];
-			break;
-		case REVariant::TypeUnsignedInteger:
-			return [NSNumber numberWithUnsignedLongLong:variant.toUInt64()];
-			break;
-		case REVariant::TypeReal:
-			return [NSNumber numberWithDouble:variant.toDouble()];
-			break;
-		case REVariant::TypeBool:
-			return [NSNumber numberWithBool:(BOOL)variant.toBool()];
-			break;
-		case REVariant::TypeString:
-			return FayeCppDelegateWrapper::objcString(variant.toString());
-			break;
-		case REVariant::TypeMap:
-			return FayeCppDelegateWrapper::objcDict(variant.toMap());
-			break;
-		case REVariant::TypeList:
-			return FayeCppDelegateWrapper::objcArray(variant.toList());
-			break;
-		default:
-			break;
-	}
-	return [NSNull null];
-}
-
-NSMutableArray * FayeCppDelegateWrapper::objcArray(const REVariantList & list)
-{
-	NSMutableArray * arr = [NSMutableArray array];
-	REVariantList::Iterator i = list.iterator();
-	while (i.next())
-	{
-		[arr addObject:FayeCppDelegateWrapper::objcObject(i.value())];
-	}
-	return arr;
-}
-
-NSMutableDictionary * FayeCppDelegateWrapper::objcDict(const REVariantMap & map)
-{
-	NSMutableDictionary * dict = [NSMutableDictionary dictionary];
-	REVariantMap::Iterator i = map.iterator();
-	while (i.next())
-	{
-		[dict setObject:FayeCppDelegateWrapper::objcObject(i.value())
-				 forKey:FayeCppDelegateWrapper::objcString(i.key())];
-	}
-	return dict;
-}
-
-NSString * FayeCppDelegateWrapper::objcString(const REString & string)
-{
-	const char * s = string.UTF8String();
-	return s ? [NSString stringWithUTF8String:s] : @"";
-}
-
-REVariant FayeCppDelegateWrapper::objcObjectToVariant(id object)
-{
-	if ([object isKindOfClass:[NSDictionary class]])
-	{
-		REVariantMap m;
-		FayeCppDelegateWrapper::objcDictToMap((NSDictionary *)object, m);
-		return REVariant(m);
-	}
-	else if ([object isKindOfClass:[NSArray class]])
-	{
-		REVariantList l;
-		for (id obj in (NSArray*)object)
+		const CFTypeID type = CFGetTypeID(object);
+		if (type == CFStringGetTypeID())
 		{
-			l.add(FayeCppDelegateWrapper::objcObjectToVariant(obj));
+			REVariant var;
+			const CFIndex len = CFStringGetLength((CFStringRef)object);
+			if (len > 0)
+			{
+				const size_t buffSize = (len + 1) * sizeof(wchar_t);
+				char * buff = (char *)malloc(buffSize);
+				if (buff)
+				{
+					if (CFStringGetCString((CFStringRef)object, buff, (CFIndex)buffSize, kCFStringEncodingUTF8)) var = buff;
+					free(buff);
+				}
+			}
+			if  (var.type() != REVariant::TypeString) var = "";
+			return var;
 		}
-		return REVariant(l);
-	}
-	else if ([object isKindOfClass:[NSString class]])
-	{
-		return REVariant([(NSString*)object UTF8String]);
-	}
-	else if ([object isKindOfClass:[NSNumber class]])
-	{
-		NSNumber * num = (NSNumber *)object;
-		if (strcmp([num objCType], @encode(BOOL)) == 0) return REVariant((bool)[num boolValue]);
-		else
+		else if (type == CFDictionaryGetTypeID())
 		{
-			switch (CFNumberGetType((CFNumberRef)num)) {
-				case kCFNumberFloatType:
-				case kCFNumberDoubleType:
-				case kCFNumberCGFloatType:
-				case kCFNumberFloat32Type:
-				case kCFNumberFloat64Type:
-					return REVariant((double)[num doubleValue]);
-					break;
-					
+			REVariantMap m;
+			CFHelper::dictToMap((CFDictionaryRef)object, &m);
+			return REVariant(m);
+		}
+		else if (type == CFArrayGetTypeID())
+		{
+			REVariantList l;
+			const CFIndex count = CFArrayGetCount((CFArrayRef)object);
+			for (CFIndex i = 0; i < count; i++)
+			{
+				CFTypeRef element = CFArrayGetValueAtIndex((CFArrayRef)object, i);
+				if (element) l.add(CFHelper::variant(element));
+			}
+			return REVariant(l);
+		}
+		else if (type == CFBooleanGetTypeID())
+		{
+			return CFEqual(object, kCFBooleanTrue) ? REVariant(true) : REVariant(false);
+		}
+		else if (type == CFNumberGetTypeID())
+		{
+			const CFNumberType numType = CFNumberGetType((CFNumberRef)object);
+			switch (numType)
+			{
+				case kCFNumberSInt8Type: { SInt8 v = 0; if (CFNumberGetValue((CFNumberRef)object, numType, &v)) return REVariant((int)v); } break;
+				case kCFNumberSInt16Type: { SInt16 v = 0; if (CFNumberGetValue((CFNumberRef)object, numType, &v)) return REVariant((int)v); } break;
+				case kCFNumberSInt32Type: { SInt32 v = 0; if (CFNumberGetValue((CFNumberRef)object, numType, &v)) return REVariant((int)v); } break;
+				case kCFNumberSInt64Type: { SInt64 v = 0; if (CFNumberGetValue((CFNumberRef)object, numType, &v)) return REVariant((long long)v); } break;
+				case kCFNumberFloat32Type: { Float32 v = 0; if (CFNumberGetValue((CFNumberRef)object, numType, &v)) return REVariant((double)v); } break;
+				case kCFNumberFloat64Type: { Float64 v = 0; if (CFNumberGetValue((CFNumberRef)object, numType, &v)) return REVariant((double)v); } break;
+				case kCFNumberCharType: { char v = 0; if (CFNumberGetValue((CFNumberRef)object, numType, &v)) return REVariant((int)v); } break;
+				case kCFNumberShortType: { short v = 0; if (CFNumberGetValue((CFNumberRef)object, numType, &v)) return REVariant((int)v); } break;
+				case kCFNumberIntType: { int v = 0; if (CFNumberGetValue((CFNumberRef)object, numType, &v)) return REVariant(v); } break;
+				case kCFNumberLongType: { long v = 0; if (CFNumberGetValue((CFNumberRef)object, numType, &v)) return REVariant((long long)v); } break;
+				case kCFNumberLongLongType: { long long v = 0; if (CFNumberGetValue((CFNumberRef)object, numType, &v)) return REVariant((long long)v); } break;
+				case kCFNumberFloatType: { float v = 0; if (CFNumberGetValue((CFNumberRef)object, numType, &v)) return REVariant((double)v); } break;
+				case kCFNumberDoubleType: { double v = 0; if (CFNumberGetValue((CFNumberRef)object, numType, &v)) return REVariant((double)v); } break;
+				case kCFNumberCFIndexType: { CFIndex v = 0; if (CFNumberGetValue((CFNumberRef)object, numType, &v)) return REVariant((long long)v); } break;
+				case kCFNumberNSIntegerType: { NSInteger v = 0; if (CFNumberGetValue((CFNumberRef)object, numType, &v)) return REVariant((long long)v); } break;
+				case kCFNumberCGFloatType: { CGFloat v = 0; if (CFNumberGetValue((CFNumberRef)object, numType, &v)) return REVariant((double)v); } break;
 				default:
-					return REVariant((long long)[num longLongValue]);
 					break;
 			}
 		}
@@ -402,14 +363,158 @@ REVariant FayeCppDelegateWrapper::objcObjectToVariant(id object)
 	return REVariant();
 }
 
-void FayeCppDelegateWrapper::objcDictToMap(NSDictionary * dict, REVariantMap & map)
+CFURLRef CFHelper::url(const REString & string)
 {
-	[dict enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL * stop){
-		if ([key isKindOfClass:[NSString class]])
+	const CFIndex len = string.length();
+	return (len > 0) ? CFURLCreateWithBytes(NULL, (const UInt8 *)string.UTF8String(), len, kCFStringEncodingUTF8, NULL) : NULL;
+}
+
+CFErrorRef CFHelper::error(Error * error)
+{
+	CFMutableDictionaryRef userInfo = NULL;
+	CFIndex code = (CFIndex)kCFNetServiceErrorUnknown;
+	CFStringRef domain = NULL;
+	if (error)
+	{
+		userInfo = CFDictionaryCreateMutable(NULL, 4, &kCFCopyStringDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+		if (userInfo)
 		{
-			map[[(NSString *)key UTF8String]] = FayeCppDelegateWrapper::objcObjectToVariant(obj);
+			REVariantMap::Iterator iterator = error->userInfo().iterator();
+			while (iterator.next())
+			{
+				if (iterator.key().isEqual(kErrorLocalizedDescriptionKey))
+				{
+					CFStringRef value = CFHelper::string(iterator.value().toString());
+					if (value)
+					{
+						CFDictionarySetValue(userInfo, kCFErrorLocalizedDescriptionKey, value);
+						CFRelease(value);
+					}
+				}
+				else if (iterator.key().isEqual(kErrorURLKey))
+				{
+					CFURLRef url = CFHelper::url(iterator.value().toString());
+					if (url)
+					{
+						CFDictionarySetValue(userInfo, kCFErrorURLKey, url);
+						CFRelease(url);
+					}
+				}
+				else if (iterator.key().isEqual(kErrorPlaceInTheCodeKey))
+				{
+					CFStringRef value = CFHelper::string(iterator.value().toString());
+					if (value)
+					{
+						CFDictionarySetValue(userInfo, (CFStringRef)kFayeCppErrorPlaceInTheCodeKey, value);
+						CFRelease(value);
+					}
+				}
+				else if (iterator.key().isEqual(kErrorChannelKey))
+				{
+					CFStringRef value = CFHelper::string(iterator.value().toString());
+					if (value)
+					{
+						CFDictionarySetValue(userInfo, (CFStringRef)kFayeCppErrorChannelKey, value);
+						CFRelease(value);
+					}
+				}
+			}
 		}
-	}];
+		code = (CFIndex)error->code();
+		domain = CFHelper::string(error->domain());
+	}
+	else
+	{
+		domain = CFStringCreateWithCString(NULL, kErrorDomainClient, kCFStringEncodingUTF8);
+	}
+
+	CFErrorRef err = NULL;
+	if (domain)
+	{
+		err = CFErrorCreate(NULL, domain, code, userInfo);
+		CFRelease(domain);
+	}
+	if (userInfo) CFRelease(userInfo);
+	return err;
+}
+
+CFMutableDictionaryRef CFHelper::dict(const REVariantMap & map)
+{
+	CFMutableDictionaryRef d = CFDictionaryCreateMutable(NULL, 2, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+	if (d)
+	{
+		REVariantMap::Iterator i = map.iterator();
+		while (i.next())
+		{
+			CFStringRef key = CFHelper::string(i.key());
+			CFTypeRef value = CFHelper::object(i.value());
+			if (key && value) CFDictionarySetValue(d, key, value);
+
+			if (key) CFRelease(key);
+			if (value) CFRelease(value);
+		}
+	}
+	return d;
+}
+
+CFStringRef CFHelper::string(const REString & string)
+{
+	const char * s = string.UTF8String();
+	return s ? CFStringCreateWithCString(NULL, s, kCFStringEncodingUTF8) : CFSTR("");
+}
+
+CFMutableArrayRef CFHelper::array(const REVariantList & list)
+{
+	CFMutableArrayRef arr = CFArrayCreateMutable(NULL, 2, &kCFTypeArrayCallBacks);
+	if (arr)
+	{
+		REVariantList::Iterator i = list.iterator();
+		while (i.next())
+		{
+			CFTypeRef obj = CFHelper::object(i.value());
+			if (obj)
+			{
+				CFArrayAppendValue(arr, obj);
+				CFRelease(obj);
+			}
+		}
+	}
+	return arr;
+}
+
+CFTypeRef CFHelper::object(const REVariant & variant)
+{
+	switch (variant.type())
+	{
+		case REVariant::TypeInteger:
+		case REVariant::TypeUnsignedInteger:
+		{
+			const long long v = variant.toInt64();
+			return CFNumberCreate(NULL, kCFNumberLongLongType, &v);
+		}
+			break;
+		case REVariant::TypeReal:
+		{
+			const double v = variant.toDouble();
+			return CFNumberCreate(NULL, kCFNumberDoubleType, &v);
+		}
+			break;
+		case REVariant::TypeBool:
+			return variant.toBool() ? kCFBooleanTrue : kCFBooleanFalse;
+			break;
+		case REVariant::TypeString:
+			return CFHelper::string(variant.toString());
+			break;
+		case REVariant::TypeMap:
+			return CFHelper::dict(variant.toMap());
+			break;
+		case REVariant::TypeList:
+			return CFHelper::array(variant.toList());
+			break;
+		default:
+			break;
+	}
+	return kCFNull;
 }
 
 #if !defined(SAFE_RETAIN) && !__has_feature(objc_arc)
@@ -448,8 +553,8 @@ void FayeCppDelegateWrapper::objcDictToMap(NSDictionary * dict, REVariantMap & m
 
 	if (e.type() != REVariant::TypeNone)
 	{
-		id ext = FayeCppDelegateWrapper::objcObject(e);
-		return ext;
+		CFTypeRef ext = CFHelper::object(e);
+		return (id)CFAutorelease(ext);
 	}
 
 	return nil;
@@ -457,21 +562,7 @@ void FayeCppDelegateWrapper::objcDictToMap(NSDictionary * dict, REVariantMap & m
 
 - (void) setExtValue:(id) value
 {
-	if (!_cppClient) return;
-
-	if (value)
-	{
-		if ([value isKindOfClass:[NSNull class]]) _cppClient->setExtValue(REVariant());
-		else
-		{
-			REVariant e = FayeCppDelegateWrapper::objcObjectToVariant(value);
-			_cppClient->setExtValue(e);
-		}
-	}
-	else
-	{
-		_cppClient->setExtValue(REVariant());
-	}
+	if (_cppClient) _cppClient->setExtValue(CFHelper::variant((CFTypeRef)value));
 }
 
 - (BOOL) isUsingIPV6
@@ -510,7 +601,7 @@ void FayeCppDelegateWrapper::objcDictToMap(NSDictionary * dict, REVariantMap & m
 	if (_cppClient && message && channel)
 	{
 		REVariantMap map;
-		FayeCppDelegateWrapper::objcDictToMap(message, map);
+		CFHelper::dictToMap((CFDictionaryRef)message, &map);
 		return _cppClient->sendMessageToChannel(map, [channel UTF8String]);
 	}
 	return NO;

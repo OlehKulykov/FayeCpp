@@ -28,7 +28,11 @@
  *   Faye C++ client main and one header file.
  *   All class interfaces added to namespace, preventing include files mess.
  *
- *   Changes on version 0.1.8 (current):
+ *   Changes on version 0.1.9 (current):
+ *   - Objective-C client wrapper speed optimizations(used only NON-ARC mode and CoreFoundation framework).
+ *   - Apple localization bundle fix.
+ *
+ *   Changes on version 0.1.8:
  *   - Added additional error processing with new Error class.
  *
  *   Changes on version 0.1.7:
@@ -72,7 +76,7 @@
 
 #define FAYECPP_VERSION_MAJOR 0
 #define FAYECPP_VERSION_MINOR 1
-#define FAYECPP_VERSION_PATCH 8
+#define FAYECPP_VERSION_PATCH 9
 
 
 #if !defined(HAVE_SUITABLE_QT_VERSION) 

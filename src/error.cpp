@@ -43,21 +43,21 @@ namespace FayeCpp {
 		void init()
 		{
 			CFBundleRef mainBundle = CFBundleGetMainBundle();
-			if (!mainBundle) return;
-
-			CFStringRef resourceName = CFStringCreateWithCString(NULL, kFayeCppBundleName ,kCFStringEncodingUTF8);
-			if (resourceName)
+			if (mainBundle)
 			{
-				CFURLRef url = CFBundleCopyResourceURL(mainBundle, resourceName, CFSTR("bundle"), NULL);
-				CFRelease(resourceName);
-				if (url)
+				CFStringRef resourceName = CFStringCreateWithCString(NULL, kFayeCppBundleName ,kCFStringEncodingUTF8);
+				if (resourceName)
 				{
-					_localizedBundle = CFBundleCreate(NULL, url);
-					CFRelease(url);
+					CFURLRef url = CFBundleCopyResourceURL(mainBundle, resourceName, CFSTR("bundle"), NULL);
+					CFRelease(resourceName);
+					if (url)
+					{
+						_localizedBundle = CFBundleCreate(NULL, url);
+						CFRelease(url);
+					}
 				}
+				_localizedTableName = CFStringCreateWithCString(NULL, kFayeCppBundleLocalizationTableName ,kCFStringEncodingUTF8);
 			}
-			CFRelease(mainBundle);
-			_localizedTableName = CFStringCreateWithCString(NULL, kFayeCppBundleLocalizationTableName ,kCFStringEncodingUTF8);
 		}
 
 	public:

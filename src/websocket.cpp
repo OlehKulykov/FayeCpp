@@ -344,7 +344,7 @@ namespace FayeCpp {
 	{
 #if defined(HAVE_FUNCTION_PTHREAD_SETNAME_NP) && defined(__APPLE__)	
 		pthread_setname_np("FayeCpp WebSocket workThread");
-#endif	
+#endif
 		WebSocket * socket = static_cast<WebSocket *>(somePointer);
 		socket->workMethod();
 		pthread_t * t = socket->_workThread;
@@ -594,6 +594,8 @@ namespace FayeCpp {
 	
 	WebSocket::~WebSocket()
 	{
+		FAYECPP_DEBUG_LOG("DESTRUCTOR ~WebSocket()");
+
 #if defined(HAVE_PTHREAD_H)	
 		pthread_mutex_destroy(&_mutex);
 #elif defined(__RE_USING_WINDOWS_THREADS__)

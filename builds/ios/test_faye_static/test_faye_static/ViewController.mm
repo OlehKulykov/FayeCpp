@@ -134,8 +134,14 @@ using namespace FayeCpp;
 #if defined(OBJC_CLIENT)
 	if (_client)
 	{
-		[_client sendMessage:@{@"text" : [_textField text]}
-				   toChannel:@"/seminars/5322e93d8ee60a422400008f"];
+		NSMutableDictionary * dict = [NSMutableDictionary dictionary];
+		dict[@"text"] = [_textField text];
+		dict[@"YES"] = @YES;
+		dict[@"NO"] = @NO;
+		dict[@"int1"] = @123;
+		dict[@"float1"] = @3.14;
+
+		[_client sendMessage:dict toChannel:@"/seminars/5322e93d8ee60a422400008f"];
 	}
 #else
 	if (_client)
@@ -170,6 +176,29 @@ using namespace FayeCpp;
 	[client setSSLDataSource:self];
 	[client setUrlString:@"http://messages.presentain.com:80/faye"];
 	self.client = client;
+
+	NSMutableDictionary * ext = [NSMutableDictionary dictionary];
+	NSMutableArray * arr = [NSMutableArray array];
+	[arr addObject:@"Hello"];
+	[arr addObject:@"World"];
+	[arr addObject:[NSNull null]];
+	[arr addObject:@231231233234324];
+	[arr addObject:@3.142352532111];
+	[arr addObject:@YES];
+	[arr addObject:@NO];
+	ext[@"arr"] = arr;
+	ext[@"asd"] = @"asd";
+	ext[@"YES"] = @YES;
+	ext[@"NULL"] = [NSNull null];
+	ext[@"int"] = @-324432603623523111;
+
+	[_client setExtValue:ext];
+
+	NSDictionary * ext1 = [_client extValue];
+	if (![ext isEqualToDictionary:ext1])
+	{
+		assert(0);
+	}
 #else
 	if (_client)
 	{

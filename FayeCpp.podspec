@@ -2,10 +2,10 @@ Pod::Spec.new do |s|
 
 # Common settings
   s.name         = "FayeCpp"
-  s.version      = "0.1.8"
-  s.summary      = "Faye C++ client with objective-c client wrapper."
+  s.version      = "0.1.9"
+  s.summary      = "Faye C++ client with Objective-C client wrapper."
   s.description  = <<-DESC
-Faye C++ client with objective-c client wrapper. 
+Faye C++ client with Objective-C client wrapper. 
 Library created with Pure C++ (features provided by Standard C++), without heavy STL and C++11 features.
 You can use Objective-C wrapper or C++ client directly.
                       DESC
@@ -45,7 +45,7 @@ You can use Objective-C wrapper or C++ client directly.
     'libwebsockets/lib/alloc.c'
   
   s.resources = 'contrib/objc/FayeCpp.bundle'
-  s.compiler_flags = '-DHAVE_FAYECPP_CONFIG_H=1', '-DHAVE_CONFIG_H=1', '-DCMAKE_BUILD=1'
+  s.compiler_flags = '-DHAVE_FAYECPP_CONFIG_H=1', '-DHAVE_CONFIG_H=1', '-DCMAKE_BUILD=1', '-DHAVE_COREFOUNDATION_FRAMEWORK=1'
   s.xcconfig = { 'HEADER_SEARCH_PATHS' => '"${PODS_ROOT}/FayeCpp/contrib/objc" "${PODS_ROOT}/FayeCpp/libwebsockets/lib" "${PODS_ROOT}/FayeCpp/jansson/src"' }
   s.libraries    = 'z', 'stdc++'
   s.framework = 'CoreFoundation'
