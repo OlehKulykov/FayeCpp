@@ -582,7 +582,7 @@ namespace FayeCpp {
 		{
 			if (_object)
 			{
-				REInt32 * count = (REInt32 *)malloc(sizeof(REInt32 *));
+				REInt32 * count = (REInt32 *)malloc(sizeof(REInt32));
 #if defined(HAVE_ASSERT_H)
 				assert(count);
 #endif				
