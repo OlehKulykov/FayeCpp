@@ -1573,9 +1573,9 @@ namespace FayeCpp {
 		 @brief Contructs buffer.
 		 @param originalBuff Pointer to some buffer with data.
 		 @param buffSize Size of buffer.
-		 @param freeOriginalBuff Callback for delete buffer pointer, if not assigned than use default which do nothing.
+		 @param freeOriginalBuff Callback for delete buffer pointer.
 		 */
-		REBufferNoCopy(const void * originalBuff, const REUInt32 buffSize, REBufferNoCopy::FreeOriginalBuff freeOriginalBuff = REBuffer::defaultFree);
+		REBufferNoCopy(const void * originalBuff, const REUInt32 buffSize, REBufferNoCopy::FreeOriginalBuff freeOriginalBuff);
 		
 
 		/**
