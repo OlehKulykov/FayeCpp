@@ -106,12 +106,12 @@
 #endif /* WIN32_LEAN_AND_MEAN */
 
 
-/* Check MingW on Windows */
-#if !defined(__RE_OS_WINDOWS_MINGW__)
+#if !defined(__RE_COMPILER_MINGW__)
 #if defined(__MINGW32__) || defined(__MINGW64__)
-#define __RE_OS_WINDOWS_MINGW__ 1
+#define __RE_COMPILER_MINGW__ 1
 #endif
 #endif
+
 
 #endif /* END CHECKING WINDOWS PLATFORM  */
 /***********************************************************************************/
@@ -163,6 +163,7 @@
 #endif
 
 #endif /* __RE_OS_WINDOWS__ */
+
 
 
 #if defined(__GNUC__) 

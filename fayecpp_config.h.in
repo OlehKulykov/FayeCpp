@@ -46,7 +46,7 @@
 
 
 /* Using the MinGW compiler in Windows and flag __RE_OS_WINDOWS__ defined */
-#cmakedefine __RE_OS_WINDOWS_MINGW__ @__RE_OS_WINDOWS_MINGW__@
+#cmakedefine __RE_COMPILER_MINGW__ @__RE_COMPILER_MINGW__@
 
 
 /* stdlib.h */

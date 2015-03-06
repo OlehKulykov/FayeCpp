@@ -70,10 +70,12 @@ if(WIN32)
 	add_definitions(-DWIN32)
 	add_definitions(-D_WIN32)
 	set(__RE_OS_WINDOWS__ 1)
-	if(MINGW)
-		set(__RE_OS_WINDOWS_MINGW__ 1)
-	endif(MINGW)
 endif(WIN32)
+
+
+if(MINGW)
+	set(__RE_COMPILER_MINGW__ 1)
+endif(MINGW)
 
 
 add_definitions(-DCMAKE_BUILD)
@@ -104,6 +106,7 @@ if(NOT LIBWEBSOCKETS_FOUND)
 				${CMAKE_BINARY_DIR}/libwebsockets/lib
 				${CMAKE_BINARY_DIR}/libwebsockets)
 	set(LIBWEBSOCKETS_FOUND 1)
+	set(LIBWEBSOCKETS_BUNDLED_COPY 1)
 endif()
 message("libwebsockets include dirs: ${LIBWEBSOCKETS_INCLUDE_DIRS}")
 message("libwebsockets libraries: ${LIBWEBSOCKETS_LIBRARIES}")
@@ -128,7 +131,16 @@ set(HAVE_JANSSON_H 1)
 
 
 
-
+# Libwebsockets fix/patch for MinGW
+if(LIBWEBSOCKETS_BUNDLED_COPY AND WIN32)
+	check_include_file("mstcpip.h" HAVE_MSTCPIP_H)
+	if(NOT HAVE_MSTCPIP_H)
+		foreach(LIBWEBSOCKETS_INCLUDE_DIRECTORY ${LIBWEBSOCKETS_INCLUDE_DIRS})
+			file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/builds/windows-mingw/mstcpip.h" DESTINATION ${LIBWEBSOCKETS_INCLUDE_DIRECTORY})
+		endforeach()
+	endif(NOT HAVE_MSTCPIP_H)
+	add_definitions(-DWINVER=0x0501)
+endif(LIBWEBSOCKETS_BUNDLED_COPY AND WIN32)
 
 
 
@@ -603,12 +615,15 @@ target_link_libraries(fayecpp jansson)
 
 if(HAVE_PTHREAD_H)
 	target_link_libraries(fayecpp pthread)
-endif()
+endif(HAVE_PTHREAD_H)
 
 if(HAVE_COREFOUNDATION_FRAMEWORK)
 	target_link_libraries(fayecpp ${COREFOUNDATION_FRAMEWORK})
-endif()
+endif(HAVE_COREFOUNDATION_FRAMEWORK)
 
+if(MINGW)
+	target_link_libraries(fayecpp ws2_32)
+endif(MINGW)
 
 install(TARGETS fayecpp
 		DESTINATION lib)

@@ -189,7 +189,7 @@ namespace FayeCpp {
 			
 #if defined(HAVE_FUNCTION_VSNPRINTF)		
 			const int writed = vsnprintf(strBuff, 1024, format, args);
-#elif defined(HAVE_FUNCTION_VSPRINTF_S) && !defined(__MINGW32__) && !defined(__MINGW64__) 
+#elif defined(HAVE_FUNCTION_VSPRINTF_S) && !defined(__RE_COMPILER_MINGW__) 
 			const int writed = vsprintf_s(strBuff, format, args);
 #else		
 			const int writed = vsprintf(strBuff, format, args);
