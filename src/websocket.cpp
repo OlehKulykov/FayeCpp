@@ -564,12 +564,12 @@ namespace FayeCpp {
 			n = _context ? libwebsocket_service(_context, 75) : -1;
 
 			UNLOCK_MUTEX(&_mutex)
-			
-#if defined(HAVE_FUNCTION_USLEEP)
+
+#if defined(__RE_OS_WINDOWS__)
+			Sleep(1);     /// 1s = 1'000 millisec.
+#elif defined(HAVE_FUNCTION_USLEEP)
             usleep(75);   /// 1s = 1'000'000 microsec.
-#elif defined(__RE_USING_WINDOWS_THREADS__)
-            Sleep(1);     /// 1s = 1'000 millisec.
-#endif	
+#endif
 		}
 		
 		this->cleanup();
