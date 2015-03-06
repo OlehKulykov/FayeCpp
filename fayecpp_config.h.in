@@ -41,6 +41,10 @@
 #cmakedefine HAVE_JANSSON_H @HAVE_JANSSON_H@ 
 
 
+/* Windows OS */
+#cmakedefine __RE_OS_WINDOWS__ @__RE_OS_WINDOWS__@
+
+
 /* stdlib.h */
 #cmakedefine HAVE_STDLIB_H @HAVE_STDLIB_H@ 
 

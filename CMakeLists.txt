@@ -69,6 +69,7 @@ endif(MSVC)
 if(WIN32)
 	add_definitions(-DWIN32)
 	add_definitions(-D_WIN32)
+	set(__RE_OS_WINDOWS__ 1)
 endif(WIN32)
 
 
