@@ -70,6 +70,9 @@ if(WIN32)
 	add_definitions(-DWIN32)
 	add_definitions(-D_WIN32)
 	set(__RE_OS_WINDOWS__ 1)
+	if(MINGW)
+		set(__RE_OS_WINDOWS_MINGW__ 1)
+	endif(MINGW)
 endif(WIN32)
 
 

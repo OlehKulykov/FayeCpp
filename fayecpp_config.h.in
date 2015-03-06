@@ -45,6 +45,10 @@
 #cmakedefine __RE_OS_WINDOWS__ @__RE_OS_WINDOWS__@
 
 
+/* Using the MinGW compiler in Windows and flag __RE_OS_WINDOWS__ defined */
+#cmakedefine __RE_OS_WINDOWS_MINGW__ @__RE_OS_WINDOWS_MINGW__@
+
+
 /* stdlib.h */
 #cmakedefine HAVE_STDLIB_H @HAVE_STDLIB_H@ 
 

@@ -93,7 +93,7 @@
 
 
 #if !defined(__RE_OS_WINDOWS__) && !defined(__RE_OS_ANDROID__)
-/* No manualy selected, try to auto select */
+/* OS not selected, try detect OS */
 
 #if (defined(WIN32) || defined(_WIN32) || defined(WIN32_LEAN_AND_MEAN) || defined(_WIN64) || defined(WIN64))
 
@@ -106,6 +106,13 @@
 #endif /* WIN32_LEAN_AND_MEAN */
 
 
+/* Check MingW on Windows */
+#if !defined(__RE_OS_WINDOWS_MINGW__)
+#if defined(__MINGW32__) || defined(__MINGW64__)
+#define __RE_OS_WINDOWS_MINGW__ 1
+#endif
+#endif
+
 #endif /* END CHECKING WINDOWS PLATFORM  */
 /***********************************************************************************/
 
@@ -117,7 +124,7 @@
 #endif /* END CHECKING ANDROID PLATFORM */
 /***********************************************************************************/
 
-#endif
+#endif /* END DETECT OS */
 
 
 #if defined(TARGET_OS_MAC) || defined(TARGET_OS_IPHONE) || defined(TARGET_IPHONE_SIMULATOR) || defined(__APPLE__) 
