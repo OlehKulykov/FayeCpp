@@ -37,7 +37,7 @@ add_test(test_fayecpp_init test_fayecpp_init)
 
 add_executable(test_fayecpp_connect test_fayecpp_connect.cpp)
 target_link_libraries(test_fayecpp_connect fayecpp)
-add_test(test_fayecpp_connect test_fayecpp_connect)
+#add_test(test_fayecpp_connect test_fayecpp_connect)
 
 
 if(HAVE_CURL_CURL_H)

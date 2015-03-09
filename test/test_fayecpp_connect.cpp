@@ -76,7 +76,6 @@ static int _result = EXIT_SUCCESS;
 
 #define STEP_WAIT 0
 #define STEP_CONNECT 1
-#define STEP_SUBSCRIBE 2
 
 static int _step = STEP_CONNECT;
 static int _subscribedChannels = 0;
@@ -100,7 +99,6 @@ public:
 	{
 		RELog::log("DELEGATE onFayeClientConnected");
 		RELog::log("Start connecting OK");
-		_step = STEP_SUBSCRIBE;
 	}
 
 	virtual void onFayeClientDisconnected(FayeCpp::Client * client)
@@ -186,23 +184,9 @@ int main(int argc, char* argv[])
 				_client->subscribeToChannel("/seminars_service/5322e93d8ee60a422400008f");
 				break;
 
-			case STEP_SUBSCRIBE:
-				// don't need to await, add to pending subscription abowe.
-//				RELog::log("Start subscribing ...");
-				_step = STEP_WAIT;
-//				_client->subscribeToChannel("/seminars/5322e93d8ee60a422400008f");
-//				_client->subscribeToChannel("/seminars_service/5322e93d8ee60a422400008f");
-				break;
-
 			default:
 				break;
 		}
-
-//#if defined(__RE_THREADING_WINDOWS__)
-//		Sleep(1);
-//#elif defined(__RE_THREADING_PTHREAD__) && defined(HAVE_FUNCTION_USLEEP)
-//		usleep(75);
-//#endif
 	}
 
 	SAFE_DELETE(_client)
