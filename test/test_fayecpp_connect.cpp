@@ -92,6 +92,8 @@ public:
 	virtual void onFayeTransportDisconnected(FayeCpp::Client * client)
 	{
 		RELog::log("DELEGATE onFayeTransportDisconnected");
+		_result++;
+		SAFE_DELETE(_client)
 	}
 
 	virtual void onFayeClientConnected(FayeCpp::Client * client)
@@ -104,6 +106,8 @@ public:
 	virtual void onFayeClientDisconnected(FayeCpp::Client * client)
 	{
 		RELog::log("DELEGATE onFayeClientDisconnected");
+		_result++;
+		SAFE_DELETE(_client)
 	}
 
 	virtual void onFayeClientSubscribedToChannel(FayeCpp::Client * client,
@@ -194,11 +198,11 @@ int main(int argc, char* argv[])
 				break;
 		}
 
-#if defined(__RE_THREADING_WINDOWS__)
-		Sleep(1);
-#elif defined(__RE_THREADING_PTHREAD__) && defined(HAVE_FUNCTION_USLEEP)
-		usleep(75);
-#endif
+//#if defined(__RE_THREADING_WINDOWS__)
+//		Sleep(1);
+//#elif defined(__RE_THREADING_PTHREAD__) && defined(HAVE_FUNCTION_USLEEP)
+//		usleep(75);
+//#endif
 	}
 
 	SAFE_DELETE(_client)
