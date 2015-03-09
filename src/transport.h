@@ -38,20 +38,22 @@
 #define RE_ASSERT(r) r
 #endif
 
-#if defined(HAVE_PTHREAD_H)
-#include <pthread.h>
-#elif defined(__RE_OS_WINDOWS__)
-/* Use Windows threading */
-#ifndef __RE_USING_WINDOWS_THREADS__
-#define __RE_USING_WINDOWS_THREADS__ 1
-#endif
+#if !defined(__RE_HAVE_THREADS__) && defined(__RE_OS_WINDOWS__)
 #include <Windows.h>
-#endif /* __RE_OS_WINDOWS__ */
+#define __RE_THREADING_WINDOWS__ 1
+#define __RE_HAVE_THREADS__ 1
+#endif
 
-#if defined(HAVE_PTHREAD_H)
+#if !defined(__RE_HAVE_THREADS__) && defined(HAVE_PTHREAD_H)
+#include <pthread.h>
+#define __RE_THREADING_PTHREAD__ 1
+#define __RE_HAVE_THREADS__ 1
+#endif
+
+#if defined(__RE_THREADING_PTHREAD__)
 #define LOCK_MUTEX(mPtr) pthread_mutex_lock(mPtr);
 #define UNLOCK_MUTEX(mPtr) pthread_mutex_unlock(mPtr);
-#elif defined(__RE_USING_WINDOWS_THREADS__)
+#elif defined(__RE_THREADING_WINDOWS__)
 #define LOCK_MUTEX(mPtr) TryEnterCriticalSection(mPtr);
 #define UNLOCK_MUTEX(mPtr) LeaveCriticalSection(mPtr);
 #endif

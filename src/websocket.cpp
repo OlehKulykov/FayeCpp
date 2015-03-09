@@ -49,10 +49,10 @@
 
 namespace FayeCpp {
 
-#if defined(HAVE_PTHREAD_H)			
+#if defined(__RE_THREADING_PTHREAD__)			
 	pthread_mutex_t WebSocket::ThreadsJoiner::_mutex;
 	pthread_t * WebSocket::ThreadsJoiner::_thread = NULL;
-#elif defined(__RE_USING_WINDOWS_THREADS__)
+#elif defined(__RE_THREADING_WINDOWS__)
 	CRITICAL_SECTION WebSocket::ThreadsJoiner::_mutex;
 	HANDLE WebSocket::ThreadsJoiner::_thread = NULL;
 #endif
@@ -61,11 +61,11 @@ namespace FayeCpp {
 	{
 		if (_thread) 
 		{
-#if defined (HAVE_PTHREAD_H)
+#if defined (__RE_THREADING_PTHREAD__)
 			void * r = NULL;
 			pthread_join(*_thread, &r);
 			if (r == NULL) { free(_thread); _thread = NULL; }
-#elif defined(__RE_USING_WINDOWS_THREADS__)
+#elif defined(__RE_THREADING_WINDOWS__)
 			DWORD dwExitCode = 0;
 			do {
 				if (GetExitCodeThread(_thread, &dwExitCode) == 0) break; // fail
@@ -77,9 +77,9 @@ namespace FayeCpp {
 		return (_thread == NULL);
 	}
 	
-#if defined (HAVE_PTHREAD_H)	
+#if defined (__RE_THREADING_PTHREAD__)
 	void WebSocket::ThreadsJoiner::add(pthread_t * t) {
-#elif defined(__RE_USING_WINDOWS_THREADS__)		
+#elif defined(__RE_THREADING_WINDOWS__)
 	void WebSocket::ThreadsJoiner::add(HANDLE t) {
 #endif
 		LOCK_MUTEX(&_mutex)
@@ -94,7 +94,7 @@ namespace FayeCpp {
 		return _isInitialized;
 	}
 	
-#if defined(HAVE_PTHREAD_H)
+#if defined(__RE_THREADING_PTHREAD__)
 	bool WebSocket::initRecursiveMutex(pthread_mutex_t * mutex)
 	{
 		pthread_mutexattr_t attr;
@@ -108,7 +108,7 @@ namespace FayeCpp {
 		}
 		return false;
 	}
-#elif defined(__RE_USING_WINDOWS_THREADS__)
+#elif defined(__RE_THREADING_WINDOWS__)
 	bool WebSocket::initRecursiveMutex(LPCRITICAL_SECTION mutex)
 	{
 		InitializeCriticalSection(mutex);
@@ -339,7 +339,7 @@ namespace FayeCpp {
 		return WebSocket::transportName(); 
 	}
 	
-#if defined(HAVE_PTHREAD_H)	
+#if defined(__RE_THREADING_PTHREAD__)	
 	void * WebSocket::workThreadFunc(void * somePointer)
 	{
 #if defined(HAVE_FUNCTION_PTHREAD_SETNAME_NP) && defined(__APPLE__)	
@@ -354,7 +354,7 @@ namespace FayeCpp {
 		ThreadsJoiner::add(t);
 		return NULL;
 	}
-#elif defined(__RE_USING_WINDOWS_THREADS__)
+#elif defined(__RE_THREADING_WINDOWS__)
 	DWORD WebSocket::workThreadFunc(LPVOID lpParameter)
 	{
 		WebSocket * socket = static_cast<WebSocket *>(lpParameter);
@@ -370,7 +370,7 @@ namespace FayeCpp {
 	
 	bool WebSocket::createWorkThread()
 	{
-#if defined(HAVE_PTHREAD_H)	
+#if defined(__RE_THREADING_PTHREAD__)
 		_workThread = (pthread_t *)malloc(sizeof(pthread_t));
 		if (!_workThread) return false;
 		pthread_attr_t attr;
@@ -395,7 +395,7 @@ namespace FayeCpp {
 			pthread_attr_destroy(&attr);
 			return res;
 		}
-#elif defined(__RE_USING_WINDOWS_THREADS__)
+#elif defined(__RE_THREADING_WINDOWS__)
         HANDLE hThread = CreateThread(NULL, 0, WebSocket::workThreadFunc, static_cast<LPVOID>(this), 0, NULL);
 		if (hThread)
 		{
@@ -565,9 +565,9 @@ namespace FayeCpp {
 
 			UNLOCK_MUTEX(&_mutex)
 
-#if defined(__RE_OS_WINDOWS__)
+#if defined(__RE_THREADING_WINDOWS__)
 			Sleep(1);     /// 1s = 1'000 millisec.
-#elif defined(HAVE_FUNCTION_USLEEP)
+#elif defined(__RE_THREADING_PTHREAD__) && defined(HAVE_FUNCTION_USLEEP)
             usleep(75);   /// 1s = 1'000'000 microsec.
 #endif
 		}
@@ -576,7 +576,7 @@ namespace FayeCpp {
 	}
 	
 	WebSocket::WebSocket(ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * processMethod) : Transport(processMethod),
-#if defined(HAVE_PTHREAD_H) || defined(__RE_USING_WINDOWS_THREADS__)
+#if defined(__RE_THREADING_PTHREAD__) || defined(__RE_THREADING_WINDOWS__)
 		_workThread(NULL),
 #endif
 		_context(NULL),
@@ -596,9 +596,9 @@ namespace FayeCpp {
 	{
 		FAYECPP_DEBUG_LOG("DESTRUCTOR ~WebSocket()");
 
-#if defined(HAVE_PTHREAD_H)	
+#if defined(__RE_THREADING_PTHREAD__)	
 		pthread_mutex_destroy(&_mutex);
-#elif defined(__RE_USING_WINDOWS_THREADS__)
+#elif defined(__RE_THREADING_WINDOWS__)
 		DeleteCriticalSection(&_mutex);
 #endif	
 	}

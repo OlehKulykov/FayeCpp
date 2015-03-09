@@ -42,21 +42,21 @@ namespace FayeCpp {
 	class WebSocket : public Transport
 	{
 	public:
-#if defined(HAVE_PTHREAD_H)
+#if defined(__RE_THREADING_PTHREAD__)
 		static bool initRecursiveMutex(pthread_mutex_t * mutex);
-#elif defined(__RE_USING_WINDOWS_THREADS__)
+#elif defined(__RE_THREADING_WINDOWS__)
 		static bool initRecursiveMutex(LPCRITICAL_SECTION mutex);
 #endif
 	private:
 		class ThreadsJoiner
 		{
-#if defined(HAVE_PTHREAD_H)
+#if defined(__RE_THREADING_PTHREAD__)
 		private:
 			static pthread_mutex_t _mutex;
 			static pthread_t * _thread;
 		public:
 			static void add(pthread_t * t);
-#elif defined(__RE_USING_WINDOWS_THREADS__)
+#elif defined(__RE_THREADING_WINDOWS__)
 		private:
 			static CRITICAL_SECTION _mutex;
 			static HANDLE _thread;
@@ -82,10 +82,10 @@ namespace FayeCpp {
 		
 		struct lws_context_creation_info _info;
 		
-#if defined(HAVE_PTHREAD_H)	
+#if defined(__RE_THREADING_PTHREAD__)
 		pthread_mutex_t _mutex;
 		pthread_t * _workThread;
-#elif defined(__RE_USING_WINDOWS_THREADS__)
+#elif defined(__RE_THREADING_WINDOWS__)
         HANDLE _workThread;
         CRITICAL_SECTION _mutex;
 #endif	
@@ -98,9 +98,9 @@ namespace FayeCpp {
 		
 		int _isWorking;
 		
-#if defined(HAVE_PTHREAD_H)	
+#if defined(__RE_THREADING_PTHREAD__)
 		static void * workThreadFunc(void * somePointer);
-#elif defined(__RE_USING_WINDOWS_THREADS__)
+#elif defined(__RE_THREADING_WINDOWS__)
         static DWORD WINAPI workThreadFunc(LPVOID lpParameter);
 #endif	
 		
