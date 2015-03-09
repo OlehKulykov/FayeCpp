@@ -9,7 +9,7 @@
 
 **FayeCpp** (C++) client library for desktop & mobile platforms, such as **Mac**, **Windows**, **Linux**, **iOS**, **Android**. 
 
-Library created with "Pure C++" (features provided by Standard C++), without heavy **STL** and **C++11** features. 
+Library created with "Pure C++" (features provided by Standard C++), without heavy **STL** and **C++11** features and have **Objective-C** client wrapper. 
 
 
 # Installation
@@ -75,6 +75,7 @@ make
 > ```
 > For more options read [Libwebsockets], [Jansson] and [CMake] documentation.
 
+
 ### Build on Windows with Microsoft Visual Studio
  * Execute **Start** -> **Microsoft Visual Studio ....** -> **Visual Studio Tools** -> **... Tools Command Prompt** with administrative permissions (Context menu: **Run as administrator** ).
  * Do the same as on **Build on Unix like platforms**, with small changes, tell [CMake] **generate makefiles** and use **nmake** or generate **Microsoft Visual Studio** solution and projects and build them.
@@ -101,6 +102,18 @@ Example configuring without **OpenSSL** support for **Microsoft Visual Studio**:
 > ```
 
 * Or another option: especially for this case was added continuous integration for **Microsoft Windows** via [AppVeyor] service, so you could look to the **appveyor.yml** file, located a the root, and find out how to configure and build with minimun actions.
+
+
+## Build on Windows with [MinGW]
+If you are using FayeCpp with [Libwebsockets] support, you should generate **MinGW Makefile**, and ignore [Libwebsockets] shared library during configuration. Because, since Windows Vista, you will get linker error: ```undefined reference to 'inet_ntop'``` and building will be interrupted. So, for linking all together and workaround this issue there is an additional C source file: ```builds/windows-mingw/inet_ntop.c``` which compiles only in case of using [MinGW] compiler.
+
+Successfully tested with **latest stable** [Mingw-builds project - native toolchains using trunk][3]:
+```
+MinGW64 version: 3.4
+MinGW32 version: 3.11
+The C compiler identification is GNU 4.9.2
+The CXX compiler identification is GNU 4.9.2
+```
 
 
 ### Build for Android with Android NDK
@@ -348,3 +361,5 @@ THE SOFTWARE.
 [JSON]:http://www.json.org
 [TODO_1]:https://github.com/davidgaleano/libwebsockets
 [AppVeyor]:http://www.appveyor.com
+[3]:http://mingw-w64.sourceforge.net/download.php
+[MinGW]:http://mingw-w64.sourceforge.net/
