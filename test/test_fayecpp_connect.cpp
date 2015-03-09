@@ -178,13 +178,16 @@ int main(int argc, char* argv[])
 				_client->setUrl("http://messages.presentain.com:80/faye");
 				_client->setDelegate(_delegate);
 				_client->connect();
+				_client->subscribeToChannel("/seminars/5322e93d8ee60a422400008f");
+				_client->subscribeToChannel("/seminars_service/5322e93d8ee60a422400008f");
 				break;
 
 			case STEP_SUBSCRIBE:
-				RELog::log("Start subscribing ...");
+				// don't need to await, add to pending subscription abowe.
+//				RELog::log("Start subscribing ...");
 				_step = STEP_WAIT;
-				_client->subscribeToChannel("/seminars/5322e93d8ee60a422400008f");
-				_client->subscribeToChannel("/seminars_service/5322e93d8ee60a422400008f");
+//				_client->subscribeToChannel("/seminars/5322e93d8ee60a422400008f");
+//				_client->subscribeToChannel("/seminars_service/5322e93d8ee60a422400008f");
 				break;
 
 			default:
