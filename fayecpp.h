@@ -107,7 +107,7 @@
 
 
 #if !defined(__RE_COMPILER_MINGW__)
-#if defined(__MINGW32__) || defined(__MINGW64__)
+#if defined(__MINGW32__) || defined(__MINGW64__) || defined(MINGW)
 #define __RE_COMPILER_MINGW__ 1
 #endif
 #endif
@@ -145,7 +145,7 @@
 #include <windows.h>
 
 #if defined(CMAKE_BUILD) || defined(__BUILDING_RECORE_DYNAMIC_LIBRARY__)
-#	if defined(_MSC_VER)
+#	if defined(_MSC_VER) || defined(__RE_COMPILER_MINGW__)
 #		define __RE_PUBLIC_CLASS_API__ __declspec(dllexport)
 #		define __RE_EXPORT__ __RE_EXTERN__ __declspec(dllexport) 
 #	elif defined(__GNUC__)
@@ -153,7 +153,7 @@
 #		define __RE_EXPORT__ __RE_EXTERN__ __attribute__((dllexport)) 
 #	endif
 #else
-#	if defined(_MSC_VER)
+#	if defined(_MSC_VER) || defined(__RE_COMPILER_MINGW__)
 #		define __RE_PUBLIC_CLASS_API__ __declspec(dllimport)
 #		define __RE_EXPORT__ __RE_EXTERN__ __declspec(dllimport) 
 #	elif defined(__GNUC__)
@@ -166,9 +166,11 @@
 
 
 
-#if defined(__GNUC__) 
+#if defined(__GNUC__)
 #	if __GNUC__ >= 4
-#		define __RE_PUBLIC_CLASS_API__ __attribute__ ((visibility("default")))
+#		if !defined(__RE_PUBLIC_CLASS_API__)
+#			define __RE_PUBLIC_CLASS_API__ __attribute__ ((visibility("default")))
+#		endif
 #	endif
 #endif
 

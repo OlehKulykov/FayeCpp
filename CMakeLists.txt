@@ -67,6 +67,8 @@ endif(MSVC)
 
 
 if(WIN32)
+	# Add windows definitions, cause this can be missed during compiling
+	# and libwebsockets checks only one of this defines(so add both).
 	add_definitions(-DWIN32)
 	add_definitions(-D_WIN32)
 	set(__RE_OS_WINDOWS__ 1)
@@ -93,7 +95,6 @@ endif()
 if(HAVE_COREFOUNDATION_FRAMEWORK)
 	message("CoreFoundation found")
 endif()
-
 
 
 message("Looking for libwebsockets...")
@@ -128,20 +129,6 @@ message("jansson include dirs: ${JANSSON_INCLUDE_DIRS}")
 message("jansson libraries: ${JANSSON_LIBRARIES}")
 include_directories(${JANSSON_INCLUDE_DIRS})
 set(HAVE_JANSSON_H 1)
-
-
-
-# Libwebsockets fix/patch for MinGW
-if(LIBWEBSOCKETS_BUNDLED_COPY AND WIN32)
-	check_include_file("mstcpip.h" HAVE_MSTCPIP_H)
-	if(NOT HAVE_MSTCPIP_H)
-		foreach(LIBWEBSOCKETS_INCLUDE_DIRECTORY ${LIBWEBSOCKETS_INCLUDE_DIRS})
-			file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/builds/windows-mingw/mstcpip.h" DESTINATION ${LIBWEBSOCKETS_INCLUDE_DIRECTORY})
-		endforeach()
-	endif(NOT HAVE_MSTCPIP_H)
-	add_definitions(-DWINVER=0x0501)
-endif(LIBWEBSOCKETS_BUNDLED_COPY AND WIN32)
-
 
 
 check_include_file("stdlib.h" HAVE_STDLIB_H)
@@ -573,7 +560,6 @@ configure_file("${PROJECT_SOURCE_DIR}/fayecpp_config.h.in"
 include_directories(${PROJECT_BINARY_DIR})
 
 
-
 set(FAYECPP_SOURCES	src/client.cpp
 		src/error.cpp
 		src/jsonutils.cpp
@@ -595,8 +581,12 @@ set(FAYECPP_SOURCES	src/client.cpp
 		src/websocket.cpp
 				)
 				
+if(MINGW)
+	list(APPEND FAYECPP_SOURCES builds/windows-mingw/inet_ntop.c)
+endif(MINGW)
+				
 
-set(FAYECPP_HEADERS 	fayecpp.h
+set(FAYECPP_HEADERS fayecpp.h
 				fayecpp_config.h)
 
 
@@ -613,17 +603,21 @@ add_dependencies(fayecpp websockets jansson)
 target_link_libraries(fayecpp websockets)
 target_link_libraries(fayecpp jansson)
 
+
 if(HAVE_PTHREAD_H)
 	target_link_libraries(fayecpp pthread)
 endif(HAVE_PTHREAD_H)
+
 
 if(HAVE_COREFOUNDATION_FRAMEWORK)
 	target_link_libraries(fayecpp ${COREFOUNDATION_FRAMEWORK})
 endif(HAVE_COREFOUNDATION_FRAMEWORK)
 
+
 if(MINGW)
 	target_link_libraries(fayecpp ws2_32)
 endif(MINGW)
+
 
 install(TARGETS fayecpp
 		DESTINATION lib)
@@ -631,6 +625,7 @@ install(TARGETS fayecpp
 
 install(FILES fayecpp.h 
 		DESTINATION include)
+
 
 enable_testing()
 add_subdirectory(test)

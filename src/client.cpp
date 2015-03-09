@@ -959,30 +959,30 @@ namespace FayeCpp {
 #if ( (!defined(__RE_32BIT_PLATFORM__)) && (!defined(__RE_64BIT_PLATFORM__)) )
 
 #if ( defined(__amd64__) || defined(__amd64) || defined(__x86_64__) || defined(__x86_64) || defined(_M_X64) || defined(_AMD64_) || defined(_M_AMD64) )
-#define __RE_64BIT_PLATFORM__
+#define __RE_64BIT_PLATFORM__ 1
 #endif /* Detect 64bit AMD64 */
 
 #ifndef __RE_64BIT_PLATFORM__
 #if ( defined(__LP64__) || defined(__ia64__) || defined(_IA64) || defined(__IA64__) || defined(__ia64) || defined(_M_IA64) )
-#define __RE_64BIT_PLATFORM__
+#define __RE_64BIT_PLATFORM__ 1
 #endif /* Detect 64bit Intel Architecture-64 */
 #endif
 
 #ifndef __RE_64BIT_PLATFORM__
 #if ( defined(_WIN64) || defined(__X86_64__) || defined(WIN64) || defined(_LP64) || defined(ppc64) || defined(x86_64) )
-#define __RE_64BIT_PLATFORM__
+#define __RE_64BIT_PLATFORM__ 1
 #endif /* Detect 64bit common defines */
 #endif
 
 #ifndef __RE_64BIT_PLATFORM__
 #if ( defined(__x86_64__) || defined(__ppc64__) )
-#define __RE_64BIT_PLATFORM__
+#define __RE_64BIT_PLATFORM__ 1
 #endif /* Detect 64bit common defines */
 #endif
 
 
 #ifndef __RE_64BIT_PLATFORM__
-#define __RE_32BIT_PLATFORM__
+#define __RE_32BIT_PLATFORM__ 1
 #endif /* if not 64bit than select 32bit */
 	
 #endif
@@ -1056,6 +1056,16 @@ namespace FayeCpp {
 #endif
 #if defined(_M_ARM)
 		" - Compiled for ARM processors\n"
+#endif
+#if defined(__RE_COMPILER_MINGW__)
+		" - MinGW compiler is in use"
+#if defined(__MINGW64_VERSION_MAJOR) && defined(__MINGW64_VERSION_MINOR) && defined(__RE_64BIT_PLATFORM__)
+		", MinGW64 version: " TO_STRING(__MINGW64_VERSION_MAJOR) "." TO_STRING(__MINGW64_VERSION_MINOR) "\n"
+#elif defined(__MINGW32_MAJOR_VERSION) && defined(__MINGW32_MINOR_VERSION) && defined(__RE_32BIT_PLATFORM__)
+		", MinGW32 version: " TO_STRING(__MINGW32_MAJOR_VERSION) "." TO_STRING(__MINGW32_MINOR_VERSION) "\n"
+#else
+		"\n"
+#endif
 #endif
 #if defined(_MFC_VER)
 		" - MFC version: " TO_STRING(_MFC_VER) "\n"
