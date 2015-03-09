@@ -35,6 +35,11 @@ target_link_libraries(test_fayecpp_init fayecpp)
 add_test(test_fayecpp_init test_fayecpp_init)
 
 
+add_executable(test_fayecpp_connect test_fayecpp_connect.cpp)
+target_link_libraries(test_fayecpp_connect fayecpp)
+add_test(test_fayecpp_connect test_fayecpp_connect)
+
+
 if(HAVE_CURL_CURL_H)
 add_executable(dbuploader dbuploader.c)
 target_link_libraries(dbuploader ${CURL_LIBRARIES})
@@ -43,6 +48,7 @@ endif(HAVE_CURL_CURL_H)
 
 install(TARGETS test_fayecpp_header DESTINATION bin)
 install(TARGETS test_fayecpp_init DESTINATION bin)
+install(TARGETS test_fayecpp_connect DESTINATION bin)
 
 if(HAVE_CURL_CURL_H)
 install(TARGETS dbuploader DESTINATION bin)
