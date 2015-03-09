@@ -403,37 +403,49 @@ int main(int argc, char* argv[])
 {
 	RELog::log("Client info: %s", Client::info());
 	RELog::log("Start test");
-	
+
 	RELog::log("Test create ...");
-	assert(testCreate() == EXIT_SUCCESS);
-	assert(testDelete() == EXIT_SUCCESS);
+	int test = testCreate();
+	assert(test == EXIT_SUCCESS);
+	test = testDelete();
+	assert(test == EXIT_SUCCESS);
 	RELog::log("Test create OK");
 	
 	RELog::log("Test client connection settings ...");
-	assert(testCreate() == EXIT_SUCCESS);
-	assert(testClientConnectionSettings() == EXIT_SUCCESS);
-	assert(testDelete() == EXIT_SUCCESS);
+	test = testCreate();
+	assert(test == EXIT_SUCCESS);
+	test = testClientConnectionSettings();
+	assert(test == EXIT_SUCCESS);
+	test = testDelete();
+	assert(test == EXIT_SUCCESS);
 	RELog::log("Test client connection settings OK");
 	
 	RELog::log("Test SSL data source paths ...");
-	assert(testCreate() == EXIT_SUCCESS);
-	assert(testSSLDataSourcePaths() == EXIT_SUCCESS);
-	assert(testDelete() == EXIT_SUCCESS);
+	test = testCreate();
+	assert(test == EXIT_SUCCESS);
+	test = testSSLDataSourcePaths();
+	assert(test == EXIT_SUCCESS);
+	test = testDelete();
+	assert(test == EXIT_SUCCESS);
 	RELog::log("Test SSL data source paths OK");
 	
 	RELog::log("Test create2 ...");
-	assert(testCreate2() == EXIT_SUCCESS);
-	assert(testDelete2() == EXIT_SUCCESS);
+	test = testCreate2();
+	assert(test == EXIT_SUCCESS);
+	test = testDelete2();
+	assert(test == EXIT_SUCCESS);
 	RELog::log("Test create2 OK");
 
 	RELog::log("Test extern user info ...");
-	assert(testExternUserInfo() == EXIT_SUCCESS);
+	test = testExternUserInfo();
+	assert(test == EXIT_SUCCESS);
 	RELog::log("Test extern user info OK");
 
 	RELog::log("Test externs ...");
-	assert(testExterns() == EXIT_SUCCESS);
+	test = testExterns();
+	assert(test == EXIT_SUCCESS);
 	RELog::log("Test externs OK");
-	
+
 	RELog::log("All done.");
 	return EXIT_SUCCESS;
 }

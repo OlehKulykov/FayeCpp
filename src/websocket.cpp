@@ -83,7 +83,14 @@ namespace FayeCpp {
 	void WebSocket::ThreadsJoiner::add(HANDLE t) {
 #endif
 		LOCK_MUTEX(&_mutex)
-		RE_ASSERT(ThreadsJoiner::clean()); /// If assert - thread not finished correctly.
+
+#if defined(HAVE_ASSERT_H)
+		const bool isClean = ThreadsJoiner::clean();
+		assert(isClean);
+#else
+		ThreadsJoiner::clean();
+#endif
+
 		_thread = t;
 		UNLOCK_MUTEX(&_mutex)
 	}
@@ -370,6 +377,7 @@ namespace FayeCpp {
 	
 	bool WebSocket::createWorkThread()
 	{
+		FAYECPP_DEBUG_LOG("WebSocket::createWorkThread()");
 #if defined(__RE_THREADING_PTHREAD__)
 		_workThread = (pthread_t *)malloc(sizeof(pthread_t));
 		if (!_workThread) return false;
@@ -396,9 +404,11 @@ namespace FayeCpp {
 			return res;
 		}
 #elif defined(__RE_THREADING_WINDOWS__)
+		FAYECPP_DEBUG_LOG("CreateThread ...");
         HANDLE hThread = CreateThread(NULL, 0, WebSocket::workThreadFunc, static_cast<LPVOID>(this), 0, NULL);
 		if (hThread)
 		{
+			FAYECPP_DEBUG_LOG("CreateThread OK");
 			_workThread = hThread;
 			return true;
 		}
@@ -410,7 +420,12 @@ namespace FayeCpp {
 	{
 		if (!this->isConnected())
 		{
-			RE_ASSERT(this->createWorkThread());
+#if defined(HAVE_ASSERT_H)
+			const bool isCreated = this->createWorkThread();
+			assert(isCreated);
+#else
+			this->createWorkThread();
+#endif
 		}
 	}
 	
@@ -585,11 +600,19 @@ namespace FayeCpp {
 		_receivedBinaryBuffer(NULL),
 		_isWorking(0)
 	{
-		RE_ASSERT(ThreadsJoiner::init());
-		
 		memset(&_info, 0, sizeof(struct lws_context_creation_info));
-		
-		RE_ASSERT(WebSocket::initRecursiveMutex(&_mutex));
+
+#if defined(HAVE_ASSERT_H)
+		bool isOK = ThreadsJoiner::init();
+		assert(isOK);
+
+		isOK = WebSocket::initRecursiveMutex(&_mutex);
+		assert(isOK);
+#else
+		ThreadsJoiner::init();
+		WebSocket::initRecursiveMutex(&_mutex);
+#endif
+
 	}
 	
 	WebSocket::~WebSocket()

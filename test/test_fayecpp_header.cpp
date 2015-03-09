@@ -115,13 +115,14 @@ int main(int argc, char* argv[])
 
 
 	RELog::log("Test defines ...");
-	assert(testDefines() == EXIT_SUCCESS);
+	int test = testDefines();
+	assert(test == EXIT_SUCCESS);
 	RELog::log("Test defines OK");
-	
-	RELog::log("Test types ...");
-	assert(testTypes() == EXIT_SUCCESS);
-	RELog::log("Test types OK");
 
+	RELog::log("Test types ...");
+	test = testTypes();
+	assert(test == EXIT_SUCCESS);
+	RELog::log("Test types OK");
 
 	RELog::log("All done.");
 	return EXIT_SUCCESS;

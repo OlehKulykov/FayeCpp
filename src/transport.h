@@ -33,9 +33,6 @@
 
 #if defined(HAVE_ASSERT_H)
 #include <assert.h>
-#define RE_ASSERT(r) assert(r)
-#else
-#define RE_ASSERT(r) r
 #endif
 
 #if !defined(__RE_HAVE_THREADS__) && defined(__RE_OS_WINDOWS__)

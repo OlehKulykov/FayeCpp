@@ -36,6 +36,21 @@
 #include <fayecpp.h>
 
 
+#if defined(HAVE_FAYECPP_CONFIG_H)
+#include "fayecpp_config.h"
+#endif
+
+
+#if defined(CMAKE_BUILD)
+#undef CMAKE_BUILD
+#endif
+
+
+#if defined(HAVE_UNISTD_H)
+#include <unistd.h>
+#endif
+
+
 #if !defined(__RE_HAVE_THREADS__) && defined(__RE_OS_WINDOWS__)
 #include <Windows.h>
 #define __RE_THREADING_WINDOWS__ 1
@@ -156,17 +171,21 @@ public:
 	virtual ~FayeDelegate() { }
 };
 
-
-int main(int argc, char* argv[])
+#if defined(__RE_THREADING_WINDOWS__)
+DWORD WINAPI workThreadFunc(LPVOID ptr);
+DWORD workThreadFunc(LPVOID lpParameter)
+#elif defined(__RE_THREADING_PTHREAD__) && defined(HAVE_FUNCTION_USLEEP)
+void * workThreadFunc(void * ptr)
+#endif
 {
 	RELog::log("Client info: %s", Client::info());
 	RELog::log("Start test");
 
 	_client = new Client();
-	if (!_client) return (++_result);
+	if (!_client) { _result++; return NULL; }
 
 	_delegate = new FayeDelegate();
-	if (!_delegate) return (++_result);
+	if (!_delegate) { _result++; return NULL; }
 
 	while (_client && _delegate)
 	{
@@ -187,10 +206,42 @@ int main(int argc, char* argv[])
 			default:
 				break;
 		}
+
+#if defined(__RE_THREADING_WINDOWS__)
+		Sleep(10);
+#elif defined(__RE_THREADING_PTHREAD__) && defined(HAVE_FUNCTION_USLEEP)
+		usleep(100);
+#endif
 	}
 
 	SAFE_DELETE(_client)
 	SAFE_DELETE(_delegate)
+
+	return NULL;
+}
+
+int main(int argc, char* argv[])
+{
+#if defined(__RE_THREADING_WINDOWS__)
+	HANDLE th = CreateThread(NULL, 0, workThreadFunc, NULL, 0, NULL);
+	if (th)
+	{
+		DWORD dwExitCode = 0;
+		do
+		{
+			if (!GetExitCodeThread(th, &dwExitCode))
+			{
+				break; // fail
+			}
+		}
+		while (dwExitCode == STILL_ACTIVE);
+		CloseHandle(th);
+	}
+#elif defined(__RE_THREADING_PTHREAD__) && defined(HAVE_FUNCTION_USLEEP)
+	pthread_t th;
+	pthread_create(&th, NULL, workThreadFunc, NULL);
+	pthread_join(th, NULL);
+#endif
 
 	return _result;
 }
