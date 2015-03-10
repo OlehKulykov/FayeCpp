@@ -44,7 +44,7 @@ pod 'FayeCpp', '~> 0.1.10'
 
 
 ### Patch
-For Android and Windows build with [Libwebsockets] you need to apply patch:
+For Android build with [Libwebsockets] you need to apply patch:
 ```sh
 cd libwebsockets
 git apply < ../libwebsockets_h.patch
