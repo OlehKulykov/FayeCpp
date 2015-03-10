@@ -12,7 +12,7 @@
 #define LWS_LIBRARY_VERSION "1.3"
 
 /* The current git commit hash that we're building from */
-#define LWS_BUILD_HASH "dfca3ab"
+#define LWS_BUILD_HASH "dd020b4"
 
 /* Build with OpenSSL support */
 //#define LWS_OPENSSL_SUPPORT 1
