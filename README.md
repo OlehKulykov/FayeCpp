@@ -117,6 +117,7 @@ The CXX compiler identification is GNU 4.9.2
 
 
 ### Build for Android with Android NDK
+ * Apply patch, described above.
  * Download and install [Android NDK][2].
  * Navigate to installed [Android NDK][2] folder.
  * Execute **ndk-build** script with project path parameter:
