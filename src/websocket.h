@@ -41,33 +41,23 @@ namespace FayeCpp {
 
 	class WebSocket : public Transport
 	{
-	public:
-#if defined(__RE_THREADING_PTHREAD__)
-		static bool initRecursiveMutex(pthread_mutex_t * mutex);
-#elif defined(__RE_THREADING_WINDOWS__)
-		static bool initRecursiveMutex(LPCRITICAL_SECTION mutex);
-#endif
 	private:
 		class ThreadsJoiner
 		{
 #if defined(__RE_THREADING_PTHREAD__)
 		private:
-			static pthread_mutex_t _mutex;
 			static pthread_t * _thread;
 		public:
 			static void add(pthread_t * t);
 #elif defined(__RE_THREADING_WINDOWS__)
 		private:
-			static CRITICAL_SECTION _mutex;
 			static HANDLE _thread;
 		public:
 			static void add(HANDLE t);
 #endif
-		private:	
-			static bool _isInitialized;
-			static bool clean();
-		public:
-			static bool init();
+		private:
+			static REMutex _mutex;
+			static void clean();
 		};
 		
 		class WriteBuffer : public REBuffer
@@ -81,13 +71,12 @@ namespace FayeCpp {
 		REList<WriteBuffer *> _writeBuffers;
 		
 		struct lws_context_creation_info _info;
-		
+
+		REMutex _mutex;
 #if defined(__RE_THREADING_PTHREAD__)
-		pthread_mutex_t _mutex;
 		pthread_t * _workThread;
 #elif defined(__RE_THREADING_WINDOWS__)
         HANDLE _workThread;
-        CRITICAL_SECTION _mutex;
 #endif	
 		
 		struct libwebsocket_context * _context;

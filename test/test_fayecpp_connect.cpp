@@ -171,12 +171,7 @@ public:
 	virtual ~FayeDelegate() { }
 };
 
-#if defined(__RE_THREADING_WINDOWS__)
-DWORD WINAPI workThreadFunc(LPVOID ptr);
-DWORD workThreadFunc(LPVOID lpParameter)
-#elif defined(__RE_THREADING_PTHREAD__) && defined(HAVE_FUNCTION_USLEEP)
-void * workThreadFunc(void * ptr)
-#endif
+int main(int argc, char* argv[])
 {
 	RELog::log("Client info: %s", Client::info());
 	RELog::log("Start test");
@@ -216,32 +211,6 @@ void * workThreadFunc(void * ptr)
 
 	SAFE_DELETE(_client)
 	SAFE_DELETE(_delegate)
-
-	return NULL;
-}
-
-int main(int argc, char* argv[])
-{
-#if defined(__RE_THREADING_WINDOWS__)
-	HANDLE th = CreateThread(NULL, 0, workThreadFunc, NULL, 0, NULL);
-	if (th)
-	{
-		DWORD dwExitCode = 0;
-		do
-		{
-			if (!GetExitCodeThread(th, &dwExitCode))
-			{
-				break; // fail
-			}
-		}
-		while (dwExitCode == STILL_ACTIVE);
-		CloseHandle(th);
-	}
-#elif defined(__RE_THREADING_PTHREAD__) && defined(HAVE_FUNCTION_USLEEP)
-	pthread_t th;
-	pthread_create(&th, NULL, workThreadFunc, NULL);
-	pthread_join(th, NULL);
-#endif
 
 	return _result;
 }

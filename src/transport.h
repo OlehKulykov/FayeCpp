@@ -47,14 +47,6 @@
 #define __RE_HAVE_THREADS__ 1
 #endif
 
-#if defined(__RE_THREADING_PTHREAD__)
-#define LOCK_MUTEX(mPtr) pthread_mutex_lock(mPtr);
-#define UNLOCK_MUTEX(mPtr) pthread_mutex_unlock(mPtr);
-#elif defined(__RE_THREADING_WINDOWS__)
-#define LOCK_MUTEX(mPtr) TryEnterCriticalSection(mPtr);
-#define UNLOCK_MUTEX(mPtr) LeaveCriticalSection(mPtr);
-#endif
-
 #ifndef SAFE_DELETE
 #define SAFE_DELETE(o) if(o){delete o;o=NULL;}
 #endif
@@ -76,6 +68,19 @@ namespace FayeCpp {
 #define ADVICE_RECONNECT_NONE 0
 #define ADVICE_RECONNECT_RETRY 1
 #define ADVICE_RECONNECT_HANDSHAKE 2
+
+#if !defined(HAVE_SUITABLE_QT_VERSION)
+	class REMutex
+	{
+	protected:
+		void * _m;
+	public:
+		void lock();
+		void unlock();
+		REMutex();
+		~REMutex();
+	};
+#endif
 
 	class Transport
 	{
