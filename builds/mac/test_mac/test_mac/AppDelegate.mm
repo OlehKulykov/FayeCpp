@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 #include "../../../../fayecpp.h"
-#include "../../../../src/jsonutils.h"
+#include "../../../../src/FCJsonUtils.h"
 
 #include <signal.h>
 #include <stdlib.h>

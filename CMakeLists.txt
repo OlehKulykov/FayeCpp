@@ -27,7 +27,7 @@ set(CPACK_PACKAGE_VERSION_MINOR "1")
 set(CPACK_PACKAGE_VERSION "${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}")
 set(CPACK_PACKAGE_VENDOR "info@resident.name")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "${PACKAGE} ${PACKAGE_VERSION}")
-set(SOVERSION "0.1.9")
+set(SOVERSION "0.1.10")
 set(CPACK_SOURCE_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}")
 set(VERSION "${CPACK_PACKAGE_VERSION}")
 
@@ -560,10 +560,10 @@ configure_file("${PROJECT_SOURCE_DIR}/fayecpp_config.h.in"
 include_directories(${PROJECT_BINARY_DIR})
 
 
-set(FAYECPP_SOURCES	src/client.cpp
-		src/error.cpp
-		src/jsonutils.cpp
-		src/message.cpp
+set(FAYECPP_SOURCES	src/FCClient.cpp
+		src/FCError.cpp
+		src/FCJsonUtils.cpp
+		src/FCMessage.cpp
 		src/REBuffer.cpp
 		src/REBufferNoCopy.cpp
 		src/RELog.cpp
@@ -577,8 +577,8 @@ set(FAYECPP_SOURCES	src/client.cpp
 		src/REVariantList.cpp
 		src/REVariantMap.cpp
 		src/REWideString.cpp
-		src/transport.cpp
-		src/websocket.cpp
+		src/FCTransport.cpp
+		src/FCWebSocket.cpp
 				)
 				
 if(MINGW)

@@ -21,7 +21,7 @@
  */
 
 
-#include "jsonutils.h"
+#include "FCJsonUtils.h"
 
 namespace FayeCpp {
 

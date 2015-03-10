@@ -31,10 +31,10 @@ ALL_SOURCES := \
 	../../../jansson/src/strconv.c \
 	../../../jansson/src/utf.c \
 	../../../jansson/src/value.c \
-	../../../src/client.cpp \
-	../../../src/error.cpp \
-	../../../src/jsonutils.cpp \
-	../../../src/message.cpp \
+	../../../src/FCClient.cpp \
+	../../../src/FCError.cpp \
+	../../../src/FCJsonUtils.cpp \
+	../../../src/FCMessage.cpp \
 	../../../src/REBuffer.cpp \
 	../../../src/REBufferNoCopy.cpp \
 	../../../src/RELog.cpp \
@@ -48,8 +48,8 @@ ALL_SOURCES := \
 	../../../src/REVariantList.cpp \
 	../../../src/REVariantMap.cpp \
 	../../../src/REWideString.cpp \
-	../../../src/transport.cpp \
-	../../../src/websocket.cpp \
+	../../../src/FCTransport.cpp \
+	../../../src/FCWebSocket.cpp \
 	../getdtablesize.c
 
 

@@ -34,30 +34,34 @@ INCLUDEPATH += $$PWD/jansson/src/
 
 DEPENDPATH += $$PWD
 
+
 ## FayeCpp sources
-SOURCES += $$PWD/src/client.cpp \
-           $$PWD/src/error.cpp \
-           $$PWD/src/jsonutils.cpp \
-           $$PWD/src/message.cpp \
-           $$PWD/src/REBuffer.cpp \
-           $$PWD/src/REBufferNoCopy.cpp \
-           $$PWD/src/RELog.cpp \
-           $$PWD/src/REMutableString.cpp \
-           $$PWD/src/REStaticString.cpp \
-           $$PWD/src/REString.cpp \
-           $$PWD/src/REStringBase.cpp \
-           $$PWD/src/REStringList.cpp \
-           $$PWD/src/REStringUtilsPrivate.cpp \
-           $$PWD/src/REVariant.cpp \
-           $$PWD/src/REVariantList.cpp \
-           $$PWD/src/REVariantMap.cpp \
-           $$PWD/src/REWideString.cpp \
-           $$PWD/src/transport.cpp \
-           $$PWD/src/websocketqt.cpp
+SOURCES += \
+    $$PWD/src/REBuffer.cpp \
+    $$PWD/src/REBufferNoCopy.cpp \
+    $$PWD/src/RELog.cpp \
+    $$PWD/src/REMutableString.cpp \
+    $$PWD/src/REStaticString.cpp \
+    $$PWD/src/REString.cpp \
+    $$PWD/src/REStringBase.cpp \
+    $$PWD/src/REStringList.cpp \
+    $$PWD/src/REStringUtilsPrivate.cpp \
+    $$PWD/src/REVariant.cpp \
+    $$PWD/src/REVariantList.cpp \
+    $$PWD/src/REVariantMap.cpp \
+    $$PWD/src/REWideString.cpp \
+    $$PWD/src/FCClient.cpp \
+    $$PWD/src/FCError.cpp \
+    $$PWD/src/FCJsonUtils.cpp \
+    $$PWD/src/FCMessage.cpp \
+    $$PWD/src/FCTransport.cpp \
+    $$PWD/src/FCWebSocketQt.cpp
+
 
 ## FayeCpp headers
 HEADERS += $$PWD/fayecpp.h \
-           $$PWD/src/websocketqt.h
+           $$PWD/src/FCWebSocketQt.h
+
 
 ## jansson sources
 SOURCES += $$PWD/jansson/src/dump.c \
@@ -77,7 +81,6 @@ win32 {
 DEFINES += __RE_OS_WINDOWS__=1
 DEFINES += WIN32_LEAN_AND_MEAN
 DEFINES += _WIN32
-#DEFINES += USE_WINDOWS_CRYPTOAPI
 #common defines
 DEFINES += HAVE_STDINT_H=1
 DEFINES += HAVE_STDARG_H=1

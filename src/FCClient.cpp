@@ -31,9 +31,9 @@
 #include <QObject>
 #endif
 
-#include "transport.h"
-#include "classmethodwrapper.h"
-#include "jsonutils.h"
+#include "FCTransport.h"
+#include "FCClassMethodWrapper.h"
+#include "FCJsonUtils.h"
 
 #if defined(HAVE_SYS_TIME_H)
 #include <sys/time.h>
@@ -113,7 +113,7 @@ namespace FayeCpp {
 
 	Error * Client::lastError() const
 	{
-		return _lastError;
+        return _lastError;
 	}
 
 	const REVariant & Client::extValue() const

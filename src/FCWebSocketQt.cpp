@@ -21,7 +21,7 @@
  */
 
 
-#include "websocketqt.h"
+#include "FCWebSocketQt.h"
 
 #if defined(HAVE_SUITABLE_QT_VERSION)
 
@@ -30,6 +30,22 @@
 #include <QSslKey>
 
 #include "../fayecpp.h"
+
+#if !defined(__FUNCTION__)
+#if defined(__func__)
+#define __FUNCTION__ __func__
+#else
+#define NO__FUNCTION__
+#endif
+#endif
+
+#ifndef ERROR_LINE_INFO_STRING
+#ifdef NO__FUNCTION__
+#define ERROR_LINE_INFO_STRING REString::createWithFormat("File: %s, line: %i", __FILE__, (int)__LINE__)
+#else
+#define ERROR_LINE_INFO_STRING REString::createWithFormat("File: %s, function: %s, line: %i", __FILE__, __FUNCTION__, (int)__LINE__)
+#endif
+#endif
 
 namespace FayeCpp {
 
@@ -79,15 +95,18 @@ namespace FayeCpp {
 #ifdef FAYECPP_DEBUG_MESSAGES
 		qDebug() << "SocketQt:" << "ERROR:" << error;
 #endif
+        REVariantMap info;
+        info[kErrorPlaceInTheCodeKey] = ERROR_LINE_INFO_STRING;
 		const QString err(_socket->errorString());
 		if (err.isEmpty())
 		{
-			this->onError(REString("TODO: unprocessed qt socket error"));
+            info[kErrorLocalizedDescriptionKey] = "Unprocessed qt socket error";
 		}
 		else
 		{
-			this->onError(REString(err.toUtf8().data()));
+            info[kErrorLocalizedDescriptionKey] = err.toUtf8().data();
 		}
+        this->onError(Error(kErrorDomainTransport, Error::InternalApplicationError, info));
 		(void)error;
 	}
 

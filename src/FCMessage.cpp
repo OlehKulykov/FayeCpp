@@ -27,7 +27,7 @@
 #include "fayecpp_config.h"
 #endif
 
-#include "jsonutils.h"
+#include "FCJsonUtils.h"
 
 #ifndef SAFE_DELETE
 #define SAFE_DELETE(o) if(o){delete o;o=NULL;}

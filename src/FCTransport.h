@@ -25,7 +25,7 @@
 #define __FAYECPP_TRANSPORT_H__
 
 #include "../fayecpp.h"
-#include "classmethodwrapper.h"
+#include "FCClassMethodWrapper.h"
 
 #if defined(HAVE_FAYECPP_CONFIG_H)
 #include "fayecpp_config.h"

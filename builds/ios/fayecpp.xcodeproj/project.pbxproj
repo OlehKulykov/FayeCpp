@@ -7,10 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3D0E0C341A90DEC100E8C0A9 /* error.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D0E0C331A90DEC100E8C0A9 /* error.cpp */; };
-		3D12B482194AF31000B8E9D9 /* client.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B467194AF31000B8E9D9 /* client.cpp */; };
-		3D12B483194AF31000B8E9D9 /* jsonutils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B468194AF31000B8E9D9 /* jsonutils.cpp */; };
-		3D12B484194AF31000B8E9D9 /* message.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B46A194AF31000B8E9D9 /* message.cpp */; };
 		3D12B485194AF31000B8E9D9 /* REBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B46B194AF31000B8E9D9 /* REBuffer.cpp */; };
 		3D12B486194AF31000B8E9D9 /* REBufferNoCopy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B46C194AF31000B8E9D9 /* REBufferNoCopy.cpp */; };
 		3D12B487194AF31000B8E9D9 /* REMutableString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B46D194AF31000B8E9D9 /* REMutableString.cpp */; };
@@ -20,9 +16,13 @@
 		3D12B48C194AF31000B8E9D9 /* REStringList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B473194AF31000B8E9D9 /* REStringList.cpp */; };
 		3D12B48D194AF31000B8E9D9 /* REStringUtilsPrivate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B474194AF31000B8E9D9 /* REStringUtilsPrivate.cpp */; };
 		3D12B48F194AF31000B8E9D9 /* REWideString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B478194AF31000B8E9D9 /* REWideString.cpp */; };
-		3D12B490194AF31000B8E9D9 /* transport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B479194AF31000B8E9D9 /* transport.cpp */; };
-		3D12B494194AF31000B8E9D9 /* websocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B47E194AF31000B8E9D9 /* websocket.cpp */; };
 		3D50938B194D0AFF000EF310 /* RELog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D50938A194D0AFF000EF310 /* RELog.cpp */; };
+		3D7450CB1AAF931D00AA32A3 /* FCClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D7450C21AAF931D00AA32A3 /* FCClient.cpp */; };
+		3D7450CC1AAF931D00AA32A3 /* FCError.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D7450C31AAF931D00AA32A3 /* FCError.cpp */; };
+		3D7450CD1AAF931D00AA32A3 /* FCJsonUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D7450C41AAF931D00AA32A3 /* FCJsonUtils.cpp */; };
+		3D7450CE1AAF931D00AA32A3 /* FCMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D7450C61AAF931D00AA32A3 /* FCMessage.cpp */; };
+		3D7450CF1AAF931D00AA32A3 /* FCTransport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D7450C71AAF931D00AA32A3 /* FCTransport.cpp */; };
+		3D7450D01AAF931D00AA32A3 /* FCWebSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D7450C91AAF931D00AA32A3 /* FCWebSocket.cpp */; };
 		3D8CB880194898B400943B53 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D8CB87F194898B400943B53 /* Foundation.framework */; };
 		3D8CB8B71948994500943B53 /* base64-decode.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CB8A61948994500943B53 /* base64-decode.c */; };
 		3D8CB8B81948994500943B53 /* client-handshake.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CB8A71948994500943B53 /* client-handshake.c */; };
@@ -71,12 +71,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		3D0E0C331A90DEC100E8C0A9 /* error.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = error.cpp; path = ../../src/error.cpp; sourceTree = "<group>"; };
-		3D12B466194AF31000B8E9D9 /* classmethodwrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = classmethodwrapper.h; path = ../../src/classmethodwrapper.h; sourceTree = "<group>"; };
-		3D12B467194AF31000B8E9D9 /* client.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = client.cpp; path = ../../src/client.cpp; sourceTree = "<group>"; };
-		3D12B468194AF31000B8E9D9 /* jsonutils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = jsonutils.cpp; path = ../../src/jsonutils.cpp; sourceTree = "<group>"; };
-		3D12B469194AF31000B8E9D9 /* jsonutils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = jsonutils.h; path = ../../src/jsonutils.h; sourceTree = "<group>"; };
-		3D12B46A194AF31000B8E9D9 /* message.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = message.cpp; path = ../../src/message.cpp; sourceTree = "<group>"; };
 		3D12B46B194AF31000B8E9D9 /* REBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REBuffer.cpp; path = ../../src/REBuffer.cpp; sourceTree = "<group>"; };
 		3D12B46C194AF31000B8E9D9 /* REBufferNoCopy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REBufferNoCopy.cpp; path = ../../src/REBufferNoCopy.cpp; sourceTree = "<group>"; };
 		3D12B46D194AF31000B8E9D9 /* REMutableString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REMutableString.cpp; path = ../../src/REMutableString.cpp; sourceTree = "<group>"; };
@@ -87,11 +81,17 @@
 		3D12B474194AF31000B8E9D9 /* REStringUtilsPrivate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REStringUtilsPrivate.cpp; path = ../../src/REStringUtilsPrivate.cpp; sourceTree = "<group>"; };
 		3D12B475194AF31000B8E9D9 /* REStringUtilsPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = REStringUtilsPrivate.h; path = ../../src/REStringUtilsPrivate.h; sourceTree = "<group>"; };
 		3D12B478194AF31000B8E9D9 /* REWideString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REWideString.cpp; path = ../../src/REWideString.cpp; sourceTree = "<group>"; };
-		3D12B479194AF31000B8E9D9 /* transport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = transport.cpp; path = ../../src/transport.cpp; sourceTree = "<group>"; };
-		3D12B47A194AF31000B8E9D9 /* transport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = transport.h; path = ../../src/transport.h; sourceTree = "<group>"; };
-		3D12B47E194AF31000B8E9D9 /* websocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = websocket.cpp; path = ../../src/websocket.cpp; sourceTree = "<group>"; };
-		3D12B47F194AF31000B8E9D9 /* websocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = websocket.h; path = ../../src/websocket.h; sourceTree = "<group>"; };
 		3D50938A194D0AFF000EF310 /* RELog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RELog.cpp; path = ../../src/RELog.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		3D7450C11AAF931D00AA32A3 /* FCClassMethodWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FCClassMethodWrapper.h; path = ../../src/FCClassMethodWrapper.h; sourceTree = "<group>"; };
+		3D7450C21AAF931D00AA32A3 /* FCClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FCClient.cpp; path = ../../src/FCClient.cpp; sourceTree = "<group>"; };
+		3D7450C31AAF931D00AA32A3 /* FCError.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FCError.cpp; path = ../../src/FCError.cpp; sourceTree = "<group>"; };
+		3D7450C41AAF931D00AA32A3 /* FCJsonUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FCJsonUtils.cpp; path = ../../src/FCJsonUtils.cpp; sourceTree = "<group>"; };
+		3D7450C51AAF931D00AA32A3 /* FCJsonUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FCJsonUtils.h; path = ../../src/FCJsonUtils.h; sourceTree = "<group>"; };
+		3D7450C61AAF931D00AA32A3 /* FCMessage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FCMessage.cpp; path = ../../src/FCMessage.cpp; sourceTree = "<group>"; };
+		3D7450C71AAF931D00AA32A3 /* FCTransport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FCTransport.cpp; path = ../../src/FCTransport.cpp; sourceTree = "<group>"; };
+		3D7450C81AAF931D00AA32A3 /* FCTransport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FCTransport.h; path = ../../src/FCTransport.h; sourceTree = "<group>"; };
+		3D7450C91AAF931D00AA32A3 /* FCWebSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FCWebSocket.cpp; path = ../../src/FCWebSocket.cpp; sourceTree = "<group>"; };
+		3D7450CA1AAF931D00AA32A3 /* FCWebSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FCWebSocket.h; path = ../../src/FCWebSocket.h; sourceTree = "<group>"; };
 		3D8CB87C194898B400943B53 /* libfayecpp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libfayecpp.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D8CB87F194898B400943B53 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3D8CB890194898B400943B53 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -226,12 +226,16 @@
 		3D8CB8E2194899E500943B53 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				3D12B466194AF31000B8E9D9 /* classmethodwrapper.h */,
-				3D12B467194AF31000B8E9D9 /* client.cpp */,
-				3D0E0C331A90DEC100E8C0A9 /* error.cpp */,
-				3D12B468194AF31000B8E9D9 /* jsonutils.cpp */,
-				3D12B469194AF31000B8E9D9 /* jsonutils.h */,
-				3D12B46A194AF31000B8E9D9 /* message.cpp */,
+				3D7450C11AAF931D00AA32A3 /* FCClassMethodWrapper.h */,
+				3D7450C21AAF931D00AA32A3 /* FCClient.cpp */,
+				3D7450C31AAF931D00AA32A3 /* FCError.cpp */,
+				3D7450C41AAF931D00AA32A3 /* FCJsonUtils.cpp */,
+				3D7450C51AAF931D00AA32A3 /* FCJsonUtils.h */,
+				3D7450C61AAF931D00AA32A3 /* FCMessage.cpp */,
+				3D7450C71AAF931D00AA32A3 /* FCTransport.cpp */,
+				3D7450C81AAF931D00AA32A3 /* FCTransport.h */,
+				3D7450C91AAF931D00AA32A3 /* FCWebSocket.cpp */,
+				3D7450CA1AAF931D00AA32A3 /* FCWebSocket.h */,
 				3D12B46B194AF31000B8E9D9 /* REBuffer.cpp */,
 				3D12B46C194AF31000B8E9D9 /* REBufferNoCopy.cpp */,
 				3D50938A194D0AFF000EF310 /* RELog.cpp */,
@@ -246,10 +250,6 @@
 				3DF2CAF81A496715003005FC /* REVariant.cpp */,
 				3DF2CAF91A496715003005FC /* REVariantList.cpp */,
 				3DF2CAFA1A496715003005FC /* REVariantMap.cpp */,
-				3D12B479194AF31000B8E9D9 /* transport.cpp */,
-				3D12B47A194AF31000B8E9D9 /* transport.h */,
-				3D12B47E194AF31000B8E9D9 /* websocket.cpp */,
-				3D12B47F194AF31000B8E9D9 /* websocket.h */,
 			);
 			name = src;
 			sourceTree = "<group>";
@@ -315,11 +315,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				3D12B487194AF31000B8E9D9 /* REMutableString.cpp in Sources */,
+				3D7450CB1AAF931D00AA32A3 /* FCClient.cpp in Sources */,
 				3D8CB8DD1948996200943B53 /* utf.c in Sources */,
 				3DAD75FD1A32FEA40054F999 /* alloc.c in Sources */,
 				3DF2CAFB1A496715003005FC /* REVariant.cpp in Sources */,
+				3D7450CD1AAF931D00AA32A3 /* FCJsonUtils.cpp in Sources */,
 				3D8CB8D51948996200943B53 /* error.c in Sources */,
 				3D50938B194D0AFF000EF310 /* RELog.cpp in Sources */,
+				3D7450CC1AAF931D00AA32A3 /* FCError.cpp in Sources */,
 				3D8CB8D81948996200943B53 /* load.c in Sources */,
 				3D8CB8BA1948994500943B53 /* client.c in Sources */,
 				3D12B48A194AF31000B8E9D9 /* REString.cpp in Sources */,
@@ -331,22 +334,19 @@
 				3D8CB8D71948996200943B53 /* hashtable_seed.c in Sources */,
 				3D12B48F194AF31000B8E9D9 /* REWideString.cpp in Sources */,
 				3D8CB8D41948996200943B53 /* dump.c in Sources */,
+				3D7450CE1AAF931D00AA32A3 /* FCMessage.cpp in Sources */,
 				3D8CB8B81948994500943B53 /* client-handshake.c in Sources */,
 				3D12B48C194AF31000B8E9D9 /* REStringList.cpp in Sources */,
 				3D8CB8D91948996200943B53 /* memory.c in Sources */,
-				3D0E0C341A90DEC100E8C0A9 /* error.cpp in Sources */,
-				3D12B484194AF31000B8E9D9 /* message.cpp in Sources */,
 				3D8CB8DC1948996200943B53 /* strconv.c in Sources */,
-				3D12B490194AF31000B8E9D9 /* transport.cpp in Sources */,
 				3D12B485194AF31000B8E9D9 /* REBuffer.cpp in Sources */,
 				3D8CB8DE1948996200943B53 /* value.c in Sources */,
 				3DF2CAFD1A496715003005FC /* REVariantMap.cpp in Sources */,
 				3D8CB8C01948994500943B53 /* handshake.c in Sources */,
-				3D12B482194AF31000B8E9D9 /* client.cpp in Sources */,
 				3D8CB8DB1948996200943B53 /* strbuffer.c in Sources */,
 				3D8CB8C51948994500943B53 /* pollfd.c in Sources */,
 				3D8CB8BC1948994500943B53 /* extension-deflate-frame.c in Sources */,
-				3D12B483194AF31000B8E9D9 /* jsonutils.cpp in Sources */,
+				3D7450D01AAF931D00AA32A3 /* FCWebSocket.cpp in Sources */,
 				3D12B48D194AF31000B8E9D9 /* REStringUtilsPrivate.cpp in Sources */,
 				3DF2CAFC1A496715003005FC /* REVariantList.cpp in Sources */,
 				3D8CB8C71948994500943B53 /* sha-1.c in Sources */,
@@ -356,11 +356,11 @@
 				3D8CB8C31948994500943B53 /* output.c in Sources */,
 				3D12B489194AF31000B8E9D9 /* REStaticString.cpp in Sources */,
 				3D8CB8C61948994500943B53 /* service.c in Sources */,
-				3D12B494194AF31000B8E9D9 /* websocket.cpp in Sources */,
 				3D8CB8C21948994500943B53 /* lws-plat-unix.c in Sources */,
 				3D8CB8C41948994500943B53 /* parsers.c in Sources */,
 				3D8CB8DA1948996200943B53 /* pack_unpack.c in Sources */,
 				3D12B48B194AF31000B8E9D9 /* REStringBase.cpp in Sources */,
+				3D7450CF1AAF931D00AA32A3 /* FCTransport.cpp in Sources */,
 				3D8CB8B91948994500943B53 /* client-parser.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -21,12 +21,12 @@
  */
 
 
-#include "transport.h"
+#include "FCTransport.h"
 
 #ifdef HAVE_SUITABLE_QT_VERSION
-#include "websocketqt.h"
+#include "FCWebSocketQt.h"
 #else
-#include "websocket.h"
+#include "FCWebSocket.h"
 #endif
 
 #if defined(HAVE_ASSERT_H)

@@ -33,7 +33,7 @@
 
 #if !defined(HAVE_SUITABLE_QT_VERSION) && defined(HAVE_LIBWEBSOCKETS_H)
 
-#include "transport.h"
+#include "FCTransport.h"
 
 #include <libwebsockets.h>
 

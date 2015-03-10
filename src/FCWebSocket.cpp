@@ -21,7 +21,7 @@
  */
 
 
-#include "websocket.h"
+#include "FCWebSocket.h"
 
 #if !defined(HAVE_SUITABLE_QT_VERSION) && defined(HAVE_LIBWEBSOCKETS_H)
 

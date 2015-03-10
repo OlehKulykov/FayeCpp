@@ -177,10 +177,10 @@ int main(int argc, char* argv[])
 	RELog::log("Start test");
 
 	_client = new Client();
-	if (!_client) { _result++; return NULL; }
+	if (!_client) return (++_result);
 
 	_delegate = new FayeDelegate();
-	if (!_delegate) { _result++; return NULL; }
+	if (!_delegate) return (++_result);
 
 	while (_client && _delegate)
 	{

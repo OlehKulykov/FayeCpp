@@ -28,7 +28,7 @@
 
 #if defined(HAVE_SUITABLE_QT_VERSION)
 
-#include "transport.h"
+#include "FCTransport.h"
 
 #include <QObject>
 #include <QString>

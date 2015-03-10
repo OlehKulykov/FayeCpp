@@ -28,8 +28,15 @@
  *   Faye C++ client main and one header file.
  *   All class interfaces added to namespace, preventing include files mess.
  *
- *   Changes on version 0.1.9 (current):
- *   - Objective-C client wrapper speed optimizations(used only NON-ARC mode and CoreFoundation framework).
+ *   Changes on version 0.1.10 (current):
+ *   - Added faye client connect test (connect, handshake and subscribing).
+ *   - Minor WebSocket transport based on libwebsockets refactoring (reduce code size).
+ *   - Rename some internal source/header files, cause of file name duplication with
+ *      other third party libraries (prevent compile issue with Qt 5.4.1 by Qt Creator 3.3.2).
+ *   - MinGW compiler support.
+ *
+ *   Changes on version 0.1.9:
+ *   - Objective-C client wrapper speed optimization (used only NON-ARC mode and CoreFoundation framework).
  *   - Apple localization bundle fix.
  *
  *   Changes on version 0.1.8:
@@ -56,7 +63,7 @@
  *   - Removed unused classes RETime, REThread and REMutex.
  *   - Redused size of code and library size thanks to previous two punkts.
  *   - Added client library build information.
- *   - Build results(binary library/framework & headers) from continuous integration systems now stores
+ *   - Build results (binary library/framework & headers) from continuous integration systems now stores
  *      and available on GitHub release page: https://github.com/OlehKulykov/FayeCpp/releases
  *
  *   Changes on version 0.1.4:
@@ -66,7 +73,7 @@
  *   - Added processing large received binary and text frames in case using 'libwebsockets'.
  *
  *   Changes on version 0.1.2:
- *   - Added autoreconnect to the client while disconnect with unknown error(not by user).
+ *   - Added autoreconnect to the client while disconnect with unknown error (not by user).
  *   - Added to cocoapods repository.
  *
  *   Version 0.1.1:
@@ -76,7 +83,7 @@
 
 #define FAYECPP_VERSION_MAJOR 0
 #define FAYECPP_VERSION_MINOR 1
-#define FAYECPP_VERSION_PATCH 9
+#define FAYECPP_VERSION_PATCH 10
 
 
 #if !defined(HAVE_SUITABLE_QT_VERSION) 
