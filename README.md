@@ -9,7 +9,7 @@
 
 **FayeCpp** (C++) client library for desktop & mobile platforms, such as **Mac**, **Windows**, **Linux**, **iOS**, **Android**. 
 
-Library created with "Pure C++" (features provided by Standard C++), without heavy **STL** and **C++11** features and have **Objective-C** client wrapper. 
+Library created with "Pure C++" (features provided by Standard C++), without heavy **STL** and **C++11** features. For Mac and iOS there is also **Objective-C** client wrapper.
 
 
 # Installation
