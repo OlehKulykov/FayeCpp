@@ -107,13 +107,9 @@ namespace FayeCpp {
 		const char * ch = (const char *)this->UTF8String();
 		if (ch)
 		{
-			while (*ch) 
+			while (*ch)
 			{
-				const wchar_t u = (*ch);
-				if ( u >= ((char)0x80) )
-				{
-					return true;
-				}
+				if (REStringUtilsPrivate::getUTF8Len(*ch) > 1) return true;
 				ch++;
 			}
 		}
