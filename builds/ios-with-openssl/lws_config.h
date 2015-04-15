@@ -11,10 +11,10 @@
 /* #undef USE_CYASSL */
 
 /* The Libwebsocket version */
-#define LWS_LIBRARY_VERSION "1.3"
+#define LWS_LIBRARY_VERSION "1.4"
 
 /* The current git commit hash that we're building from */
-#define LWS_BUILD_HASH "dd020b4"
+#define LWS_BUILD_HASH "408f537"
 
 /* Build with OpenSSL support */
 #define LWS_OPENSSL_SUPPORT 1
