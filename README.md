@@ -5,6 +5,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/iff0000q0c47brnc?svg=true)](https://ci.appveyor.com/project/OlehKulykov/fayecpp)
 [![Total views](https://sourcegraph.com/api/repos/github.com/OlehKulykov/FayeCpp/counters/views.png)](https://sourcegraph.com/github.com/OlehKulykov/FayeCpp)
 [![Views in the last 24 hours](https://sourcegraph.com/api/repos/github.com/OlehKulykov/FayeCpp/counters/views-24h.png)](https://sourcegraph.com/github.com/OlehKulykov/FayeCpp)
+[![Tips](https://tip4commit.com/projects/43124.svg)](https://tip4commit.com/github/OlehKulykov/FayeCpp)
 
 
 **FayeCpp** (C++) client library for desktop & mobile platforms, such as **Mac**, **Windows**, **Linux**, **iOS**, **Android**. 
@@ -177,6 +178,11 @@ For easy integration there is Xcode static iOS library project ```fayecpp.xcodep
 
 ### Using with Objective-C code
 For **Mac** & **iOS** there is **Objective-C client wrapper** located in the folder ```contrib/objc/```. Just add ```FayeCppClient.h```, ```FayeCppClient.mm``` files to your project and use. This wrapper can be used **with** or **without** Automatic Reference Counting (ARC). 
+
+
+# Donation
+----------
+[![PayPal donation](https://www.paypalobjects.com/en_US/DE/i/btn/btn_donateCC_LG.gif "Title")](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SNFUS5HJN4XNW)
 
 
 # Working with the library
