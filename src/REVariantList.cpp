@@ -122,7 +122,39 @@ namespace FayeCpp {
 		
 		return *this;
 	}
-	
+
+	bool REVariantList::isEqualToList(const REVariantList & list) const
+	{
+		REUInt32 count1 = 0;
+		REUInt32 count2 = 0;
+		REVariantList::Iterator i1 = this->iterator();
+		REVariantList::Iterator i2 = list.iterator();
+		bool next1 = i1.next();
+		bool next2 = i2.next();
+		while (next1 && next2)
+		{
+			count1++; count2++;
+			if (!i1.value().isEqualToVariant(i2.value())) return false;
+			next1 = i1.next();
+			next2 = i2.next();
+		}
+
+		if (next1) { count1++; while (i1.next()) count1++; }
+		if (next2) { count2++; while (i2.next()) count2++; }
+
+		return (count1 == count2);
+	}
+
+	bool REVariantList::operator==(const REVariantList & list) const
+	{
+		return this->isEqualToList(list);
+	}
+
+	bool REVariantList::operator!=(const REVariantList & list) const
+	{
+		return !this->isEqualToList(list);
+	}
+
 	REVariantList::REVariantList(const REVariantList & list)
 	{
 		*this = list;

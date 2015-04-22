@@ -923,7 +923,24 @@ namespace FayeCpp {
 				node = this->removeNode(node);
 			}
 		}
-		
+
+
+		/**
+		 @brief Calculates count of the list by iterating all elements.
+		 @return Count of the elements.
+		 */
+		REUInt32 count() const
+		{
+			REUInt32 c = 0;
+			Node * next = this->_head->next;
+			while (next != this->_head)
+			{
+				c++;
+				next = next->next;
+			}
+			return c;
+		}
+
 
 		/**
 		 @brief Locate node with same value described as void pointer.
@@ -1305,7 +1322,24 @@ namespace FayeCpp {
 				node = this->removeNode(node);
 			}
 		}
-		
+
+
+		/**
+		 @brief Calculates count of the map by iterating all elements.
+		 @return Count of the elements.
+		 */
+		REUInt32 count() const
+		{
+			REUInt32 c = 0;
+			Node * next = this->_head->next;
+			while (next != this->_head)
+			{
+				c++;
+				next = next->next;
+			}
+			return c;
+		}
+
 
 		/**
 		 @brief Find node by key object.
@@ -1732,6 +1766,7 @@ namespace FayeCpp {
 
 	class REMutableString;
 	class REWideString;
+	class REStringList;
 	
 
 	/**
@@ -1791,6 +1826,14 @@ namespace FayeCpp {
 		 */
 		REBOOL isContaines(const wchar_t * wideString) const;
 		
+
+		/**
+		 @brief Splits string with string delimeter.
+		 @detailed If delimeter not found returns empty list.
+		 @return List with at least 2 strings if delimeter found, otherwice empty list.
+		 */
+		REStringList split(const char * delimeterString) const;
+
 
 		/**
 		 @brief Check is string is digit presentation.
@@ -2938,6 +2981,24 @@ namespace FayeCpp {
 
 
 		/**
+		 @brief Checks is variants are equal.
+		 */
+		bool isEqualToVariant(const REVariant & v) const;
+
+
+		/**
+		 @brief Checks is variants are equal.
+		 */
+		bool operator==(const REVariant & v) const;
+
+
+		/**
+		 @brief Checks is variants not equal.
+		 */
+		bool operator!=(const REVariant & v) const;
+
+		
+		/**
 		 @brief Constructs empty variant object.
 		 */
 		REVariant();
@@ -3130,6 +3191,24 @@ namespace FayeCpp {
 		REVariantMap & operator=(const REVariantMap & map);
 
 
+		/**
+		 @brief Checks is maps are equal.
+		 */
+		bool isEqualToMap(const REVariantMap & map) const;
+
+
+		/**
+		 @brief Checks is maps are equal.
+		 */
+		bool operator==(const REVariantMap & map) const;
+
+
+		/**
+		 @brief Checks is maps not equal.
+		 */
+		bool operator!=(const REVariantMap & map) const;
+
+		
 		/**
 		 @brief Contructs map with keys/values from another map.
 		 */
@@ -3816,7 +3895,25 @@ namespace FayeCpp {
 		 */
 		REVariantList & operator=(const REVariantList & list);
 		
-		
+
+		/**
+		 @brief Checks is lists are equal.
+		 */
+		bool isEqualToList(const REVariantList & list) const;
+
+
+		/**
+		 @brief Checks is lists are equal.
+		 */
+		bool operator==(const REVariantList & list) const;
+
+
+		/**
+		 @brief Checks is lists not equal.
+		 */
+		bool operator!=(const REVariantList & list) const;
+
+
 		/**
 		 @brief Constructs list with objects from another list.
 		 */

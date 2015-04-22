@@ -24,6 +24,7 @@
 #include "../fayecpp.h"
 #include "REStringUtilsPrivate.h"
 
+
 #if defined(HAVE_RECORE_SDK_CONFIG_H) 
 #include "recore_sdk_config.h"
 #endif
@@ -144,7 +145,43 @@ namespace FayeCpp {
 		}
 		return false;
 	}
-	
+
+	REStringList REString::split(const char * delimeterString) const
+	{
+		REStringList list;
+		if (delimeterString)
+		{
+			const char * src = this->UTF8String();
+			if (src)
+			{
+				const REUInt32 delLen = (REUInt32)strlen(delimeterString);
+				const char * sub = strstr(src, delimeterString);
+				REUInt32 count = 0;
+				while (sub)
+				{
+					const REUInt32 len = (REUInt32)((REUIdentifier)sub - (REUIdentifier)src);
+					REString part(src, len);
+					list.add(part);
+					count++;
+					src = sub;
+					src += delLen;
+					sub = strstr(src, delimeterString);
+				}
+				if (count > 0)
+				{
+					// add last if available
+					const REUInt32 leftLen = (*src) ? (REUInt32)strlen(src) : 0;
+					if (leftLen > 0)
+					{
+						REString part(src, leftLen);
+						list.add(part);
+					}
+				}
+			}
+		}
+		return list;
+	}
+
 	REBOOL REString::isDigit() const
 	{
 		const char * ch = this->UTF8String();

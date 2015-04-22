@@ -106,7 +106,38 @@ namespace FayeCpp {
 		}
 		return *this;
 	}
-	
+
+	bool REVariantMap::isEqualToMap(const REVariantMap & map) const
+	{
+		REVariantMap::Iterator i = this->iterator();
+		while (i.next())
+		{
+			Node * node = map.findNode(i.key());
+			if (node)
+			{
+				if (!i.value().isEqualToVariant(node->value))
+				{
+					return false;
+				}
+			}
+			else
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+	bool REVariantMap::operator==(const REVariantMap & map) const
+	{
+		return this->isEqualToMap(map);
+	}
+
+	bool REVariantMap::operator!=(const REVariantMap & map) const
+	{
+		return !this->isEqualToMap(map);
+	}
+
 	REVariantMap::REVariantMap(const REVariantMap & map)
 	{
 		*this = map;
