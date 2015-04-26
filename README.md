@@ -5,7 +5,6 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/iff0000q0c47brnc?svg=true)](https://ci.appveyor.com/project/OlehKulykov/fayecpp)
 [![Total views](https://sourcegraph.com/api/repos/github.com/OlehKulykov/FayeCpp/counters/views.png)](https://sourcegraph.com/github.com/OlehKulykov/FayeCpp)
 [![Views in the last 24 hours](https://sourcegraph.com/api/repos/github.com/OlehKulykov/FayeCpp/counters/views-24h.png)](https://sourcegraph.com/github.com/OlehKulykov/FayeCpp)
-[![Tips](https://tip4commit.com/projects/43124.svg)](https://tip4commit.com/github/OlehKulykov/FayeCpp)
 
 
 **FayeCpp** (C++) client library for desktop & mobile platforms, such as **Mac**, **Windows**, **Linux**, **iOS**, **Android**. 
