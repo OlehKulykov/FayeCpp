@@ -28,7 +28,11 @@
  *   Faye C++ client main and one header file.
  *   All class interfaces added to namespace, preventing include files mess.
  *
- *   Changes on version 0.1.10 (current):
+ *   Changes on version 0.1.11 (current):
+ *   - Added variant objects compare functionality.
+ *   - Detecting UTF8 strings fix.
+ *
+ *   Changes on version 0.1.10:
  *   - Added faye client connect test (connect, handshake and subscribing).
  *   - Minor WebSocket transport based on libwebsockets refactoring (reduce code size).
  *   - Rename some internal source/header files, cause of file name duplication with
@@ -83,7 +87,7 @@
 
 #define FAYECPP_VERSION_MAJOR 0
 #define FAYECPP_VERSION_MINOR 1
-#define FAYECPP_VERSION_PATCH 10
+#define FAYECPP_VERSION_PATCH 11
 
 
 #if !defined(HAVE_SUITABLE_QT_VERSION) 

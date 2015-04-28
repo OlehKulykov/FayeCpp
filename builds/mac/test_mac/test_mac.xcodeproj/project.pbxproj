@@ -71,6 +71,7 @@
 		3D85BCC219F3DEA70057DAEC /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830851987C9D80038CD79 /* AppDelegate.mm */; };
 		3DAD75F91A32F8900054F999 /* alloc.c in Sources */ = {isa = PBXBuildFile; fileRef = 3DAD75F81A32F8900054F999 /* alloc.c */; };
 		3DE39A3D1A92247C00038C5A /* FayeCpp.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3DE39A3C1A92247C00038C5A /* FayeCpp.bundle */; };
+		3DEE58781AEFC11600BA5B77 /* header.c in Sources */ = {isa = PBXBuildFile; fileRef = 3DEE58771AEFC11600BA5B77 /* header.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -176,6 +177,7 @@
 		3DE39A3F1A9224C400038C5A /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3DE39A401A9224C400038C5A /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = ru; path = ru.lproj/Credits.rtf; sourceTree = "<group>"; };
 		3DE39A411A9224C400038C5A /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		3DEE58771AEFC11600BA5B77 /* header.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = header.c; path = ../../../../libwebsockets/lib/header.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -305,6 +307,7 @@
 				3D0830B11987CB160038CD79 /* extension-deflate-stream.c */,
 				3D0830B21987CB160038CD79 /* extension.c */,
 				3D0830B41987CB160038CD79 /* handshake.c */,
+				3DEE58771AEFC11600BA5B77 /* header.c */,
 				3D0830B51987CB160038CD79 /* libwebsockets.c */,
 				3D0830B61987CB160038CD79 /* lws-plat-unix.c */,
 				3D0830B71987CB160038CD79 /* output.c */,
@@ -502,6 +505,7 @@
 				3D0830DA1987CB2D0038CD79 /* error.c in Sources */,
 				3D0830C71987CB160038CD79 /* lws-plat-unix.c in Sources */,
 				3D0830C61987CB160038CD79 /* libwebsockets.c in Sources */,
+				3DEE58781AEFC11600BA5B77 /* header.c in Sources */,
 				3D7450C01AAF911500AA32A3 /* FCWebSocket.cpp in Sources */,
 				3D0830D91987CB2D0038CD79 /* dump.c in Sources */,
 				3D0830DE1987CB2D0038CD79 /* memory.c in Sources */,

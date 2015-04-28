@@ -13,6 +13,7 @@ ALL_SOURCES := \
 	../../../libwebsockets/lib/getifaddrs.c \
 	../../../libwebsockets/lib/extension.c \
 	../../../libwebsockets/lib/handshake.c \
+	../../../libwebsockets/lib/header.c \
 	../../../libwebsockets/lib/libwebsockets.c \
 	../../../libwebsockets/lib/lws-plat-unix.c \
 	../../../libwebsockets/lib/output.c \

@@ -53,6 +53,7 @@
 		3D8CB8DE1948996200943B53 /* value.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CB8D31948996200943B53 /* value.c */; };
 		3DA2A4BB196601C7002B7C09 /* FayeCppClient.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3DA2A4BA196601C7002B7C09 /* FayeCppClient.mm */; };
 		3DAD75FD1A32FEA40054F999 /* alloc.c in Sources */ = {isa = PBXBuildFile; fileRef = 3DAD75FC1A32FEA40054F999 /* alloc.c */; };
+		3DEE58741AEFC0DE00BA5B77 /* handshake.c in Sources */ = {isa = PBXBuildFile; fileRef = 3DEE58731AEFC0DE00BA5B77 /* handshake.c */; };
 		3DF2CAFB1A496715003005FC /* REVariant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DF2CAF81A496715003005FC /* REVariant.cpp */; };
 		3DF2CAFC1A496715003005FC /* REVariantList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DF2CAF91A496715003005FC /* REVariantList.cpp */; };
 		3DF2CAFD1A496715003005FC /* REVariantMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DF2CAFA1A496715003005FC /* REVariantMap.cpp */; };
@@ -126,6 +127,7 @@
 		3DA2A4B9196601C7002B7C09 /* FayeCppClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FayeCppClient.h; path = ../../contrib/objc/FayeCppClient.h; sourceTree = "<group>"; };
 		3DA2A4BA196601C7002B7C09 /* FayeCppClient.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = FayeCppClient.mm; path = ../../contrib/objc/FayeCppClient.mm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		3DAD75FC1A32FEA40054F999 /* alloc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = alloc.c; path = ../../libwebsockets/lib/alloc.c; sourceTree = "<group>"; };
+		3DEE58731AEFC0DE00BA5B77 /* handshake.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = handshake.c; path = ../../libwebsockets/lib/handshake.c; sourceTree = "<group>"; };
 		3DF2CAF81A496715003005FC /* REVariant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REVariant.cpp; path = ../../src/REVariant.cpp; sourceTree = "<group>"; };
 		3DF2CAF91A496715003005FC /* REVariantList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REVariantList.cpp; path = ../../src/REVariantList.cpp; sourceTree = "<group>"; };
 		3DF2CAFA1A496715003005FC /* REVariantMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REVariantMap.cpp; path = ../../src/REVariantMap.cpp; sourceTree = "<group>"; };
@@ -184,6 +186,7 @@
 				3D8CB8AC1948994500943B53 /* extension-deflate-stream.c */,
 				3D8CB8AD1948994500943B53 /* extension.c */,
 				3D8CB8AF1948994500943B53 /* handshake.c */,
+				3DEE58731AEFC0DE00BA5B77 /* handshake.c */,
 				3D8CB8B01948994500943B53 /* libwebsockets.c */,
 				3D8CB8B11948994500943B53 /* lws-plat-unix.c */,
 				3D8CB8B21948994500943B53 /* output.c */,
@@ -344,6 +347,7 @@
 				3DF2CAFD1A496715003005FC /* REVariantMap.cpp in Sources */,
 				3D8CB8C01948994500943B53 /* handshake.c in Sources */,
 				3D8CB8DB1948996200943B53 /* strbuffer.c in Sources */,
+				3DEE58741AEFC0DE00BA5B77 /* handshake.c in Sources */,
 				3D8CB8C51948994500943B53 /* pollfd.c in Sources */,
 				3D8CB8BC1948994500943B53 /* extension-deflate-frame.c in Sources */,
 				3D7450D01AAF931D00AA32A3 /* FCWebSocket.cpp in Sources */,

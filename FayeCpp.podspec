@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
 # Common settings
   s.name         = "FayeCpp"
-  s.version      = "0.1.10"
+  s.version      = "0.1.11"
   s.summary      = "Faye C++ client with Objective-C client wrapper."
   s.description  = <<-DESC
 Faye C++ client with Objective-C client wrapper. 
@@ -35,6 +35,7 @@ You can use Objective-C wrapper or C++ client directly.
     'libwebsockets/lib/extension.c',
     'libwebsockets/lib/getifaddrs.c',
     'libwebsockets/lib/handshake.c',
+    'libwebsockets/lib/header.c',
     'libwebsockets/lib/libwebsockets.c',
     'libwebsockets/lib/lws-plat-unix.c',
     'libwebsockets/lib/output.c',
