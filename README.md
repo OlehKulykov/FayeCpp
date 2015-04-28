@@ -182,7 +182,7 @@ For **Mac** & **iOS** there is **Objective-C client wrapper** located in the fol
 
 # Donation
 ----------
-[![PayPal donation](https://www.paypalobjects.com/en_US/DE/i/btn/btn_donateCC_LG.gif "Title")](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SNFUS5HJN4XNW)
+[![PayPal donation](https://www.paypalobjects.com/en_US/DE/i/btn/btn_donateCC_LG.gif "PayPal donation")](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=G4CWLZWA5RGSN)
 
 
 # Working with the library
