@@ -27,6 +27,7 @@ set(CPACK_PACKAGE_VERSION_MINOR "1")
 set(CPACK_PACKAGE_VERSION "${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}")
 set(CPACK_PACKAGE_VENDOR "info@resident.name")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "${PACKAGE} ${PACKAGE_VERSION}")
+set(SOVERSION "0.1.10")
 set(CPACK_SOURCE_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}")
 set(VERSION "${CPACK_PACKAGE_VERSION}")
 
@@ -591,11 +592,11 @@ set(FAYECPP_HEADERS fayecpp.h
 
 add_definitions(-DHAVE_FAYECPP_CONFIG_H)
 
-#add_library(fayecpp STATIC ${FAYECPP_SOURCES} ${FAYECPP_HEADERS})
+add_library(fayecpp_static STATIC ${FAYECPP_SOURCES} ${FAYECPP_HEADERS})
+set_target_properties(fayecpp_static PROPERTIES COMPILE_FLAGS "-DFAYECPP_STATIC")
 
 add_library(fayecpp SHARED ${FAYECPP_SOURCES} ${FAYECPP_HEADERS})
 
-set_target_properties(fayecpp PROPERTIES VERSION ${CPACK_PACKAGE_VERSION} SOVERSION ${CPACK_PACKAGE_VERSION_MAJOR})
 
 add_dependencies(fayecpp websockets jansson)
 
@@ -622,6 +623,8 @@ endif(MINGW)
 install(TARGETS fayecpp
 		DESTINATION lib)
 
+install(TARGETS fayecpp_static
+		DESTINATION lib)
 
 install(FILES fayecpp.h 
 		DESTINATION include)

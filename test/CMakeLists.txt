@@ -26,17 +26,23 @@ check_include_file("curl/curl.h" HAVE_CURL_CURL_H)
 find_package(CURL)
 
 add_executable(test_fayecpp_header test_fayecpp_header.cpp)
-target_link_libraries(test_fayecpp_header fayecpp)
+set_target_properties(test_fayecpp_header PROPERTIES COMPILE_FLAGS "-DFAYECPP_STATIC")
+set_target_properties(test_fayecpp_header PROPERTIES COMPILE_DEFINITIONS "-DFAYECPP_STATIC")
+target_link_libraries(test_fayecpp_header fayecpp_static websockets jansson)
 add_test(test_fayecpp_header test_fayecpp_header)
 
 
 add_executable(test_fayecpp_init test_fayecpp_init.cpp)
-target_link_libraries(test_fayecpp_init fayecpp)
+set_target_properties(test_fayecpp_init PROPERTIES COMPILE_FLAGS "-DFAYECPP_STATIC")
+set_target_properties(test_fayecpp_init PROPERTIES COMPILE_DEFINITIONS "-DFAYECPP_STATIC")
+target_link_libraries(test_fayecpp_init fayecpp_static websockets jansson)
 add_test(test_fayecpp_init test_fayecpp_init)
 
 
 add_executable(test_fayecpp_connect test_fayecpp_connect.cpp)
-target_link_libraries(test_fayecpp_connect fayecpp)
+set_target_properties(test_fayecpp_connect PROPERTIES COMPILE_FLAGS "-DFAYECPP_STATIC")
+set_target_properties(test_fayecpp_connect PROPERTIES COMPILE_DEFINITIONS "-DFAYECPP_STATIC")
+target_link_libraries(test_fayecpp_connect fayecpp_static websockets jansson)
 add_test(test_fayecpp_connect test_fayecpp_connect)
 
 

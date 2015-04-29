@@ -917,7 +917,9 @@ namespace FayeCpp {
 		_isDisconnecting(false),
 		_isUsingIPV6(false)
 	{
-       
+#if defined(FAYECPP_STATIC)
+		if (Client::info()) { }
+#endif
 	}
 	
 	Client::~Client()

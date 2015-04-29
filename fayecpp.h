@@ -152,7 +152,7 @@
 #endif
 
 
-#if defined(__RE_OS_WINDOWS__) && !defined(HAVE_SUITABLE_QT_VERSION)
+#if defined(__RE_OS_WINDOWS__) && !defined(HAVE_SUITABLE_QT_VERSION) && !defined(FAYECPP_STATIC)
 #include <windows.h>
 
 #if defined(CMAKE_BUILD) || defined(__BUILDING_RECORE_DYNAMIC_LIBRARY__)
