@@ -28,40 +28,50 @@ find_package(CURL)
 add_executable(test_fayecpp_header test_fayecpp_header.cpp)
 set_property(TARGET test_fayecpp_header APPEND PROPERTY COMPILE_FLAGS -DFAYECPP_STATIC)
 target_link_libraries(test_fayecpp_header fayecpp_static websockets jansson)
-if(HAVE_COREFOUNDATION_FRAMEWORK)
-	target_link_libraries(test_fayecpp_header ${COREFOUNDATION_FRAMEWORK})
-endif(HAVE_COREFOUNDATION_FRAMEWORK)
 add_test(test_fayecpp_header test_fayecpp_header)
 
 
 add_executable(test_fayecpp_init test_fayecpp_init.cpp)
 set_property(TARGET test_fayecpp_init APPEND PROPERTY COMPILE_FLAGS -DFAYECPP_STATIC)
 target_link_libraries(test_fayecpp_init fayecpp_static websockets jansson)
-if(HAVE_COREFOUNDATION_FRAMEWORK)
-	target_link_libraries(test_fayecpp_init ${COREFOUNDATION_FRAMEWORK})
-endif(HAVE_COREFOUNDATION_FRAMEWORK)
 add_test(test_fayecpp_init test_fayecpp_init)
 
 
 add_executable(test_fayecpp_connect test_fayecpp_connect.cpp)
 set_property(TARGET test_fayecpp_connect APPEND PROPERTY COMPILE_FLAGS -DFAYECPP_STATIC)
 target_link_libraries(test_fayecpp_connect fayecpp_static websockets jansson)
-if(HAVE_COREFOUNDATION_FRAMEWORK)
-	target_link_libraries(test_fayecpp_connect ${COREFOUNDATION_FRAMEWORK})
-endif(HAVE_COREFOUNDATION_FRAMEWORK)
 add_test(test_fayecpp_connect test_fayecpp_connect)
 
 
+if(HAVE_PTHREAD_H)
+	target_link_libraries(test_fayecpp_header pthread)
+	target_link_libraries(test_fayecpp_init pthread)
+	target_link_libraries(test_fayecpp_connect pthread)
+endif(HAVE_PTHREAD_H)
+
+if(HAVE_COREFOUNDATION_FRAMEWORK)
+	target_link_libraries(test_fayecpp_header ${COREFOUNDATION_FRAMEWORK})
+	target_link_libraries(test_fayecpp_init ${COREFOUNDATION_FRAMEWORK})
+	target_link_libraries(test_fayecpp_connect ${COREFOUNDATION_FRAMEWORK})
+endif(HAVE_COREFOUNDATION_FRAMEWORK)
+
+if(MINGW)
+	target_link_libraries(test_fayecpp_header ws2_32)
+	target_link_libraries(test_fayecpp_init ws2_32)
+	target_link_libraries(test_fayecpp_connect ws2_32)
+endif(MINGW)
+
+
 if(HAVE_CURL_CURL_H)
-add_executable(dbuploader dbuploader.c)
-target_link_libraries(dbuploader ${CURL_LIBRARIES})
+	add_executable(dbuploader dbuploader.c)
+	target_link_libraries(dbuploader ${CURL_LIBRARIES})
 endif(HAVE_CURL_CURL_H)
 
 
 install(TARGETS test_fayecpp_header DESTINATION bin)
-#install(TARGETS test_fayecpp_init DESTINATION bin)
-#install(TARGETS test_fayecpp_connect DESTINATION bin)
+install(TARGETS test_fayecpp_init DESTINATION bin)
+install(TARGETS test_fayecpp_connect DESTINATION bin)
 
 if(HAVE_CURL_CURL_H)
-install(TARGETS dbuploader DESTINATION bin)
+	install(TARGETS dbuploader DESTINATION bin)
 endif(HAVE_CURL_CURL_H)
