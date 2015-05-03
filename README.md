@@ -39,7 +39,7 @@ git submodule update --init --recursive
 ### Installation with CocoaPods
 #### Podfile
 ```ruby
-pod 'FayeCpp', '~> 0.1.10'
+pod 'FayeCpp', '~> 0.1.11'
 ```
 
 
