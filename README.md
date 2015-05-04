@@ -55,6 +55,7 @@ git apply < ../libwebsockets_h.patch
 ----------
 
 > Use (install or update) latest [CMake] build system, need version 2.8 or later.
+> Since version 0.1.11 static version of the library was added(read bellow section: Static linking).
 
 ### Build on Unix like platforms
 
@@ -145,6 +146,10 @@ For building iOS framework with OpenSSL navigate to folder ```builds/ios-with-op
 Or, you can download framework, see **Binary distribution** section below.
 
 
+# Static linking
+
+If you want to use static version of the library generated with [CMake], you should add flag **FAYECPP_STATIC** to the compiller flags and link with other dependencies.
+
 
 # Integration
 -------------
@@ -184,7 +189,7 @@ For **Mac** & **iOS** there is **Objective-C client wrapper** located in the fol
 [![PayPal donation](https://www.paypalobjects.com/en_US/DE/i/btn/btn_donateCC_LG.gif "PayPal donation")](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=G4CWLZWA5RGSN)
 
 
-# Working with the library
+# Working with the library in C++
 --------------------------
 
 ### Include library
@@ -320,9 +325,61 @@ message["double key"] = 3.14159265359;
 _client->sendMessageToChannel(message, "/faye_channel_1");
 ```
 
-# Binary distribution
----------
-Binary library created via continuous integration services: http://fayecpp.zz.vc/fayecpp
+# Working with the library in Objective-C
+--------------------------
+
+### Include library and create client instance
+
+```objective-c
+// include Objective-C client wrapper
+#import "FayeCppClient.h" 
+
+// define strong property for the client
+@property (nonatomic, strong) FayeCppClient * client;
+
+// create client and strongly hold with property
+self.client = [[FayeCppClient alloc] init];
+```
+
+### Client delegate
+
+```objective-c
+#pragma mark - FayeCpp client delegate
+- (void) onFayeClientConnected:(FayeCppClient *) client
+{
+	NSLog(@"On faye client connected");
+}
+
+- (void) onFayeClient:(FayeCppClient *) client
+	  receivedMessage:(NSDictionary *) message
+		  fromChannel:(NSString *) channel
+{
+	NSLog(@"On faye client received message: \n%@ \nfrom channel: %@", message, channel);
+}
+// implement other delegate messages if needed ...
+```
+
+### Setup and connect
+
+```objective-c
+// set client delegate, all delegate methods are optional and called from main thread
+[_client setDelegate:self];
+
+// set faye url string
+[_client setUrlString:@"ws://your_faye_host:80/faye"];
+
+// connect and add channels to channels to pending subscriptions
+[_client connect];
+[_client subscribeToChannel:@"/faye_channel_1"];
+[_client subscribeToChannel:@"/something/faye_channel_2"];
+```
+
+### Send message
+
+```objective-c
+[_client sendMessage:@{@"text" : @"Hello world", @"other_params" : @[]}
+		   toChannel:@"/faye_channel_1"];
+```
 
 
 # License
