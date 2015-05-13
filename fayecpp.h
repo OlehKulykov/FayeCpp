@@ -2526,7 +2526,7 @@ namespace FayeCpp {
 		/**
 		 @brief Faye clent subscribed to channel.
 		 @detailed From "The Bayeux Protocol Specification v1.0" section "Channels"
-		 http://docs.cometd.org/reference/bayeux_protocol_elements.html.
+		 http://docs.cometd.org/reference/bayeux_protocol_elements.html
 		 The channel name consists of an initial "/" followed by an optional sequence of path segments separated by a single slash "/" character. Within a path segment, the character "/" is reserved. 
 		 @param client Faye client object.
 		 @param channel Channel name.
@@ -2538,7 +2538,7 @@ namespace FayeCpp {
 		/**
 		 @brief Faye clent unsubscribed from channel.
 		 @detailed From "The Bayeux Protocol Specification v1.0" section "Channels"
-		 http://docs.cometd.org/reference/bayeux_protocol_elements.html.
+		 http://docs.cometd.org/reference/bayeux_protocol_elements.html
 		 The channel name consists of an initial "/" followed by an optional sequence of path segments separated by a single slash "/" character. Within a path segment, the character "/" is reserved. 
 		 @param client Faye client object.
 		 @param channel Target channel name.
@@ -2550,7 +2550,7 @@ namespace FayeCpp {
 		/**
 		 @brief Called when faye client received non empty data from server responce using subscribed channel.
 		 @detailed From "The Bayeux Protocol Specification v1.0" section "Channels"
-		 http://docs.cometd.org/reference/bayeux_protocol_elements.html.
+		 http://docs.cometd.org/reference/bayeux_protocol_elements.html
 		 The channel name consists of an initial "/" followed by an optional sequence of path segments separated by a single slash "/" character. Within a path segment, the character "/" is reserved. 
 		 @param client Faye client object.
 		 @param message Received non empty responce message map.
@@ -2709,7 +2709,7 @@ namespace FayeCpp {
 			void * pointerValue;
 		}
 		/**
-		 @brief Union for storing varian data.
+		 @brief Union for storing variant data.
 		 */
 		VariantUnion;
 
@@ -2741,7 +2741,7 @@ namespace FayeCpp {
 
 		/**
 		 @brief Checks variant for number type(integers and reals)
-		 @return True if varian is integer or real, othervice false.
+		 @return True if variant is integer or real, othervice false.
 		 */
 		bool isNumber() const;
 
@@ -3573,7 +3573,7 @@ namespace FayeCpp {
 		
 		/**
 		 @detailed From "The Bayeux Protocol Specification v1.0" section "Channels"
-		 http://docs.cometd.org/reference/bayeux_protocol_elements.html.
+		 http://docs.cometd.org/reference/bayeux_protocol_elements.html
 		 The channel name consists of an initial "/" followed by an optional sequence of path segments separated by a single slash "/" character. Within a path segment, the character "/" is reserved. 
 		 @return List of subscribed channels.
 		 */
@@ -3706,7 +3706,7 @@ namespace FayeCpp {
 		 @brief Start send message to subscribed channel via connected faye.
 		 @detailed Clent will NOT inform delegate for this user message.
 		 From "The Bayeux Protocol Specification v1.0" section "Channels"
-		 http://docs.cometd.org/reference/bayeux_protocol_elements.html.
+		 http://docs.cometd.org/reference/bayeux_protocol_elements.html
 		 The channel name consists of an initial "/" followed by an optional sequence of path segments separated by a single slash "/" character. Within a path segment, the character "/" is reserved. 
 		 @param message Non empty message for send.
 		 @param channel Non empty, subscribed channel.
@@ -3718,7 +3718,7 @@ namespace FayeCpp {
 		/**
 		 @brief Check channel is subscribed.
 		 @detailed From "The Bayeux Protocol Specification v1.0" section "Channels"
-		 http://docs.cometd.org/reference/bayeux_protocol_elements.html.
+		 http://docs.cometd.org/reference/bayeux_protocol_elements.html
 		 The channel name consists of an initial "/" followed by an optional sequence of path segments separated by a single slash "/" character. Within a path segment, the character "/" is reserved. 
 		 @param channel Non empty channel.
 		 @return True - if subscribed, otherwice false.
@@ -3729,7 +3729,7 @@ namespace FayeCpp {
 		/**
 		  @brief Subscribes or storing to pendnig subscriptions required channel.
 		 @detailed From "The Bayeux Protocol Specification v1.0" section "Channels"
-		 http://docs.cometd.org/reference/bayeux_protocol_elements.html.
+		 http://docs.cometd.org/reference/bayeux_protocol_elements.html
 		 The channel name consists of an initial "/" followed by an optional sequence of path segments separated by a single slash "/" character. Within a path segment, the character "/" is reserved. 
 		  @param channel Non empty channel.
 		  @return True - if already suscribed, started or stored to peding subscriptions, otherwice false.
@@ -3740,7 +3740,7 @@ namespace FayeCpp {
 		/**
 		 @brief Unsubscribe from specific channel.
 		 @detailed From "The Bayeux Protocol Specification v1.0" section "Channels"
-		 http://docs.cometd.org/reference/bayeux_protocol_elements.html.
+		 http://docs.cometd.org/reference/bayeux_protocol_elements.html
 		 The channel name consists of an initial "/" followed by an optional sequence of path segments separated by a single slash "/" character. Within a path segment, the character "/" is reserved. 
 		 @param channel Non empty subscribed channel.
 		 @return True on unsubscription started, otherwice false or channel is empty or not subscribed.
