@@ -1,4 +1,18 @@
+env:
+  global:
+    - secure: "dC+fCjwIJ3jkYO5zShVrOmD/l2tFcHuk4iXWjMIgBJ3GhP4L9fLkI0mbnpo79ZWO89r5ln7oNpM6Hocal8NwGcL3jxMjAtqQVm4s87BUJWUdUaj9eMrPktuOGxxK81PJ8pxhHpY1ZlI/ItoJ1pbubbap/xFboEWaL2uxiBuIig0="
+    
+addons:
+  coverity_scan:
+    project:
+      name: "OlehKulykov/FayeCpp"
+    notification_email: info@resident.name
+    build_command_prepend: "mkdir coverity_build && cd coverity_build && cmake .."
+    build_command: "make -j4 && cd .."
+    branch_pattern: master
+
 language: cpp
+
 os:
   - linux
   - osx
@@ -37,7 +51,7 @@ script:
   - make
   - make test
   - make install
-#  - cd ..  
+  - cd ..
 #  - ./android-ndk-10d/android-ndk-r10d/ndk-build NDK_PROJECT_PATH=builds/android/
 #  - cp -r builds/android/libs android-ndk-10d/
 #  - rm -rf builds/android/libs
@@ -54,6 +68,7 @@ script:
 #  - 7z a -t7z -mx=9 -xr!cmake -xr!bin -xr!pkgconfig -xr!share $_system_name-$_system_version-$_system_arch-$CC-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.7z fayecpp-install-dir
 #  - curl -k --progress-bar -i --globoff --upload-file $_system_name-$_system_version-$_system_arch-$CC-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.7z "https://api-content.dropbox.com/1/files_put/sandbox/$_system_name-$_system_version-$_system_arch-$CC-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.7z?oauth_consumer_key=1nuhuf1g5bpo7ys&oauth_token=tdo71jho02j11t65&oauth_signature_method=PLAINTEXT&oauth_signature=sh7n1j7f7wou4d1%26qszd2cgxbmle2r5"
 #  - curl --upload-file $_system_name-$_system_version-$_system_arch-$CC-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.7z --user u417192312.fayecppuser:KoF81MQeDjPuQrIq8z ftp://fayecpp.zz.vc
+
 
 branches:
   only:
