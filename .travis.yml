@@ -72,6 +72,6 @@ addons:
       name: "OlehKulykov/FayeCpp"
       description: "Build submitted via Travis CI"
     notification_email: info@resident.name
-    build_command_prepend: "mkdir csbuild && cd csbuild && cmake .."
-    build_command:   "make -j 4"
-    branch_pattern: master
+    build_command_prepend: "mkdir coverity_build && cd coverity_build && cmake .."
+    build_command:   "make"
+    branch_pattern: coverity_scan
