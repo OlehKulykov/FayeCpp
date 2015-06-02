@@ -1,7 +1,3 @@
-env:
-  global:
-    - secure: "f3nOFOEtSf1sWmfNGqIXqUexyWKbBHhzJNbCtyqtAKfs/J/8gshOVmM5FGWmBPDqOdzehs1VYhI/f/4ddJXDgZ6VQe8n/fkYFqOhj0032DB9KZmgm7LAdTFB9KivVJe68N0/hxjyfMD+d7NUVqkOjvjQrCyjScE5354t2Xd5Yro="
-    
 language: cpp
 
 os:
@@ -65,13 +61,3 @@ branches:
   only:
     - master
     - dev
-
-addons:
-  coverity_scan:
-    project:
-      name: "OlehKulykov/FayeCpp"
-      description: "Build submitted via Travis CI"
-    notification_email: info@resident.name
-    build_command_prepend: "mkdir csbuild && cd csbuild && cmake .."
-    build_command:   "make -j 4"
-    branch_pattern: master
