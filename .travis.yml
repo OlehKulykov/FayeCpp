@@ -1,16 +1,7 @@
 env:
   global:
-    - secure: "dC+fCjwIJ3jkYO5zShVrOmD/l2tFcHuk4iXWjMIgBJ3GhP4L9fLkI0mbnpo79ZWO89r5ln7oNpM6Hocal8NwGcL3jxMjAtqQVm4s87BUJWUdUaj9eMrPktuOGxxK81PJ8pxhHpY1ZlI/ItoJ1pbubbap/xFboEWaL2uxiBuIig0="
+    - secure: "f3nOFOEtSf1sWmfNGqIXqUexyWKbBHhzJNbCtyqtAKfs/J/8gshOVmM5FGWmBPDqOdzehs1VYhI/f/4ddJXDgZ6VQe8n/fkYFqOhj0032DB9KZmgm7LAdTFB9KivVJe68N0/hxjyfMD+d7NUVqkOjvjQrCyjScE5354t2Xd5Yro="
     
-addons:
-  coverity_scan:
-    project:
-      name: "OlehKulykov/FayeCpp"
-    notification_email: info@resident.name
-    build_command_prepend: "mkdir coverity_build && cd coverity_build && cmake .."
-    build_command: "make -j4 && cd .."
-    branch_pattern: master
-
 language: cpp
 
 os:
@@ -74,3 +65,13 @@ branches:
   only:
     - master
     - dev
+
+addons:
+  coverity_scan:
+    project:
+      name: "OlehKulykov/FayeCpp"
+      description: "Build submitted via Travis CI"
+    notification_email: info@resident.name
+    build_command_prepend: "mkdir csbuild && cd csbuild && cmake .."
+    build_command:   "make -j 4"
+    branch_pattern: master
