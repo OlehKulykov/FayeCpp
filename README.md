@@ -6,6 +6,7 @@
 [![Total views](https://sourcegraph.com/api/repos/github.com/OlehKulykov/FayeCpp/counters/views.png)](https://sourcegraph.com/github.com/OlehKulykov/FayeCpp)
 [![Views in the last 24 hours](https://sourcegraph.com/api/repos/github.com/OlehKulykov/FayeCpp/counters/views-24h.png)](https://sourcegraph.com/github.com/OlehKulykov/FayeCpp)
 [![Coverity Scan Build Status](https://scan.coverity.com/projects/3633/badge.svg)](https://scan.coverity.com/projects/3633)
+[![Build Status](https://drone.io/github.com/OlehKulykov/FayeCpp/status.png)](https://drone.io/github.com/OlehKulykov/FayeCpp/latest)
 
 **FayeCpp** (C++) client library for desktop & mobile platforms, such as **Mac**, **Windows**, **Linux**, **iOS**, **Android**. 
 
@@ -102,7 +103,7 @@ Example configuring without **OpenSSL** support for **Microsoft Visual Studio**:
 -G"Visual Studio 11" ..
 > ```
 
-* Or another option: especially for this case was added continuous integration for **Microsoft Windows** via [AppVeyor] service, so you could look to the **appveyor.yml** file, located a the root, and find out how to configure and build with minimun actions.
+* Or another option: especially for this case was added continuous integration for **Microsoft Windows** via [AppVeyor] service, so you could look to the **appveyor.yml** file, located a the root of the repository, and find out how to configure and build with minimun actions.
 
 
 ## Build on Windows with [MinGW]
@@ -143,7 +144,6 @@ So after finishing you will get ```FayeCpp.framework``` framework in folder ```b
 
 ### Build iOS framework with sequre connection via OpenSSL
 For building iOS framework with OpenSSL navigate to folder ```builds/ios-with-openssl/``` and do the same as described above.
-Or, you can download framework, see **Binary distribution** section below.
 
 
 # Static linking
