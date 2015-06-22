@@ -44,7 +44,7 @@
  @brief There is no error. Empty error object.
  @detailed Value is FayeCpp::Error::None.
  */
-FAYECPP_EXTERN NSInteger kFayeCppErrorCodeNone;
+FAYECPP_EXTERN const NSInteger kFayeCppErrorCodeNone;
 
 
 /**
@@ -52,21 +52,21 @@ FAYECPP_EXTERN NSInteger kFayeCppErrorCodeNone;
  @detailed User info map contains place in the code where error ocupared.
  Value is FayeCpp::Error::InternalApplicationError.
  */
-FAYECPP_EXTERN NSInteger kFayeCppErrorCodeInternalApplicationError;
+FAYECPP_EXTERN const NSInteger kFayeCppErrorCodeInternalApplicationError;
 
 
 /**
  @brief Send buffer data extends maximum send size.
  @detailed Value is FayeCpp::Error::SendingBufferTooLarge.
  */
-FAYECPP_EXTERN NSInteger kFayeCppErrorCodeSendingBufferTooLarge;
+FAYECPP_EXTERN const NSInteger kFayeCppErrorCodeSendingBufferTooLarge;
 
 
 /**
  @brief Can't connect to remote host.
  @detailed Value is FayeCpp::Error::FailedConnectToHost.
  */
-FAYECPP_EXTERN NSInteger kFayeCppErrorCodeFailedConnectToHost;
+FAYECPP_EXTERN const NSInteger kFayeCppErrorCodeFailedConnectToHost;
 
 
 /**
@@ -75,35 +75,35 @@ FAYECPP_EXTERN NSInteger kFayeCppErrorCodeFailedConnectToHost;
  In this case used error message provided by server implementation.
  Value is FayeCpp::Error::HandshakeBayeuxError.
  */
-FAYECPP_EXTERN NSInteger kFayeCppErrorCodeHandshakeBayeuxError;
+FAYECPP_EXTERN const NSInteger kFayeCppErrorCodeHandshakeBayeuxError;
 
 
 /**
  @brief Handshake error: can't find client ID.
  @detailed Value is FayeCpp::Error::HandshakeClientIdIsEmpty.
  */
-FAYECPP_EXTERN NSInteger kFayeCppErrorCodeHandshakeClientIdIsEmpty;
+FAYECPP_EXTERN const NSInteger kFayeCppErrorCodeHandshakeClientIdIsEmpty;
 
 
 /**
  @brief Handshake error: supported connection types is empty.
  @detailed Value is FayeCpp::Error::HandshakeSupportedConnectionTypesIsEmpty.
  */
-FAYECPP_EXTERN NSInteger kFayeCppErrorCodeHandshakeSupportedConnectionTypesIsEmpty;
+FAYECPP_EXTERN const NSInteger kFayeCppErrorCodeHandshakeSupportedConnectionTypesIsEmpty;
 
 
 /**
  @brief Handshake error: implemented transport not found.
  @detailed Value is FayeCpp::Error::HandshakeImplementedTransportNotFound.
  */
-FAYECPP_EXTERN NSInteger kFayeCppErrorCodeHandshakeImplementedTransportNotFound;
+FAYECPP_EXTERN const NSInteger kFayeCppErrorCodeHandshakeImplementedTransportNotFound;
 
 
 /**
  @brief Subscription error: can't locate channel.
  @detailed Value is FayeCpp::Error::SubscriptionChannelNotFound.
  */
-FAYECPP_EXTERN NSInteger kFayeCppErrorCodeSubscriptionChannelNotFound;
+FAYECPP_EXTERN const NSInteger kFayeCppErrorCodeSubscriptionChannelNotFound;
 
 
 /**
@@ -111,14 +111,14 @@ FAYECPP_EXTERN NSInteger kFayeCppErrorCodeSubscriptionChannelNotFound;
  @detailed Error string can be provided by server implementation or use implemented by the client.
  Value is FayeCpp::Error::SubscriptionError.
  */
-FAYECPP_EXTERN NSInteger kFayeCppErrorCodeSubscriptionError;
+FAYECPP_EXTERN const NSInteger kFayeCppErrorCodeSubscriptionError;
 
 
 /**
  @brief Unsubscription error: can't locate channel.
  @detailed Value is FayeCpp::Error::UnsubscriptionChannelNotFound.
  */
-FAYECPP_EXTERN NSInteger kFayeCppErrorCodeUnsubscriptionChannelNotFound;
+FAYECPP_EXTERN const NSInteger kFayeCppErrorCodeUnsubscriptionChannelNotFound;
 
 
 /**
@@ -126,7 +126,7 @@ FAYECPP_EXTERN NSInteger kFayeCppErrorCodeUnsubscriptionChannelNotFound;
  @detailed Error string can be provided by server implementation or use implemented by the client.
  Value is FayeCpp::Error::UnsubscriptionError.
  */
-FAYECPP_EXTERN NSInteger kFayeCppErrorCodeUnsubscriptionError;
+FAYECPP_EXTERN const NSInteger kFayeCppErrorCodeUnsubscriptionError;
 
 
 /**

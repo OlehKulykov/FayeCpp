@@ -34,18 +34,18 @@
 
 #include <fayecpp.h>
 
-NSInteger kFayeCppErrorCodeNone = FayeCpp::Error::None;
-NSInteger kFayeCppErrorCodeInternalApplicationError = FayeCpp::Error::InternalApplicationError;
-NSInteger kFayeCppErrorCodeSendingBufferTooLarge = FayeCpp::Error::SendingBufferTooLarge;
-NSInteger kFayeCppErrorCodeFailedConnectToHost = FayeCpp::Error::FailedConnectToHost;
-NSInteger kFayeCppErrorCodeHandshakeBayeuxError = FayeCpp::Error::HandshakeBayeuxError;
-NSInteger kFayeCppErrorCodeHandshakeClientIdIsEmpty = FayeCpp::Error::HandshakeClientIdIsEmpty;
-NSInteger kFayeCppErrorCodeHandshakeSupportedConnectionTypesIsEmpty = FayeCpp::Error::HandshakeSupportedConnectionTypesIsEmpty;
-NSInteger kFayeCppErrorCodeHandshakeImplementedTransportNotFound  = FayeCpp::Error::HandshakeImplementedTransportNotFound;
-NSInteger kFayeCppErrorCodeSubscriptionChannelNotFound = FayeCpp::Error::SubscriptionChannelNotFound;
-NSInteger kFayeCppErrorCodeSubscriptionError = FayeCpp::Error::SubscriptionError;
-NSInteger kFayeCppErrorCodeUnsubscriptionChannelNotFound = FayeCpp::Error::UnsubscriptionChannelNotFound;
-NSInteger kFayeCppErrorCodeUnsubscriptionError = FayeCpp::Error::UnsubscriptionError;
+const NSInteger kFayeCppErrorCodeNone = FayeCpp::Error::None;
+const NSInteger kFayeCppErrorCodeInternalApplicationError = FayeCpp::Error::InternalApplicationError;
+const NSInteger kFayeCppErrorCodeSendingBufferTooLarge = FayeCpp::Error::SendingBufferTooLarge;
+const NSInteger kFayeCppErrorCodeFailedConnectToHost = FayeCpp::Error::FailedConnectToHost;
+const NSInteger kFayeCppErrorCodeHandshakeBayeuxError = FayeCpp::Error::HandshakeBayeuxError;
+const NSInteger kFayeCppErrorCodeHandshakeClientIdIsEmpty = FayeCpp::Error::HandshakeClientIdIsEmpty;
+const NSInteger kFayeCppErrorCodeHandshakeSupportedConnectionTypesIsEmpty = FayeCpp::Error::HandshakeSupportedConnectionTypesIsEmpty;
+const NSInteger kFayeCppErrorCodeHandshakeImplementedTransportNotFound  = FayeCpp::Error::HandshakeImplementedTransportNotFound;
+const NSInteger kFayeCppErrorCodeSubscriptionChannelNotFound = FayeCpp::Error::SubscriptionChannelNotFound;
+const NSInteger kFayeCppErrorCodeSubscriptionError = FayeCpp::Error::SubscriptionError;
+const NSInteger kFayeCppErrorCodeUnsubscriptionChannelNotFound = FayeCpp::Error::UnsubscriptionChannelNotFound;
+const NSInteger kFayeCppErrorCodeUnsubscriptionError = FayeCpp::Error::UnsubscriptionError;
 NSString * const kFayeCppErrorPlaceInTheCodeKey = @"kFayeCppErrorPlaceInTheCodeKey";
 NSString * const kFayeCppErrorChannelKey = @"kFayeCppErrorChannelKey";
 
