@@ -133,14 +133,14 @@ FAYECPP_EXTERN NSInteger kFayeCppErrorCodeUnsubscriptionError;
  @brief User info key for place in the code, file, method, line.
  @detailed The corresponding value is string object.
  */
-FAYECPP_EXTERN NSString * kFayeCppErrorPlaceInTheCodeKey;
+FAYECPP_EXTERN NSString * const kFayeCppErrorPlaceInTheCodeKey;
 
 
 /**
  @brief User info key for Bayeux channel.
  @detailed The corresponding channel value is string object.
  */
-FAYECPP_EXTERN NSString * kFayeCppErrorChannelKey;
+FAYECPP_EXTERN NSString * const kFayeCppErrorChannelKey;
 
 
 /**

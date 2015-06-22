@@ -46,8 +46,8 @@ NSInteger kFayeCppErrorCodeSubscriptionChannelNotFound = FayeCpp::Error::Subscri
 NSInteger kFayeCppErrorCodeSubscriptionError = FayeCpp::Error::SubscriptionError;
 NSInteger kFayeCppErrorCodeUnsubscriptionChannelNotFound = FayeCpp::Error::UnsubscriptionChannelNotFound;
 NSInteger kFayeCppErrorCodeUnsubscriptionError = FayeCpp::Error::UnsubscriptionError;
-NSString * kFayeCppErrorPlaceInTheCodeKey = @"kFayeCppErrorPlaceInTheCodeKey";
-NSString * kFayeCppErrorChannelKey = @"kFayeCppErrorChannelKey";
+NSString * const kFayeCppErrorPlaceInTheCodeKey = @"kFayeCppErrorPlaceInTheCodeKey";
+NSString * const kFayeCppErrorChannelKey = @"kFayeCppErrorChannelKey";
 
 using namespace FayeCpp;
 
