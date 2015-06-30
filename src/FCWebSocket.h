@@ -67,8 +67,9 @@ namespace FayeCpp {
 			WriteBuffer(const void * buff, const REUInt32 buffSize) : REBuffer(buff, buffSize), tag(0) { }
 			virtual ~WriteBuffer() { }
 		};
-		
-		REList<WriteBuffer *> _writeBuffers;
+
+		WebSocket::WriteBuffer * takeFirstWriteBuffer();
+		REList<WebSocket::WriteBuffer *> _writeBuffers;
 		
 		struct lws_context_creation_info _info;
 

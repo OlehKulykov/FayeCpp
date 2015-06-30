@@ -205,19 +205,24 @@ namespace FayeCpp {
 
 		this->onConnected();
 	}
-	
-	int WebSocket::onCallbackWritable(struct libwebsocket_context * context,
-									  struct libwebsocket * connection,
-									  EchoSessionData * pss)
-	{	
-		WriteBuffer * buffer = NULL;
-		REList<WriteBuffer *>::Iterator i = _writeBuffers.iterator();
-		while (!buffer && i.next()) 
+
+	WebSocket::WriteBuffer * WebSocket::takeFirstWriteBuffer()
+	{
+		WebSocket::WriteBuffer * buffer = NULL;
+		REList<WebSocket::WriteBuffer *>::Iterator i = _writeBuffers.iterator();
+		while (!buffer && i.next())
 		{
 			buffer = i.value();
 			_writeBuffers.removeNode(i.node());
 		}
-		
+		return buffer;
+	}
+
+	int WebSocket::onCallbackWritable(struct libwebsocket_context * context,
+									  struct libwebsocket * connection,
+									  EchoSessionData * pss)
+	{	
+		WebSocket::WriteBuffer * buffer = this->takeFirstWriteBuffer();
 		if (!buffer) return 0;
 		
 		const enum libwebsocket_write_protocol type = (enum libwebsocket_write_protocol)buffer->tag;
@@ -266,7 +271,7 @@ namespace FayeCpp {
 		bool isError = false;
 		_mutex.lock();
 		
-		WriteBuffer * buffer = new WriteBuffer(data, dataSize);
+		WebSocket::WriteBuffer * buffer = new WebSocket::WriteBuffer(data, dataSize);
 		if (buffer && buffer->size() == dataSize)
 		{
 			buffer->tag = (int)type;
@@ -400,10 +405,10 @@ namespace FayeCpp {
 		_context = NULL;
 		_connection = NULL;
 		
-		REList<WriteBuffer *>::Iterator i = _writeBuffers.iterator();
+		REList<WebSocket::WriteBuffer *>::Iterator i = _writeBuffers.iterator();
 		while (i.next()) 
 		{
-			WriteBuffer * b = i.value();
+			WebSocket::WriteBuffer * b = i.value();
 			delete b;
 		}
 		_writeBuffers.clear();
