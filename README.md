@@ -1,6 +1,8 @@
 # FayeCpp - Faye C++ client.
 
 
+[![CocoaPods](https://img.shields.io/cocoapods/p/FayeCpp.svg?style=flat)](http://cocoapods.org/?q=FayeCpp)
+[![CocoaPods](https://img.shields.io/cocoapods/v/FayeCpp.svg?style=flat)](http://cocoapods.org/?q=FayeCpp)
 [![Build Status](https://travis-ci.org/OlehKulykov/FayeCpp.svg?branch=master)](https://travis-ci.org/OlehKulykov/FayeCpp) 
 [![Build status](https://ci.appveyor.com/api/projects/status/iff0000q0c47brnc?svg=true)](https://ci.appveyor.com/project/OlehKulykov/fayecpp)
 [![Total views](https://sourcegraph.com/api/repos/github.com/OlehKulykov/FayeCpp/counters/views.png)](https://sourcegraph.com/github.com/OlehKulykov/FayeCpp)
