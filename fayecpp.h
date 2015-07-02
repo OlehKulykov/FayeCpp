@@ -28,7 +28,11 @@
  *   Faye C++ client main and one header file.
  *   All class interfaces added to namespace, preventing include files mess.
  *
- *   Changes on version 0.1.11 (current):
+ *   Changes on version 0.1.12 (current):
+ *   - Cocoapod now available also for OSX 10.7 and later.
+ *   - Objective-C client minor update.
+ *
+ *   Changes on version 0.1.11:
  *   - Added variant objects compare functionality.
  *   - Detecting UTF8 strings fix.
  *
@@ -87,7 +91,7 @@
 
 #define FAYECPP_VERSION_MAJOR 0
 #define FAYECPP_VERSION_MINOR 1
-#define FAYECPP_VERSION_PATCH 11
+#define FAYECPP_VERSION_PATCH 12
 
 
 #if !defined(HAVE_SUITABLE_QT_VERSION) 
