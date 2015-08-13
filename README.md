@@ -427,3 +427,7 @@ THE SOFTWARE.
 [AppVeyor]:http://www.appveyor.com
 [3]:http://mingw-w64.sourceforge.net/download.php
 [MinGW]:http://mingw-w64.sourceforge.net/
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/OlehKulykov/fayecpp/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
