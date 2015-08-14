@@ -36,7 +36,6 @@ git submodule update --init --recursive
 ### Dependencies
  * [Libwebsockets] - "lightweight pure C library built to use minimal CPU and memory resources", or use **FayeCpp** with [Qt SDK][1] (see below).
  * [Jansson] - "C library for encoding, decoding and manipulating JSON data".
- * [pthreads] OR [Windows Threads] which used by [RECore] threads, or use **FayeCpp** with [Qt SDK][1] (see below).
 
 
 ### Installation with CocoaPods
