@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
 # Common settings
   s.name         = "FayeCpp"
-  s.version      = "0.1.12"
+  s.version      = "0.1.13"
   s.summary      = "Faye C++ client with Objective-C client wrapper."
   s.description  = <<-DESC
 Faye C++ client with Objective-C client wrapper. 
@@ -51,6 +51,6 @@ You can use Objective-C wrapper or C++ client directly.
   s.xcconfig = { 'HEADER_SEARCH_PATHS' => '"${PODS_ROOT}/FayeCpp/contrib/objc" "${PODS_ROOT}/FayeCpp/libwebsockets/lib" "${PODS_ROOT}/FayeCpp/jansson/src"' }
   s.libraries    = 'z', 'stdc++'
   s.framework = 'CoreFoundation'
-  s.requires_arc = false
+  s.requires_arc = true
 
 end

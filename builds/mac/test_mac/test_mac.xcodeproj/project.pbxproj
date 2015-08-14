@@ -56,7 +56,7 @@
 		3D0831131987CB4E0038CD79 /* REVariant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830FD1987CB4E0038CD79 /* REVariant.cpp */; };
 		3D0831141987CB4E0038CD79 /* REVariantList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830FE1987CB4E0038CD79 /* REVariantList.cpp */; };
 		3D0831151987CB4E0038CD79 /* REVariantMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830FF1987CB4E0038CD79 /* REVariantMap.cpp */; };
-		3D08311A1987CB570038CD79 /* FayeCppClient.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D0831191987CB570038CD79 /* FayeCppClient.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		3D08311A1987CB570038CD79 /* FayeCppClient.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D0831191987CB570038CD79 /* FayeCppClient.mm */; };
 		3D08311C1987CC020038CD79 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D08311B1987CC020038CD79 /* libz.dylib */; };
 		3D08311E1987CC1B0038CD79 /* libssl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D08311D1987CC1B0038CD79 /* libssl.dylib */; };
 		3D0831251987CDE30038CD79 /* server-handshake.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D0831231987CDE30038CD79 /* server-handshake.c */; };
@@ -150,8 +150,8 @@
 		3D0830FE1987CB4E0038CD79 /* REVariantList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = REVariantList.cpp; path = ../../../../src/REVariantList.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		3D0830FF1987CB4E0038CD79 /* REVariantMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = REVariantMap.cpp; path = ../../../../src/REVariantMap.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		3D0831171987CB570038CD79 /* fayecpp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = fayecpp.h; path = ../../../../fayecpp.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		3D0831181987CB570038CD79 /* FayeCppClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = FayeCppClient.h; path = ../../../../contrib/objc/FayeCppClient.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		3D0831191987CB570038CD79 /* FayeCppClient.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; lineEnding = 0; name = FayeCppClient.mm; path = ../../../../contrib/objc/FayeCppClient.mm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		3D0831181987CB570038CD79 /* FayeCppClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = FayeCppClient.h; path = ../../../../contrib/objc/FayeCppClient.h; sourceTree = "<group>"; };
+		3D0831191987CB570038CD79 /* FayeCppClient.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; lineEnding = 0; name = FayeCppClient.mm; path = ../../../../contrib/objc/FayeCppClient.mm; sourceTree = "<group>"; };
 		3D08311B1987CC020038CD79 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		3D08311D1987CC1B0038CD79 /* libssl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libssl.dylib; path = usr/lib/libssl.dylib; sourceTree = SDKROOT; };
 		3D0831211987CD8A0038CD79 /* ssl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ssl.c; path = ../../../../libwebsockets/lib/ssl.c; sourceTree = "<group>"; };

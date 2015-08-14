@@ -27,8 +27,12 @@
 /*
  *   Faye C++ client main and one header file.
  *   All class interfaces added to namespace, preventing include files mess.
+
+ *   Changes on version 0.1.13 (current):
+ *   - Objective-C client ARC mode only, of cource dec. speed, but no need to controll delegate pointer during deallocating.
+ *   - Objective-C client nullable & nonnullable methods/properties, need for integration with Swift.
  *
- *   Changes on version 0.1.12 (current):
+ *   Changes on version 0.1.12:
  *   - Cocoapod now available also for OSX 10.7 and later.
  *   - Objective-C client minor update.
  *
@@ -91,7 +95,7 @@
 
 #define FAYECPP_VERSION_MAJOR 0
 #define FAYECPP_VERSION_MINOR 1
-#define FAYECPP_VERSION_PATCH 12
+#define FAYECPP_VERSION_PATCH 13
 
 
 #if !defined(HAVE_SUITABLE_QT_VERSION) 

@@ -133,14 +133,14 @@ FAYECPP_EXTERN const NSInteger kFayeCppErrorCodeUnsubscriptionError;
  @brief User info key for place in the code, file, method, line.
  @detailed The corresponding value is string object.
  */
-FAYECPP_EXTERN NSString * const kFayeCppErrorPlaceInTheCodeKey;
+FAYECPP_EXTERN NSString * __nonnull const kFayeCppErrorPlaceInTheCodeKey;
 
 
 /**
  @brief User info key for Bayeux channel.
  @detailed The corresponding channel value is string object.
  */
-FAYECPP_EXTERN NSString * const kFayeCppErrorChannelKey;
+FAYECPP_EXTERN NSString * __nonnull const kFayeCppErrorChannelKey;
 
 
 /**
@@ -155,28 +155,28 @@ FAYECPP_EXTERN NSString * const kFayeCppErrorChannelKey;
  @brief Client transport protocol connected to server.
  @param client Faye client object.
  */
-- (void) onFayeTransportConnected:(FayeCppClient *) client;
+- (void) onFayeTransportConnected:(nonnull FayeCppClient *) client;
 
 
 /**
  @brief Client transport protocol disconnected from server.
  @param client Faye client object.
  */
-- (void) onFayeTransportDisconnected:(FayeCppClient *) client;
+- (void) onFayeTransportDisconnected:(nonnull FayeCppClient *) client;
 
 
 /**
  @brief Faye client connected to faye server.
  @param client Faye client object.
  */
-- (void) onFayeClientConnected:(FayeCppClient *) client;
+- (void) onFayeClientConnected:(nonnull FayeCppClient *) client;
 
 
 /**
  @brief Faye client disconnected to faye server.
  @param client Faye client object.
  */
-- (void) onFayeClientDisconnected:(FayeCppClient *) client;
+- (void) onFayeClientDisconnected:(nonnull FayeCppClient *) client;
 
 
 /**
@@ -184,8 +184,8 @@ FAYECPP_EXTERN NSString * const kFayeCppErrorChannelKey;
  @param client Faye client object.
  @param channel Channel name.
  */
-- (void) onFayeClient:(FayeCppClient *) client
-  subscribedToChannel:(NSString *) channel;
+- (void) onFayeClient:(nonnull FayeCppClient *) client
+  subscribedToChannel:(nullable NSString *) channel;
 
 
 /**
@@ -193,8 +193,8 @@ FAYECPP_EXTERN NSString * const kFayeCppErrorChannelKey;
  @param client Faye client object.
  @param channel Target channel name.
  */
-- (void) onFayeClient:(FayeCppClient *) client
-unsubscribedFromChannel:(NSString *) channel;
+- (void) onFayeClient:(nonnull FayeCppClient *) client
+unsubscribedFromChannel:(nullable NSString *) channel;
 
 
 /**
@@ -203,9 +203,9 @@ unsubscribedFromChannel:(NSString *) channel;
  @param message Received non empty responce message dictionary.
  @param channel Subscribed channel which received message data.
  */
-- (void) onFayeClient:(FayeCppClient *) client
-	  receivedMessage:(NSDictionary *) message
-		  fromChannel:(NSString *) channel;
+- (void) onFayeClient:(nonnull FayeCppClient *) client
+	  receivedMessage:(nullable NSDictionary *) message
+		  fromChannel:(nullable NSString *) channel;
 
 
 /**
@@ -216,8 +216,8 @@ unsubscribedFromChannel:(NSString *) channel;
  @param client Faye client object.
  @param error Error object with localized string. See key NSLocalizedDescriptionKey.
  */
-- (void) onFayeClient:(FayeCppClient *) client
-				error:(NSError *) error;
+- (void) onFayeClient:(nonnull FayeCppClient *) client
+				error:(nullable NSError *) error;
 
 @end
 
@@ -236,7 +236,7 @@ unsubscribedFromChannel:(NSString *) channel;
  @example return @"/Volumes/Data/faye/client.crt";
  @return String with file path or empty string.
  */
-- (NSString *) clientLocalCertificateFilePath;
+- (nullable NSString *) clientLocalCertificateFilePath;
 
 
 /**
@@ -245,7 +245,7 @@ unsubscribedFromChannel:(NSString *) channel;
  @example return @"/Volumes/Data/faye/client.key";
  @return String with file path or empty string.
  */
-- (NSString *) clientPrivateKeyFilePath;
+- (nullable NSString *) clientPrivateKeyFilePath;
 
 
 /**
@@ -254,14 +254,14 @@ unsubscribedFromChannel:(NSString *) channel;
  you should return pass for this key.
  @return Pass phrase string or empty string.
  */
-- (NSString *) clientPrivateKeyPassPhrase;
+- (nullable NSString *) clientPrivateKeyPassPhrase;
 
 
 /**
  @brief Get ca certificate file path.
  @return String with file path or empty string.
  */
-- (NSString *) clientCACertificateFilePath;
+- (nullable NSString *) clientCACertificateFilePath;
 
 @end
 
@@ -276,7 +276,7 @@ unsubscribedFromChannel:(NSString *) channel;
  @brief Property for client delegate.
  @detailed This property used custom methods 'delegate' and 'setDelegate:'.
  */
-@property (nonatomic, assign, getter = delegate, setter = setDelegate:) id<FayeCppClientDelegate> delegate;
+@property (nonatomic, assign, nullable, getter = delegate, setter = setDelegate:) id<FayeCppClientDelegate> delegate;
 
 
 /**
@@ -284,7 +284,7 @@ unsubscribedFromChannel:(NSString *) channel;
  @detailed This property used custom methods 'urlString' and 'setUrlString:'.
  No need to use NSURL object for cause of additional processing.
  */
-@property (nonatomic, assign, getter = urlString, setter = setUrlString:) NSString * urlString;
+@property (nonatomic, assign, nullable, getter = urlString, setter = setUrlString:) NSString * urlString;
 
 
 /**
@@ -298,7 +298,7 @@ unsubscribedFromChannel:(NSString *) channel;
  @brief Property for ext value.
  @detailed This property used custom methods 'extValue' and 'setExtValue:'.
  */
-@property (nonatomic, assign, getter = extValue, setter = setExtValue:) id extValue;
+@property (nonatomic, assign, nullable, getter = extValue, setter = setExtValue:) id extValue;
 
 
 /**
@@ -307,7 +307,7 @@ unsubscribedFromChannel:(NSString *) channel;
  and will not included to messages.
  @return ext message value.
  */
-- (id) extValue;
+- (nullable id) extValue;
 
 
 /**
@@ -320,7 +320,7 @@ unsubscribedFromChannel:(NSString *) channel;
  For clean up this value just set nil or NSNull value.
  @param value Variant value of the ext field.
  */
-- (void) setExtValue:(id) value;
+- (void) setExtValue:(nullable id) value;
 
 
 /**
@@ -376,8 +376,8 @@ unsubscribedFromChannel:(NSString *) channel;
  @param channel Non empty, subscribed channel.
  @return True - if connected and parameters non empty and sended, othervice false.
  */
-- (BOOL) sendMessage:(NSDictionary *) message
-		   toChannel:(NSString *) channel;
+- (BOOL) sendMessage:(nullable NSDictionary *) message
+		   toChannel:(nullable NSString *) channel;
 
 
 /**
@@ -385,7 +385,7 @@ unsubscribedFromChannel:(NSString *) channel;
  @param channel Non empty channel.
  @return True - if subscribed, otherwice false.
  */
-- (BOOL) isSubscribedToChannel:(NSString *) channel;
+- (BOOL) isSubscribedToChannel:(nullable NSString *) channel;
 
 
 /**
@@ -393,7 +393,7 @@ unsubscribedFromChannel:(NSString *) channel;
  @param channel Non empty channel.
  @return True - if already suscribed, started or stored to peding subscriptions, otherwice false.
  */
-- (BOOL) subscribeToChannel:(NSString *) channel;
+- (BOOL) subscribeToChannel:(nullable NSString *) channel;
 
 
 /**
@@ -401,46 +401,46 @@ unsubscribedFromChannel:(NSString *) channel;
  @param channel Non empty subscribed channel.
  @return True on unsubscription started, otherwice false or channel is empty or not subscribed.
  */
-- (BOOL) unsubscribeFromChannel:(NSString *) channel;
+- (BOOL) unsubscribeFromChannel:(nullable NSString *) channel;
 
 
 /**
  @brief Setter for faye url.
  @param url Faye server url string.
  */
-- (void) setUrlString:(NSString *) url;
+- (void) setUrlString:(nullable NSString *) url;
 
 
 /**
  @brief Getter for faye url.
  */
-- (NSString *) urlString;
+- (nullable NSString *) urlString;
 
 
 /**
  @brief Setter for faye client delegate.
  @param fayeDelegate Faye client delegate.
  */
-- (void) setDelegate:(id<FayeCppClientDelegate>) fayeDelegate;
+- (void) setDelegate:(nullable id<FayeCppClientDelegate>) fayeDelegate;
 
 
 /**
  @brief Getter for faye client delegate.
  */
-- (id<FayeCppClientDelegate>) delegate;
+- (nullable id<FayeCppClientDelegate>) delegate;
 
 
 /**
  @brief Setter for faye SSL data source.
  @param fayeSSLDataSource Faye client SSL data source.
  */
-- (void) setSSLDataSource:(id<FayeCppClientSSLDataSource>) fayeSSLDataSource;
+- (void) setSSLDataSource:(nullable id<FayeCppClientSSLDataSource>) fayeSSLDataSource;
 
 
 /**
  @brief Getter for faye client SSL data source.
  */
-- (id<FayeCppClientSSLDataSource>) sslDataSource;
+- (nullable id<FayeCppClientSSLDataSource>) sslDataSource;
 
 
 /**

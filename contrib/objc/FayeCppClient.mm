@@ -28,8 +28,8 @@
 #define __has_feature(x) 0
 #endif
 
-#if __has_feature(objc_arc)
-#error "ARC enabled. Need disable for this file."
+#if !__has_feature(objc_arc)
+#error "ARC disabled. Need enable ARC for this file."
 #endif
 
 #include <fayecpp.h>
@@ -136,44 +136,48 @@ public:
 	
 	virtual void onFayeTransportConnected(FayeCpp::Client * client)
 	{
-		id<FayeCppClientDelegate> d = objcClient ? [objcClient delegate] : nil;
-		if (d && [d respondsToSelector:@selector(onFayeTransportConnected:)])
+		FayeCppClient * c = objcClient;
+		id<FayeCppClientDelegate> d = c ? [c delegate] : nil;
+		if (c && d && [d respondsToSelector:@selector(onFayeTransportConnected:)])
 		{
 			dispatch_async(dispatch_get_main_queue(), ^{
-				[d onFayeTransportConnected:objcClient];
+				[d onFayeTransportConnected:c];
 			});
 		}
 	}
 	
 	virtual void onFayeTransportDisconnected(FayeCpp::Client * client)
 	{
-		id<FayeCppClientDelegate> d = objcClient ? [objcClient delegate] : nil;
-		if (d && [d respondsToSelector:@selector(onFayeTransportDisconnected:)])
+		FayeCppClient * c = objcClient;
+		id<FayeCppClientDelegate> d = c ? [c delegate] : nil;
+		if (c && d && [d respondsToSelector:@selector(onFayeTransportDisconnected:)])
 		{
 			dispatch_async(dispatch_get_main_queue(), ^{
-				[d onFayeTransportDisconnected:objcClient];
+				[d onFayeTransportDisconnected:c];
 			});
 		}
 	}
 	
 	virtual void onFayeClientConnected(FayeCpp::Client * client)
 	{
-		id<FayeCppClientDelegate> d = objcClient ? [objcClient delegate] : nil;
-		if (d && [d respondsToSelector:@selector(onFayeClientConnected:)])
+		FayeCppClient * c = objcClient;
+		id<FayeCppClientDelegate> d = c ? [c delegate] : nil;
+		if (c && d && [d respondsToSelector:@selector(onFayeClientConnected:)])
 		{
 			dispatch_async(dispatch_get_main_queue(), ^{
-				[d onFayeClientConnected:objcClient];
+				[d onFayeClientConnected:c];
 			});
 		}
 	}
 	
 	virtual void onFayeClientDisconnected(FayeCpp::Client * client)
 	{
-		id<FayeCppClientDelegate> d = objcClient ? [objcClient delegate] : nil;
-		if (d && [d respondsToSelector:@selector(onFayeClientDisconnected:)])
+		FayeCppClient * c = objcClient;
+		id<FayeCppClientDelegate> d = c ? [c delegate] : nil;
+		if (c && d && [d respondsToSelector:@selector(onFayeClientDisconnected:)])
 		{
 			dispatch_async(dispatch_get_main_queue(), ^{
-				[d onFayeClientDisconnected:objcClient];
+				[d onFayeClientDisconnected:c];
 			});
 		}
 	}
@@ -181,26 +185,28 @@ public:
 	virtual void onFayeClientSubscribedToChannel(FayeCpp::Client * client,
 												 const FayeCpp::REString & channel)
 	{
-		id<FayeCppClientDelegate> d = objcClient ? [objcClient delegate] : nil;
-		if (d && [d respondsToSelector:@selector(onFayeClient:subscribedToChannel:)])
+		FayeCppClient * c = objcClient;
+		id<FayeCppClientDelegate> d = c ? [c delegate] : nil;
+		if (c && d && [d respondsToSelector:@selector(onFayeClient:subscribedToChannel:)])
 		{
 			CFStringRef ch = CFHelper::string(channel);
 			dispatch_async(dispatch_get_main_queue(), ^{
-				[d onFayeClient:objcClient subscribedToChannel:(NSString *)ch];
+				[d onFayeClient:c subscribedToChannel:(__bridge NSString *)ch];
 				if (ch) CFRelease(ch);
 			});
 		}
 	}
-	
+
 	virtual void onFayeClientUnsubscribedFromChannel(FayeCpp::Client * client,
 													 const FayeCpp::REString & channel)
 	{
-		id<FayeCppClientDelegate> d = objcClient ? [objcClient delegate] : nil;
-		if (d && [d respondsToSelector:@selector(onFayeClient:unsubscribedFromChannel:)])
+		FayeCppClient * c = objcClient;
+		id<FayeCppClientDelegate> d = c ? [c delegate] : nil;
+		if (c && d && [d respondsToSelector:@selector(onFayeClient:unsubscribedFromChannel:)])
 		{
 			CFStringRef ch = CFHelper::string(channel);
 			dispatch_async(dispatch_get_main_queue(), ^{
-				[d onFayeClient:objcClient unsubscribedFromChannel:(NSString *)ch];
+				[d onFayeClient:c unsubscribedFromChannel:(__bridge NSString *)ch];
 				if (ch) CFRelease(ch);
 			});
 		}
@@ -210,8 +216,9 @@ public:
 														const FayeCpp::REVariantMap & message,
 														const FayeCpp::REString & channel)
 	{
-		id<FayeCppClientDelegate> d = objcClient ? [objcClient delegate] : nil;
-		if (d && [d respondsToSelector:@selector(onFayeClient:receivedMessage:fromChannel:)])
+		FayeCppClient * c = objcClient;
+		id<FayeCppClientDelegate> d = c ? [c delegate] : nil;
+		if (c && d && [d respondsToSelector:@selector(onFayeClient:receivedMessage:fromChannel:)])
 		{
 			CFStringRef ch = CFHelper::string(channel);
 			CFTypeRef obj = CFHelper::object(message);
@@ -222,7 +229,7 @@ public:
 				{
 					isPassed = true;
 					dispatch_async(dispatch_get_main_queue(), ^{
-						[d onFayeClient:objcClient receivedMessage:(NSDictionary *)obj fromChannel:(NSString *)ch];
+						[d onFayeClient:c receivedMessage:(__bridge NSDictionary *)obj fromChannel:(__bridge NSString *)ch];
 						if (obj) CFRelease(obj);
 						if (ch) CFRelease(ch);
 					});
@@ -245,12 +252,13 @@ public:
 	virtual void onFayeErrorString(FayeCpp::Client * client,
 								   const FayeCpp::REString & errorString)
 	{
-		id<FayeCppClientDelegate> d = objcClient ? [objcClient delegate] : nil;
-		if (d && [d respondsToSelector:@selector(onFayeClient:error:)])
+		FayeCppClient * c = objcClient;
+		id<FayeCppClientDelegate> d = c ? [c delegate] : nil;
+		if (c && d && [d respondsToSelector:@selector(onFayeClient:error:)])
 		{
 			CFErrorRef error = CFHelper::error(client->lastError());
 			dispatch_async(dispatch_get_main_queue(), ^{
-				[d onFayeClient:objcClient error:(NSError *)error];
+				[d onFayeClient:c error:(__bridge NSError *)error];
 				if (error) CFRelease(error);
 			});
 		}
@@ -517,29 +525,17 @@ CFTypeRef CFHelper::object(const REVariant & variant)
 	return kCFNull;
 }
 
-#if !defined(SAFE_RETAIN) && !__has_feature(objc_arc)
-#define SAFE_RETAIN(to,from) if(to){[to release];to=nil;}if(from)to=[from retain];
-#endif
-
 @interface FayeCppClient()
 {
 @private
 	Client * _cppClient;
 	FayeCppDelegateWrapper * _cppDelegate;
 	FayeCppClientSSLDataSourceWrapper * _SSLDataSourceWrapper;
-	
-#if !__has_feature(objc_arc)
-	id<FayeCppClientDelegate> _delegateObject;
-	id<FayeCppClientSSLDataSource> _sslDataSourceObject;
-	NSString * _urlStringObject;
-#endif
 }
 
-#if __has_feature(objc_arc)
 @property (nonatomic, weak) id<FayeCppClientDelegate> delegateObject;
 @property (nonatomic, weak) id<FayeCppClientSSLDataSource> sslDataSourceObject;
 @property (nonatomic, strong) NSString * urlStringObject;
-#endif
 
 @end
 
@@ -562,7 +558,7 @@ CFTypeRef CFHelper::object(const REVariant & variant)
 
 - (void) setExtValue:(id) value
 {
-	if (_cppClient) _cppClient->setExtValue(CFHelper::variant((CFTypeRef)value));
+	if (_cppClient) _cppClient->setExtValue(CFHelper::variant((__bridge CFTypeRef)value));
 }
 
 - (BOOL) isUsingIPV6
@@ -601,7 +597,7 @@ CFTypeRef CFHelper::object(const REVariant & variant)
 	if (_cppClient && message && channel)
 	{
 		REVariantMap map;
-		CFHelper::dictToMap((CFDictionaryRef)message, &map);
+		CFHelper::dictToMap((__bridge CFDictionaryRef)message, &map);
 		return _cppClient->sendMessageToChannel(map, [channel UTF8String]);
 	}
 	return NO;
@@ -609,7 +605,7 @@ CFTypeRef CFHelper::object(const REVariant & variant)
 
 - (BOOL) isSubscribedToChannel:(NSString *) channel
 {
-	if (_cppClient)
+	if (_cppClient && channel)
 	{
 		return (BOOL)_cppClient->isSubscribedToChannel([channel UTF8String]);
 	}
@@ -636,12 +632,8 @@ CFTypeRef CFHelper::object(const REVariant & variant)
 
 - (void) setUrlString:(NSString *) url
 {
-#if __has_feature(objc_arc)
 	self.urlStringObject = url;
-#else
-	SAFE_RETAIN(_urlStringObject, url)
-#endif
-	
+
 	if (_cppClient) _cppClient->setUrl(_urlStringObject ? [_urlStringObject UTF8String] : NULL);
 }
 
@@ -653,42 +645,26 @@ CFTypeRef CFHelper::object(const REVariant & variant)
 
 - (void) setDelegate:(id<FayeCppClientDelegate>) fayeDelegate
 {
-#if __has_feature(objc_arc)
 	self.delegateObject = fayeDelegate;
-#else
-	_delegateObject = fayeDelegate;
-#endif
-	
+
 	_cppDelegate->objcClient = [self delegate] ? self : nil;
 }
 
 - (id<FayeCppClientDelegate>) delegate
 {
-#if __has_feature(objc_arc)
 	return self.delegateObject;
-#else
-	return _delegateObject;
-#endif
 }
 
 - (void) setSSLDataSource:(id<FayeCppClientSSLDataSource>) fayeSSLDataSource
 {
-#if __has_feature(objc_arc)
 	self.sslDataSourceObject = fayeSSLDataSource;
-#else
-	_sslDataSourceObject = fayeSSLDataSource;
-#endif
-	
+
 	_SSLDataSourceWrapper->objcClient = [self sslDataSource] ? self : nil;
 }
 
 - (id<FayeCppClientSSLDataSource>) sslDataSource
 {
-#if __has_feature(objc_arc)
 	return self.sslDataSourceObject;
-#else
-	return _sslDataSourceObject;
-#endif
 }
 
 - (id) init
@@ -699,9 +675,6 @@ CFTypeRef CFHelper::object(const REVariant & variant)
 		_cppDelegate = new FayeCppDelegateWrapper();
 		if (!_cppDelegate)
 		{
-#if !__has_feature(objc_arc)
-			[self release];
-#endif
 			return nil;
 		}
 		
@@ -709,10 +682,7 @@ CFTypeRef CFHelper::object(const REVariant & variant)
 		if (!_SSLDataSourceWrapper) 
 		{
 			delete _cppDelegate;
-#if !__has_feature(objc_arc)
-			[self release];
-#endif
-			return nil;			
+			return nil;
 		}
 		
 		_cppClient = new Client();
@@ -720,9 +690,6 @@ CFTypeRef CFHelper::object(const REVariant & variant)
 		{
 			delete _cppDelegate;
 			delete _SSLDataSourceWrapper;
-#if !__has_feature(objc_arc)
-			[self release];
-#endif
 			return nil;
 		}
 		
@@ -752,11 +719,6 @@ CFTypeRef CFHelper::object(const REVariant & variant)
 		_cppClient->setSSLDataSource(NULL);
 		delete _cppClient;
 	}
-
-#if !__has_feature(objc_arc)
-	if (_urlStringObject) [_urlStringObject release];
-	[super dealloc];
-#endif
 }
 
 + (BOOL) isSupportsIPV6
