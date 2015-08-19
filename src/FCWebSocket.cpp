@@ -426,23 +426,6 @@ namespace FayeCpp {
 		_mutex.unlock();
 	}
 	
-	const char * WebSocket::copyUTF8(const REString & from)
-	{
-		const size_t len = (size_t)from.length();
-		const char * utf8 = from.UTF8String();
-		if (len > 0 && utf8) 
-		{
-			char * newMem = (char *)malloc(len + 1);
-			if (newMem) 
-			{
-				memcpy(newMem, utf8, len);
-				newMem[len] = (char)0;
-				return newMem;
-			}
-		}
-		return NULL;
-	}
-	
 	struct libwebsocket_context * WebSocket::createWebSocketContext(WebSocket * webSocket)
 	{
 		struct lws_context_creation_info info;
@@ -462,28 +445,53 @@ namespace FayeCpp {
 		info.user = static_cast<WebSocket *>(webSocket);
 		
 		SSLDataSource * dataSource = webSocket->sslDataSource();
-		if (dataSource) 
+		if (dataSource)
 		{
-			info.ssl_cert_filepath = WebSocket::copyUTF8(dataSource->clientLocalCertificateFilePath());
-			info.ssl_private_key_filepath = WebSocket::copyUTF8(dataSource->clientPrivateKeyFilePath());
-			info.ssl_private_key_password = WebSocket::copyUTF8(dataSource->clientPrivateKeyPassPhrase());
-			info.ssl_ca_filepath = WebSocket::copyUTF8(dataSource->clientCACertificateFilePath());
+			REString localCertificateFilePath = dataSource->clientLocalCertificateFilePath();
+			REString privateKeyFilePath = dataSource->clientPrivateKeyFilePath();
+			REString privateKeyPassPhrase = dataSource->clientPrivateKeyPassPhrase();
+			REString CACertificateFilePath = dataSource->clientCACertificateFilePath();
+
+			info.ssl_cert_filepath = localCertificateFilePath.UTF8String();
+			info.ssl_private_key_filepath = privateKeyFilePath.UTF8String();
+			info.ssl_private_key_password = privateKeyPassPhrase.UTF8String();
+			info.ssl_ca_filepath = CACertificateFilePath.UTF8String();
 			
 			info.options = (info.options == 0) ? LWS_SERVER_OPTION_REQUIRE_VALID_OPENSSL_CLIENT_CERT : info.options | LWS_SERVER_OPTION_REQUIRE_VALID_OPENSSL_CLIENT_CERT;
 			
 			struct libwebsocket_context * context = libwebsocket_create_context(&info);
 			
-			SAFE_FREE(info.ssl_cert_filepath)
-			SAFE_FREE(info.ssl_private_key_filepath)
-			SAFE_FREE(info.ssl_private_key_password)
-			SAFE_FREE(info.ssl_ca_filepath)
+			info.ssl_cert_filepath = NULL;
+			info.ssl_private_key_filepath = NULL;
+			info.ssl_private_key_password = NULL;
+			info.ssl_ca_filepath = NULL;
 			
 			return context;
 		}
 		
 		return libwebsocket_create_context(&info);
 	}
-	
+
+	struct libwebsocket * WebSocket::createWebSocketConnection(struct libwebsocket_context * context)
+	{
+		Client * client = this->client();
+		if (client)
+		{
+			FAYECPP_DEBUG_LOGA("Start connecting to host[%s] port[%i] path[%s]", client->host().UTF8String(), client->port(), client->path().UTF8String())
+
+			return libwebsocket_client_connect(context,
+											   client->host().UTF8String(),
+											   client->port(),
+											   client->isUseSSL() ? 2 : 0,
+											   client->path().UTF8String(),
+											   client->host().UTF8String(),
+											   "origin",
+											   NULL,
+											   -1);
+		}
+		return NULL;
+	}
+
 	void WebSocket::workMethod()
 	{
 		_mutex.lock();
@@ -503,17 +511,7 @@ namespace FayeCpp {
 			return;
 		}
 
-		FAYECPP_DEBUG_LOGA("Start connecting to host[%s] port[%i] path[%s]", this->client()->host().UTF8String(), this->client()->port(), this->client()->path().UTF8String())
-		
-		_connection = libwebsocket_client_connect(_context,
-												  this->client()->host().UTF8String(),
-												  this->client()->port(),
-												  this->client()->isUseSSL() ? 2 : 0,
-												  this->client()->path().UTF8String(),
-												  this->client()->host().UTF8String(),
-												  "origin",
-												  NULL,
-												  -1);
+		_connection = this->createWebSocketConnection(_context);
 		if (!_connection)
 		{
 			if (_context) libwebsocket_context_destroy(_context);
