@@ -109,9 +109,11 @@ namespace FayeCpp {
 
 	bool REVariantMap::isEqualToMap(const REVariantMap & map) const
 	{
+		REUInt32 srcCount = 0;
 		REVariantMap::Iterator i = this->iterator();
 		while (i.next())
 		{
+			srcCount++;
 			Node * node = map.findNode(i.key());
 			if (node)
 			{
@@ -125,7 +127,9 @@ namespace FayeCpp {
 				return false;
 			}
 		}
-		return true;
+
+		const REUInt32 dstCount = map.count();
+		return (srcCount == dstCount);
 	}
 
 	bool REVariantMap::operator==(const REVariantMap & map) const
