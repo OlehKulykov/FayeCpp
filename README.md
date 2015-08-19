@@ -185,11 +185,6 @@ For easy integration there is Xcode static iOS library project ```fayecpp.xcodep
 For **Mac** & **iOS** there is **Objective-C client wrapper** located in the folder ```contrib/objc/```. Just add ```FayeCppClient.h```, ```FayeCppClient.mm``` files to your project and use. This wrapper can be used **with** or **without** Automatic Reference Counting (ARC). 
 
 
-# Donation
-----------
-[![PayPal donation](https://www.paypalobjects.com/en_US/DE/i/btn/btn_donateCC_LG.gif "PayPal donation")](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=G4CWLZWA5RGSN)
-
-
 # Working with the library in C++
 --------------------------
 
