@@ -27,8 +27,14 @@
 /*
  *   Faye C++ client main and one header file.
  *   All class interfaces added to namespace, preventing include files mess.
-
- *   Changes on version 0.1.13 (current):
+ *
+ *   Changes on version 0.1.14 (current):
+ *   - Minor JSON parsing optimizations.
+ *   - Minor client responce processing optimizations.
+ *   - Refactor websocket connection method.
+ *   - Variant holder structure modifications and remove C casting.
+ *
+ *   Changes on version 0.1.13:
  *   - Objective-C client ARC mode only, of cource dec. speed, but no need to controll delegate pointer during deallocating.
  *   - Objective-C client nullable & nonnullable methods/properties, need for integration with Swift.
  *
@@ -95,7 +101,7 @@
 
 #define FAYECPP_VERSION_MAJOR 0
 #define FAYECPP_VERSION_MINOR 1
-#define FAYECPP_VERSION_PATCH 13
+#define FAYECPP_VERSION_PATCH 14
 
 
 #if !defined(HAVE_SUITABLE_QT_VERSION) 
@@ -2595,6 +2601,8 @@ namespace FayeCpp {
 
 	/**
 	 @brief SSL data source.
+	 @deatailed This abstract class containes required to implement methods for getting information about sertificates info,
+	 such as paths to sertificates, keys and pass phrase if available.
 	 */
 	class __RE_PUBLIC_CLASS_API__ SSLDataSource
 	{
@@ -2603,7 +2611,7 @@ namespace FayeCpp {
 		 @brief Get client sertificate file path.
 		 @detailed Path to certificate file. Currently supports rsa algorithm & pem encoding format.
 		 @code 
-		 return REString("/Volumes/Data/faye/client.crt");
+		 return REString("/faye_client/client.crt");
 		 @endcode
 		 @return String with file path or empty string.
 		 */
@@ -2614,7 +2622,7 @@ namespace FayeCpp {
 		 @brief Get client private key file path.
 		 @detailed Path to key file. Currently supports rsa algorithm & pem encoding format.
 		 @code 
-		 return REString("/Volumes/Data/faye/client.key");
+		 return REString("/faye_client/client.key");
 		 @endcode
 		 @return String with file path or empty string.
 		 */
@@ -2625,6 +2633,10 @@ namespace FayeCpp {
 		 @brief Get client private key passphrase. Needs for encrypted client file key.
 		 @detailed If client key is encrypted(have '-----BEGIN ENCRYPTED PRIVATE KEY-----'),
 		 you should return pass for this key.
+		 @code
+		 return REString("P@ss_phr@$e");  // in a case of existed pass phrase
+		 return REString();  // there is no pass phrase for client file key
+		 @endcode
 		 @return Pass phrase string or empty string.
 		 */
 		virtual FayeCpp::REString clientPrivateKeyPassPhrase() const = 0;
@@ -2632,6 +2644,9 @@ namespace FayeCpp {
 		
 		/**
 		 @brief Get ca certificate file path.
+		 @code
+		 return REString("/faye_client/ca");
+		 @endcode
 		 @return String with file path or empty string.
 		 */
 		virtual FayeCpp::REString clientCACertificateFilePath() const = 0;
@@ -2710,11 +2725,17 @@ namespace FayeCpp {
 	protected:
 		typedef union _variantUnion
 		{
-			int64_t int64Value;
 			uint64_t uint64Value;
+			int64_t int64Value;
 			double doubleValue;
 			bool boolValue;
-			void * pointerValue;
+			union
+			{
+				void * pointerValue;
+				REString * stringValue;
+				REVariantMap * mapValue;
+				REVariantList * listValue;
+			};
 		}
 		/**
 		 @brief Union for storing variant data.

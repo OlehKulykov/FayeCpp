@@ -35,9 +35,9 @@ namespace FayeCpp {
 		{
 			switch (_t)
 			{
-				case TypeString: delete (REString *)_u.pointerValue; break;
-				case TypeMap: delete (REVariantMap *)_u.pointerValue; break;
-				case TypeList: delete (REVariantList *)_u.pointerValue; break;
+				case TypeString: delete _u.stringValue; break;
+				case TypeMap: delete _u.mapValue; break;
+				case TypeList: delete _u.listValue; break;
 				default: break;
 			}
 		}
@@ -229,7 +229,7 @@ namespace FayeCpp {
 		REString * p = new REString(s);
 		if (p)
 		{
-			_u.pointerValue = p;
+			_u.stringValue = p;
 			_t = TypeString;
 		}
 		return *this;
@@ -243,7 +243,7 @@ namespace FayeCpp {
 			REString * p = new REString(s);
 			if (p)
 			{
-				_u.pointerValue = p;
+				_u.stringValue = p;
 				_t = TypeString;
 			}
 		}
@@ -258,7 +258,7 @@ namespace FayeCpp {
 			REString * p = new REString(s);
 			if (p)
 			{
-				_u.pointerValue = p;
+				_u.stringValue = p;
 				_t = TypeString;
 			}
 		}
@@ -271,7 +271,7 @@ namespace FayeCpp {
 		REVariantMap * p = new REVariantMap(m);
 		if (p)
 		{
-			_u.pointerValue = p;
+			_u.mapValue = p;
 			_t = TypeMap;
 		}
 		return *this;
@@ -283,7 +283,7 @@ namespace FayeCpp {
 		REVariantList * p = new REVariantList(l);
 		if (p)
 		{
-			_u.pointerValue = p;
+			_u.listValue = p;
 			_t = TypeList;
 		}
 		return *this;
@@ -309,7 +309,7 @@ namespace FayeCpp {
 	
 	const REString & REVariant::toString() const
 	{
-		return *(const REString *)_u.pointerValue;
+		return *_u.stringValue;
 	}
 	
 	bool REVariant::isMap() const
@@ -319,7 +319,7 @@ namespace FayeCpp {
 	
 	const REVariantMap & REVariant::toMap() const
 	{
-		return *(const REVariantMap *)_u.pointerValue;
+		return *_u.mapValue;
 	}
 	
 	bool REVariant::isList() const
@@ -329,22 +329,22 @@ namespace FayeCpp {
 	
 	const REVariantList & REVariant::toList() const
 	{
-		return *(const REVariantList *)_u.pointerValue;
+		return *_u.listValue;
 	}
 	
 	REString & REVariant::toString()
 	{
-		return *(REString *)_u.pointerValue;
+		return *_u.stringValue;
 	}
 	
 	REVariantMap & REVariant::toMap()
 	{
-		return *(REVariantMap *)_u.pointerValue;
+		return *_u.mapValue;
 	}
 	
 	REVariantList & REVariant::toList()
 	{
-		return *((REVariantList *)_u.pointerValue);
+		return *_u.listValue;
 	}
 
 	bool REVariant::isEqualToVariant(const REVariant & v) const
