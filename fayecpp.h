@@ -31,8 +31,9 @@
  *   Changes on version 0.1.14 (current):
  *   - Minor JSON parsing optimizations.
  *   - Minor client responce processing optimizations.
- *   - Refactor websocket connection method.
+ *   - Refactor websocket connection method and remove unused string data copying.
  *   - Variant holder structure modifications and remove C casting.
+ *   - iOS Swift example application.
  *
  *   Changes on version 0.1.13:
  *   - Objective-C client ARC mode only, of cource dec. speed, but no need to controll delegate pointer during deallocating.

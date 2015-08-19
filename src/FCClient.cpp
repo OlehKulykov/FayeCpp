@@ -303,15 +303,15 @@ namespace FayeCpp {
 	{
 		SAFE_DELETE(_lastError)
 
-		if (responce->messageMap()) 
-		{
-			this->onClientResponceMessageReceived(*responce->messageMap());
-		}
 		if (responce->messageList())
 		{
 			this->onClientResponceMessagesListReceived(*responce->messageList());
 		}
-		if (responce->messageBuffer())
+		else if (responce->messageMap())
+		{
+			this->onClientResponceMessageReceived(*responce->messageMap());
+		}
+		else if (responce->messageBuffer())
 		{
 			FAYECPP_DEBUG_LOG("Client responce error: unknown responce data.")
 

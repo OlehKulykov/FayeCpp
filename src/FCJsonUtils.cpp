@@ -23,6 +23,14 @@
 
 #include "FCJsonUtils.h"
 
+#if defined(HAVE_FAYECPP_CONFIG_H)
+#include "fayecpp_config.h"
+#endif
+
+#if defined(HAVE_ASSERT_H)
+#include <assert.h>
+#endif
+
 namespace FayeCpp {
 
 	bool JsonParser::isMap() const
@@ -35,14 +43,12 @@ namespace FayeCpp {
 		return _json ? json_is_array(_json) : false;
 	}
 	
-	bool JsonParser::toMap(REVariantMap & map)
+	void JsonParser::toMap(REVariantMap & map)
 	{
-		if (this->isMap())
-		{
-			JsonParser::jsonToMap(_json, map);
-			return true;
-		}
-		return false;
+#if defined(HAVE_ASSERT_H)
+		assert(this->isMap());
+#endif
+		JsonParser::jsonToMap(_json, map);
 	}
 	
 	void JsonParser::jsonToMap(json_t * json, REVariantMap & map)
@@ -52,7 +58,7 @@ namespace FayeCpp {
 		{
 			const char * k = json_object_iter_key(iter);
 			json_t * o = json_object_iter_value(iter);
-			if (k && o) 
+			if (k && o)
 			{
 				switch (json_typeof(o)) 
 				{
@@ -123,14 +129,12 @@ namespace FayeCpp {
 		}
 	}
 	
-	bool JsonParser::toList(REVariantList & list)
+	void JsonParser::toList(REVariantList & list)
 	{
-		if (this->isList())
-		{
-			JsonParser::jsonToList(_json, list);
-			return true;
-		}
-		return false;
+#if defined(HAVE_ASSERT_H)
+		assert(this->isList());
+#endif
+		JsonParser::jsonToList(_json, list);
 	}
 	
 	JsonParser::JsonParser(const char * text) : 
@@ -140,7 +144,6 @@ namespace FayeCpp {
 		if (len > 0)
 		{
 			json_error_t error;
-			// memset(&error, 0, sizeof(json_error_t));
 
 			// except that the string doesn’t need to be null-terminated
 			json_t * json = json_loadb(text, len, 0, &error);
@@ -238,7 +241,7 @@ namespace FayeCpp {
     void JsonGenerator::addMapToJson(const REVariantMap & map, json_t * json)
 	{
 		REVariantMap::Iterator i = map.iterator();
-		while (i.next()) 
+		while (i.next())
 		{
 			json_t * object = JsonGenerator::jsonObjectFromValue(i.value());
 			if (object)

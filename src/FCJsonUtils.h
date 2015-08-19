@@ -40,8 +40,8 @@ namespace FayeCpp {
 	public:
 		bool isMap() const;
 		bool isList() const;
-		bool toMap(REVariantMap & map);
-		bool toList(REVariantList & list);
+		void toMap(REVariantMap & map);
+		void toList(REVariantList & list);
 		JsonParser(const char * text);
 		~JsonParser();
 	};

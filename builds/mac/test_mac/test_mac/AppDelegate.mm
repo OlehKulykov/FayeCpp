@@ -17,6 +17,9 @@
 #define OBJC_CLIENT 1
 
 class FayeDelegate;
+static NSString * const _clientURL = @"https://localhost:6001/faye";
+static NSString * const _clientChannel1 = @"/xxxxxxxx/xxxxxxxxxxxxx";
+static NSString * const _clientChannel2 = @"/xxxxxx";
 
 #if defined(OBJC_CLIENT)
 #import "FayeCppClient.h"
@@ -38,8 +41,8 @@ public:
 
 		FayeCpp::RELog::log("Try reconnect.");
 		client->connect();
-		client->subscribeToChannel("/seminars/5322e93d8ee60a422400008f");
-		client->subscribeToChannel("/seminars_service/5322e93d8ee60a422400008f");
+		client->subscribeToChannel([_clientChannel1 UTF8String]);
+		client->subscribeToChannel([_clientChannel2 UTF8String]);
 		FayeCpp::RELog::log("Done reconnect.");
 	}
 
@@ -139,7 +142,7 @@ using namespace FayeCpp;
 	if (_client) 
 	{
 		[_client sendMessage:@{@"text" : [_textField stringValue]} 
-				   toChannel:@"/seminars/5322e93d8ee60a422400008f"];
+				   toChannel:_clientChannel1];
 	}
 #else
 	if (_client) 
@@ -150,7 +153,7 @@ using namespace FayeCpp;
 		
 		message["text"] = [[_textField stringValue] UTF8String];
 		
-		_client->sendMessageToChannel(message, "/seminars/5322e93d8ee60a422400008f");
+		_client->sendMessageToChannel(message, [_clientChannel1 UTF8String]);
 	}
 #endif
 	NSLog(@"Done");
@@ -172,7 +175,7 @@ using namespace FayeCpp;
 	client = [[FayeCppClient alloc] init];
 	[client setDelegate:self];
 	[client setSSLDataSource:self];
-	[client setUrlString:@"http://messages.presentain.com:80/faye"];
+	[client setUrlString:_clientURL];
 	self.client = client;
 #else
 	if (_client) 
@@ -198,8 +201,7 @@ using namespace FayeCpp;
 	v = _client->extValue();
 
 	_client->setUsingIPV6(false);
-	_client->setUrl("http://messages.presentain.com:80/faye");
-	//_client->setUrl("https://localhost:6001/faye");
+	_client->setUrl([_clientURL UTF8String]);
 	_client->setDelegate(_delegate);
 //	_client->setSSLDataSource(new FayeSSLDataSource());
 #endif
@@ -210,12 +212,12 @@ using namespace FayeCpp;
 {
 #if defined(OBJC_CLIENT)
 	[_client connect];
-	[_client subscribeToChannel:@"/seminars/5322e93d8ee60a422400008f"];
-	[_client subscribeToChannel:@"/seminars_service/5322e93d8ee60a422400008f"];
+	[_client subscribeToChannel:_clientChannel1];
+	[_client subscribeToChannel:_clientChannel2];
 #else
 	_client->connect();
-	_client->subscribeToChannel("/seminars/5322e93d8ee60a422400008f");
-	_client->subscribeToChannel("/seminars_service/5322e93d8ee60a422400008f");
+	_client->subscribeToChannel([_clientChannel1 UTF8String]);
+	_client->subscribeToChannel([_clientChannel2 UTF8String]);
 #endif
 	NSLog(@"Done");
 }

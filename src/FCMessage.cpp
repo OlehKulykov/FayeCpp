@@ -86,20 +86,19 @@ namespace FayeCpp {
 	{
 		if (data && dataSize > 0) 
 		{
-			bool isOk = false;
 			JsonParser parser((const char *)data);
-			if (parser.isList()) 
-			{
-				_messageList = new REVariantList();
-				if (_messageList) isOk = parser.toList(*_messageList);
-			}
-			else if (parser.isMap())
+			if (parser.isMap())
 			{
 				_messageMap = new REVariantMap();
-				if (_messageMap) isOk = parser.toMap(*_messageMap);
+				if (_messageMap) parser.toMap(*_messageMap);
 			}
-			
-			if (!isOk) 
+			else if (parser.isList())
+			{
+				_messageList = new REVariantList();
+				if (_messageList) parser.toList(*_messageList);
+			}
+
+			if (!_messageMap && !_messageList)
 			{
 				_messageBuffer = new REBuffer(data, (REUInt32)dataSize);
 			}

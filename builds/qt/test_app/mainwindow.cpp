@@ -37,8 +37,8 @@ void MainWindow::onFayeTransportDisconnected(FayeCpp::Client * client)
 	FayeCpp::RELog::log("DELEGATE onFayeTransportDisconnected");
 
 	client->connect();
-	client->subscribeToChannel("/seminars/5322e93d8ee60a422400008f");
-	client->subscribeToChannel("/seminars_service/5322e93d8ee60a422400008f");
+	client->subscribeToChannel("/xxxxxx/xxxxxxx");
+	client->subscribeToChannel("/xxxxxxxxxxx");
 }
 
 void MainWindow::onFayeClientConnected(FayeCpp::Client * client)
@@ -52,40 +52,40 @@ void MainWindow::onFayeClientDisconnected(FayeCpp::Client * client)
 }
 
 void MainWindow::onFayeClientSubscribedToChannel(FayeCpp::Client * client,
-											 const FayeCpp::REString & channel)
+												 const FayeCpp::REString & channel)
 {
 	FayeCpp::RELog::log("DELEGATE onFayeClientSubscribedToChannel");
 }
 
 void MainWindow::onFayeClientUnsubscribedFromChannel(FayeCpp::Client * client,
-												 const FayeCpp::REString & channel)
+													 const FayeCpp::REString & channel)
 {
 	FayeCpp::RELog::log("DELEGATE onFayeClientUnsubscribedFromChannel");
 }
 
 void MainWindow::onFayeClientReceivedMessageFromChannel(FayeCpp::Client * client,
-													const FayeCpp::REVariantMap & message,
-													const FayeCpp::REString & channel)
+														const FayeCpp::REVariantMap & message,
+														const FayeCpp::REString & channel)
 {
 	FayeCpp::RELog::log("DELEGATE onFayeClientReceivedMessageFromChannel");
 }
 
 void MainWindow::onFayeClientWillSendMessage(FayeCpp::Client * client,
-										 FayeCpp::REVariantMap & message)
+											 FayeCpp::REVariantMap & message)
 {
 	FayeCpp::RELog::log("DELEGATE onFayeClientWillSendMessage");
 }
 
 void MainWindow::onFayeErrorString(FayeCpp::Client * client,
-							   const FayeCpp::REString & errorString)
+								   const FayeCpp::REString & errorString)
 {
 	FayeCpp::RELog::log("DELEGATE ERROR: %s", errorString.UTF8String());
 }
 
 MainWindow::MainWindow(QWidget *parent) :
-	QMainWindow(parent),
-	ui(new Ui::MainWindow),
-	_client(NULL)
+QMainWindow(parent),
+ui(new Ui::MainWindow),
+_client(NULL)
 {
 	ui->setupUi(this);
 
@@ -110,8 +110,7 @@ void MainWindow::on_pushButton_clicked()
 	_client = new FayeCpp::Client();
 
 	_client->setUsingIPV6(false);
-	_client->setUrl("http://messages.presentain.com:80/faye");
-	//_client->setUrl("https://localhost:6001/faye");
+	_client->setUrl("https://localhost:6001/faye");
 	_client->setDelegate(this);
 	//	_client->setSSLDataSource(new FayeSSLDataSource());
 }
@@ -121,8 +120,8 @@ void MainWindow::on_pushButton_2_clicked()
 	if (_client)
 	{
 		_client->connect();
-		_client->subscribeToChannel("/seminars/5322e93d8ee60a422400008f");
-		_client->subscribeToChannel("/seminars_service/5322e93d8ee60a422400008f");
+		_client->subscribeToChannel("/xxxxxx/xxxxxxxx");
+		_client->subscribeToChannel("/xxxxxxxx");
 	}
 }
 
@@ -136,6 +135,6 @@ void MainWindow::on_pushButton_3_clicked()
 
 		message["text"] = ui->lineEdit->text().toStdString().c_str();
 
-		_client->sendMessageToChannel(message, "/seminars/5322e93d8ee60a422400008f");
+		_client->sendMessageToChannel(message, "/xxxxxxx/xxxxxxxxxxxx");
 	}
 }

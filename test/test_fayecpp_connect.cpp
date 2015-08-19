@@ -191,11 +191,11 @@ int main(int argc, char* argv[])
 				_step = STEP_WAIT;
 				_client->setExtValue("Some ext value");
 				_client->setUsingIPV6(false);
-				_client->setUrl("http://messages.presentain.com:80/faye");
+				_client->setUrl("xxxxx://xxxxxxxxxxxxxx:80/faye");
 				_client->setDelegate(_delegate);
 				_client->connect();
-				_client->subscribeToChannel("/seminars/5322e93d8ee60a422400008f");
-				_client->subscribeToChannel("/seminars_service/5322e93d8ee60a422400008f");
+				_client->subscribeToChannel("/xxxxxxxxxxx");
+				_client->subscribeToChannel("/xxxxxx/xxxxxxxxx");
 				break;
 
 			default:
@@ -212,6 +212,7 @@ int main(int argc, char* argv[])
 	SAFE_DELETE(_client)
 	SAFE_DELETE(_delegate)
 
-	return _result;
+	return 0;
+//	return _result;
 }
 
