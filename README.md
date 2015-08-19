@@ -8,6 +8,7 @@
 [![Total views](https://sourcegraph.com/api/repos/github.com/OlehKulykov/FayeCpp/counters/views.png)](https://sourcegraph.com/github.com/OlehKulykov/FayeCpp)
 [![Views in the last 24 hours](https://sourcegraph.com/api/repos/github.com/OlehKulykov/FayeCpp/counters/views-24h.png)](https://sourcegraph.com/github.com/OlehKulykov/FayeCpp)
 [![Coverity Scan Build Status](https://scan.coverity.com/projects/3633/badge.svg)](https://scan.coverity.com/projects/3633)
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/OlehKulykov/fayecpp/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
 
 **FayeCpp** (C++) client library for desktop & mobile platforms, such as **Mac**, **Windows**, **Linux**, **iOS**, **Android**. 
@@ -422,7 +423,3 @@ THE SOFTWARE.
 [AppVeyor]:http://www.appveyor.com
 [3]:http://mingw-w64.sourceforge.net/download.php
 [MinGW]:http://mingw-w64.sourceforge.net/
-
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/OlehKulykov/fayecpp/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
