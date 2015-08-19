@@ -37,6 +37,12 @@ target_link_libraries(test_fayecpp_header fayecpp_static websockets jansson)
 add_test(test_fayecpp_header test_fayecpp_header)
 
 
+add_executable(test_fayecpp_variantmessage test_fayecpp_variantmessage.cpp)
+set_property(TARGET test_fayecpp_variantmessage APPEND PROPERTY COMPILE_FLAGS -DFAYECPP_STATIC)
+target_link_libraries(test_fayecpp_variantmessage fayecpp_static websockets jansson)
+add_test(test_fayecpp_variantmessage test_fayecpp_variantmessage)
+
+
 add_executable(test_fayecpp_init test_fayecpp_init.cpp)
 set_property(TARGET test_fayecpp_init APPEND PROPERTY COMPILE_FLAGS -DFAYECPP_STATIC)
 target_link_libraries(test_fayecpp_init fayecpp_static websockets jansson)
@@ -51,18 +57,21 @@ add_test(test_fayecpp_connect test_fayecpp_connect)
 
 if(HAVE_PTHREAD_H)
 	target_link_libraries(test_fayecpp_header pthread)
+	target_link_libraries(test_fayecpp_variantmessage pthread)
 	target_link_libraries(test_fayecpp_init pthread)
 	target_link_libraries(test_fayecpp_connect pthread)
 endif(HAVE_PTHREAD_H)
 
 if(HAVE_COREFOUNDATION_FRAMEWORK)
 	target_link_libraries(test_fayecpp_header ${COREFOUNDATION_FRAMEWORK})
+	target_link_libraries(test_fayecpp_variantmessage ${COREFOUNDATION_FRAMEWORK})
 	target_link_libraries(test_fayecpp_init ${COREFOUNDATION_FRAMEWORK})
 	target_link_libraries(test_fayecpp_connect ${COREFOUNDATION_FRAMEWORK})
 endif(HAVE_COREFOUNDATION_FRAMEWORK)
 
 if(MINGW)
 	target_link_libraries(test_fayecpp_header ws2_32)
+	target_link_libraries(test_fayecpp_variantmessage ws2_32)
 	target_link_libraries(test_fayecpp_init ws2_32)
 	target_link_libraries(test_fayecpp_connect ws2_32)
 endif(MINGW)
@@ -75,6 +84,7 @@ endif(HAVE_CURL_CURL_H)
 
 
 install(TARGETS test_fayecpp_header DESTINATION bin)
+install(TARGETS test_fayecpp_variantmessage DESTINATION bin)
 install(TARGETS test_fayecpp_init DESTINATION bin)
 install(TARGETS test_fayecpp_connect DESTINATION bin)
 

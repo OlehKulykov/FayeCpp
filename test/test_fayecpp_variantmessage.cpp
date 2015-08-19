@@ -40,10 +40,21 @@ using namespace FayeCpp;
 
 int testVariantMessage1()
 {
+	if (REVariant().isEqualToVariant("Hello")) return 1;
+	if (REVariant().isEqualToVariant(true)) return 1;
+	if (!REVariant().isEqualToVariant(REVariant())) return 1;
+
 	REVariant var1("Hello");
 
 	if (!var1.isEqualToVariant("Hello")) return 1;
 	if (var1.isEqualToVariant("Hello1")) return 2;
+
+	if (!var1.isEqualToVariant(L"Hello")) return 1;
+	if (var1.isEqualToVariant(L"Hello1")) return 2;
+
+	var1 = L"Привет";
+	if (!var1.isEqualToVariant(L"Привет")) return 1;
+	if (var1.isEqualToVariant(L"Привет 1")) return 2;
 
 	REVariantList list1;
 	list1 += 1;
@@ -54,6 +65,8 @@ int testVariantMessage1()
 	list2 += 1;
 
 	if (!list1.isEqualToList(list2)) return 3;
+	if (!REVariantList().isEqualToList(REVariantList())) return 1;
+
 	var1 = list1;
 	REVariant var2 = list2;
 
@@ -74,6 +87,23 @@ int testVariantMessage1()
 	if (!map1.isEqualToMap(map2)) return 9;
 	map2["k2"] = 45;
 	if (map1.isEqualToMap(map2)) return 10;
+	if (map1.isEqualToMap(REVariantMap())) return 11;
+	if (REVariantMap().isEqualToMap(map1)) return 12;
+	if (!REVariantMap().isEqualToMap(REVariantMap())) return 14;
+
+	map1.clear();
+	map2.clear();
+	var1 = map1;
+	var2 = map2;
+
+	if (!var1.isEqualToVariant(var2)) return 15;
+	map1["a"] = 1;
+	var1 = map1;
+	if (var1.isEqualToVariant(var2)) return 16;
+
+	map2["a"] = 1;
+	var2 = map2;
+	if (!var1.isEqualToVariant(var2)) return 17;
 
 	return EXIT_SUCCESS;
 }

@@ -34,6 +34,7 @@
  *   - Refactor websocket connection method and remove unused string data copying.
  *   - Variant holder structure modifications and remove C casting.
  *   - iOS Swift example application.
+ *   - Fix REVariantMap comparation.
  *
  *   Changes on version 0.1.13:
  *   - Objective-C client ARC mode only, of cource dec. speed, but no need to controll delegate pointer during deallocating.
