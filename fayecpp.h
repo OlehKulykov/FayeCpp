@@ -37,7 +37,7 @@
  *   - Fix REVariantMap comparation.
  *
  *   Changes on version 0.1.13:
- *   - Objective-C client ARC mode only, of cource dec. speed, but no need to controll delegate pointer during deallocating.
+ *   - Objective-C - no need to control delegate pointer during deallocating.
  *   - Objective-C client nullable & nonnullable methods/properties, need for integration with Swift.
  *
  *   Changes on version 0.1.12:
