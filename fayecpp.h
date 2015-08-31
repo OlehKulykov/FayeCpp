@@ -1507,7 +1507,12 @@ namespace FayeCpp {
 	class __RE_PUBLIC_CLASS_API__ REBuffer
 	{
 	protected:
-		void * _buff;
+		union
+		{
+			void * _buff;
+			const char * _constCharBuffer;
+			const unsigned char * _constUnsignedCharBuffer;
+		};
 		REUInt32 _size;
 		
 		static void * defaultMalloc(const REUInt32 size);
