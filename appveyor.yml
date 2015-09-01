@@ -24,8 +24,10 @@ install:
   - git submodule update --init --recursive
   - cd libwebsockets
 #  - git apply < ../libwebsockets_h.patch
-  - cd ..
- 
+  - cd ../jansson
+  - git apply < ../jansson_msc_1900.patch
+  - cd .. 
+
 build:
 
 build_script:
