@@ -50,6 +50,12 @@ cd libwebsockets
 git apply < ../libwebsockets_h.patch
 ```
 
+For Windows build with **Visual Studio 14, MSVC 19 or up (Windows SDK 10)** you need to apply patch to [Jansson]:
+```sh
+cd jansson
+git apply < ../jansson_msc_1900.patch
+```
+
 
 # Building
 ----------
