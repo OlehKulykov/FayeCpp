@@ -36,7 +36,7 @@ git submodule update --init --recursive
  * [Jansson] - "C library for encoding, decoding and manipulating JSON data".
 
 
-### Installation with CocoaPods
+### Installation with [CocoaPods]
 #### Podfile
 ```ruby
 pod 'FayeCpp', '~> 0.1'
@@ -123,7 +123,7 @@ The CXX compiler identification is GNU 4.9.2
 ```
 
 
-### Build for Android with Android NDK
+### Build for Android with [Android NDK][2]
  * Apply patch, described above.
  * Download and install [Android NDK][2].
  * Navigate to installed [Android NDK][2] folder.
@@ -160,7 +160,7 @@ If you want to use static version of the library generated with [CMake], you sho
 -------------
 
 
-### Integration with Qt SDK version 5.3 and up
+### Integration with [Qt SDK][1] version 5.3 and up
 > For older versions look at **Build on Unix like platforms** section
 
 Started from [Qt SDK][1] version 5.3 [QtWebSockets] module and [QWebSocket] class was added. So, FayeCpp will use them ignoring [Libwebsockets] (library and licence).
@@ -178,15 +178,16 @@ For easy integration there is Xcode static iOS library project ```fayecpp.xcodep
  * On **main project** target locate ```Build Phases``` and expand ```Link Binary With Libraries``` group.
  * Click **plus button**, locate & select ```libfayecpp.a``` and press **Add**.
  * On the project/taget ```Build Settings``` locate ```Search Paths``` group.
-  * Change option ```Always Search User Paths``` to **YES**.
-  * Add to ```Header Search Paths```  folder where main header ```fayecpp.h``` located (root of the repository).
+ * Change option ```Always Search User Paths``` to **YES**.
+ * Add to ```Header Search Paths```  folder where main header ```fayecpp.h``` located (root of the repository).
 
 > Now you can include FayeCpp header as ```#include <fayecpp.h>```.
 > When you including FayeCpp header to Objective-C code - don't forget change file extension from ```*.m``` to ```*.mm```.
 
 
 ### Using with Objective-C code
-For **Mac** & **iOS** there is **Objective-C client wrapper** located in the folder ```contrib/objc/```. Just add ```FayeCppClient.h```, ```FayeCppClient.mm``` files to your project and use. This wrapper can be used **with** or **without** Automatic Reference Counting (ARC). 
+For **Mac** & **iOS** there is **Objective-C client wrapper** located in the folder ```contrib/objc/```. Just add ```FayeCppClient.h```, ```FayeCppClient.mm``` files to your project and use. This wrapper should be used **with** Automatic Reference Counting (ARC). 
+Or use [CocoaPods].
 
 
 # Working with the library in C++
@@ -426,3 +427,4 @@ THE SOFTWARE.
 [AppVeyor]:http://www.appveyor.com
 [3]:http://mingw-w64.sourceforge.net/download.php
 [MinGW]:http://mingw-w64.sourceforge.net/
+[CocoaPods]:https://cocoapods.org/pods/FayeCpp
