@@ -204,7 +204,7 @@ int main(int argc, char* argv[])
 
 #if defined(__RE_THREADING_WINDOWS__)
 		Sleep(10);
-#elif defined(__RE_THREADING_PTHREAD__) && defined(HAVE_FUNCTION_USLEEP)
+#elif defined(__RE_THREADING_PTHREAD__) && defined(RE_HAVE_FUNCTION_USLEEP)
 		usleep(100);
 #endif
 	}
