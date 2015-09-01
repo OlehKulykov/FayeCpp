@@ -8,7 +8,7 @@
 [![Coverity Scan Build Status](https://scan.coverity.com/projects/3633/badge.svg)](https://scan.coverity.com/projects/3633)
 
 
-**FayeCpp** (C++) client library for desktop & mobile platforms, such as **Mac**, **Windows**, **Linux**, **iOS**, **Android**. 
+**FayeCpp** (C++) lightweight client library for desktop & mobile platforms, such as **Mac**, **Windows**, **Linux**, **iOS**, **Android**. 
 
 Library created with "Pure C++" (features provided by Standard C++), without heavy **STL** and **C++11** features. For Mac and iOS there is also **Objective-C** client wrapper.
 
