@@ -23,7 +23,7 @@
 
 #include "FCWebSocket.h"
 
-#if !defined(HAVE_SUITABLE_QT_VERSION) && defined(HAVE_LIBWEBSOCKETS_H)
+#if !defined(HAVE_SUITABLE_QT_VERSION) && defined(RE_HAVE_LIBWEBSOCKETS_H)
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -73,7 +73,7 @@ namespace FayeCpp {
 			if (CloseHandle(_thread)) _thread = NULL;
 #endif
 		}
-#if defined(HAVE_ASSERT_H)
+#if defined(RE_HAVE_ASSERT_H)
 		assert(_thread == NULL);
 #endif
 	}
@@ -323,7 +323,7 @@ namespace FayeCpp {
 #if defined(__RE_THREADING_PTHREAD__)	
 	void * WebSocket::workThreadFunc(void * somePointer)
 	{
-#if defined(HAVE_FUNCTION_PTHREAD_SETNAME_NP) && defined(__APPLE__)	
+#if defined(RE_HAVE_FUNCTION_PTHREAD_SETNAME_NP) && defined(__APPLE__)
 		pthread_setname_np("FayeCpp WebSocket workThread");
 #endif
 		WebSocket * socket = static_cast<WebSocket *>(somePointer);
@@ -365,9 +365,9 @@ namespace FayeCpp {
 					memset(_workThread, 0, sizeof(pthread_t));
 					res = (pthread_create(_workThread, &attr, WebSocket::workThreadFunc, static_cast<void *>(this)) == 0);
 #if !defined(__APPLE__)
-#if defined(HAVE_FUNCTION_PTHREAD_SETNAME_NP)
+#if defined(RE_HAVE_FUNCTION_PTHREAD_SETNAME_NP)
 					if (res) pthread_setname_np(*_workThread, "FayeCpp WebSocket workThread");
-#elif defined(HAVE_FUNCTION_PTHREAD_SET_NAME_NP)
+#elif defined(RE_HAVE_FUNCTION_PTHREAD_SET_NAME_NP)
 					if (res) pthread_set_name_np(*_workThread, "FayeCpp WebSocket workThread");
 #endif				
 #endif	
@@ -546,7 +546,7 @@ namespace FayeCpp {
 
 #if defined(__RE_THREADING_WINDOWS__)
 			Sleep(1);     /// 1s = 1'000 millisec.
-#elif defined(__RE_THREADING_PTHREAD__) && defined(HAVE_FUNCTION_USLEEP)
+#elif defined(__RE_THREADING_PTHREAD__) && defined(RE_HAVE_FUNCTION_USLEEP)
             usleep(75);   /// 1s = 1'000'000 microsec.
 #endif
 		}

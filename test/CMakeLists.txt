@@ -28,7 +28,7 @@ link_directories(${PROJECT_BINARY_DIR})
 
 remove_definitions(-DCMAKE_BUILD)
 
-check_include_file("curl/curl.h" HAVE_CURL_CURL_H)
+check_include_file("curl/curl.h" RE_HAVE_CURL_CURL_H)
 find_package(CURL)
 
 add_executable(test_fayecpp_header test_fayecpp_header.cpp)
@@ -55,19 +55,19 @@ target_link_libraries(test_fayecpp_connect fayecpp_static websockets jansson)
 add_test(test_fayecpp_connect test_fayecpp_connect)
 
 
-if(HAVE_PTHREAD_H)
+if(RE_HAVE_PTHREAD_H)
 	target_link_libraries(test_fayecpp_header pthread)
 	target_link_libraries(test_fayecpp_variantmessage pthread)
 	target_link_libraries(test_fayecpp_init pthread)
 	target_link_libraries(test_fayecpp_connect pthread)
-endif(HAVE_PTHREAD_H)
+endif(RE_HAVE_PTHREAD_H)
 
-if(HAVE_COREFOUNDATION_FRAMEWORK)
+if(RE_HAVE_COREFOUNDATION_FRAMEWORK)
 	target_link_libraries(test_fayecpp_header ${COREFOUNDATION_FRAMEWORK})
 	target_link_libraries(test_fayecpp_variantmessage ${COREFOUNDATION_FRAMEWORK})
 	target_link_libraries(test_fayecpp_init ${COREFOUNDATION_FRAMEWORK})
 	target_link_libraries(test_fayecpp_connect ${COREFOUNDATION_FRAMEWORK})
-endif(HAVE_COREFOUNDATION_FRAMEWORK)
+endif(RE_HAVE_COREFOUNDATION_FRAMEWORK)
 
 if(MINGW)
 	target_link_libraries(test_fayecpp_header ws2_32)
@@ -77,10 +77,10 @@ if(MINGW)
 endif(MINGW)
 
 
-if(HAVE_CURL_CURL_H)
+if(RE_HAVE_CURL_CURL_H)
 	add_executable(dbuploader dbuploader.c)
 	target_link_libraries(dbuploader ${CURL_LIBRARIES})
-endif(HAVE_CURL_CURL_H)
+endif(RE_HAVE_CURL_CURL_H)
 
 
 install(TARGETS test_fayecpp_header DESTINATION bin)
@@ -88,6 +88,6 @@ install(TARGETS test_fayecpp_variantmessage DESTINATION bin)
 install(TARGETS test_fayecpp_init DESTINATION bin)
 install(TARGETS test_fayecpp_connect DESTINATION bin)
 
-if(HAVE_CURL_CURL_H)
+if(RE_HAVE_CURL_CURL_H)
 	install(TARGETS dbuploader DESTINATION bin)
-endif(HAVE_CURL_CURL_H)
+endif(RE_HAVE_CURL_CURL_H)

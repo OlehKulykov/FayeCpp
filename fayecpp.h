@@ -26,9 +26,14 @@
 
 /*
  *   Faye C++ client main and one header file.
- *   All class interfaces added to namespace, preventing include files mess.
+ *   All class interfaces added to namespace, preventing include files mess(yes, this is unusual structure, but lightweight).
  *
- *   Changes on version 0.1.14 (current):
+ *   Changes on version 0.1.15 (current):
+ *   - Important json update.
+ *   - Patch for building in Windows with MSC version 19 (Windows SDK 10).
+ *   - Remove redefinition of preprocessor macros.
+ *
+ *   Changes on version 0.1.14:
  *   - Minor JSON parsing optimizations.
  *   - Minor client responce processing optimizations.
  *   - Refactor websocket connection method and remove unused string data copying.
@@ -103,7 +108,7 @@
 
 #define FAYECPP_VERSION_MAJOR 0
 #define FAYECPP_VERSION_MINOR 1
-#define FAYECPP_VERSION_PATCH 14
+#define FAYECPP_VERSION_PATCH 15
 
 
 #if !defined(HAVE_SUITABLE_QT_VERSION) 
@@ -241,7 +246,7 @@
 #endif
 
 
-#if defined(HAVE_ASSERT_H)
+#if defined(RE_HAVE_ASSERT_H)
 #include <assert.h>
 #endif
 
@@ -621,7 +626,7 @@ namespace FayeCpp {
 			if (_object)
 			{
 				REInt32 * count = (REInt32 *)malloc(sizeof(REInt32));
-#if defined(HAVE_ASSERT_H)
+#if defined(RE_HAVE_ASSERT_H)
 				assert(count);
 #endif				
 				if (count)

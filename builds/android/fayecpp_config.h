@@ -36,398 +36,399 @@
 
 
 /* CoreFoundation/CoreFoundation.h */
-/* #undef HAVE_COREFOUNDATION_FRAMEWORK */
+/* #undef RE_HAVE_COREFOUNDATION_FRAMEWORK */
 
 
 /* libwebsockets.h */
-#define HAVE_LIBWEBSOCKETS_H 1 
+#define RE_HAVE_LIBWEBSOCKETS_H 1 
 
 
 /* jansson.h */
-#define HAVE_JANSSON_H 1 
+#define RE_HAVE_JANSSON_H 1 
 
 
 /* stdlib.h */
-#define HAVE_STDLIB_H 1 
+#define RE_HAVE_STDLIB_H 1 
 
 
 /* inttypes.h */
-#define HAVE_INTTYPES_H 1
+#define RE_HAVE_INTTYPES_H 1
 
 
 /* sys/types.h */
-#define HAVE_SYS_TYPES_H 1
+#define RE_HAVE_SYS_TYPES_H 1
 
 
 /* stddef.h */
-#define HAVE_STDDEF_H 1
+#define RE_HAVE_STDDEF_H 1
 
 
 /* stdbool.h */
-#define HAVE_STDBOOL_H 1
+#define RE_HAVE_STDBOOL_H 1
 
 
 /* stdint.h */
-#define HAVE_STDINT_H 1
+#define RE_HAVE_STDINT_H 1
 
 
 /* stdarg.h */
-#define HAVE_STDARG_H 1
+#define RE_HAVE_STDARG_H 1
 
 
 /* limits.h */
-#define HAVE_LIMITS_H 1
+#define RE_HAVE_LIMITS_H 1
 
 
 /* float.h */
-#define HAVE_FLOAT_H 1
+#define RE_HAVE_FLOAT_H 1
 
 
 /* mach/mach_time.h */
-/* #undef HAVE_MACH_MACH_TIME_H */
+/* #undef RE_HAVE_MACH_MACH_TIME_H */
 
 
 /* sys/time.h */
-#define HAVE_SYS_TIME_H 1
+#define RE_HAVE_SYS_TIME_H 1
 
 
 /* time.h */
-#define HAVE_TIME_H 1
+#define RE_HAVE_TIME_H 1
 
 
 /* locale.h */
-#define HAVE_LOCALE_H 1
+#define RE_HAVE_LOCALE_H 1
 
 
 /* assert.h */
-#define HAVE_ASSERT_H 1
+#define RE_HAVE_ASSERT_H 1
 
 
 /* sys/stat.h */
-#define HAVE_SYS_STAT_H 1
+#define RE_HAVE_SYS_STAT_H 1
 
 
 /* fcntl.h */
-#define HAVE_FCNTL_H 1
+#define RE_HAVE_FCNTL_H 1
 
 
 /* pthread.h */
-#define HAVE_PTHREAD_H 1
+#define RE_HAVE_PTHREAD_H 1
 
 
 /* sys/resource.h */
-#define HAVE_SYS_RESOURCE_H 1
+#define RE_HAVE_SYS_RESOURCE_H 1
 
 
 /* direct.h */
-/* #undef HAVE_DIRECT_H */
+/* #undef RE_HAVE_DIRECT_H */
 
 
 /* wchar.h */
-#define HAVE_WCHAR_H 1
+#define RE_HAVE_WCHAR_H 1
 
 
 /* memory.h */
-#define HAVE_MEMORY_H 1
+#define RE_HAVE_MEMORY_H 1
 
 
 /* string.h */
-#define HAVE_STRING_H 1
+#define RE_HAVE_STRING_H 1
 
 
 /* math.h */
-#define HAVE_MATH_H 1
+#define RE_HAVE_MATH_H 1
 
 
 /* malloc.h */ 
-/* #undef HAVE_MALLOC_H */
+/* #undef RE_HAVE_MALLOC_H */
 
 
 /* errno.h */
-#define HAVE_ERRNO_H 1
+#define RE_HAVE_ERRNO_H 1
 
 
 /* sys/errno.h */
-#define HAVE_SYS_ERRNO_H 1
+#define RE_HAVE_SYS_ERRNO_H 1
 
 
 /* io.h */
-/* #undef HAVE_IO_H */
+/* #undef RE_HAVE_IO_H */
 
 
 /* signal.h */
-#define HAVE_SIGNAL_H 1
+#define RE_HAVE_SIGNAL_H 1
 
 
 /* setjmp.h */
-#define HAVE_SETJMP_H 1
+#define RE_HAVE_SETJMP_H 1
 
 
 /* unistd.h */
-#define HAVE_UNISTD_H 1
+#define RE_HAVE_UNISTD_H 1
 
 
 /* dispatch/dispatch.h */
-/* #undef HAVE_DISPATCH_DISPATCH_H */
+/* #undef RE_HAVE_DISPATCH_DISPATCH_H */
 
 
 /* includes */
-#if defined(HAVE_SYS_TYPES_H)
+#if defined(RE_HAVE_SYS_TYPES_H)
 #include <sys/types.h>
 #endif
 
-#if defined(HAVE_MALLOC_H)
+#if defined(RE_HAVE_MALLOC_H)
 #include <malloc.h>
 #endif
 
 
 /* sizes */
 /* int8_t */
-#define SIZEOF_INT8_T 1
+#define RE_SIZEOF_INT8_T 1
 
 /* uint8_t */
-#define SIZEOF_UINT8_T 1
+#define RE_SIZEOF_UINT8_T 1
 
 /* int16_t */
-#define SIZEOF_INT16_T 2
+#define RE_SIZEOF_INT16_T 2
 
 /* uint16_t */
-#define SIZEOF_UINT16_T 2
+#define RE_SIZEOF_UINT16_T 2
 
 /* int32_t */
-#define SIZEOF_INT32_T 4
+#define RE_SIZEOF_INT32_T 4
 
 /* uint32_t */
-#define SIZEOF_UINT32_T 4
+#define RE_SIZEOF_UINT32_T 4
 
 /* int64_t */
-#define SIZEOF_INT64_T 8
+#define RE_SIZEOF_INT64_T 8
 
 /* uint64_t */
-#define SIZEOF_UINT64_T 8
+#define RE_SIZEOF_UINT64_T 8
 
 /* uintptr_t */
-#define SIZEOF_UINTPTR_T 8
+#define RE_SIZEOF_UINTPTR_T 8
 
 /* char */
-#define SIZEOF_CHAR 1
+#define RE_SIZEOF_CHAR 1
 
 /* long int */
-#define SIZEOF_LONG_INT 8
+#define RE_SIZEOF_LONG_INT 8
 
 /* long long int */
-#define SIZEOF_LONG_LONG_INT 8
+#define RE_SIZEOF_LONG_LONG_INT 8
 
 /* float */
-#define SIZEOF_FLOAT 4
+#define RE_SIZEOF_FLOAT 4
 
 /* double */
-#define SIZEOF_DOUBLE 8 
+#define RE_SIZEOF_DOUBLE 8 
 
 /* long double */
-#define SIZEOF_LONG_DOUBLE 16 
+#define RE_SIZEOF_LONG_DOUBLE 16 
 
 /* bool */
-#define SIZEOF_BOOL 1 
+#define RE_SIZEOF_BOOL 1 
 
 /* float128 */
-#define FLOAT128_TYPE long double 
+/* #define RE_FLOAT128_TYPE long double */
 
 /* int128, uint128 */
-#define INT128_TYPE __int128_t
-#define UINT128_TYPE __uint128_t
-
+/*
+#define RE_INT128_TYPE __int128_t
+#define RE_UINT128_TYPE __uint128_t
+*/
 
 
 /* structures */
 /* struct stat */
-#define HAVE_STRUCT_STAT 1 
+#define RE_HAVE_STRUCT_STAT 1 
 
 
 /* struct _stat */
-/* #undef HAVE_STRUCT__STAT */
+/* #undef RE_HAVE_STRUCT__STAT */
 
 
 
 /* functions */
 /* posix_memalign */
-#define HAVE_FUNCTION_POSIX_MEMALIGN 1 
+#define RE_HAVE_FUNCTION_POSIX_MEMALIGN 1 
 
 
 /* usleep */
-#define HAVE_FUNCTION_USLEEP 1 
+#define RE_HAVE_FUNCTION_USLEEP 1 
 
 
 /* getrlimit */
-/* #undef HAVE_FUNCTION_GETRLIMIT */
+/* #undef RE_HAVE_FUNCTION_GETRLIMIT */
 
 
 /* pthread_attr_setscope */
-#define HAVE_FUNCTION_PTHREAD_ATTR_SETSCOPE 1 
+#define RE_HAVE_FUNCTION_PTHREAD_ATTR_SETSCOPE 1 
 
 
 /* pthread_attr_setstacksize */
-#define HAVE_FUNCTION_PTHREAD_ATTR_SETSTACKSIZE 1 
+#define RE_HAVE_FUNCTION_PTHREAD_ATTR_SETSTACKSIZE 1 
 
 
 /* pthread_cancel */
-/* #undef HAVE_FUNCTION_PTHREAD_CANCEL */
+/* #undef RE_HAVE_FUNCTION_PTHREAD_CANCEL */
 
 
 /* pthread_setname_np */
-#define HAVE_FUNCTION_PTHREAD_SETNAME_NP 1
+#define RE_HAVE_FUNCTION_PTHREAD_SETNAME_NP 1
  
  
 /* pthread_set_name_np */
-/* #undef HAVE_FUNCTION_PTHREAD_SET_NAME_NP */
+/* #undef RE_HAVE_FUNCTION_PTHREAD_SET_NAME_NP */
 
 
 /* _stat */
-/* #undef HAVE_FUNCTION__STAT */
+/* #undef RE_HAVE_FUNCTION__STAT */
 
 
 /* stat */
-#define HAVE_FUNCTION_STAT 1 
+#define RE_HAVE_FUNCTION_STAT 1 
 
 
 /* _wstat */
-/* #undef HAVE_FUNCTION__WSTAT */
+/* #undef RE_HAVE_FUNCTION__WSTAT */
 
 
 /* access */
-#define HAVE_FUNCTION_ACCESS  1 
+#define RE_HAVE_FUNCTION_ACCESS  1 
 
 
 /* _access */
-/* #undef HAVE_FUNCTION__ACCESS */
+/* #undef RE_HAVE_FUNCTION__ACCESS */
 
 
 /* _waccess */
-/* #undef HAVE_FUNCTION__WACCESS */
+/* #undef RE_HAVE_FUNCTION__WACCESS */
 
 
 /* _mkdir */
-/* #undef HAVE_FUNCTION__MKDIR */
+/* #undef RE_HAVE_FUNCTION__MKDIR */
 
 
 /* mkdir */
-#define HAVE_FUNCTION_MKDIR 1 
+#define RE_HAVE_FUNCTION_MKDIR 1 
 
 
 /* _wmkdir */
-/* #undef HAVE_FUNCTION__WMKDIR */
+/* #undef RE_HAVE_FUNCTION__WMKDIR */
 
 
 /* clock_gettime */
-/* #undef HAVE_FUNCTION_CLOCK_GETTIME */
+/* #undef RE_HAVE_FUNCTION_CLOCK_GETTIME */
 
 
 /* difftime */ 
-#define HAVE_FUNCTION_DIFFTIME 1
+#define RE_HAVE_FUNCTION_DIFFTIME 1
 
 
 /* time */
-#define HAVE_FUNCTION_TIME 1
+#define RE_HAVE_FUNCTION_TIME 1
 
 
 /* localtime */
-#define HAVE_FUNCTION_LOCALTIME 1
+#define RE_HAVE_FUNCTION_LOCALTIME 1
 
 
 /* gmtime */
-#define HAVE_FUNCTION_GMTIME 1
+#define RE_HAVE_FUNCTION_GMTIME 1
 
 
 /* strftime */ 
-#define HAVE_FUNCTION_STRFTIME 1
+#define RE_HAVE_FUNCTION_STRFTIME 1
 
 
 /* fabsf */
-#define HAVE_FUNCTION_FABSF 1 
+#define RE_HAVE_FUNCTION_FABSF 1 
 
 
 /* fabs */
-#define HAVE_FUNCTION_FABS 1 
+#define RE_HAVE_FUNCTION_FABS 1 
 
 
 /* floorf */
-#define HAVE_FUNCTION_FLOORF 1 
+#define RE_HAVE_FUNCTION_FLOORF 1 
 
 
 /* floor */
-#define HAVE_FUNCTION_FLOOR 1 
+#define RE_HAVE_FUNCTION_FLOOR 1 
 
 
 /* powf */
-#define HAVE_FUNCTION_POWF 1 
+#define RE_HAVE_FUNCTION_POWF 1 
 
 
 /* pow */
-#define HAVE_FUNCTION_POW 1 
+#define RE_HAVE_FUNCTION_POW 1 
 
 
 /* cosf */
-#define HAVE_FUNCTION_COSF 1 
+#define RE_HAVE_FUNCTION_COSF 1 
 
 
 /* cos */
-#define HAVE_FUNCTION_COS 1 
+#define RE_HAVE_FUNCTION_COS 1 
 
 
 /* sinf */
-#define HAVE_FUNCTION_SINF 1 
+#define RE_HAVE_FUNCTION_SINF 1 
 
 
 /* sin */
-#define HAVE_FUNCTION_SIN 1 
+#define RE_HAVE_FUNCTION_SIN 1 
 
 
 /* sqrtf */
-#define HAVE_FUNCTION_SQRTF 1 
+#define RE_HAVE_FUNCTION_SQRTF 1 
 
 
 /* sqrt */
-#define HAVE_FUNCTION_SQRT 1 
+#define RE_HAVE_FUNCTION_SQRT 1 
 
 
 /* _wfopen */
-/* #undef HAVE_FUNCTION__WFOPEN */
+/* #undef RE_HAVE_FUNCTION__WFOPEN */
 
 
 /* _wfopen_s */
-/* #undef HAVE_FUNCTION__WFOPEN_S */
+/* #undef RE_HAVE_FUNCTION__WFOPEN_S */
 
 
 /* fopen_s */
-/* #undef HAVE_FUNCTION_FOPEN_S */
+/* #undef RE_HAVE_FUNCTION_FOPEN_S */
 
 
 /* sscanf_s */
-/* #undef HAVE_FUNCTION_SSCANF_S */
+/* #undef RE_HAVE_FUNCTION_SSCANF_S */
 
 
 /* sprintf_s */
-/* #undef HAVE_FUNCTION_SPRINTF_S */
+/* #undef RE_HAVE_FUNCTION_SPRINTF_S */
 
 
 /* vsprintf_s */
-/* #undef HAVE_FUNCTION_VSPRINTF_S */
+/* #undef RE_HAVE_FUNCTION_VSPRINTF_S */
 
 
 /* dispatch_sync */
-/* #undef HAVE_FUNCTION_DISPATCH_SYNC */
+/* #undef RE_HAVE_FUNCTION_DISPATCH_SYNC */
 
 
 /* dispatch_async */
-/* #undef HAVE_FUNCTION_DISPATCH_ASYNC */
+/* #undef RE_HAVE_FUNCTION_DISPATCH_ASYNC */
 
 
 /* dispatch_get_global_queue */
-/* #undef HAVE_FUNCTION_DISPATCH_GET_GLOBAL_QUEUE */
+/* #undef RE_HAVE_FUNCTION_DISPATCH_GET_GLOBAL_QUEUE */
 
 
 /* dispatch_after */
-/* #undef HAVE_FUNCTION_DISPATCH_AFTER */
+/* #undef RE_HAVE_FUNCTION_DISPATCH_AFTER */
 
 
 #endif /* __FAYECPP_CONFIG_H__ */

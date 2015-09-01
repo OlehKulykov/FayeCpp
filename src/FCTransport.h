@@ -31,7 +31,7 @@
 #include "fayecpp_config.h"
 #endif
 
-#if defined(HAVE_ASSERT_H)
+#if defined(RE_HAVE_ASSERT_H)
 #include <assert.h>
 #endif
 
@@ -41,7 +41,7 @@
 #define __RE_HAVE_THREADS__ 1
 #endif
 
-#if !defined(__RE_HAVE_THREADS__) && defined(HAVE_PTHREAD_H)
+#if !defined(__RE_HAVE_THREADS__) && defined(RE_HAVE_PTHREAD_H)
 #include <pthread.h>
 #define __RE_THREADING_PTHREAD__ 1
 #define __RE_HAVE_THREADS__ 1

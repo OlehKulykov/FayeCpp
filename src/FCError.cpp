@@ -27,13 +27,13 @@
 #include "fayecpp_config.h"
 #endif
 
-#if defined(__APPLE__) && defined(HAVE_COREFOUNDATION_FRAMEWORK)
+#if defined(__APPLE__) && defined(RE_HAVE_COREFOUNDATION_FRAMEWORK)
 #include <CoreFoundation/CoreFoundation.h>
 #endif
 
 namespace FayeCpp {
 
-#if defined(__APPLE__) && defined(HAVE_COREFOUNDATION_FRAMEWORK)
+#if defined(__APPLE__) && defined(RE_HAVE_COREFOUNDATION_FRAMEWORK)
 	class AppleErrorLocalizer
 	{
 	private:
@@ -217,7 +217,7 @@ namespace FayeCpp {
 				break;
 		}
 
-#if defined(__APPLE__) && defined(HAVE_COREFOUNDATION_FRAMEWORK)
+#if defined(__APPLE__) && defined(RE_HAVE_COREFOUNDATION_FRAMEWORK)
 		AppleErrorLocalizer localizer;
 		return localizer.localized(s);
 #else

@@ -31,7 +31,7 @@
 #include "fayecpp_config.h"
 #endif
 
-#if !defined(HAVE_SUITABLE_QT_VERSION) && defined(HAVE_LIBWEBSOCKETS_H)
+#if !defined(HAVE_SUITABLE_QT_VERSION) && defined(RE_HAVE_LIBWEBSOCKETS_H)
 
 #include "FCTransport.h"
 
@@ -143,6 +143,6 @@ namespace FayeCpp {
 	
 }
 
-#endif /* !HAVE_SUITABLE_QT_VERSION && HAVE_LIBWEBSOCKETS_H */
+#endif /* !HAVE_SUITABLE_QT_VERSION && RE_HAVE_LIBWEBSOCKETS_H */
 
 #endif /* __FAYECPP_FAYE_CLIENT_H__ */

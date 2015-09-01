@@ -27,7 +27,7 @@
 #include "fayecpp_config.h"
 #endif
 
-#if defined(HAVE_ASSERT_H)
+#if defined(RE_HAVE_ASSERT_H)
 #include <assert.h>
 #endif
 
@@ -89,7 +89,7 @@ namespace FayeCpp {
 		
 		node = this->addNewNodeWithKeyValue(key, REVariant());
 		
-#if defined(HAVE_ASSERT_H)		
+#if defined(RE_HAVE_ASSERT_H)		
 		assert(node);
 #endif		
 		

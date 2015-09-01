@@ -23,13 +23,13 @@
 
 #include "FCTransport.h"
 
-#ifdef HAVE_SUITABLE_QT_VERSION
+#if defined(HAVE_SUITABLE_QT_VERSION)
 #include "FCWebSocketQt.h"
 #else
 #include "FCWebSocket.h"
 #endif
 
-#if defined(HAVE_ASSERT_H)
+#if defined(RE_HAVE_ASSERT_H)
 #include <assert.h>
 #endif
 
@@ -65,7 +65,7 @@ namespace FayeCpp {
 				isInit = (pthread_mutex_init(m, &attr) == 0);
 			pthread_mutexattr_destroy(&attr);
 		}
-#if defined(HAVE_ASSERT_H)
+#if defined(RE_HAVE_ASSERT_H)
 		assert(isInit);
 #endif
 		return isInit;
@@ -234,7 +234,7 @@ namespace FayeCpp {
 		_isConnected(false),
 		_isSelfDestructing(false)
 	{
-#if defined(HAVE_ASSERT_H) 
+#if defined(RE_HAVE_ASSERT_H)
 		assert(_processMethod);
 		assert(this->client());
 #endif		
@@ -253,7 +253,7 @@ namespace FayeCpp {
 		{
 #if defined(HAVE_SUITABLE_QT_VERSION)
 			return new WebSocketQt(processMethod);
-#elif defined(HAVE_LIBWEBSOCKETS_H)
+#elif defined(RE_HAVE_LIBWEBSOCKETS_H)
 			return new WebSocket(processMethod);
 #endif
 		}
@@ -272,7 +272,7 @@ namespace FayeCpp {
 			
 #if defined(HAVE_SUITABLE_QT_VERSION)
 			delete transport;
-#elif defined(HAVE_LIBWEBSOCKETS_H)
+#elif defined(RE_HAVE_LIBWEBSOCKETS_H)
 			/// will self destruct
 #endif	
 		}
@@ -284,7 +284,7 @@ namespace FayeCpp {
 		
 #if defined(HAVE_SUITABLE_QT_VERSION)
 		types.add(WebSocketQt::transportName());
-#elif defined(HAVE_LIBWEBSOCKETS_H)
+#elif defined(RE_HAVE_LIBWEBSOCKETS_H)
 		types.add(WebSocket::transportName());
 #endif
 		return types;
@@ -295,7 +295,7 @@ namespace FayeCpp {
 		bool isSupported = false;
 #if defined(HAVE_SUITABLE_QT_VERSION)
 		
-#elif defined(HAVE_LIBWEBSOCKETS_H)
+#elif defined(RE_HAVE_LIBWEBSOCKETS_H)
 		
 #if defined(LWS_USE_IPV6)	
 		isSupported = true;
@@ -310,7 +310,7 @@ namespace FayeCpp {
 		bool isSupported = false;
 #if defined(HAVE_SUITABLE_QT_VERSION)
 		isSupported = true;
-#elif defined(HAVE_LIBWEBSOCKETS_H)
+#elif defined(RE_HAVE_LIBWEBSOCKETS_H)
 		
 #if defined(LWS_OPENSSL_SUPPORT)	
 		isSupported = true;

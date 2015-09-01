@@ -35,23 +35,23 @@
 #include "FCClassMethodWrapper.h"
 #include "FCJsonUtils.h"
 
-#if defined(HAVE_SYS_TIME_H)
+#if defined(RE_HAVE_SYS_TIME_H)
 #include <sys/time.h>
 #endif
 
-#if defined(HAVE_TIME_H)
+#if defined(RE_HAVE_TIME_H)
 #include <time.h>
 #endif
 
-#if defined(HAVE_MACH_MACH_TIME_H)
+#if defined(RE_HAVE_MACH_MACH_TIME_H)
 #include <mach/mach_time.h>
 #endif
 
-#if defined(HAVE_LIBWEBSOCKETS_H)
+#if defined(RE_HAVE_LIBWEBSOCKETS_H)
 #include <libwebsockets.h>
 #endif
 
-#if defined(HAVE_ASSERT_H)
+#if defined(RE_HAVE_ASSERT_H)
 #include <assert.h>
 #endif
 
@@ -470,7 +470,7 @@ namespace FayeCpp {
 			Transport::deleteTransport(unusedTransport);
 			
 			_transport = Transport::createNewTransport(new ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce>(this, &Client::processMessage));
-#if defined(HAVE_ASSERT_H)	
+#if defined(RE_HAVE_ASSERT_H)
 			assert(_transport);
 #endif
 			_transport->connectToServer();
@@ -1079,7 +1079,7 @@ namespace FayeCpp {
 		" - ATL version:" TO_STRING(_ATL_VER) "\n"
 #endif
 
-#if defined(HAVE_LIBWEBSOCKETS_H)
+#if defined(RE_HAVE_LIBWEBSOCKETS_H)
 		" - Using Libwebsocket library"
 #if defined(LWS_LIBRARY_VERSION)
 		", version: " LWS_LIBRARY_VERSION

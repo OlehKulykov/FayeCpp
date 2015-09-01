@@ -27,7 +27,7 @@
 #include "fayecpp_config.h"
 #endif
 
-#if defined(HAVE_ASSERT_H)
+#if defined(RE_HAVE_ASSERT_H)
 #include <assert.h>
 #endif
 
@@ -45,7 +45,7 @@ namespace FayeCpp {
 	
 	void JsonParser::toMap(REVariantMap & map)
 	{
-#if defined(HAVE_ASSERT_H)
+#if defined(RE_HAVE_ASSERT_H)
 		assert(this->isMap());
 #endif
 		JsonParser::jsonToMap(_json, map);
@@ -131,7 +131,7 @@ namespace FayeCpp {
 	
 	void JsonParser::toList(REVariantList & list)
 	{
-#if defined(HAVE_ASSERT_H)
+#if defined(RE_HAVE_ASSERT_H)
 		assert(this->isList());
 #endif
 		JsonParser::jsonToList(_json, list);
