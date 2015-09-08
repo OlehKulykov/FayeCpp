@@ -22,11 +22,11 @@ install:
   - cd c:\dev\FayeCpp
   - md fayecpp-install-dir
   - git submodule update --init --recursive
-  - cd libwebsockets
+#  - cd libwebsockets
 #  - git apply < ../libwebsockets_h.patch
-  - cd ../jansson
-  - git apply < ../jansson_msc_1900.patch
-  - cd .. 
+#  - cd ../jansson
+#  - git apply < ../jansson_msc_1900.patch
+#  - cd .. 
 
 build:
 
