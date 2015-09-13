@@ -40,11 +40,11 @@ git submodule update --init --recursive
 It's recommended to use client with latest [OpenSSL] library, cause of sequrity reasons. Plus to all, on mobile platforms connection is more stable via mobile network.
 #### Podfile with [OpenSSL] support
 ```ruby
-pod 'FayeCpp+OpenSSL'
+pod 'FayeCpp+OpenSSL', :inhibit_warnings => true
 ```
 #### Podfile
 ```ruby
-pod 'FayeCpp'
+pod 'FayeCpp', :inhibit_warnings => true
 ```
 
 
