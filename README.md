@@ -1,8 +1,8 @@
 # FayeCpp - Faye C++ lightweight, cross-platform client.
 
 
-[![CocoaPods](https://img.shields.io/cocoapods/p/FayeCpp.svg?style=flat)](http://cocoapods.org/?q=FayeCpp)
-[![CocoaPods](https://img.shields.io/cocoapods/v/FayeCpp.svg?style=flat)](http://cocoapods.org/?q=FayeCpp)
+[![CocoaPods](https://img.shields.io/cocoapods/p/FayeCpp.svg?style=flat)](https://cocoapods.org/pods/FayeCpp)
+[![CocoaPods](https://img.shields.io/cocoapods/v/FayeCpp.svg?style=flat)](https://cocoapods.org/pods/FayeCpp)
 [![Build Status](https://travis-ci.org/OlehKulykov/FayeCpp.svg?branch=master)](https://travis-ci.org/OlehKulykov/FayeCpp) 
 [![Build status](https://ci.appveyor.com/api/projects/status/iff0000q0c47brnc?svg=true)](https://ci.appveyor.com/project/OlehKulykov/fayecpp)
 [![Coverity Scan Build Status](https://scan.coverity.com/projects/3633/badge.svg)](https://scan.coverity.com/projects/3633)
@@ -48,12 +48,6 @@ For Android build with [Libwebsockets] you need to apply patch:
 ```sh
 cd libwebsockets
 git apply < ../libwebsockets_h.patch
-```
-
-For Windows build with **Visual Studio 14, MSVC 19 or up (Windows SDK 10)** you need to apply patch to [Jansson]:
-```sh
-cd jansson
-git apply < ../jansson_msc_1900.patch
 ```
 
 
