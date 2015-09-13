@@ -37,9 +37,14 @@ git submodule update --init --recursive
 
 
 ### Installation with [CocoaPods]
+It's recommended to use client with latest [OpenSSL] library, cause of sequrity reasons. Plus to all, on mobile platforms connection is more stable via mobile network.
+#### Podfile with [OpenSSL] support
+```ruby
+pod 'FayeCpp+OpenSSL'
+```
 #### Podfile
 ```ruby
-pod 'FayeCpp', '~> 0.1'
+pod 'FayeCpp'
 ```
 
 
@@ -90,7 +95,7 @@ How to generate **Microsoft Visual Studio** solution (please replace version to 
 ```sh
 cmake -G"Visual Studio 11" -DCMAKE_BUILD_TYPE=Release ..
 ```
-Example configuring without **OpenSSL** support for **Microsoft Visual Studio**:
+Example configuring **without** [OpenSSL] support for **Microsoft Visual Studio**:
 > ```sh
 > cmake -DCMAKE_INSTALL_PREFIX:PATH=c:\dev\FayeCpp\win-install \
 -DLWS_WITH_SSL:BOOL=OFF \
@@ -141,8 +146,8 @@ cd builds/ios/
 So after finishing you will get ```FayeCpp.framework``` framework in folder ```builds/ios/``` which includes ```i386```, ```x86_64```, ```armv7```, ```armv7s``` and ```arm64``` architectures.
 
 
-### Build iOS framework with sequre connection via OpenSSL
-For building iOS framework with OpenSSL navigate to folder ```builds/ios-with-openssl/``` and do the same as described above.
+### Build iOS framework with sequre connection via [OpenSSL]
+For building iOS framework with [OpenSSL] navigate to folder ```builds/ios-with-openssl/``` and do the same as described above.
 
 
 # Static linking
@@ -422,3 +427,4 @@ THE SOFTWARE.
 [3]:http://mingw-w64.sourceforge.net/download.php
 [MinGW]:http://mingw-w64.sourceforge.net/
 [CocoaPods]:https://cocoapods.org/pods/FayeCpp
+[OpenSSL]:https://www.openssl.org
