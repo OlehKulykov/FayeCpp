@@ -23,7 +23,7 @@
 //#define LWS_SSL_CLIENT_USE_OS_CA_CERTS
 
 /* Sets the path where the client certs should be installed. */
-//#define LWS_OPENSSL_CLIENT_CERTS "../share"
+#define LWS_OPENSSL_CLIENT_CERTS "../share"
 
 /* Turn off websocket extensions */
 /* #undef LWS_NO_EXTENSIONS */

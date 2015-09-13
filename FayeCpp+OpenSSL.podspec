@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
 # Common settings
-  s.name         = "FayeCpp"
+  s.name         = "FayeCpp+OpenSSL"
   s.version      = "0.1.16"
   s.summary      = "Faye C++ lightweight, cross-platform client with Objective-C client wrapper."
   s.description  = <<-DESC
@@ -44,13 +44,15 @@ You can use Objective-C wrapper or C++ client directly.
     'libwebsockets/lib/pollfd.c',
     'libwebsockets/lib/service.c',
     'libwebsockets/lib/sha-1.c',
-    'libwebsockets/lib/alloc.c'
+    'libwebsockets/lib/alloc.c',
+    'libwebsockets/lib/ssl.c'
 
   s.resources = 'contrib/objc/FayeCpp.bundle'
-  s.compiler_flags = '-DHAVE_FAYECPP_CONFIG_H=1', '-DHAVE_CONFIG_H=1', '-DCMAKE_BUILD=1', '-DRE_HAVE_COREFOUNDATION_FRAMEWORK=1'
+  s.compiler_flags = '-DHAVE_FAYECPP_CONFIG_H=1', '-DHAVE_CONFIG_H=1', '-DCMAKE_BUILD=1', '-DRE_HAVE_COREFOUNDATION_FRAMEWORK=1', '-DLWS_OPENSSL_SUPPORT=1' 
   s.xcconfig = { 'HEADER_SEARCH_PATHS' => '"${PODS_ROOT}/FayeCpp/contrib/objc" "${PODS_ROOT}/FayeCpp/libwebsockets/lib" "${PODS_ROOT}/FayeCpp/jansson/src"' }
-  s.libraries    = 'z', 'stdc++'
+  s.libraries = 'z', 'stdc++'
   s.framework = 'CoreFoundation'
   s.requires_arc = true
+  s.dependency 'OpenSSL'
 
 end
