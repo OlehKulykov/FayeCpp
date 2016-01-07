@@ -49,7 +49,7 @@ namespace FayeCpp {
 			_lastTickTime = time;
 			Client * client = this->client();
 			if (client) client->update(time);
-			RELog::log("TICK %i", (int)time);
+			FAYECPP_DEBUG_LOGA("TICK %u", time)
 		}
 	}
 
