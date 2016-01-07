@@ -540,15 +540,16 @@ namespace FayeCpp {
 		{
 			_mutex.lock();
 			
-			n = _context ? lws_service(_context, 75) : -1;
+			n = _context ? lws_service(_context, 99) : -1;
 
 			_mutex.unlock();
 
 #if defined(__RE_THREADING_WINDOWS__)
-			Sleep(1);     /// 1s = 1'000 millisec.
+			Sleep(9);     /// 1s = 1'000 millisec.
 #elif defined(__RE_THREADING_PTHREAD__) && defined(RE_HAVE_FUNCTION_USLEEP)
-            usleep(75);   /// 1s = 1'000'000 microsec.
+            usleep(99);   /// 1s = 1'000'000 microsec.
 #endif
+			this->tick();
 		}
 		
 		this->cleanup();

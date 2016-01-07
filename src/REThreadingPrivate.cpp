@@ -89,5 +89,13 @@ namespace FayeCpp {
 		}
 	}
 
+
+	REUInt32 RETime::seconds()
+	{
+		time_t t;
+		time(&t);
+		return (t > 0) ? (REUInt32)t : 0;
+	}
+
 }
 

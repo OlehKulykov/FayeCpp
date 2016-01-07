@@ -59,6 +59,7 @@ namespace FayeCpp {
 	private:
 		ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * _processMethod;
 
+		REUInt32 _lastTickTime;
 		bool _isConnected;
 		bool _isSelfDestructing;
 
@@ -75,6 +76,7 @@ namespace FayeCpp {
 		void onDataReceived(const unsigned char * data, const size_t dataSize);
 		void onError(const Error & error);
 		void onTransportWillSelfDestruct();
+		void tick();
 
 	public:
 		bool isSelfDestructing() const;

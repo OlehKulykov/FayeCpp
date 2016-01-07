@@ -116,7 +116,27 @@ namespace FayeCpp {
 		return _advice ? *_advice : Advice();
 	}
 
-	void Client::receivedAdvice(const REVariantMap & advice)
+	void Client::calculateReconnectTime()
+	{
+		_reconnectTime = 0;
+		const Advice::ReconnectType type = _advice ? _advice->reconnect() : Advice::ReconnectNone;
+		if (type != Advice::ReconnectNone)
+		{
+			int time = 0;
+			if (_advice->interval() > 0) time += _advice->interval();
+			if (_advice->timeout() > 0) time += _advice->timeout();
+			time /= 1000;
+
+			if (time > 0)
+			{
+				// 90% of the interval plus timeout. Eg. before disconnect.
+				_reconnectTime = RETime::seconds() + (0.9 * time);
+				FAYECPP_DEBUG_LOGA("RECONNECT TIME: %u", _reconnectTime)
+			}
+		}
+	}
+
+	void Client::onReceivedAdvice(const REVariantMap & advice)
 	{
 		SAFE_DELETE(_advice)
 
@@ -142,7 +162,10 @@ namespace FayeCpp {
 		_advice = a;
 
 		REVariant * thisTransportAdvice = _transport ? advice.findTypedValue(_transport->name(), REVariant::TypeMap) : NULL;
-		if (thisTransportAdvice) this->receivedAdvice(thisTransportAdvice->toMap());
+		if (thisTransportAdvice) this->onReceivedAdvice(thisTransportAdvice->toMap());
+
+		FAYECPP_DEBUG_LOGA("RECEIVED ADVICE: %i, %i", a->interval(), a->timeout())
+		this->calculateReconnectTime();
 	}
 
 	Error Client::lastError() const
@@ -546,7 +569,7 @@ namespace FayeCpp {
 			}
 			else if (i.key().isEqual(_bayeuxAdviceKey) && i.value().isMap())
 			{
-				this->receivedAdvice(i.value().toMap());
+				this->onReceivedAdvice(i.value().toMap());
 			}
 		}
 
@@ -655,7 +678,7 @@ namespace FayeCpp {
 		}
 		
 		REVariant * advice = message.findTypedValue(_bayeuxAdviceKey, REVariant::TypeMap);
-		if (advice) this->receivedAdvice(advice->toMap());
+		if (advice) this->onReceivedAdvice(advice->toMap());
 	}
 	
 	void Client::connectFaye()
@@ -727,7 +750,7 @@ namespace FayeCpp {
 		if (pendingChannelNode)
 		{
 			REVariant * advice = message.findTypedValue(_bayeuxAdviceKey, REVariant::TypeMap);
-			if (advice) this->receivedAdvice(advice->toMap());
+			if (advice) this->onReceivedAdvice(advice->toMap());
 			
 			_pendingSubscriptions.removeNode(pendingChannelNode);
 
@@ -943,13 +966,38 @@ namespace FayeCpp {
 		}
 		return false;
 	}
-	
+
+	void Client::update(const REUInt32 seconds)
+	{
+		if (_reconnectTime && seconds >= _reconnectTime)
+		{
+			this->calculateReconnectTime();
+			const Advice::ReconnectType type = _advice ? _advice->reconnect() : Advice::ReconnectNone;
+			switch (type)
+			{
+				case Advice::ReconnectRetry:
+					FAYECPP_DEBUG_LOG("START RECONNECT via Advice::ReconnectRetry")
+					this->connectFaye();
+					break;
+
+				case Advice::ReconnectHandshake:
+					FAYECPP_DEBUG_LOG("START RECONNECT via Advice::ReconnectHandshake")
+					this->handshake();
+					break;
+
+				default:
+					break;
+			}
+		}
+	}
+
 	Client::Client() :
 		_transport(NULL),
 		_delegate(NULL),
 		_sslDataSource(NULL),
 		_lastError(NULL),
 		_advice(NULL),
+		_reconnectTime(0),
 		_port(0),
 		_isUseSSL(false),
 		_isFayeConnected(false),

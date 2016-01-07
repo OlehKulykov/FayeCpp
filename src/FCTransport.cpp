@@ -41,6 +41,18 @@ namespace FayeCpp {
 		return client ? client->isUsingIPV6() : false;
 	}
 
+	void Transport::tick()
+	{
+		const REUInt32 time = RETime::seconds();
+		if (time > _lastTickTime)
+		{
+			_lastTickTime = time;
+			Client * client = this->client();
+			if (client) client->update(time);
+			RELog::log("TICK %i", (int)time);
+		}
+	}
+
 	Client * Transport::client() const
 	{
 		return _processMethod ? _processMethod->classPointer() : NULL;
@@ -48,13 +60,13 @@ namespace FayeCpp {
 	
 	Delegate * Transport::delegate() const
 	{
-		Client * client =  _processMethod ? _processMethod->classPointer() : NULL;
+		Client * client = this->client();
 		return client ? client->delegate() : NULL;
 	}
-	
+
 	SSLDataSource * Transport::sslDataSource() const
 	{
-		Client * client =  _processMethod ? _processMethod->classPointer() : NULL;
+		Client * client = this->client();
 		return client ? client->sslDataSource() : NULL;
 	}
 	
@@ -122,13 +134,14 @@ namespace FayeCpp {
 
 	Transport::Transport(ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * processMethod) :
 		_processMethod(processMethod),
+		_lastTickTime(RETime::seconds()),
 		_isConnected(false),
 		_isSelfDestructing(false)
 	{
 #if defined(RE_HAVE_ASSERT_H)
 		assert(_processMethod);
 		assert(this->client());
-#endif		
+#endif
 	}
 	
 	Transport::~Transport()

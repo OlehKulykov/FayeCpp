@@ -38,6 +38,14 @@
 #include <assert.h>
 #endif
 
+#if defined(RE_HAVE_SYS_TIME_H)
+#include <sys/time.h>
+#endif
+
+#if defined(RE_HAVE_TIME_H)
+#include <time.h>
+#endif
+
 #if !defined(__RE_HAVE_THREADS__) && defined(__RE_OS_WINDOWS__)
 #include <Windows.h>
 #define __RE_THREADING_WINDOWS__ 1
@@ -63,6 +71,11 @@ namespace FayeCpp {
 		~REMutex();
 	};
 
+	class RETime
+	{
+	public:
+		static REUInt32 seconds();
+	};
 }
 
 #endif /* __RETHREADINGPRIVATE_H__  */

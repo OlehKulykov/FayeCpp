@@ -37,7 +37,7 @@ namespace FayeCpp {
 
 	Advice::ReconnectType Advice::reconnect() const
 	{
-		return (ReconnectType)_reconnect;
+		return _reconnect;
 	}
 	
 	void Advice::setInterval(const int value)

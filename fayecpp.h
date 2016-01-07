@@ -32,6 +32,8 @@
  *   Changes on version 0.2.0 (current):
  *   - Minimum supported client version is 1.0.
  *   - Public advice information.
+ *   - Use Libwebsockets version 1.6.
+ *   - Automatic reconnect using advice information (Libwebsockets transport version).
  *
  *   Changes on version 0.1.16:
  *   - Cocoapod with OpenSSL support(pod 'FayeCpp+OpenSSL'), recommended for all Faye users.
@@ -3588,6 +3590,7 @@ namespace FayeCpp {
 		REStringList _pendingSubscriptions;
 		REStringList _supportedConnectionTypes;
 
+		REUInt32 _reconnectTime;
 		int _port;
 		
 		bool _isUseSSL;
@@ -3595,7 +3598,8 @@ namespace FayeCpp {
 		bool _isDisconnecting;
 		bool _isUsingIPV6;
 
-		void receivedAdvice(const REVariantMap & advice);
+		void calculateReconnectTime();
+		void onReceivedAdvice(const REVariantMap & advice);
 
 		void processMessage(Responce * responce);
 		
@@ -3874,7 +3878,15 @@ namespace FayeCpp {
 		 */
 		void unsubscribeAllChannels();
 		
-		
+
+		/**
+		 @brief Update timed logic. Called from transport, from another or main thread.
+		 @warning Don't call this method manually.
+		 @param seconds Time in seconds.
+		 */
+		void update(const REUInt32 seconds);
+
+
 		Client();
 		virtual ~Client();
 		
