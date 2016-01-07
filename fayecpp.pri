@@ -46,10 +46,12 @@ SOURCES += \
     $$PWD/src/REStringBase.cpp \
     $$PWD/src/REStringList.cpp \
     $$PWD/src/REStringUtilsPrivate.cpp \
+    $$PWD/src/REThreadingPrivate.cpp \
     $$PWD/src/REVariant.cpp \
     $$PWD/src/REVariantList.cpp \
     $$PWD/src/REVariantMap.cpp \
     $$PWD/src/REWideString.cpp \
+    $$PWD/src/FCAdvice.cpp \
     $$PWD/src/FCClient.cpp \
     $$PWD/src/FCError.cpp \
     $$PWD/src/FCJsonUtils.cpp \
