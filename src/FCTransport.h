@@ -65,10 +65,6 @@
 
 namespace FayeCpp {
 	
-#define ADVICE_RECONNECT_NONE 0
-#define ADVICE_RECONNECT_RETRY 1
-#define ADVICE_RECONNECT_HANDSHAKE 2
-
 #if !defined(HAVE_SUITABLE_QT_VERSION)
 	class REMutex
 	{
@@ -84,18 +80,9 @@ namespace FayeCpp {
 
 	class Transport
 	{
-	public:
-		typedef struct _adviceStructure
-		{
-			RETimeInterval interval;
-			RETimeInterval timeout;
-			int reconnect;
-		} Advice;
-		
 	private:
 		ClassMethodWrapper<Client, void(Client::*)(Responce*), Responce> * _processMethod;
-		Advice _advice;
-		
+
 		bool _isConnected;
 		bool _isSelfDestructing;
 
@@ -105,9 +92,6 @@ namespace FayeCpp {
 		Client * client() const;
 		SSLDataSource * sslDataSource() const;
 		bool isUsingIPV6() const;
-		RETimeInterval adviceInterval() const;
-		RETimeInterval adviceTimeout() const;
-		int adviceReconnect() const;
 		
 		void onConnected();
 		void onDisconnected();
@@ -118,7 +102,6 @@ namespace FayeCpp {
 
 	public:
 		bool isSelfDestructing() const;
-		void receivedAdvice(const REVariantMap & advice);
 		bool isConnected() const;
 		
 		virtual const REString name() const = 0;

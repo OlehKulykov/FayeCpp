@@ -106,50 +106,7 @@ namespace FayeCpp {
 		Client * client = this->client();
 		return client ? client->isUsingIPV6() : false;
 	}
-	
-	RETimeInterval Transport::adviceInterval() const 
-	{
-		return _advice.interval; 
-	}
-	
-	RETimeInterval Transport::adviceTimeout() const 
-	{
-		return _advice.timeout; 
-	}
-	
-	int Transport::adviceReconnect() const 
-	{
-		return _advice.reconnect; 
-	}
-	
-	void Transport::receivedAdvice(const REVariantMap & advice)
-	{
-		Advice a;
-		a.reconnect = ADVICE_RECONNECT_NONE;
-		a.timeout = a.interval = -1;
-		
-		REVariantMap::Iterator i = advice.iterator();
-		while (i.next())
-		{
-			if (i.key().isEqual("reconnect") && i.value().isString())
-			{
-				if (i.value().toString().isEqual("retry"))
-					a.reconnect = ADVICE_RECONNECT_RETRY;
-				else if (i.value().toString().isEqual("handshake"))
-					a.reconnect = ADVICE_RECONNECT_HANDSHAKE;
-			}
-			else if (i.key().isEqual("interval") && i.value().isNumber())
-				a.interval = i.value().toInt64() / 1000;
-			else if (i.key().isEqual("timeout") && i.value().isNumber())
-				a.timeout = i.value().toInt64() / 1000;
-		}
-		
-		_advice = a;
-		
-		REVariant * thisTransportAdvice = advice.findTypedValue(this->name(), REVariant::TypeMap);
-		if (thisTransportAdvice) this->receivedAdvice(thisTransportAdvice->toMap());
-	}
-	
+
 	Client * Transport::client() const
 	{
 		return _processMethod ? _processMethod->classPointer() : NULL;
@@ -238,8 +195,6 @@ namespace FayeCpp {
 		assert(_processMethod);
 		assert(this->client());
 #endif		
-		_advice.reconnect = ADVICE_RECONNECT_NONE;
-		_advice.timeout = _advice.interval = -1;
 	}
 	
 	Transport::~Transport()

@@ -61,6 +61,7 @@
 		3D08311E1987CC1B0038CD79 /* libssl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D08311D1987CC1B0038CD79 /* libssl.dylib */; };
 		3D0831251987CDE30038CD79 /* server-handshake.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D0831231987CDE30038CD79 /* server-handshake.c */; };
 		3D0831281987CE280038CD79 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D0831271987CE280038CD79 /* libcrypto.dylib */; };
+		3D26F46F1C3E9166006ED0AE /* FCAdvice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D26F46E1C3E9166006ED0AE /* FCAdvice.cpp */; };
 		3D7450B31AAF90D400AA32A3 /* FCClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D7450B21AAF90D400AA32A3 /* FCClient.cpp */; };
 		3D7450B51AAF90DC00AA32A3 /* FCError.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D7450B41AAF90DC00AA32A3 /* FCError.cpp */; };
 		3D7450B81AAF90EE00AA32A3 /* FCJsonUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D7450B71AAF90EE00AA32A3 /* FCJsonUtils.cpp */; };
@@ -158,6 +159,8 @@
 		3D0831231987CDE30038CD79 /* server-handshake.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "server-handshake.c"; path = "../../../../libwebsockets/lib/server-handshake.c"; sourceTree = "<group>"; };
 		3D0831241987CDE30038CD79 /* server.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = server.c; path = ../../../../libwebsockets/lib/server.c; sourceTree = "<group>"; };
 		3D0831271987CE280038CD79 /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = usr/lib/libcrypto.dylib; sourceTree = SDKROOT; };
+		3D26F46D1C3E89D1006ED0AE /* lws_config_private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = lws_config_private.h; path = ../../lws_config_private.h; sourceTree = "<group>"; };
+		3D26F46E1C3E9166006ED0AE /* FCAdvice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FCAdvice.cpp; path = ../../../../src/FCAdvice.cpp; sourceTree = "<group>"; };
 		3D2739F01AAE0F0B00317CA3 /* test_fayecpp_connect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = test_fayecpp_connect.cpp; path = ../../../../test/test_fayecpp_connect.cpp; sourceTree = "<group>"; };
 		3D3045E019EE859300D8B163 /* test_fayecpp_header.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = test_fayecpp_header.cpp; path = ../../../../test/test_fayecpp_header.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		3D3045E219EE88A600D8B163 /* test_fayecpp_init.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = test_fayecpp_init.cpp; path = ../../../../test/test_fayecpp_init.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -256,6 +259,7 @@
 				3D0830A81987CB070038CD79 /* jansson_config.h */,
 				3D0830A91987CB070038CD79 /* jansson_private_config.h */,
 				3D0830AA1987CB070038CD79 /* lws_config.h */,
+				3D26F46D1C3E89D1006ED0AE /* lws_config_private.h */,
 				3D0830A61987CA030038CD79 /* libwebsockets */,
 				3D0830841987C9D80038CD79 /* AppDelegate.h */,
 				3D0830851987C9D80038CD79 /* AppDelegate.mm */,
@@ -358,6 +362,7 @@
 		3D0830E51987CB410038CD79 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				3D26F46E1C3E9166006ED0AE /* FCAdvice.cpp */,
 				3D7450B21AAF90D400AA32A3 /* FCClient.cpp */,
 				3D7450B41AAF90DC00AA32A3 /* FCError.cpp */,
 				3D7450B91AAF90F600AA32A3 /* FCMessage.cpp */,
@@ -546,6 +551,7 @@
 				3D0831151987CB4E0038CD79 /* REVariantMap.cpp in Sources */,
 				3D0830BC1987CB160038CD79 /* base64-decode.c in Sources */,
 				3D0831251987CDE30038CD79 /* server-handshake.c in Sources */,
+				3D26F46F1C3E9166006ED0AE /* FCAdvice.cpp in Sources */,
 				3D0830C01987CB160038CD79 /* context.c in Sources */,
 				3D0830BD1987CB160038CD79 /* client-handshake.c in Sources */,
 				3D0830DF1987CB2D0038CD79 /* pack_unpack.c in Sources */,

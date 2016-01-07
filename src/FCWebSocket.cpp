@@ -92,7 +92,7 @@ namespace FayeCpp {
 	}
 
 	
-	struct libwebsocket_protocols WebSocket::protocols[] = {
+	struct lws_protocols WebSocket::protocols[] = {
 		{
 			"default",
 			WebSocket::callbackEcho,
@@ -103,9 +103,9 @@ namespace FayeCpp {
 		}
 	};
 	
-	void WebSocket::onCallbackReceive(struct libwebsocket * wsi, void * input, size_t len)
+	void WebSocket::onCallbackReceive(struct lws * wsi, void * input, size_t len)
 	{
-		const size_t bytesLeft = libwebsockets_remaining_packet_payload(wsi);
+		const size_t bytesLeft = lws_remaining_packet_payload(wsi);
 		if (bytesLeft > 0)
 		{
 			// large fragment
@@ -123,7 +123,7 @@ namespace FayeCpp {
 			}
 		}
 		
-		if (libwebsocket_is_final_fragment(wsi)) 
+		if (lws_is_final_fragment(wsi))
 		{
 			if (lws_frame_is_binary(wsi)) 
 			{
@@ -154,14 +154,16 @@ namespace FayeCpp {
 		}
 	}
 	
-	int WebSocket::callbackEcho(struct libwebsocket_context * context,
-								struct libwebsocket * wsi,
-								enum libwebsocket_callback_reasons reason,
+	int WebSocket::callbackEcho(struct lws * wsi,
+								enum lws_callback_reasons reason,
 								void * user,
 								void * input,
 								size_t len)
 	{
-		WebSocket * socket = static_cast<WebSocket *>(libwebsocket_context_user(context));
+		struct lws_context * context = lws_get_context(wsi);
+		if (!context) return 0;
+
+		WebSocket * socket = static_cast<WebSocket *>(lws_context_user(context));
 		if (!socket->_isWorking) return 0;
 		
 		switch (reason)
@@ -175,7 +177,7 @@ namespace FayeCpp {
 				break;
 				
 			case LWS_CALLBACK_CLIENT_WRITEABLE:
-				return socket->onCallbackWritable(context, wsi, static_cast<EchoSessionData *>(user));
+				return socket->onCallbackWritable(wsi, static_cast<EchoSessionData *>(user));
 				break;
 				
 			case LWS_CALLBACK_WSI_DESTROY:
@@ -218,44 +220,42 @@ namespace FayeCpp {
 		return buffer;
 	}
 
-	int WebSocket::onCallbackWritable(struct libwebsocket_context * context,
-									  struct libwebsocket * connection,
-									  EchoSessionData * pss)
+	int WebSocket::onCallbackWritable(struct lws * connection, EchoSessionData * pss)
 	{	
 		WebSocket::WriteBuffer * buffer = this->takeFirstWriteBuffer();
 		if (!buffer) return 0;
 		
-		const enum libwebsocket_write_protocol type = (enum libwebsocket_write_protocol)buffer->tag;
+		const enum lws_write_protocol type = (enum lws_write_protocol)buffer->tag;
 		memcpy(&pss->buf[LWS_SEND_BUFFER_PRE_PADDING], buffer->buffer(), buffer->size());
 		pss->len = buffer->size();
 		
 		delete buffer;
 		
-		const int writed = libwebsocket_write(connection, &pss->buf[LWS_SEND_BUFFER_PRE_PADDING], pss->len, type);		
+		const int writed = lws_write(connection, &pss->buf[LWS_SEND_BUFFER_PRE_PADDING], pss->len, type);
 		if (writed < 0)
 		{
 			FAYECPP_DEBUG_LOGA("ERROR %d writing to socket, hanging up", writed)
 
-			libwebsocket_callback_on_writable(context, connection);
+			lws_callback_on_writable(connection);
 			return -1;
 		}
         else if (pss->len > writed)
 		{
 			FAYECPP_DEBUG_LOG("Partial write")
 
-			libwebsocket_callback_on_writable(context, connection);
+			lws_callback_on_writable(connection);
 			return -1;
 		}
 		
 		if (!_writeBuffers.isEmpty())
 		{
-			libwebsocket_callback_on_writable(context, connection);
+			lws_callback_on_writable(connection);
 		}
 		
 		return 0;
 	}
 	
-	void WebSocket::addWriteBufferData(const unsigned char * data, const REUInt32 dataSize, const enum libwebsocket_write_protocol type)
+	void WebSocket::addWriteBufferData(const unsigned char * data, const REUInt32 dataSize, const enum lws_write_protocol type)
 	{
 		if (dataSize > MAX_ECHO_PAYLOAD) 
 		{
@@ -284,7 +284,7 @@ namespace FayeCpp {
 		
 		if (!isError && this->isConnected())
 		{
-			libwebsocket_callback_on_writable(_context, _connection);
+			lws_callback_on_writable(_connection);
 		}
 		
 		_mutex.unlock();
@@ -401,7 +401,7 @@ namespace FayeCpp {
 		
 		memset(&_info, 0, sizeof(struct lws_context_creation_info));
 		
-		if (_context) libwebsocket_context_destroy(_context);
+		if (_context) lws_context_destroy(_context);
 		_context = NULL;
 		_connection = NULL;
 		
@@ -426,7 +426,7 @@ namespace FayeCpp {
 		_mutex.unlock();
 	}
 	
-	struct libwebsocket_context * WebSocket::createWebSocketContext(WebSocket * webSocket)
+	struct lws_context * WebSocket::createWebSocketContext(WebSocket * webSocket)
 	{
 		struct lws_context_creation_info info;
 		memset(&info, 0, sizeof(struct lws_context_creation_info));
@@ -435,7 +435,7 @@ namespace FayeCpp {
 		info.iface = NULL;
 		info.protocols = WebSocket::protocols;
 #ifndef LWS_NO_EXTENSIONS
-		info.extensions = libwebsocket_get_internal_extensions();
+		info.extensions = lws_get_internal_extensions();
 #endif
 		
 		info.gid = -1;
@@ -459,7 +459,7 @@ namespace FayeCpp {
 			
 			info.options = (info.options == 0) ? LWS_SERVER_OPTION_REQUIRE_VALID_OPENSSL_CLIENT_CERT : info.options | LWS_SERVER_OPTION_REQUIRE_VALID_OPENSSL_CLIENT_CERT;
 			
-			struct libwebsocket_context * context = libwebsocket_create_context(&info);
+			struct lws_context * context = lws_create_context(&info);
 			
 			info.ssl_cert_filepath = NULL;
 			info.ssl_private_key_filepath = NULL;
@@ -469,25 +469,25 @@ namespace FayeCpp {
 			return context;
 		}
 		
-		return libwebsocket_create_context(&info);
+		return lws_create_context(&info);
 	}
 
-	struct libwebsocket * WebSocket::createWebSocketConnection(struct libwebsocket_context * context)
+	struct lws * WebSocket::createWebSocketConnection(struct lws_context * context)
 	{
 		Client * client = this->client();
 		if (client)
 		{
 			FAYECPP_DEBUG_LOGA("Start connecting to host[%s] port[%i] path[%s]", client->host().UTF8String(), client->port(), client->path().UTF8String())
 
-			return libwebsocket_client_connect(context,
-											   client->host().UTF8String(),
-											   client->port(),
-											   client->isUseSSL() ? 2 : 0,
-											   client->path().UTF8String(),
-											   client->host().UTF8String(),
-											   "origin",
-											   NULL,
-											   -1);
+			return lws_client_connect(context,
+									  client->host().UTF8String(),
+									  client->port(),
+									  client->isUseSSL() ? 2 : 0,
+									  client->path().UTF8String(),
+									  client->host().UTF8String(),
+									  "origin",
+									  NULL,
+									  -1);
 		}
 		return NULL;
 	}
@@ -514,7 +514,7 @@ namespace FayeCpp {
 		_connection = this->createWebSocketConnection(_context);
 		if (!_connection)
 		{
-			if (_context) libwebsocket_context_destroy(_context);
+			if (_context) lws_context_destroy(_context);
 			_context = NULL;
 			
 			_mutex.unlock();
@@ -529,7 +529,7 @@ namespace FayeCpp {
 			return;
 		}
 		
-		libwebsocket_callback_on_writable(_context, _connection);
+		lws_callback_on_writable(_connection);
 		
 		_isWorking = 1;
 		
@@ -540,7 +540,7 @@ namespace FayeCpp {
 		{
 			_mutex.lock();
 			
-			n = _context ? libwebsocket_service(_context, 75) : -1;
+			n = _context ? lws_service(_context, 75) : -1;
 
 			_mutex.unlock();
 

@@ -165,6 +165,12 @@ namespace FayeCpp {
 		(*this) = anotherError;
 	}
 
+	Error::Error() :
+		_code(Error::None)
+	{
+		
+	}
+
 	Error::~Error()
 	{
 

@@ -80,8 +80,8 @@ namespace FayeCpp {
         HANDLE _workThread;
 #endif	
 		
-		struct libwebsocket_context * _context;
-		struct libwebsocket * _connection;
+		struct lws_context * _context;
+		struct lws * _connection;
 		
 		REBuffer * _receivedTextBuffer;
 		REBuffer * _receivedBinaryBuffer;
@@ -103,28 +103,25 @@ namespace FayeCpp {
 			unsigned int len;
 			unsigned int index;
 		} EchoSessionData;
-				
-		static struct libwebsocket_protocols protocols[];
-		static int callbackEcho(struct libwebsocket_context * context,
-								struct libwebsocket * wsi,
-								enum libwebsocket_callback_reasons reason,
+		
+		static struct lws_protocols protocols[];
+		static int callbackEcho(struct lws * wsi,
+								enum lws_callback_reasons reason,
 								void * user,
 								void * input,
 								size_t len);
 		
 		void onCallbackConnectionDestroyed();
 		void onCallbackEstablished();
-		int onCallbackWritable(struct libwebsocket_context * context,
-							   struct libwebsocket * connection,
-							   EchoSessionData * pss);
-		void onCallbackReceive(struct libwebsocket * wsi, void * input, size_t len);
+		int onCallbackWritable(struct lws * connection, EchoSessionData * pss);
+		void onCallbackReceive(struct lws * wsi, void * input, size_t len);
 		
-		void addWriteBufferData(const unsigned char * data, const REUInt32 dataSize, const enum libwebsocket_write_protocol type);
+		void addWriteBufferData(const unsigned char * data, const REUInt32 dataSize, const enum lws_write_protocol type);
 		void cleanup();
 		void workMethod();
 
-		struct libwebsocket * createWebSocketConnection(struct libwebsocket_context * context);
-		static struct libwebsocket_context * createWebSocketContext(WebSocket * webSocket);
+		struct lws * createWebSocketConnection(struct lws_context * context);
+		static struct lws_context * createWebSocketContext(WebSocket * webSocket);
 
 	public:
 		virtual const REString name() const;

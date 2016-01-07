@@ -256,7 +256,8 @@ public:
 		id<FayeCppClientDelegate> d = c ? [c delegate] : nil;
 		if (c && d && [d respondsToSelector:@selector(onFayeClient:error:)])
 		{
-			CFErrorRef error = CFHelper::error(client->lastError());
+			Error e = client->lastError();
+			CFErrorRef error = CFHelper::error(&e);
 			dispatch_async(dispatch_get_main_queue(), ^{
 				[d onFayeClient:c error:(__bridge NSError *)error];
 				if (error) CFRelease(error);

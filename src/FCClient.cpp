@@ -111,9 +111,43 @@ namespace FayeCpp {
 	const char * const kFayeCppBundleLocalizationTableName = "FayeCppLocalizable";
 #endif
 
-	Error * Client::lastError() const
+	Advice Client::advice() const
 	{
-        return _lastError;
+		return _advice ? *_advice : Advice();
+	}
+
+	void Client::receivedAdvice(const REVariantMap & advice)
+	{
+		SAFE_DELETE(_advice)
+
+		Advice * a = new Advice();
+		if (!a) return;
+
+		REVariantMap::Iterator i = advice.iterator();
+		while (i.next())
+		{
+			if (i.key().isEqual("reconnect") && i.value().isString())
+			{
+				if (i.value().toString().isEqual("retry"))
+					a->setReconnect(Advice::ReconnectRetry);
+				else if (i.value().toString().isEqual("handshake"))
+					a->setReconnect(Advice::ReconnectHandshake);
+			}
+			else if (i.key().isEqual("interval") && i.value().isNumber())
+				a->setInterval(i.value().toInt());
+			else if (i.key().isEqual("timeout") && i.value().isNumber())
+				a->setTimeout(i.value().toInt());
+		}
+
+		_advice = a;
+
+		REVariant * thisTransportAdvice = _transport ? advice.findTypedValue(_transport->name(), REVariant::TypeMap) : NULL;
+		if (thisTransportAdvice) this->receivedAdvice(thisTransportAdvice->toMap());
+	}
+
+	Error Client::lastError() const
+	{
+		return _lastError ? *_lastError : Error();
 	}
 
 	const REVariant & Client::extValue() const
@@ -510,6 +544,10 @@ namespace FayeCpp {
 			{
 				errorString = i.value().toString();
 			}
+			else if (i.key().isEqual(_bayeuxAdviceKey) && i.value().isMap())
+			{
+				this->receivedAdvice(i.value().toMap());
+			}
 		}
 
 		if (errorString.isNotEmpty())
@@ -594,7 +632,7 @@ namespace FayeCpp {
 		REVariantList connectionTypes;
 		connectionTypes.add(_transport->name());
 		message[_bayeuxSupportedConnectionTypesKey] = connectionTypes;
-		message[_bayeuxMinimumVersionKey] = "1.0beta";
+		message[_bayeuxMinimumVersionKey] = "1.0";
 		message[_bayeuxChannelKey] = _bayeuxHandshakeChannel;
 		message[_bayeuxVersionKey] = "1.0";
 		if (_extValue.type() != REVariant::TypeNone) message[_bayeuxExtKey] = _extValue;
@@ -617,7 +655,7 @@ namespace FayeCpp {
 		}
 		
 		REVariant * advice = message.findTypedValue(_bayeuxAdviceKey, REVariant::TypeMap);
-		if (advice && _transport) _transport->receivedAdvice(advice->toMap());
+		if (advice) this->receivedAdvice(advice->toMap());
 	}
 	
 	void Client::connectFaye()
@@ -689,7 +727,7 @@ namespace FayeCpp {
 		if (pendingChannelNode)
 		{
 			REVariant * advice = message.findTypedValue(_bayeuxAdviceKey, REVariant::TypeMap);
-			if (advice && _transport) _transport->receivedAdvice(advice->toMap());
+			if (advice) this->receivedAdvice(advice->toMap());
 			
 			_pendingSubscriptions.removeNode(pendingChannelNode);
 
@@ -911,6 +949,7 @@ namespace FayeCpp {
 		_delegate(NULL),
 		_sslDataSource(NULL),
 		_lastError(NULL),
+		_advice(NULL),
 		_port(0),
 		_isUseSSL(false),
 		_isFayeConnected(false),
@@ -927,6 +966,7 @@ namespace FayeCpp {
 		FAYECPP_DEBUG_LOG("Client: descructor ~Client() ...")
 
 		SAFE_DELETE(_lastError)
+		SAFE_DELETE(_advice)
 
 		_delegate = NULL;
 
