@@ -29,11 +29,11 @@ project(fayecpp)
 set(PACKAGE "fayecpp")
 set(CPACK_PACKAGE_NAME "${PACKAGE}")
 set(CPACK_PACKAGE_VERSION_MAJOR "0")
-set(CPACK_PACKAGE_VERSION_MINOR "1")
+set(CPACK_PACKAGE_VERSION_MINOR "2")
 set(CPACK_PACKAGE_VERSION "${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}")
 set(CPACK_PACKAGE_VENDOR "info@resident.name")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "${PACKAGE} ${PACKAGE_VERSION}")
-set(SOVERSION "0.1.17")
+set(SOVERSION "0.2.0")
 set(CPACK_SOURCE_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}")
 set(VERSION "${CPACK_PACKAGE_VERSION}")
 
@@ -373,7 +373,7 @@ includedir=\${prefix}/include
 
 Name: FayeCpp
 Description: FayeCpp (C++) client library for desktop & mobile platforms.
-Version: 0.1
+Version: 0.2
 
 Libs: -L\${libdir} -lfayecpp
 Cflags: -I\${includedir}"
@@ -391,7 +391,8 @@ configure_file("${PROJECT_SOURCE_DIR}/fayecpp_config.h.in"
 include_directories(${PROJECT_BINARY_DIR})
 
 
-set(FAYECPP_SOURCES	src/FCClient.cpp
+set(FAYECPP_SOURCES	src/FCAdvice.cpp
+		src/FCClient.cpp
 		src/FCError.cpp
 		src/FCJsonUtils.cpp
 		src/FCMessage.cpp

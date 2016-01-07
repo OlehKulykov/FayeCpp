@@ -23,10 +23,6 @@
 
 #include "../fayecpp.h"
 
-#if defined(HAVE_FAYECPP_CONFIG_H)
-#include "fayecpp_config.h"
-#endif
-
 namespace FayeCpp {
 
 	int Advice::interval() const
