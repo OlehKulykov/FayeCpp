@@ -11,10 +11,10 @@
 	<key>CFBundleName</key>
 	<string>FayeCpp</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.1.8</string>
+	<string>0.2.0</string>
 	<key>CFBundleVersion</key>
-	<string>0.1.8</string>
+	<string>0.2.0</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright (c) 2014 - 2015 Kulykov Oleh &quot;info@resident.name&quot;</string>
+	<string>Copyright (c) 2014 - 2016 Kulykov Oleh &quot;info@resident.name&quot;</string>
 </dict>
 </plist>
