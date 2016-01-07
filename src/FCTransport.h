@@ -26,6 +26,7 @@
 
 #include "../fayecpp.h"
 #include "FCClassMethodWrapper.h"
+#include "REThreadingPrivate.h"
 
 #if defined(HAVE_FAYECPP_CONFIG_H)
 #include "fayecpp_config.h"
@@ -33,18 +34,6 @@
 
 #if defined(RE_HAVE_ASSERT_H)
 #include <assert.h>
-#endif
-
-#if !defined(__RE_HAVE_THREADS__) && defined(__RE_OS_WINDOWS__)
-#include <Windows.h>
-#define __RE_THREADING_WINDOWS__ 1
-#define __RE_HAVE_THREADS__ 1
-#endif
-
-#if !defined(__RE_HAVE_THREADS__) && defined(RE_HAVE_PTHREAD_H)
-#include <pthread.h>
-#define __RE_THREADING_PTHREAD__ 1
-#define __RE_HAVE_THREADS__ 1
 #endif
 
 #ifndef SAFE_DELETE
@@ -64,19 +53,6 @@
 #endif
 
 namespace FayeCpp {
-	
-#if !defined(HAVE_SUITABLE_QT_VERSION)
-	class REMutex
-	{
-	protected:
-		void * _m;
-	public:
-		void lock();
-		void unlock();
-		REMutex();
-		~REMutex();
-	};
-#endif
 
 	class Transport
 	{

@@ -405,6 +405,7 @@ set(FAYECPP_SOURCES	src/FCAdvice.cpp
 		src/REStringBase.cpp
 		src/REStringList.cpp
 		src/REStringUtilsPrivate.cpp
+		src/REThreadingPrivate.cpp
 		src/REVariant.cpp
 		src/REVariantList.cpp
 		src/REVariantMap.cpp

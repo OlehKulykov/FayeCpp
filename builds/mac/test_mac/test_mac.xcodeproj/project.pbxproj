@@ -62,6 +62,7 @@
 		3D0831251987CDE30038CD79 /* server-handshake.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D0831231987CDE30038CD79 /* server-handshake.c */; };
 		3D0831281987CE280038CD79 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D0831271987CE280038CD79 /* libcrypto.dylib */; };
 		3D26F46F1C3E9166006ED0AE /* FCAdvice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D26F46E1C3E9166006ED0AE /* FCAdvice.cpp */; };
+		3D26F4721C3ED594006ED0AE /* REThreadingPrivate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D26F4701C3ED594006ED0AE /* REThreadingPrivate.cpp */; };
 		3D7450B31AAF90D400AA32A3 /* FCClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D7450B21AAF90D400AA32A3 /* FCClient.cpp */; };
 		3D7450B51AAF90DC00AA32A3 /* FCError.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D7450B41AAF90DC00AA32A3 /* FCError.cpp */; };
 		3D7450B81AAF90EE00AA32A3 /* FCJsonUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D7450B71AAF90EE00AA32A3 /* FCJsonUtils.cpp */; };
@@ -161,6 +162,8 @@
 		3D0831271987CE280038CD79 /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = usr/lib/libcrypto.dylib; sourceTree = SDKROOT; };
 		3D26F46D1C3E89D1006ED0AE /* lws_config_private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = lws_config_private.h; path = ../../lws_config_private.h; sourceTree = "<group>"; };
 		3D26F46E1C3E9166006ED0AE /* FCAdvice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FCAdvice.cpp; path = ../../../../src/FCAdvice.cpp; sourceTree = "<group>"; };
+		3D26F4701C3ED594006ED0AE /* REThreadingPrivate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REThreadingPrivate.cpp; path = ../../../../src/REThreadingPrivate.cpp; sourceTree = "<group>"; };
+		3D26F4711C3ED594006ED0AE /* REThreadingPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = REThreadingPrivate.h; path = ../../../../src/REThreadingPrivate.h; sourceTree = "<group>"; };
 		3D2739F01AAE0F0B00317CA3 /* test_fayecpp_connect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = test_fayecpp_connect.cpp; path = ../../../../test/test_fayecpp_connect.cpp; sourceTree = "<group>"; };
 		3D3045E019EE859300D8B163 /* test_fayecpp_header.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = test_fayecpp_header.cpp; path = ../../../../test/test_fayecpp_header.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		3D3045E219EE88A600D8B163 /* test_fayecpp_init.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = test_fayecpp_init.cpp; path = ../../../../test/test_fayecpp_init.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -373,6 +376,8 @@
 				3D7450B11AAF90C800AA32A3 /* FCClassMethodWrapper.h */,
 				3D7450B61AAF90E800AA32A3 /* FCJsonUtils.h */,
 				3D7450B71AAF90EE00AA32A3 /* FCJsonUtils.cpp */,
+				3D26F4711C3ED594006ED0AE /* REThreadingPrivate.h */,
+				3D26F4701C3ED594006ED0AE /* REThreadingPrivate.cpp */,
 				3D0830E61987CB4E0038CD79 /* RELog.cpp */,
 				3D0830ED1987CB4E0038CD79 /* REBuffer.cpp */,
 				3D0830EE1987CB4E0038CD79 /* REBufferNoCopy.cpp */,
@@ -525,6 +530,7 @@
 				3D0830DB1987CB2D0038CD79 /* hashtable.c in Sources */,
 				3D08310F1987CB4E0038CD79 /* REStringUtilsPrivate.cpp in Sources */,
 				3D0830C11987CB160038CD79 /* extension-deflate-frame.c in Sources */,
+				3D26F4721C3ED594006ED0AE /* REThreadingPrivate.cpp in Sources */,
 				3D0830E01987CB2D0038CD79 /* strbuffer.c in Sources */,
 				3D0830C21987CB160038CD79 /* extension-deflate-stream.c in Sources */,
 				3D0831111987CB4E0038CD79 /* REWideString.cpp in Sources */,
