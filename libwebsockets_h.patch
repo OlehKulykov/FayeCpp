@@ -1,5 +1,5 @@
 diff --git a/lib/libwebsockets.h b/lib/libwebsockets.h
-index b63c591..b2153c4 100644
+index 7b771ea..b459a81 100644
 --- a/lib/libwebsockets.h
 +++ b/lib/libwebsockets.h
 @@ -24,7 +24,9 @@
@@ -9,6 +9,6 @@ index b63c591..b2153c4 100644
 +#if !defined(ANDROID_NDK) && !defined(__ANDROID__) && !defined(ANDROID)
  #include <cstdarg>
 +#endif
- extern "C" {
- #else
- #include <stdarg.h>
+ #ifdef MBED_OPERATORS
+ #include "mbed-drivers/mbed.h"
+ #include "sal-iface-eth/EthernetInterface.h"

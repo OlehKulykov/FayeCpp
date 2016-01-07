@@ -32,6 +32,7 @@ ALL_SOURCES := \
 	../../../jansson/src/strconv.c \
 	../../../jansson/src/utf.c \
 	../../../jansson/src/value.c \
+	../../../src/FCAdvice.cpp \
 	../../../src/FCClient.cpp \
 	../../../src/FCError.cpp \
 	../../../src/FCJsonUtils.cpp \
@@ -45,6 +46,7 @@ ALL_SOURCES := \
 	../../../src/REStringBase.cpp \
 	../../../src/REStringList.cpp \
 	../../../src/REStringUtilsPrivate.cpp \
+	../../../src/REThreadingPrivate.cpp \
 	../../../src/REVariant.cpp \
 	../../../src/REVariantList.cpp \
 	../../../src/REVariantMap.cpp \
@@ -70,7 +72,6 @@ ALL_CFLAGS := \
 	-DLWS_BUILTIN_GETIFADDRS=1 \
 	-DHAVE_STDINT_H=1 \
 	-DRE_HAVE_STDINT_H=1 \
-	-DHAVE_GETIFADDRS=0 \
 	-DHAVE_ANDROID_LOG_H=1 \
 	-DRE_HAVE_ANDROID_LOG_H=1
 
