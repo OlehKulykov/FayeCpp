@@ -3591,7 +3591,8 @@ namespace FayeCpp {
 		REStringList _pendingSubscriptions;
 		REStringList _supportedConnectionTypes;
 
-		REUInt32 _reconnectTime;
+		REUInt32 _lastReconnectTime;
+		REUInt32 _nextReconnectTime;
 		int _port;
 		
 		bool _isUseSSL;
@@ -3599,7 +3600,7 @@ namespace FayeCpp {
 		bool _isDisconnecting;
 		bool _isUsingIPV6;
 
-		void calculateReconnectTime();
+		void calculateNextReconnectTime();
 		void onReceivedAdvice(const REVariantMap & advice);
 
 		void processMessage(Responce * responce);

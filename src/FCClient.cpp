@@ -116,9 +116,10 @@ namespace FayeCpp {
 		return _advice ? *_advice : Advice();
 	}
 
-	void Client::calculateReconnectTime()
+	void Client::calculateNextReconnectTime()
 	{
-		_reconnectTime = 0;
+		_nextReconnectTime = 0;
+
 		const Advice::ReconnectType type = _advice ? _advice->reconnect() : Advice::ReconnectNone;
 		if (type != Advice::ReconnectNone)
 		{
@@ -129,9 +130,11 @@ namespace FayeCpp {
 
 			if (time > 0)
 			{
+				const REUInt32 lastTime = (_lastReconnectTime > 0) ? _lastReconnectTime : RETime::seconds();
+
 				// 90% of the interval plus timeout. Eg. before disconnect.
-				_reconnectTime = RETime::seconds() + (0.9 * time);
-				FAYECPP_DEBUG_LOGA("RECONNECT TIME: %u", _reconnectTime)
+				_nextReconnectTime = lastTime + (0.9 * time);
+				FAYECPP_DEBUG_LOGA("Client: next reconnect time: %u", _nextReconnectTime)
 			}
 		}
 	}
@@ -164,8 +167,8 @@ namespace FayeCpp {
 		REVariant * thisTransportAdvice = _transport ? advice.findTypedValue(_transport->name(), REVariant::TypeMap) : NULL;
 		if (thisTransportAdvice) this->onReceivedAdvice(thisTransportAdvice->toMap());
 
-		FAYECPP_DEBUG_LOGA("RECEIVED ADVICE: %i, %i", a->interval(), a->timeout())
-		this->calculateReconnectTime();
+		FAYECPP_DEBUG_LOGA("Client: received advice: %i, %i", a->interval(), a->timeout())
+		this->calculateNextReconnectTime();
 	}
 
 	Error Client::lastError() const
@@ -243,7 +246,8 @@ namespace FayeCpp {
 
 		_isDisconnecting = false;
 		_isFayeConnected = false;
-		
+		_lastReconnectTime = _nextReconnectTime = 0;
+
 		_clientId.clear();
 		_subscribedChannels.clear();
 		_pendingSubscriptions.clear();
@@ -530,6 +534,7 @@ namespace FayeCpp {
 #if defined(RE_HAVE_ASSERT_H)
 			assert(_transport);
 #endif
+			_lastReconnectTime = _nextReconnectTime = 0;
 			_transport->connectToServer();
 			return true;
 		}
@@ -856,6 +861,7 @@ namespace FayeCpp {
 		_subscribedChannels.clear();
 		_pendingSubscriptions.clear();
 		_isFayeConnected = false;
+		_lastReconnectTime = _nextReconnectTime = 0;
 
 		if (_delegate) _delegate->onFayeClientDisconnected(this);
 		
@@ -969,19 +975,22 @@ namespace FayeCpp {
 
 	void Client::update(const REUInt32 seconds)
 	{
-		if (_reconnectTime && seconds >= _reconnectTime)
+		if (_nextReconnectTime && seconds >= _nextReconnectTime)
 		{
-			this->calculateReconnectTime();
 			const Advice::ReconnectType type = _advice ? _advice->reconnect() : Advice::ReconnectNone;
+			if (type != Advice::ReconnectNone) _lastReconnectTime = RETime::seconds();
+
+			this->calculateNextReconnectTime();
+
 			switch (type)
 			{
 				case Advice::ReconnectRetry:
-					FAYECPP_DEBUG_LOG("START RECONNECT via Advice::ReconnectRetry")
+					FAYECPP_DEBUG_LOG("Client: start reconnect via Advice::ReconnectRetry ...")
 					this->connectFaye();
 					break;
 
 				case Advice::ReconnectHandshake:
-					FAYECPP_DEBUG_LOG("START RECONNECT via Advice::ReconnectHandshake")
+					FAYECPP_DEBUG_LOG("Client: start reconnect via Advice::ReconnectHandshake ...")
 					this->handshake();
 					break;
 
@@ -997,7 +1006,8 @@ namespace FayeCpp {
 		_sslDataSource(NULL),
 		_lastError(NULL),
 		_advice(NULL),
-		_reconnectTime(0),
+		_lastReconnectTime(0),
+		_nextReconnectTime(0),
 		_port(0),
 		_isUseSSL(false),
 		_isFayeConnected(false),
