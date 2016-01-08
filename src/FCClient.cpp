@@ -111,6 +111,8 @@ namespace FayeCpp {
 	const char * const kFayeCppBundleLocalizationTableName = "FayeCppLocalizable";
 #endif
 
+#define CLIENT_BAYEUX_MINIMUM_VERSION "1.0"
+
 	Advice Client::advice() const
 	{
 		return _advice ? *_advice : Advice();
@@ -660,7 +662,7 @@ namespace FayeCpp {
 		REVariantList connectionTypes;
 		connectionTypes.add(_transport->name());
 		message[_bayeuxSupportedConnectionTypesKey] = connectionTypes;
-		message[_bayeuxMinimumVersionKey] = "1.0";
+		message[_bayeuxMinimumVersionKey] = CLIENT_BAYEUX_MINIMUM_VERSION;
 		message[_bayeuxChannelKey] = _bayeuxHandshakeChannel;
 		message[_bayeuxVersionKey] = "1.0";
 		if (_extValue.type() != REVariant::TypeNone) message[_bayeuxExtKey] = _extValue;
@@ -1089,7 +1091,8 @@ namespace FayeCpp {
 	const char * Client::info()
 	{
 		const char * info = "\nFayeCpp client library based on Bayeux protocol.\n"
-		
+		" - Client Bayeux minimum version: " CLIENT_BAYEUX_MINIMUM_VERSION "\n"
+
 		"Build info\n"
 		" - Version: " TO_STRING(FAYECPP_VERSION_MAJOR) "." TO_STRING(FAYECPP_VERSION_MINOR) "." TO_STRING(FAYECPP_VERSION_PATCH) "\n"
 #if defined(FAYECPP_BUILD_NUMBER)
