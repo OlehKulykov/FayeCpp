@@ -11,34 +11,33 @@ static const char * _clientChannel2 = "/xxxxxx";
 // SSL datasource
 FayeCpp::REString MainWindow::clientLocalCertificateFilePath() const
 {
-	return FayeCpp::REString("");
+    return REString("");
 }
 
 FayeCpp::REString MainWindow::clientPrivateKeyFilePath() const
 {
-	return FayeCpp::REString("");
+    return REString("");
 }
 
 FayeCpp::REString MainWindow::clientPrivateKeyPassPhrase() const
 {
-	return FayeCpp::REString("");
+    return REString("");
 }
-
 
 FayeCpp::REString MainWindow::clientCACertificateFilePath() const
 {
-	return FayeCpp::REString("");
+    return REString("");
 }
 
 // delegate
 void MainWindow::onFayeTransportConnected(FayeCpp::Client * client)
 {
-	FayeCpp::RELog::log("DELEGATE onFayeTransportConnected");
+    RELog::log("DELEGATE onFayeTransportConnected");
 }
 
 void MainWindow::onFayeTransportDisconnected(FayeCpp::Client * client)
 {
-	FayeCpp::RELog::log("DELEGATE onFayeTransportDisconnected");
+    RELog::log("DELEGATE onFayeTransportDisconnected");
 
 	client->connect();
     client->subscribeToChannel(_clientChannel1);
@@ -47,43 +46,43 @@ void MainWindow::onFayeTransportDisconnected(FayeCpp::Client * client)
 
 void MainWindow::onFayeClientConnected(FayeCpp::Client * client)
 {
-	FayeCpp::RELog::log("DELEGATE onFayeClientConnected");
+    RELog::log("DELEGATE onFayeClientConnected");
 }
 
 void MainWindow::onFayeClientDisconnected(FayeCpp::Client * client)
 {
-	FayeCpp::RELog::log("DELEGATE onFayeClientDisconnected");
+    RELog::log("DELEGATE onFayeClientDisconnected");
 }
 
 void MainWindow::onFayeClientSubscribedToChannel(FayeCpp::Client * client,
 												 const FayeCpp::REString & channel)
 {
-	FayeCpp::RELog::log("DELEGATE onFayeClientSubscribedToChannel");
+    RELog::log("DELEGATE onFayeClientSubscribedToChannel");
 }
 
 void MainWindow::onFayeClientUnsubscribedFromChannel(FayeCpp::Client * client,
 													 const FayeCpp::REString & channel)
 {
-	FayeCpp::RELog::log("DELEGATE onFayeClientUnsubscribedFromChannel");
+    RELog::log("DELEGATE onFayeClientUnsubscribedFromChannel");
 }
 
 void MainWindow::onFayeClientReceivedMessageFromChannel(FayeCpp::Client * client,
 														const FayeCpp::REVariantMap & message,
 														const FayeCpp::REString & channel)
 {
-	FayeCpp::RELog::log("DELEGATE onFayeClientReceivedMessageFromChannel");
+    RELog::log("DELEGATE onFayeClientReceivedMessageFromChannel");
 }
 
 void MainWindow::onFayeClientWillSendMessage(FayeCpp::Client * client,
 											 FayeCpp::REVariantMap & message)
 {
-	FayeCpp::RELog::log("DELEGATE onFayeClientWillSendMessage");
+    RELog::log("DELEGATE onFayeClientWillSendMessage");
 }
 
 void MainWindow::onFayeErrorString(FayeCpp::Client * client,
 								   const FayeCpp::REString & errorString)
 {
-	FayeCpp::RELog::log("DELEGATE ERROR: %s", errorString.UTF8String());
+    RELog::log("DELEGATE ERROR: %s", errorString.UTF8String());
 }
 
 MainWindow::MainWindow(QWidget *parent) :
