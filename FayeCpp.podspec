@@ -34,7 +34,6 @@ You can use Objective-C wrapper or C++ client directly.
     'libwebsockets/lib/extension-deflate-frame.c',
     'libwebsockets/lib/extension-deflate-stream.c',
     'libwebsockets/lib/extension.c',
-    'libwebsockets/lib/getifaddrs.c',
     'libwebsockets/lib/handshake.c',
     'libwebsockets/lib/header.c',
     'libwebsockets/lib/libwebsockets.c',

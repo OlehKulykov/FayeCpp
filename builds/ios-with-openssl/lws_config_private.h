@@ -8,7 +8,7 @@
 
 /* Define to 1 to use CyaSSL as a replacement for OpenSSL. 
  * LWS_OPENSSL_SUPPORT needs to be set also for this to work. */
-/* #undef USE_CYASSL */
+/* #define USE_CYASSL 1 */
 
 /* Define to 1 if you have the `bzero' function. */
 #define LWS_HAVE_BZERO 1
