@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2014 - 2015 Kulykov Oleh <info@resident.name>
+ *   Copyright (c) 2014 - 2016 Kulykov Oleh <info@resident.name>
  *
  *   Permission is hereby granted, free of charge, to any person obtaining a copy
  *   of this software and associated documentation files (the "Software"), to deal
@@ -24,11 +24,21 @@
 #ifndef __FAYECPP_FAYECPP_H__
 #define __FAYECPP_FAYECPP_H__
 
+
 /*
  *   Faye C++ client main and one header file.
  *   All class interfaces added to namespace, preventing include files mess(yes, this is unusual structure, but lightweight).
  *
- *   Changes on version 0.1.15 (current):
+ *   Changes on version 0.2.0 (current):
+ *   - Minimum supported client version is 1.0.
+ *   - Public advice information.
+ *   - Use Libwebsockets version 1.6.
+ *   - Automatic reconnect using advice information (Libwebsockets & QWebSocket transport version).
+ *
+ *   Changes on version 0.1.16:
+ *   - Cocoapod with OpenSSL support(pod 'FayeCpp+OpenSSL'), recommended for all Faye users.
+ *
+ *   Changes on version 0.1.15:
  *   - Important json update.
  *   - Patch for building in Windows with MSC version 19 (Windows SDK 10).
  *   - Remove redefinition of preprocessor macros.
@@ -107,8 +117,8 @@
 
 
 #define FAYECPP_VERSION_MAJOR 0
-#define FAYECPP_VERSION_MINOR 1
-#define FAYECPP_VERSION_PATCH 15
+#define FAYECPP_VERSION_MINOR 2
+#define FAYECPP_VERSION_PATCH 0
 
 
 #if !defined(HAVE_SUITABLE_QT_VERSION) 
@@ -3482,6 +3492,12 @@ namespace FayeCpp {
 
 
 		/**
+		 @brief Constructs empty error object.
+		 */
+		Error();
+
+
+		/**
 		 @brief Default virtual destructor.
 		 */
 		virtual ~Error();
@@ -3496,6 +3512,63 @@ namespace FayeCpp {
 	};
 
 
+	class __RE_PUBLIC_CLASS_API__ Advice
+	{
+	public:
+		typedef enum _reconnectType
+		{
+			/**
+			 Indicates a hard failure for the connect attempt.
+			 A client MUST respect reconnect advice none and MUST NOT automatically retry or handshake.
+			 */
+			ReconnectNone = 0,
+
+
+			/**
+			 A client MAY attempt to reconnect with a @b /meta/connect message after the interval
+			 (as defined by interval advice field or client-default backoff), and with the same credentials.
+			 */
+			ReconnectRetry = 1,
+
+
+			/**
+			 The server has terminated any prior connection status and the client MUST reconnect with a @b /meta/handshake message.
+			 A client MUST NOT automatically retry when a reconnect advice handshake has been received.
+			 */
+			ReconnectHandshake = 2
+		} ReconnectType;
+
+	private:
+		int _interval; // milliseconds
+		int _timeout; // milliseconds
+		ReconnectType _reconnect;
+
+	public:
+		/**
+		 An minimum period of time, in milliseconds,
+		 for a client to delay subsequent requests to the @b /meta/connect channel.
+		 A negative period indicates that the message should not be retried.
+		 A client MUST implement interval support, but a client MAY exceed the interval provided by the server.
+		 A client SHOULD implement a backoff strategy to increase the interval if requests to the server fail without new advice being received from the server.
+		 */
+		int interval() const;
+
+		/**
+		 Pperiod of time, in milliseconds, for the server to delay responses to the @b /meta/connect channel.
+		 This value is merely informative for clients. Bayeux servers SHOULD honor timeout advices sent by clients.
+		 */
+		int timeout() const;
+		Advice::ReconnectType reconnect() const;
+		void setInterval(const int value);
+		void setTimeout(const int value);
+		void setReconnect(const Advice::ReconnectType value);
+		Advice & operator=(const Advice & advice);
+		Advice();
+		Advice(const Advice & advice);
+		~Advice();
+	};
+
+
 	/**
 	 @brief Faye clent object.
 	 */
@@ -3506,6 +3579,7 @@ namespace FayeCpp {
 		Delegate * _delegate;
 		SSLDataSource * _sslDataSource;
 		Error * _lastError;
+		Advice * _advice;
 		REString _url;
 		REString _host;
 		REString _path;
@@ -3516,12 +3590,17 @@ namespace FayeCpp {
 		REStringList _pendingSubscriptions;
 		REStringList _supportedConnectionTypes;
 
+		REUInt32 _lastReconnectTime;
+		REUInt32 _nextReconnectTime;
 		int _port;
 		
 		bool _isUseSSL;
 		bool _isFayeConnected;
 		bool _isDisconnecting;
 		bool _isUsingIPV6;
+
+		void calculateNextReconnectTime();
+		void onReceivedAdvice(const REVariantMap & advice);
 
 		void processMessage(Responce * responce);
 		
@@ -3556,10 +3635,16 @@ namespace FayeCpp {
 		
 	public:
 		/**
+		 @brief Last received advice.
+		 */
+		Advice advice() const;
+
+
+		/**
 		 @brief Last occurred error object address.
 		 @detailed This error updates before informing delegate about error.
 		 */
-		Error * lastError() const;
+		Error lastError() const;
 
 
 		/**
@@ -3794,7 +3879,15 @@ namespace FayeCpp {
 		 */
 		void unsubscribeAllChannels();
 		
-		
+
+		/**
+		 @brief Update timed logic. Called from transport, from another or main thread.
+		 @warning Don't call this method manually.
+		 @param seconds Time in seconds.
+		 */
+		void update(const REUInt32 seconds);
+
+
 		Client();
 		virtual ~Client();
 		
