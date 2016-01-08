@@ -54,6 +54,8 @@
 		3D8CB8DE1948996200943B53 /* value.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CB8D31948996200943B53 /* value.c */; };
 		3DA2A4BB196601C7002B7C09 /* FayeCppClient.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3DA2A4BA196601C7002B7C09 /* FayeCppClient.mm */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		3DAD75FD1A32FEA40054F999 /* alloc.c in Sources */ = {isa = PBXBuildFile; fileRef = 3DAD75FC1A32FEA40054F999 /* alloc.c */; };
+		3DB4D37B1C3F9E6C0009F439 /* FCAdvice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DB4D3781C3F9E6C0009F439 /* FCAdvice.cpp */; };
+		3DB4D37C1C3F9E6C0009F439 /* REThreadingPrivate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DB4D3791C3F9E6C0009F439 /* REThreadingPrivate.cpp */; };
 		3DF2CAFB1A496715003005FC /* REVariant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DF2CAF81A496715003005FC /* REVariant.cpp */; };
 		3DF2CAFC1A496715003005FC /* REVariantList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DF2CAF91A496715003005FC /* REVariantList.cpp */; };
 		3DF2CAFD1A496715003005FC /* REVariantMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DF2CAFA1A496715003005FC /* REVariantMap.cpp */; };
@@ -128,6 +130,9 @@
 		3DA2A4B9196601C7002B7C09 /* FayeCppClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FayeCppClient.h; path = ../../contrib/objc/FayeCppClient.h; sourceTree = "<group>"; };
 		3DA2A4BA196601C7002B7C09 /* FayeCppClient.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = FayeCppClient.mm; path = ../../contrib/objc/FayeCppClient.mm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		3DAD75FC1A32FEA40054F999 /* alloc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = alloc.c; path = ../../libwebsockets/lib/alloc.c; sourceTree = "<group>"; };
+		3DB4D3781C3F9E6C0009F439 /* FCAdvice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FCAdvice.cpp; path = ../../src/FCAdvice.cpp; sourceTree = "<group>"; };
+		3DB4D3791C3F9E6C0009F439 /* REThreadingPrivate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REThreadingPrivate.cpp; path = ../../src/REThreadingPrivate.cpp; sourceTree = "<group>"; };
+		3DB4D37A1C3F9E6C0009F439 /* REThreadingPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = REThreadingPrivate.h; path = ../../src/REThreadingPrivate.h; sourceTree = "<group>"; };
 		3DF2CAF81A496715003005FC /* REVariant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REVariant.cpp; path = ../../src/REVariant.cpp; sourceTree = "<group>"; };
 		3DF2CAF91A496715003005FC /* REVariantList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REVariantList.cpp; path = ../../src/REVariantList.cpp; sourceTree = "<group>"; };
 		3DF2CAFA1A496715003005FC /* REVariantMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REVariantMap.cpp; path = ../../src/REVariantMap.cpp; sourceTree = "<group>"; };
@@ -229,6 +234,9 @@
 		3D8CB8E2194899E500943B53 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				3DB4D3781C3F9E6C0009F439 /* FCAdvice.cpp */,
+				3DB4D3791C3F9E6C0009F439 /* REThreadingPrivate.cpp */,
+				3DB4D37A1C3F9E6C0009F439 /* REThreadingPrivate.h */,
 				3D7450C11AAF931D00AA32A3 /* FCClassMethodWrapper.h */,
 				3D7450C21AAF931D00AA32A3 /* FCClient.cpp */,
 				3D7450C31AAF931D00AA32A3 /* FCError.cpp */,
@@ -353,10 +361,12 @@
 				3D12B48D194AF31000B8E9D9 /* REStringUtilsPrivate.cpp in Sources */,
 				3DF2CAFC1A496715003005FC /* REVariantList.cpp in Sources */,
 				3D8CB8C71948994500943B53 /* sha-1.c in Sources */,
+				3DB4D37B1C3F9E6C0009F439 /* FCAdvice.cpp in Sources */,
 				3D8CB8D61948996200943B53 /* hashtable.c in Sources */,
 				3D8CB8B71948994500943B53 /* base64-decode.c in Sources */,
 				3DA2A4BB196601C7002B7C09 /* FayeCppClient.mm in Sources */,
 				3D8CB8C31948994500943B53 /* output.c in Sources */,
+				3DB4D37C1C3F9E6C0009F439 /* REThreadingPrivate.cpp in Sources */,
 				3D12B489194AF31000B8E9D9 /* REStaticString.cpp in Sources */,
 				3D8CB8C61948994500943B53 /* service.c in Sources */,
 				3D8CB8C21948994500943B53 /* lws-plat-unix.c in Sources */,

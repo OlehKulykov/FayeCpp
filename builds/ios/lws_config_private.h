@@ -26,7 +26,7 @@
 #define LWS_HAVE_GETENV
 
 /* Define to 1 if you have the <in6addr.h> header file. */
-#define LWS_HAVE_IN6ADDR_H
+/* #undef LWS_HAVE_IN6ADDR_H */
 
 /* Define to 1 if you have the <inttypes.h> header file. */
 #define LWS_HAVE_INTTYPES_H

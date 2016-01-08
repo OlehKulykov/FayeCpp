@@ -15,17 +15,17 @@ class ViewController: UIViewController, FayeCppClientDelegate {
 	let channel2: String = "/xxxxxxxxx/xxxxxxxxxxxx";
 
 	func onFayeTransportConnected(client: FayeCppClient) {
-		println("Faye transport connected")
+		print("Faye transport connected")
 	}
 
 	func onFayeClientConnected(client: FayeCppClient) {
-		println("Faye client connected")
+		print("Faye client connected")
 
 		client.sendMessage(["key": "value"], toChannel: channel1)
 	}
 
 	func onFayeClient(client: FayeCppClient, receivedMessage message: [NSObject : AnyObject]?, fromChannel channel: String?) {
-		println("Received from channel \(channel) message: \(message) ")
+		print("Received from channel \(channel) message: \(message) ")
 	}
 
 
