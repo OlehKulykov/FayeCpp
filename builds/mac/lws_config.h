@@ -51,10 +51,10 @@
 /* #undef LWS_LATENCY */
 
 /* Don't build the daemonizeation api */
-#define LWS_NO_DAEMONIZE
+#define LWS_NO_DAEMONIZE 1
 
 /* Build without server support */
-#define LWS_NO_SERVER
+#define LWS_NO_SERVER 1
 
 /* Build without client support */
 /* #undef LWS_NO_CLIENT */

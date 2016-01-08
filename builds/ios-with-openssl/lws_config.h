@@ -27,7 +27,7 @@
 #define LWS_BUILD_HASH "27174e6"
 
 /* Build with OpenSSL support */
-#define LWS_OPENSSL_SUPPORT
+#define LWS_OPENSSL_SUPPORT 1
 
 /* The client should load and trust CA root certs it finds in the OS */
 /* #undef LWS_SSL_CLIENT_USE_OS_CA_CERTS */
@@ -51,10 +51,10 @@
 /* #undef LWS_LATENCY */
 
 /* Don't build the daemonizeation api */
-#define LWS_NO_DAEMONIZE
+#define LWS_NO_DAEMONIZE 1
 
 /* Build without server support */
-#define LWS_NO_SERVER
+#define LWS_NO_SERVER 1
 
 /* Build without client support */
 /* #undef LWS_NO_CLIENT */
