@@ -32,6 +32,7 @@
 
 #include <QObject>
 #include <QString>
+#include <QBasicTimer>
 #include <QUrl>
 #include <QtWebSockets/QtWebSockets>
 #include <QWebSocket>
@@ -42,10 +43,14 @@ namespace FayeCpp {
 	{
 		Q_OBJECT
 	private:
+        QBasicTimer _tickTimer;
 		QWebSocket * _socket;
 
 		static QString toString(const REString & s);
 		void setupSocketWithSSLDataSource(SSLDataSource * dataSource);
+
+    protected:
+        void timerEvent(QTimerEvent * event);
 
 	private slots:
 		void connected();

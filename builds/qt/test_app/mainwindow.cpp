@@ -4,6 +4,10 @@
 
 using namespace FayeCpp;
 
+static const char * _clientURL = "https://localhost:6001/faye";
+static const char * _clientChannel1 = "/xxxxxxxx/xxxxxxxxxxxxx";
+static const char * _clientChannel2 = "/xxxxxx";
+
 // SSL datasource
 FayeCpp::REString MainWindow::clientLocalCertificateFilePath() const
 {
@@ -37,8 +41,8 @@ void MainWindow::onFayeTransportDisconnected(FayeCpp::Client * client)
 	FayeCpp::RELog::log("DELEGATE onFayeTransportDisconnected");
 
 	client->connect();
-	client->subscribeToChannel("/xxxxxx/xxxxxxx");
-	client->subscribeToChannel("/xxxxxxxxxxx");
+    client->subscribeToChannel(_clientChannel1);
+    client->subscribeToChannel(_clientChannel2);
 }
 
 void MainWindow::onFayeClientConnected(FayeCpp::Client * client)
@@ -110,7 +114,7 @@ void MainWindow::on_pushButton_clicked()
 	_client = new FayeCpp::Client();
 
 	_client->setUsingIPV6(false);
-	_client->setUrl("https://localhost:6001/faye");
+    _client->setUrl(_clientURL);
 	_client->setDelegate(this);
 	//	_client->setSSLDataSource(new FayeSSLDataSource());
 }
@@ -120,8 +124,8 @@ void MainWindow::on_pushButton_2_clicked()
 	if (_client)
 	{
 		_client->connect();
-		_client->subscribeToChannel("/xxxxxx/xxxxxxxx");
-		_client->subscribeToChannel("/xxxxxxxx");
+        _client->subscribeToChannel(_clientChannel1);
+        _client->subscribeToChannel(_clientChannel2);
 	}
 }
 
@@ -135,6 +139,6 @@ void MainWindow::on_pushButton_3_clicked()
 
 		message["text"] = ui->lineEdit->text().toStdString().c_str();
 
-		_client->sendMessageToChannel(message, "/xxxxxxx/xxxxxxxxxxxx");
+        _client->sendMessageToChannel(message, _clientChannel1);
 	}
 }

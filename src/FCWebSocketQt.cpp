@@ -49,6 +49,18 @@
 
 namespace FayeCpp {
 
+    void WebSocketQt::timerEvent(QTimerEvent * event)
+    {
+        if (event->timerId() == _tickTimer.timerId())
+        {
+            this->tick();
+        }
+        else
+        {
+            QObject::timerEvent(event);
+        }
+    }
+
 	void WebSocketQt::connected()
 	{
 #ifdef FAYECPP_DEBUG_MESSAGES
@@ -234,6 +246,8 @@ namespace FayeCpp {
 		connect(_socket, SIGNAL(textMessageReceived(QString)), this, SLOT(textMessageReceived(QString)));
 		connect(_socket, SIGNAL(binaryMessageReceived(QByteArray)), this, SLOT(binaryMessageReceived(QByteArray)));
 		connect(_socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(error(QAbstractSocket::SocketError)));
+
+        _tickTimer.start(200, this);
 	}
 
 	WebSocketQt::~WebSocketQt()

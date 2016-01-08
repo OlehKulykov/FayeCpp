@@ -34,6 +34,7 @@
  *   - Public advice information.
  *   - Use Libwebsockets version 1.6.
  *   - Automatic reconnect using advice information (Libwebsockets transport version).
+ *   - Automatic reconnect using advice information (QWebSocket transport version).
  *
  *   Changes on version 0.1.16:
  *   - Cocoapod with OpenSSL support(pod 'FayeCpp+OpenSSL'), recommended for all Faye users.
