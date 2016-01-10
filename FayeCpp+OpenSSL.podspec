@@ -92,9 +92,8 @@ This pod version with SSL support.
     'wolfssl/wolfcrypt/src/sha512.c',
     'wolfssl/wolfcrypt/src/tfm.c',
     'wolfssl/wolfcrypt/src/wc_encrypt.c',
-    'wolfssl/wolfcrypt/src/wc_port.c
-
-
+    'wolfssl/wolfcrypt/src/wc_port.c'
+    
   s.resources = 'contrib/objc/FayeCpp.bundle'
   s.compiler_flags = '-DHAVE_FAYECPP_CONFIG_H=1', '-DHAVE_CONFIG_H=1', '-DCMAKE_BUILD=1', '-DRE_HAVE_COREFOUNDATION_FRAMEWORK=1', '-DLWS_OPENSSL_SUPPORT=1', '-DUSE_WOLFSSL=1'
   s.xcconfig = { 'HEADER_SEARCH_PATHS' => '"${PODS_ROOT}/FayeCpp+OpenSSL/contrib/objc" "${PODS_ROOT}/FayeCpp+OpenSSL/libwebsockets/lib" "${PODS_ROOT}/FayeCpp+OpenSSL/jansson/src" "${PODS_ROOT}/FayeCpp+OpenSSL/wolfssl" "${PODS_ROOT}/FayeCpp+OpenSSL/wolfssl/wolfssl"',
