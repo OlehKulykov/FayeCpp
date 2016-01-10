@@ -58,7 +58,7 @@ This pod version with SSL support.
     'wolfssl/src/sniffer.c',
     'wolfssl/src/ssl.c',
     'wolfssl/src/tls.c',
-    'wolfssl/wolfcrypt/src/aes.c'
+    'wolfssl/wolfcrypt/src/aes.c',
     'wolfssl/wolfcrypt/src/arc4.c',
     'wolfssl/wolfcrypt/src/asn.c',
     'wolfssl/wolfcrypt/src/blake2b.c',
