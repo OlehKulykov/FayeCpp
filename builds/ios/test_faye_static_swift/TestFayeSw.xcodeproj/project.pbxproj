@@ -12,19 +12,26 @@
 		3D323B8A1B78067F00BBACF1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D323B881B78067F00BBACF1 /* Main.storyboard */; };
 		3D323B8C1B78067F00BBACF1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D323B8B1B78067F00BBACF1 /* Images.xcassets */; };
 		3D323B8F1B78067F00BBACF1 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D323B8D1B78067F00BBACF1 /* LaunchScreen.xib */; };
-		3D323B9B1B78067F00BBACF1 /* TestFayeSwTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D323B9A1B78067F00BBACF1 /* TestFayeSwTests.swift */; };
+		3D6808A61C42E1F0000F0302 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D323B861B78067F00BBACF1 /* ViewController.swift */; };
+		3D6808A71C42E1F0000F0302 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D323B841B78067F00BBACF1 /* AppDelegate.swift */; };
+		3D6808A91C42E1F0000F0302 /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DE4139F1B794E6100AE9C86 /* libstdc++.dylib */; };
+		3D6808AA1C42E1F0000F0302 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DE4139D1B794E0100AE9C86 /* libz.dylib */; };
+		3D6808AD1C42E1F0000F0302 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D323B881B78067F00BBACF1 /* Main.storyboard */; };
+		3D6808AE1C42E1F0000F0302 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D323B8D1B78067F00BBACF1 /* LaunchScreen.xib */; };
+		3D6808AF1C42E1F0000F0302 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D323B8B1B78067F00BBACF1 /* Images.xcassets */; };
+		3D6808B51C42E221000F0302 /* libfayecpp_wolfssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D6808A31C42E1E8000F0302 /* libfayecpp_wolfssl.a */; };
 		3DE413971B794AA300AE9C86 /* libfayecpp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DE413961B794AA300AE9C86 /* libfayecpp.a */; };
 		3DE4139E1B794E0100AE9C86 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DE4139D1B794E0100AE9C86 /* libz.dylib */; };
 		3DE413A01B794E6100AE9C86 /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DE4139F1B794E6100AE9C86 /* libstdc++.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		3D323B951B78067F00BBACF1 /* PBXContainerItemProxy */ = {
+		3D6808A21C42E1E8000F0302 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 3D323B771B78067F00BBACF1 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 3D323B7E1B78067F00BBACF1;
-			remoteInfo = TestFayeSw;
+			containerPortal = 3DE413901B794A9300AE9C86 /* fayecpp.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D6808291C42DD2D000F0302;
+			remoteInfo = fayecpp_wolfssl;
 		};
 		3DE4139B1B794BAE00AE9C86 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -43,9 +50,8 @@
 		3D323B891B78067F00BBACF1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3D323B8B1B78067F00BBACF1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		3D323B8E1B78067F00BBACF1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		3D323B941B78067F00BBACF1 /* TestFayeSwTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestFayeSwTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		3D323B991B78067F00BBACF1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3D323B9A1B78067F00BBACF1 /* TestFayeSwTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestFayeSwTests.swift; sourceTree = "<group>"; };
+		3D6808B31C42E1F0000F0302 /* TestFayeSw_wolfssl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestFayeSw_wolfssl.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D6808B41C42E1F0000F0302 /* TestFayeSw copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "TestFayeSw copy-Info.plist"; path = "/Volumes/Data/Documents/presentain-desktop/FayeCpp/builds/ios/test_faye_static_swift/TestFayeSw copy-Info.plist"; sourceTree = "<absolute>"; };
 		3DE4131B1B7948E600AE9C86 /* TestFayeSw-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TestFayeSw-Bridging-Header.h"; sourceTree = "<group>"; };
 		3DE413901B794A9300AE9C86 /* fayecpp.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = fayecpp.xcodeproj; path = ../../fayecpp.xcodeproj; sourceTree = "<group>"; };
 		3DE413961B794AA300AE9C86 /* libfayecpp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfayecpp.a; path = "../build/Debug-iphoneos/libfayecpp.a"; sourceTree = "<group>"; };
@@ -64,10 +70,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		3D323B911B78067F00BBACF1 /* Frameworks */ = {
+		3D6808A81C42E1F0000F0302 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D6808B51C42E221000F0302 /* libfayecpp_wolfssl.a in Frameworks */,
+				3D6808A91C42E1F0000F0302 /* libstdc++.dylib in Frameworks */,
+				3D6808AA1C42E1F0000F0302 /* libz.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,8 +90,8 @@
 				3DE4139D1B794E0100AE9C86 /* libz.dylib */,
 				3DE413961B794AA300AE9C86 /* libfayecpp.a */,
 				3D323B811B78067F00BBACF1 /* TestFayeSw */,
-				3D323B971B78067F00BBACF1 /* TestFayeSwTests */,
 				3D323B801B78067F00BBACF1 /* Products */,
+				3D6808B41C42E1F0000F0302 /* TestFayeSw copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -90,7 +99,7 @@
 			isa = PBXGroup;
 			children = (
 				3D323B7F1B78067F00BBACF1 /* TestFayeSw.app */,
-				3D323B941B78067F00BBACF1 /* TestFayeSwTests.xctest */,
+				3D6808B31C42E1F0000F0302 /* TestFayeSw_wolfssl.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -118,27 +127,11 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		3D323B971B78067F00BBACF1 /* TestFayeSwTests */ = {
-			isa = PBXGroup;
-			children = (
-				3D323B9A1B78067F00BBACF1 /* TestFayeSwTests.swift */,
-				3D323B981B78067F00BBACF1 /* Supporting Files */,
-			);
-			path = TestFayeSwTests;
-			sourceTree = "<group>";
-		};
-		3D323B981B78067F00BBACF1 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				3D323B991B78067F00BBACF1 /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		3DE413981B794BAE00AE9C86 /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				3DE4139C1B794BAE00AE9C86 /* libfayecpp.a */,
+				3D6808A31C42E1E8000F0302 /* libfayecpp_wolfssl.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -163,23 +156,22 @@
 			productReference = 3D323B7F1B78067F00BBACF1 /* TestFayeSw.app */;
 			productType = "com.apple.product-type.application";
 		};
-		3D323B931B78067F00BBACF1 /* TestFayeSwTests */ = {
+		3D6808A41C42E1F0000F0302 /* TestFayeSw_wolfssl */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3D323BA11B78067F00BBACF1 /* Build configuration list for PBXNativeTarget "TestFayeSwTests" */;
+			buildConfigurationList = 3D6808B01C42E1F0000F0302 /* Build configuration list for PBXNativeTarget "TestFayeSw_wolfssl" */;
 			buildPhases = (
-				3D323B901B78067F00BBACF1 /* Sources */,
-				3D323B911B78067F00BBACF1 /* Frameworks */,
-				3D323B921B78067F00BBACF1 /* Resources */,
+				3D6808A51C42E1F0000F0302 /* Sources */,
+				3D6808A81C42E1F0000F0302 /* Frameworks */,
+				3D6808AC1C42E1F0000F0302 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				3D323B961B78067F00BBACF1 /* PBXTargetDependency */,
 			);
-			name = TestFayeSwTests;
-			productName = TestFayeSwTests;
-			productReference = 3D323B941B78067F00BBACF1 /* TestFayeSwTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
+			name = TestFayeSw_wolfssl;
+			productName = TestFayeSw;
+			productReference = 3D6808B31C42E1F0000F0302 /* TestFayeSw_wolfssl.app */;
+			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
@@ -194,10 +186,6 @@
 				TargetAttributes = {
 					3D323B7E1B78067F00BBACF1 = {
 						CreatedOnToolsVersion = 6.4;
-					};
-					3D323B931B78067F00BBACF1 = {
-						CreatedOnToolsVersion = 6.4;
-						TestTargetID = 3D323B7E1B78067F00BBACF1;
 					};
 				};
 			};
@@ -221,12 +209,19 @@
 			projectRoot = "";
 			targets = (
 				3D323B7E1B78067F00BBACF1 /* TestFayeSw */,
-				3D323B931B78067F00BBACF1 /* TestFayeSwTests */,
+				3D6808A41C42E1F0000F0302 /* TestFayeSw_wolfssl */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		3D6808A31C42E1E8000F0302 /* libfayecpp_wolfssl.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libfayecpp_wolfssl.a;
+			remoteRef = 3D6808A21C42E1E8000F0302 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		3DE4139C1B794BAE00AE9C86 /* libfayecpp.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -247,10 +242,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		3D323B921B78067F00BBACF1 /* Resources */ = {
+		3D6808AC1C42E1F0000F0302 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D6808AD1C42E1F0000F0302 /* Main.storyboard in Resources */,
+				3D6808AE1C42E1F0000F0302 /* LaunchScreen.xib in Resources */,
+				3D6808AF1C42E1F0000F0302 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -266,23 +264,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		3D323B901B78067F00BBACF1 /* Sources */ = {
+		3D6808A51C42E1F0000F0302 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3D323B9B1B78067F00BBACF1 /* TestFayeSwTests.swift in Sources */,
+				3D6808A61C42E1F0000F0302 /* ViewController.swift in Sources */,
+				3D6808A71C42E1F0000F0302 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		3D323B961B78067F00BBACF1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 3D323B7E1B78067F00BBACF1 /* TestFayeSw */;
-			targetProxy = 3D323B951B78067F00BBACF1 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		3D323B881B78067F00BBACF1 /* Main.storyboard */ = {
@@ -424,37 +415,36 @@
 			};
 			name = Release;
 		};
-		3D323BA21B78067F00BBACF1 /* Debug */ = {
+		3D6808B11C42E1F0000F0302 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				INFOPLIST_FILE = "TestFayeSw copy-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"/Volumes/Data/Documents/presentain-desktop/FayeCpp/builds/ios/build/Debug-iphoneos",
 				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = TestFayeSwTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TestFayeSw.app/TestFayeSw";
+				SWIFT_OBJC_BRIDGING_HEADER = "TestFayeSw/TestFayeSw-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
-		3D323BA31B78067F00BBACF1 /* Release */ = {
+		3D6808B21C42E1F0000F0302 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				INFOPLIST_FILE = "TestFayeSw copy-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"/Volumes/Data/Documents/presentain-desktop/FayeCpp/builds/ios/build/Debug-iphoneos",
 				);
-				INFOPLIST_FILE = TestFayeSwTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TestFayeSw.app/TestFayeSw";
+				SWIFT_OBJC_BRIDGING_HEADER = "TestFayeSw/TestFayeSw-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -479,11 +469,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3D323BA11B78067F00BBACF1 /* Build configuration list for PBXNativeTarget "TestFayeSwTests" */ = {
+		3D6808B01C42E1F0000F0302 /* Build configuration list for PBXNativeTarget "TestFayeSw_wolfssl" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				3D323BA21B78067F00BBACF1 /* Debug */,
-				3D323BA31B78067F00BBACF1 /* Release */,
+				3D6808B11C42E1F0000F0302 /* Debug */,
+				3D6808B21C42E1F0000F0302 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
