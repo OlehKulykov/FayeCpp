@@ -4,3 +4,6 @@
 [submodule "libwebsockets"]
 	path = libwebsockets
 	url = git://github.com/warmcat/libwebsockets.git
+[submodule "wolfssl"]
+	path = wolfssl
+	url = git://github.com/wolfSSL/wolfssl.git

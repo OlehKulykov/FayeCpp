@@ -8,7 +8,7 @@
 
 /* Define to 1 to use wolfSSL/CyaSSL as a replacement for OpenSSL.
  * LWS_OPENSSL_SUPPORT needs to be set also for this to work. */
-/* #undef USE_WOLFSSL */
+#define USE_WOLFSSL 1
 
 /* Also define to 1 (in addition to USE_WOLFSSL) when using the
   (older) CyaSSL library */
@@ -27,7 +27,7 @@
 #define LWS_BUILD_HASH "27174e6"
 
 /* Build with OpenSSL support */
-/* #undef LWS_OPENSSL_SUPPORT */
+#define LWS_OPENSSL_SUPPORT 1
 
 /* The client should load and trust CA root certs it finds in the OS */
 /* #undef LWS_SSL_CLIENT_USE_OS_CA_CERTS */

@@ -1194,7 +1194,7 @@ namespace FayeCpp {
 		"     with IPv6 support\n"
 #endif
 #if defined(LWS_OPENSSL_SUPPORT)
-		"     with OpenSSL support\n"
+		"     with SSL support\n"
 #endif
 		
 #endif
