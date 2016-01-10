@@ -54,7 +54,6 @@
 		3D0831151987CB4E0038CD79 /* REVariantMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830FF1987CB4E0038CD79 /* REVariantMap.cpp */; };
 		3D08311A1987CB570038CD79 /* FayeCppClient.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D0831191987CB570038CD79 /* FayeCppClient.mm */; };
 		3D08311C1987CC020038CD79 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D08311B1987CC020038CD79 /* libz.dylib */; };
-		3D08311E1987CC1B0038CD79 /* libssl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D08311D1987CC1B0038CD79 /* libssl.dylib */; };
 		3D0831251987CDE30038CD79 /* server-handshake.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D0831231987CDE30038CD79 /* server-handshake.c */; };
 		3D0831281987CE280038CD79 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D0831271987CE280038CD79 /* libcrypto.dylib */; };
 		3D26F46F1C3E9166006ED0AE /* FCAdvice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D26F46E1C3E9166006ED0AE /* FCAdvice.cpp */; };
@@ -114,7 +113,6 @@
 		3D6807591C42D2BC000F0302 /* client-handshake.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830AC1987CB160038CD79 /* client-handshake.c */; };
 		3D68075A1C42D2BC000F0302 /* pack_unpack.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830D41987CB2D0038CD79 /* pack_unpack.c */; };
 		3D68075C1C42D2BC000F0302 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D0831271987CE280038CD79 /* libcrypto.dylib */; };
-		3D68075D1C42D2BC000F0302 /* libssl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D08311D1987CC1B0038CD79 /* libssl.dylib */; };
 		3D68075E1C42D2BC000F0302 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D08311B1987CC020038CD79 /* libz.dylib */; };
 		3D68075F1C42D2BC000F0302 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D0830721987C9D80038CD79 /* Cocoa.framework */; };
 		3D6807611C42D2BC000F0302 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3D08307B1987C9D80038CD79 /* InfoPlist.strings */; };
@@ -244,7 +242,6 @@
 		3D0831181987CB570038CD79 /* FayeCppClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = FayeCppClient.h; path = ../../../../contrib/objc/FayeCppClient.h; sourceTree = "<group>"; };
 		3D0831191987CB570038CD79 /* FayeCppClient.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; lineEnding = 0; name = FayeCppClient.mm; path = ../../../../contrib/objc/FayeCppClient.mm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		3D08311B1987CC020038CD79 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		3D08311D1987CC1B0038CD79 /* libssl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libssl.dylib; path = usr/lib/libssl.dylib; sourceTree = SDKROOT; };
 		3D0831211987CD8A0038CD79 /* ssl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ssl.c; path = ../../../../libwebsockets/lib/ssl.c; sourceTree = "<group>"; };
 		3D0831231987CDE30038CD79 /* server-handshake.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "server-handshake.c"; path = "../../../../libwebsockets/lib/server-handshake.c"; sourceTree = "<group>"; };
 		3D0831241987CDE30038CD79 /* server.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = server.c; path = ../../../../libwebsockets/lib/server.c; sourceTree = "<group>"; };
@@ -327,7 +324,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3D0831281987CE280038CD79 /* libcrypto.dylib in Frameworks */,
-				3D08311E1987CC1B0038CD79 /* libssl.dylib in Frameworks */,
 				3D08311C1987CC020038CD79 /* libz.dylib in Frameworks */,
 				3D0830731987C9D80038CD79 /* Cocoa.framework in Frameworks */,
 			);
@@ -338,7 +334,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3D68075C1C42D2BC000F0302 /* libcrypto.dylib in Frameworks */,
-				3D68075D1C42D2BC000F0302 /* libssl.dylib in Frameworks */,
 				3D68075E1C42D2BC000F0302 /* libz.dylib in Frameworks */,
 				3D68075F1C42D2BC000F0302 /* Cocoa.framework in Frameworks */,
 			);
@@ -370,7 +365,6 @@
 			isa = PBXGroup;
 			children = (
 				3D0831271987CE280038CD79 /* libcrypto.dylib */,
-				3D08311D1987CC1B0038CD79 /* libssl.dylib */,
 				3D08311B1987CC020038CD79 /* libz.dylib */,
 				3D0830721987C9D80038CD79 /* Cocoa.framework */,
 				3D0830911987C9D90038CD79 /* XCTest.framework */,
