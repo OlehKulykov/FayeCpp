@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
 # Common settings
-  s.name         = "FayeCpp+SSL"
+  s.name         = "FayeCpp+OpenSSL"
   s.version      = "0.2.1"
   s.summary      = "Faye C++ lightweight, cross-platform client with Objective-C client wrapper with SSL support"
   s.description  = <<-DESC
@@ -55,9 +55,9 @@ This pod version with SSL support.
 
   s.resources = 'contrib/objc/FayeCpp.bundle'
   s.compiler_flags = '-DHAVE_FAYECPP_CONFIG_H=1', '-DHAVE_CONFIG_H=1', '-DCMAKE_BUILD=1', '-DRE_HAVE_COREFOUNDATION_FRAMEWORK=1', '-DLWS_OPENSSL_SUPPORT=1', '-DUSE_WOLFSSL=1'
-  s.xcconfig = { 'HEADER_SEARCH_PATHS' => '"${PODS_ROOT}/FayeCpp+SSL/contrib/objc" "${PODS_ROOT}/FayeCpp+SSL/libwebsockets/lib" "${PODS_ROOT}/FayeCpp+SSL/jansson/src" "${PODS_ROOT}/FayeCpp+SSL/wolfssl" "${PODS_ROOT}/FayeCpp+SSL/wolfssl/wolfssl"',
+  s.xcconfig = { 'HEADER_SEARCH_PATHS' => '"${PODS_ROOT}/FayeCpp+OpenSSL/contrib/objc" "${PODS_ROOT}/FayeCpp+OpenSSL/libwebsockets/lib" "${PODS_ROOT}/FayeCpp+OpenSSL/jansson/src" "${PODS_ROOT}/FayeCpp+OpenSSL/wolfssl" "${PODS_ROOT}/FayeCpp+OpenSSL/wolfssl/wolfssl"',
   'ALWAYS_SEARCH_USER_PATHS' => 'YES',
-  'USER_HEADER_SEARCH_PATHS' => '"${PODS_ROOT}/FayeCpp+SSL/wolfssl" "${PODS_ROOT}/FayeCpp+SSL/wolfssl/wolfssl"'
+  'USER_HEADER_SEARCH_PATHS' => '"${PODS_ROOT}/FayeCpp+OpenSSL/wolfssl" "${PODS_ROOT}/FayeCpp+OpenSSL/wolfssl/wolfssl"'
   }
   s.libraries = 'z', 'stdc++'
   s.framework = 'CoreFoundation'
