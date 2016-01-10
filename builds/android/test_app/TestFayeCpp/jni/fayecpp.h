@@ -29,7 +29,10 @@
  *   Faye C++ client main and one header file.
  *   All class interfaces added to namespace, preventing include files mess(yes, this is unusual structure, but lightweight).
  *
- *   Changes on version 0.2.0 (current):
+ *   Changes on version 0.2.1 (current):
+ *   - SSL Mac & mobile support.
+ *
+ *   Changes on version 0.2.0:
  *   - Minimum supported client version is 1.0.
  *   - Public advice information.
  *   - Use Libwebsockets version 1.6.
@@ -118,7 +121,7 @@
 
 #define FAYECPP_VERSION_MAJOR 0
 #define FAYECPP_VERSION_MINOR 2
-#define FAYECPP_VERSION_PATCH 0
+#define FAYECPP_VERSION_PATCH 1
 
 
 #if !defined(HAVE_SUITABLE_QT_VERSION) 

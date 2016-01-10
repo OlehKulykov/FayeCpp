@@ -1,13 +1,14 @@
 Pod::Spec.new do |s|
 
 # Common settings
-  s.name         = "FayeCpp+OpenSSL"
-  s.version      = "0.2.0"
-  s.summary      = "Faye C++ lightweight, cross-platform client with Objective-C client wrapper."
+  s.name         = "FayeCpp+SSL"
+  s.version      = "0.2.1"
+  s.summary      = "Faye C++ lightweight, cross-platform client with Objective-C client wrapper with SSL support"
   s.description  = <<-DESC
 Faye C++ lightweight, cross-platform client with Objective-C client wrapper. 
 Library created with Pure C++ (features provided by Standard C++), without heavy STL and C++11 features.
 You can use Objective-C wrapper or C++ client directly.
+This pod version with SSL support.
                       DESC
   s.homepage     = "https://github.com/OlehKulykov/FayeCpp"
   s.license      = { :type => 'MIT', :file => 'LICENSE' }
@@ -45,14 +46,23 @@ You can use Objective-C wrapper or C++ client directly.
     'libwebsockets/lib/service.c',
     'libwebsockets/lib/sha-1.c',
     'libwebsockets/lib/alloc.c',
-    'libwebsockets/lib/ssl.c'
+    'libwebsockets/lib/ssl.c',
+    'wolfssl/README',
+	'wolfssl/wolfssl/*.{h}',
+	'wolfssl/wolfssl/openssl/*.{h}',
+	'wolfssl/wolfssl/wolfcrypt/*.{h}',
+	'wolfssl/wolfcrypt/src/aes.c'
 
   s.resources = 'contrib/objc/FayeCpp.bundle'
-  s.compiler_flags = '-DHAVE_FAYECPP_CONFIG_H=1', '-DHAVE_CONFIG_H=1', '-DCMAKE_BUILD=1', '-DRE_HAVE_COREFOUNDATION_FRAMEWORK=1', '-DLWS_OPENSSL_SUPPORT=1' 
-  s.xcconfig = { 'HEADER_SEARCH_PATHS' => '"${PODS_ROOT}/FayeCpp+OpenSSL/contrib/objc" "${PODS_ROOT}/FayeCpp+OpenSSL/libwebsockets/lib" "${PODS_ROOT}/FayeCpp+OpenSSL/jansson/src"' }
+  s.compiler_flags = '-DHAVE_FAYECPP_CONFIG_H=1', '-DHAVE_CONFIG_H=1', '-DCMAKE_BUILD=1', '-DRE_HAVE_COREFOUNDATION_FRAMEWORK=1', '-DLWS_OPENSSL_SUPPORT=1', '-DUSE_WOLFSSL=1'
+  s.xcconfig = { 'HEADER_SEARCH_PATHS' => '"${PODS_ROOT}/FayeCpp+SSL/contrib/objc" "${PODS_ROOT}/FayeCpp+SSL/libwebsockets/lib" "${PODS_ROOT}/FayeCpp+SSL/jansson/src" "${PODS_ROOT}/FayeCpp+SSL/wolfssl" "${PODS_ROOT}/FayeCpp+SSL/wolfssl/wolfssl"',
+  'ALWAYS_SEARCH_USER_PATHS' => 'YES',
+  'USER_HEADER_SEARCH_PATHS' => '"${PODS_ROOT}/FayeCpp+SSL/wolfssl" "${PODS_ROOT}/FayeCpp+SSL/wolfssl/wolfssl"'
+  }
   s.libraries = 'z', 'stdc++'
   s.framework = 'CoreFoundation'
   s.requires_arc = true
-  s.dependency 'OpenSSL'
+
+   
 
 end
