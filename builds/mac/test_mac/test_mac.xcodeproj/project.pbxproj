@@ -1019,6 +1019,17 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "test_mac/test_mac-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+					"HAVE_FAYECPP_CONFIG_H=1",
+					"HAVE_CONFIG_H=1",
+					"CMAKE_BUILD=1",
+					"FAYECPP_DEBUG_MESSAGES=1",
+					"_DEBUG=1",
+					"LWS_OPENSSL_SUPPORT=1",
+					"USE_WOLFSSL=1",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -1041,6 +1052,15 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "test_mac/test_mac-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"HAVE_FAYECPP_CONFIG_H=1",
+					"HAVE_CONFIG_H=1",
+					"CMAKE_BUILD=1",
+					"FAYECPP_DEBUG_MESSAGES=1",
+					"LWS_OPENSSL_SUPPORT=1",
+					"USE_WOLFSSL=1",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
