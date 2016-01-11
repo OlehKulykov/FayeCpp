@@ -16,9 +16,9 @@ You can use Objective-C wrapper or C++ client directly.
 
 # Platforms
   s.ios.deployment_target = "7.0"
-  s.osx.deployment_target = "10.7"
+#  s.osx.deployment_target = "10.8"
 #  s.watchos.deployment_target = '2.0'
-  s.tvos.deployment_target = '9.0'
+#  s.tvos.deployment_target = '9.0'
 
 # Build  
   s.public_header_files = 'fayecpp.h', 'contrib/objc/FayeCppClient.h'
