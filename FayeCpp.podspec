@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
 # Common settings
   s.name         = "FayeCpp"
-  s.version      = "0.2.1"
+  s.version      = "0.2.2"
   s.summary      = "Faye C++ lightweight, cross-platform client with Objective-C client wrapper."
   s.description  = <<-DESC
 Faye C++ lightweight, cross-platform client with Objective-C client wrapper. 
@@ -15,8 +15,10 @@ You can use Objective-C wrapper or C++ client directly.
   s.source       = { :git => 'https://github.com/OlehKulykov/FayeCpp.git', :tag => s.version.to_s, :submodules => "true" }
 
 # Platforms
-  s.ios.deployment_target = "5.0"
+  s.ios.deployment_target = "7.0"
   s.osx.deployment_target = "10.7"
+#  s.watchos.deployment_target = '2.0'
+  s.tvos.deployment_target = '9.0'
 
 # Build  
   s.public_header_files = 'fayecpp.h', 'contrib/objc/FayeCppClient.h'
