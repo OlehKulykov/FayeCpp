@@ -1,4 +1,7 @@
-Changes on version 0.2.1 (current):
+Changes on version 1.0.0 (current):
+- Stable Objective-C and C++ clients.
+
+Changes on version 0.2.1:
 - SSL Mac & mobile support.
 
 Changes on version 0.2.0:

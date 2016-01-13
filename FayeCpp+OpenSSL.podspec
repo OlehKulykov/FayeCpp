@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
 # Common settings
   s.name         = "FayeCpp+OpenSSL"
-  s.version      = "0.2.3"
+  s.version      = "1.0.0"
   s.summary      = "Faye C++ lightweight, cross-platform client with Objective-C client wrapper with SSL support"
   s.description  = <<-DESC
 Faye C++ lightweight, cross-platform client with Objective-C client wrapper. 
