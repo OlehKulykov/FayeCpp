@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
 # Common settings
   s.name         = "FayeCpp+OpenSSL"
-  s.version      = "1.0.0"
+  s.version      = "1.0.1"
   s.summary      = "Faye C++ lightweight, cross-platform client with Objective-C client wrapper with SSL support"
   s.description  = <<-DESC
 Faye C++ lightweight, cross-platform client with Objective-C client wrapper. 
@@ -18,7 +18,6 @@ This pod version with SSL support.
 # Platforms
   s.ios.deployment_target = "7.0"
   s.osx.deployment_target = "10.7"
-#  s.watchos.deployment_target = '2.0'
   s.tvos.deployment_target = '9.0'
 
 # Build  
@@ -34,8 +33,7 @@ This pod version with SSL support.
     'libwebsockets/lib/client-parser.c',
     'libwebsockets/lib/client.c',
     'libwebsockets/lib/context.c',
-    'libwebsockets/lib/extension-deflate-frame.c',
-    'libwebsockets/lib/extension-deflate-stream.c',
+    'libwebsockets/lib/extension-permessage-deflate.c',
     'libwebsockets/lib/extension.c',
     'libwebsockets/lib/getifaddrs.c',
     'libwebsockets/lib/handshake.c',

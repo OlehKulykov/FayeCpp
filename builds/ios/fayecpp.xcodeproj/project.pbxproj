@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3D0855461C46986A00B53963 /* extension-permessage-deflate.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D0855451C46986A00B53963 /* extension-permessage-deflate.c */; };
+		3D0855471C46986A00B53963 /* extension-permessage-deflate.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D0855451C46986A00B53963 /* extension-permessage-deflate.c */; };
 		3D12B485194AF31000B8E9D9 /* REBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B46B194AF31000B8E9D9 /* REBuffer.cpp */; };
 		3D12B486194AF31000B8E9D9 /* REBufferNoCopy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B46C194AF31000B8E9D9 /* REBufferNoCopy.cpp */; };
 		3D12B487194AF31000B8E9D9 /* REMutableString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B46D194AF31000B8E9D9 /* REMutableString.cpp */; };
@@ -33,7 +35,6 @@
 		3D6807FC1C42DD2D000F0302 /* libwebsockets.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CB8B01948994500943B53 /* libwebsockets.c */; };
 		3D6807FD1C42DD2D000F0302 /* REBufferNoCopy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B46C194AF31000B8E9D9 /* REBufferNoCopy.cpp */; };
 		3D6807FE1C42DD2D000F0302 /* extension.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CB8AD1948994500943B53 /* extension.c */; };
-		3D6807FF1C42DD2D000F0302 /* extension-deflate-stream.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CB8AC1948994500943B53 /* extension-deflate-stream.c */; };
 		3D6808001C42DD2D000F0302 /* context.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CB8AA1948994500943B53 /* context.c */; };
 		3D6808011C42DD2D000F0302 /* hashtable_seed.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CB8CC1948996200943B53 /* hashtable_seed.c */; };
 		3D6808021C42DD2D000F0302 /* REWideString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B478194AF31000B8E9D9 /* REWideString.cpp */; };
@@ -49,7 +50,6 @@
 		3D68080C1C42DD2D000F0302 /* handshake.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CB8AF1948994500943B53 /* handshake.c */; };
 		3D68080D1C42DD2D000F0302 /* strbuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CB8D01948996200943B53 /* strbuffer.c */; };
 		3D68080E1C42DD2D000F0302 /* pollfd.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CB8B41948994500943B53 /* pollfd.c */; };
-		3D68080F1C42DD2D000F0302 /* extension-deflate-frame.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CB8AB1948994500943B53 /* extension-deflate-frame.c */; };
 		3D6808101C42DD2D000F0302 /* FCWebSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D7450C91AAF931D00AA32A3 /* FCWebSocket.cpp */; };
 		3D6808111C42DD2D000F0302 /* REStringUtilsPrivate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D12B474194AF31000B8E9D9 /* REStringUtilsPrivate.cpp */; };
 		3D6808121C42DD2D000F0302 /* REVariantList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DF2CAF91A496715003005FC /* REVariantList.cpp */; };
@@ -126,8 +126,6 @@
 		3D8CB8B91948994500943B53 /* client-parser.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CB8A81948994500943B53 /* client-parser.c */; };
 		3D8CB8BA1948994500943B53 /* client.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CB8A91948994500943B53 /* client.c */; };
 		3D8CB8BB1948994500943B53 /* context.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CB8AA1948994500943B53 /* context.c */; };
-		3D8CB8BC1948994500943B53 /* extension-deflate-frame.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CB8AB1948994500943B53 /* extension-deflate-frame.c */; };
-		3D8CB8BD1948994500943B53 /* extension-deflate-stream.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CB8AC1948994500943B53 /* extension-deflate-stream.c */; };
 		3D8CB8BE1948994500943B53 /* extension.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CB8AD1948994500943B53 /* extension.c */; };
 		3D8CB8C01948994500943B53 /* handshake.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CB8AF1948994500943B53 /* handshake.c */; };
 		3D8CB8C11948994500943B53 /* libwebsockets.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CB8B01948994500943B53 /* libwebsockets.c */; };
@@ -179,6 +177,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3D0855451C46986A00B53963 /* extension-permessage-deflate.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "extension-permessage-deflate.c"; path = "../../libwebsockets/lib/extension-permessage-deflate.c"; sourceTree = "<group>"; };
 		3D12B46B194AF31000B8E9D9 /* REBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REBuffer.cpp; path = ../../src/REBuffer.cpp; sourceTree = "<group>"; };
 		3D12B46C194AF31000B8E9D9 /* REBufferNoCopy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REBufferNoCopy.cpp; path = ../../src/REBufferNoCopy.cpp; sourceTree = "<group>"; };
 		3D12B46D194AF31000B8E9D9 /* REMutableString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REMutableString.cpp; path = ../../src/REMutableString.cpp; sourceTree = "<group>"; };
@@ -255,8 +254,6 @@
 		3D8CB8A81948994500943B53 /* client-parser.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "client-parser.c"; path = "../../libwebsockets/lib/client-parser.c"; sourceTree = "<group>"; };
 		3D8CB8A91948994500943B53 /* client.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = client.c; path = ../../libwebsockets/lib/client.c; sourceTree = "<group>"; };
 		3D8CB8AA1948994500943B53 /* context.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = context.c; path = ../../libwebsockets/lib/context.c; sourceTree = "<group>"; };
-		3D8CB8AB1948994500943B53 /* extension-deflate-frame.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "extension-deflate-frame.c"; path = "../../libwebsockets/lib/extension-deflate-frame.c"; sourceTree = "<group>"; };
-		3D8CB8AC1948994500943B53 /* extension-deflate-stream.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "extension-deflate-stream.c"; path = "../../libwebsockets/lib/extension-deflate-stream.c"; sourceTree = "<group>"; };
 		3D8CB8AD1948994500943B53 /* extension.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = extension.c; path = ../../libwebsockets/lib/extension.c; sourceTree = "<group>"; };
 		3D8CB8AF1948994500943B53 /* handshake.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = handshake.c; path = ../../libwebsockets/lib/handshake.c; sourceTree = "<group>"; };
 		3D8CB8B01948994500943B53 /* libwebsockets.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = libwebsockets.c; path = ../../libwebsockets/lib/libwebsockets.c; sourceTree = "<group>"; };
@@ -415,8 +412,7 @@
 				3D8CB8A81948994500943B53 /* client-parser.c */,
 				3D8CB8A91948994500943B53 /* client.c */,
 				3D8CB8AA1948994500943B53 /* context.c */,
-				3D8CB8AB1948994500943B53 /* extension-deflate-frame.c */,
-				3D8CB8AC1948994500943B53 /* extension-deflate-stream.c */,
+				3D0855451C46986A00B53963 /* extension-permessage-deflate.c */,
 				3D8CB8AD1948994500943B53 /* extension.c */,
 				3D8CB8AF1948994500943B53 /* handshake.c */,
 				3D1AB9741B02CD7500DA21FC /* header.c */,
@@ -585,6 +581,7 @@
 				3D6807F31C42DD2D000F0302 /* alloc.c in Sources */,
 				3D6808701C42DE4F000F0302 /* integer.c in Sources */,
 				3D6808731C42DE4F000F0302 /* md4.c in Sources */,
+				3D0855471C46986A00B53963 /* extension-permessage-deflate.c in Sources */,
 				3D68086E1C42DE4F000F0302 /* hc128.c in Sources */,
 				3D68083D1C42DDB3000F0302 /* tls.c in Sources */,
 				3D6808791C42DE4F000F0302 /* pwdbased.c in Sources */,
@@ -606,7 +603,6 @@
 				3D6808651C42DE4F000F0302 /* camellia.c in Sources */,
 				3D6807FD1C42DD2D000F0302 /* REBufferNoCopy.cpp in Sources */,
 				3D6807FE1C42DD2D000F0302 /* extension.c in Sources */,
-				3D6807FF1C42DD2D000F0302 /* extension-deflate-stream.c in Sources */,
 				3D6808001C42DD2D000F0302 /* context.c in Sources */,
 				3D68086C1C42DE4F000F0302 /* error.c in Sources */,
 				3D6808011C42DD2D000F0302 /* hashtable_seed.c in Sources */,
@@ -637,7 +633,6 @@
 				3D68080E1C42DD2D000F0302 /* pollfd.c in Sources */,
 				3D6808831C42DE4F000F0302 /* wc_port.c in Sources */,
 				3D6808361C42DDB3000F0302 /* crl.c in Sources */,
-				3D68080F1C42DD2D000F0302 /* extension-deflate-frame.c in Sources */,
 				3D6808761C42DE4F000F0302 /* misc.c in Sources */,
 				3D68083A1C42DDB3000F0302 /* ocsp.c in Sources */,
 				3D6808101C42DD2D000F0302 /* FCWebSocket.cpp in Sources */,
@@ -677,6 +672,7 @@
 				3D12B487194AF31000B8E9D9 /* REMutableString.cpp in Sources */,
 				3D7450CB1AAF931D00AA32A3 /* FCClient.cpp in Sources */,
 				3D8CB8DD1948996200943B53 /* utf.c in Sources */,
+				3D0855461C46986A00B53963 /* extension-permessage-deflate.c in Sources */,
 				3DAD75FD1A32FEA40054F999 /* alloc.c in Sources */,
 				3DF2CAFB1A496715003005FC /* REVariant.cpp in Sources */,
 				3D7450CD1AAF931D00AA32A3 /* FCJsonUtils.cpp in Sources */,
@@ -689,7 +685,6 @@
 				3D8CB8C11948994500943B53 /* libwebsockets.c in Sources */,
 				3D12B486194AF31000B8E9D9 /* REBufferNoCopy.cpp in Sources */,
 				3D8CB8BE1948994500943B53 /* extension.c in Sources */,
-				3D8CB8BD1948994500943B53 /* extension-deflate-stream.c in Sources */,
 				3D8CB8BB1948994500943B53 /* context.c in Sources */,
 				3D8CB8D71948996200943B53 /* hashtable_seed.c in Sources */,
 				3D12B48F194AF31000B8E9D9 /* REWideString.cpp in Sources */,
@@ -705,7 +700,6 @@
 				3D8CB8C01948994500943B53 /* handshake.c in Sources */,
 				3D8CB8DB1948996200943B53 /* strbuffer.c in Sources */,
 				3D8CB8C51948994500943B53 /* pollfd.c in Sources */,
-				3D8CB8BC1948994500943B53 /* extension-deflate-frame.c in Sources */,
 				3D7450D01AAF931D00AA32A3 /* FCWebSocket.cpp in Sources */,
 				3D12B48D194AF31000B8E9D9 /* REStringUtilsPrivate.cpp in Sources */,
 				3DF2CAFC1A496715003005FC /* REVariantList.cpp in Sources */,

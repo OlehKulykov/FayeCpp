@@ -8,8 +8,7 @@ ALL_SOURCES := \
 	../../../libwebsockets/lib/client-parser.c \
 	../../../libwebsockets/lib/client.c \
 	../../../libwebsockets/lib/context.c \
-	../../../libwebsockets/lib/extension-deflate-frame.c \
-	../../../libwebsockets/lib/extension-deflate-stream.c \
+	../../../libwebsockets/lib/extension-permessage-deflate.c \
 	../../../libwebsockets/lib/getifaddrs.c \
 	../../../libwebsockets/lib/extension.c \
 	../../../libwebsockets/lib/handshake.c \

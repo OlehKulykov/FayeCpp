@@ -1,4 +1,7 @@
-Changes on version 1.0.0 (current):
+Changes on version 1.0.1 (current):
+- Update Libwebsockets and ssl to latest stable version.
+
+Changes on version 1.0.0:
 - Stable Objective-C and C++ clients.
 
 Changes on version 0.2.1:

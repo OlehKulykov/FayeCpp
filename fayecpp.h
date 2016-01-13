@@ -29,7 +29,10 @@
  *   Faye C++ client main and one header file.
  *   All class interfaces added to namespace, preventing include files mess(yes, this is unusual structure, but lightweight).
  *
- *   Changes on version 1.0.0 (current):
+ *   Changes on version 1.0.1 (current):
+ *   - Update Libwebsockets and ssl to latest stable version.
+ *
+ *   Changes on version 1.0.0:
  *   - Stable Objective-C and C++ clients.
  *
  *   Changes on version 0.2.1:
@@ -124,7 +127,7 @@
 
 #define FAYECPP_VERSION_MAJOR 1
 #define FAYECPP_VERSION_MINOR 0
-#define FAYECPP_VERSION_PATCH 0
+#define FAYECPP_VERSION_PATCH 1
 
 
 #if !defined(HAVE_SUITABLE_QT_VERSION) 

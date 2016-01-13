@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
 # Common settings
   s.name         = "FayeCpp"
-  s.version      = "1.0.0"
+  s.version      = "1.0.1"
   s.summary      = "Faye C++ lightweight, cross-platform client with Objective-C client wrapper."
   s.description  = <<-DESC
 Faye C++ lightweight, cross-platform client with Objective-C client wrapper. 
@@ -17,7 +17,6 @@ You can use Objective-C wrapper or C++ client directly.
 # Platforms
   s.ios.deployment_target = "7.0"
   s.osx.deployment_target = "10.7"
-#  s.watchos.deployment_target = '2.0'
   s.tvos.deployment_target = '9.0'
 
 # Build  
@@ -33,8 +32,7 @@ You can use Objective-C wrapper or C++ client directly.
     'libwebsockets/lib/client-parser.c',
     'libwebsockets/lib/client.c',
     'libwebsockets/lib/context.c',
-    'libwebsockets/lib/extension-deflate-frame.c',
-    'libwebsockets/lib/extension-deflate-stream.c',
+    'libwebsockets/lib/extension-permessage-deflate.c',
     'libwebsockets/lib/extension.c',
     'libwebsockets/lib/handshake.c',
     'libwebsockets/lib/header.c',
