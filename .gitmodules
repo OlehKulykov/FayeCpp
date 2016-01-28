@@ -7,3 +7,6 @@
 [submodule "wolfssl"]
 	path = wolfssl
 	url = git://github.com/wolfSSL/wolfssl.git
+[submodule "librws"]
+	path = librws
+	url = git://github.com/OlehKulykov/librws.git
