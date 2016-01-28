@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
 # Common settings
   s.name         = "FayeCpp+OpenSSL"
-  s.version      = "1.0.1"
+  s.version      = "1.0.2"
   s.summary      = "Faye C++ lightweight, cross-platform client with Objective-C client wrapper with SSL support"
   s.description  = <<-DESC
 Faye C++ lightweight, cross-platform client with Objective-C client wrapper. 
@@ -14,6 +14,7 @@ This pod version with SSL support.
   s.license      = { :type => 'MIT', :file => 'LICENSE' }
   s.author       = { "Oleh Kulykov" => "info@resident.name" }
   s.source       = { :git => 'https://github.com/OlehKulykov/FayeCpp.git', :tag => s.version.to_s, :submodules => "true" }
+  s.dependency 'librws'
 
 # Platforms
   s.ios.deployment_target = "7.0"
