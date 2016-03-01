@@ -1,10 +1,4 @@
-//
-//  ViewController.swift
-//  TestFayeSw
-//
-//  Created by Resident evil on 8/10/15.
-//  Copyright (c) 2015 Resident evil. All rights reserved.
-//
+
 
 import UIKit
 
@@ -31,7 +25,6 @@ class ViewController: UIViewController, FayeCppClientDelegate {
 
 	override func viewDidLoad() {
 		super.viewDidLoad();
-
 
 		client.delegate = self
 

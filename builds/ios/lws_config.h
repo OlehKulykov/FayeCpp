@@ -15,22 +15,22 @@
 /* #undef USE_OLD_CYASSL */
 
 /* The Libwebsocket version */
-#define LWS_LIBRARY_VERSION "1.6.0"
+#define LWS_LIBRARY_VERSION "1.7.0"
 
 #define LWS_LIBRARY_VERSION_MAJOR 1
-#define LWS_LIBRARY_VERSION_MINOR 6
+#define LWS_LIBRARY_VERSION_MINOR 7
 #define LWS_LIBRARY_VERSION_PATCH 0
 /* LWS_LIBRARY_VERSION_NUMBER looks like 1005001 for e.g. version 1.5.1 */
 #define LWS_LIBRARY_VERSION_NUMBER (LWS_LIBRARY_VERSION_MAJOR*1000000)+(LWS_LIBRARY_VERSION_MINOR*1000)+LWS_LIBRARY_VERSION_PATCH
 
 /* The current git commit hash that we're building from */
-#define LWS_BUILD_HASH "4e9c7f3"
+#define LWS_BUILD_HASH "residentevil@ResidentsiMac4-v1.6.0-chrome48-firefox42-198-g442ae80"
 
 /* Build with OpenSSL support */
-/* #undef LWS_OPENSSL_SUPPORT */
+/* #define LWS_OPENSSL_SUPPORT */
 
 /* The client should load and trust CA root certs it finds in the OS */
-/* #undef LWS_SSL_CLIENT_USE_OS_CA_CERTS */
+/* #define LWS_SSL_CLIENT_USE_OS_CA_CERTS */
 
 /* Sets the path where the client certs should be installed. */
 #define LWS_OPENSSL_CLIENT_CERTS "../share"
@@ -40,6 +40,9 @@
 
 /* Enable libev io loop */
 /* #undef LWS_USE_LIBEV */
+
+/* Enable libuv io loop */
+/* #undef LWS_USE_LIBUV */
 
 /* Build with support for ipv6 */
 #define LWS_USE_IPV6 1
@@ -70,6 +73,9 @@
 
 /* SSL server using ECDH certificate */
 /* #undef LWS_SSL_SERVER_WITH_ECDH_CERT */
+
+/* CGI apis */
+/* #undef LWS_WITH_CGI */
 
 /* Maximum supported service threads */
 #define LWS_MAX_SMP 32

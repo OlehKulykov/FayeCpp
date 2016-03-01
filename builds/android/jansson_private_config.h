@@ -16,10 +16,10 @@
 #define HAVE_SCHED_YIELD 1
 
 #define HAVE_SYNC_BUILTINS 1
-//#define HAVE_ATOMIC_BUILTINS 1
+/* #define HAVE_ATOMIC_BUILTINS 1 */
 
-//#define HAVE_LOCALE_H 1
-//#define HAVE_SETLOCALE 1
+/* #define HAVE_LOCALE_H 1 */
+/* #define HAVE_SETLOCALE 1 */
 
 #define HAVE_INT32_T 1
 #ifndef HAVE_INT32_T
@@ -49,6 +49,20 @@
 
 #define HAVE_SNPRINTF 1
 
+/* snprintf should not be defined as macro with MSC_VER >= 1900 */
+#if defined(_WIN32) || defined(WIN32)
+#  if defined(_MSC_VER)  /* MS compiller */
+#    if (_MSC_VER < 1900)  /* snprintf not introduced */
+#      if !defined(snprintf)
+#        define snprintf _snprintf
+#        define HAVE_SNPRINTF 1 /* snprintf defined manually */
+#      endif
+#    else
+#      define HAVE_SNPRINTF 1 /* snprintf available via sdk */
+#    endif
+#  endif
+#endif
+
 #ifndef HAVE_SNPRINTF
 #  define snprintf snprintf
 #endif
@@ -57,3 +71,5 @@
 
 #define USE_URANDOM 1
 #define USE_WINDOWS_CRYPTOAPI 1
+
+#define INITIAL_HASHTABLE_ORDER 3

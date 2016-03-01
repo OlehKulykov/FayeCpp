@@ -26,7 +26,7 @@
 #define LWS_HAVE_GETENV 1
 
 /* Define to 1 if you have the <in6addr.h> header file. */
-/* #undef LWS_HAVE_IN6ADDR_H */
+/* #define LWS_HAVE_IN6ADDR_H 1 */
 
 /* Define to 1 if you have the <inttypes.h> header file. */
 #define LWS_HAVE_INTTYPES_H 1
@@ -110,7 +110,7 @@
 /* #undef realloc */
 
 /* Define to 1 if we have getifaddrs */
-/* #define LWS_HAVE_GETIFADDRS */
+/* #define LWS_HAVE_GETIFADDRS 1 */
 
 /* Define if the inline keyword doesn't exist. */
 /* #undef inline */

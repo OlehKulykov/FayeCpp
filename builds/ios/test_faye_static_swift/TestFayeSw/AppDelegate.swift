@@ -1,10 +1,4 @@
-//
-//  AppDelegate.swift
-//  TestFayeSw
-//
-//  Created by Resident evil on 8/10/15.
-//  Copyright (c) 2015 Resident evil. All rights reserved.
-//
+
 
 import UIKit
 
