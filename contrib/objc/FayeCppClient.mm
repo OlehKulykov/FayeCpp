@@ -543,6 +543,16 @@ CFTypeRef CFHelper::object(const REVariant & variant)
 
 @implementation FayeCppClient
 
+- (BOOL) isUsingAdviceReconnect
+{
+	return _cppClient ? (BOOL)_cppClient->isUsingAdviceReconnect() : NO;
+}
+
+- (void) setUsingAdviceReconnect:(BOOL) isUse
+{
+	if (_cppClient) _cppClient->setUsingAdviceReconnect((bool)isUse);
+}
+
 - (id) extValue
 {
 	REVariant e;

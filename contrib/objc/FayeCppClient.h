@@ -302,6 +302,29 @@ unsubscribedFromChannel:(nullable NSString *) channel;
 
 
 /**
+ @brief Property for reconnection functionality by advice.
+ @detailed This property used custom methods 'isUsingAdviceReconnect' and 'setUsingAdviceReconnect:'.
+ */
+@property (nonatomic, assign, getter = isUsingAdviceReconnect, setter = setUsingAdviceReconnect:) BOOL usingAdviceReconnect;
+
+
+/**
+ @brief Check client should reconnect by server advice.
+ @detailed By default this value is YES.
+ @return YES if client should reconnect if advice available, othervice NO.
+ */
+- (BOOL) isUsingAdviceReconnect;
+
+
+/**
+ @brief Set client should should reconnect by server advice.
+ @param isUse Flag for reconnect.
+ @return YES if you want to reconnect if advice available, othervice NO.
+ */
+- (void) setUsingAdviceReconnect:(BOOL) isUse;
+
+
+/**
  @brief Getter for an ext message field which MAY be included in any Bayeux message.
  @detailed By default this value is empty(nil)
  and will not included to messages.

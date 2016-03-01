@@ -271,7 +271,15 @@ int testCreate()
 	
 	if (_client->delegate() != _delegate) return 4;
 	if (_client->sslDataSource() != _SSLDataSource) return 5;
-	
+
+	if (_client->isUsingAdviceReconnect() != true) return 6;
+
+	_client->setUsingAdviceReconnect(false);
+	if (_client->isUsingAdviceReconnect() != false) return 7;
+
+	_client->setUsingAdviceReconnect(true);
+	if (_client->isUsingAdviceReconnect() != true) return 6;
+
 	return EXIT_SUCCESS;
 }
 

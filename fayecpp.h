@@ -29,7 +29,10 @@
  *   Faye C++ client main and one header file.
  *   All class interfaces added to namespace, preventing include files mess(yes, this is unusual structure, but lightweight).
  *
- *   Changes on version 1.0.3 (current):
+ *   Changes on version 1.1.0 (current):
+ *   - Advice reconnect functionality can be controlled.
+ *
+ *   Changes on version 1.0.3:
  *   - Update Libwebsockets to version 1.7.
  *   - Update jansson to latest stable version.
  *   - Update wolfssl to latest stable version.
@@ -131,8 +134,8 @@
 
 
 #define FAYECPP_VERSION_MAJOR 1
-#define FAYECPP_VERSION_MINOR 0
-#define FAYECPP_VERSION_PATCH 3
+#define FAYECPP_VERSION_MINOR 1
+#define FAYECPP_VERSION_PATCH 0
 
 
 #if !defined(HAVE_SUITABLE_QT_VERSION) 
@@ -3612,6 +3615,7 @@ namespace FayeCpp {
 		bool _isFayeConnected;
 		bool _isDisconnecting;
 		bool _isUsingIPV6;
+		bool _isUsingAdviceReconnect;
 
 		void calculateNextReconnectTime();
 		void onReceivedAdvice(const REVariantMap & advice);
@@ -3652,6 +3656,22 @@ namespace FayeCpp {
 		 @brief Last received advice.
 		 */
 		Advice advice() const;
+
+
+		/**
+		 @brief Check client should reconnect by server advice.
+		 @detailed By default this value is true.
+		 @return True if client should reconnect if advice available, othervice false.
+		 */
+		bool isUsingAdviceReconnect() const;
+
+
+		/**
+		 @brief Set client should should reconnect by server advice.
+		 @param isUse Flag for reconnect.
+		 @return True if you want to reconnect if advice available, othervice false.
+		 */
+		void setUsingAdviceReconnect(bool isUse);
 
 
 		/**

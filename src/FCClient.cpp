@@ -118,6 +118,16 @@ namespace FayeCpp {
 		return _advice ? *_advice : Advice();
 	}
 
+	bool Client::isUsingAdviceReconnect() const
+	{
+		return _isUsingAdviceReconnect;
+	}
+
+	void Client::setUsingAdviceReconnect(bool isUse)
+	{
+		_isUsingAdviceReconnect = isUse;
+	}
+
 	void Client::calculateNextReconnectTime()
 	{
 		_nextReconnectTime = 0;
@@ -977,7 +987,7 @@ namespace FayeCpp {
 
 	void Client::update(const REUInt32 seconds)
 	{
-		if (_nextReconnectTime && seconds >= _nextReconnectTime)
+		if (_isUsingAdviceReconnect && _nextReconnectTime && seconds >= _nextReconnectTime)
 		{
 			const Advice::ReconnectType type = _advice ? _advice->reconnect() : Advice::ReconnectNone;
 			if (type != Advice::ReconnectNone) _lastReconnectTime = RETime::seconds();
@@ -1014,7 +1024,8 @@ namespace FayeCpp {
 		_isUseSSL(false),
 		_isFayeConnected(false),
 		_isDisconnecting(false),
-		_isUsingIPV6(false)
+		_isUsingIPV6(false),
+		_isUsingAdviceReconnect(true)
 	{
 #if defined(FAYECPP_STATIC)
 		if (Client::info()) { }

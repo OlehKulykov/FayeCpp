@@ -168,6 +168,7 @@ using namespace FayeCpp;
 	}
 
 	client = [[FayeCppClient alloc] init];
+	client.usingAdviceReconnect = YES;
 	[client setDelegate:self];
 	[client setSSLDataSource:self];
 	[client setUrlString:_clientURL];
