@@ -176,7 +176,7 @@ int main(int argc, char* argv[])
 	RELog::log("Client info: %s", Client::info());
 	RELog::log("Start test");
 
-#if defined(__RE_OS_WINDOWS__)
+#if defined(FAYECPP_BUILD_NUMBER)
 	return 0
 #endif
 
