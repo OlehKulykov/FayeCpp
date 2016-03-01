@@ -176,6 +176,10 @@ int main(int argc, char* argv[])
 	RELog::log("Client info: %s", Client::info());
 	RELog::log("Start test");
 
+#if defined(__RE_OS_WINDOWS__)
+	return 0
+#endif
+
 	_client = new Client();
 	if (!_client) return (++_result);
 
@@ -213,6 +217,5 @@ int main(int argc, char* argv[])
 	SAFE_DELETE(_delegate)
 
 	return 0;
-//	return _result;
 }
 
