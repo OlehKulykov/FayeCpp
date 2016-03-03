@@ -1,5 +1,7 @@
 version: 1.1.0.{build}
 
+os: Visual Studio 2015
+
 # branches to build
 branches:
   only:
@@ -13,6 +15,9 @@ platform:
 
 configuration:
   - Release
+
+matrix:
+  fast_finish: true
 
 # clone directory
 clone_folder: c:\dev\FayeCpp
@@ -40,5 +45,20 @@ build_script:
   - cmake --build . --config Release --target INSTALL
   - ctest
   - cd c:\dev\FayeCpp\fayecpp-install-dir
-  - cmd: 7za a -t7z -mx=9 -xr!cmake -xr!bin -xr!pkgconfig c:\dev\fayecpp-install-dir.7z c:\dev\FayeCpp\fayecpp-install-dir
+  - cmd: 7za a -t7z -mx=9 -xr!cmake -xr!bin -xr!pkgconfig c:\dev\fayecpp.7z c:\dev\FayeCpp\fayecpp-install-dir
 
+artifacts:
+    - path: c:\dev\fayecpp.7z
+      name: fayecpp-7z
+
+deploy:
+  release: fayecpp-v$(appveyor_build_version)
+  description: 'Appveyor CI'
+  provider: GitHub
+  auth_token:
+    secure: d207c2fd5da8963d2b1fc2acdb3cd4acfcc2f5da
+  artifact: fayecpp-7z
+  draft: false
+  prerelease: true
+  on:
+    branch: master
