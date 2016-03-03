@@ -57,7 +57,7 @@ deploy:
   description: 'Appveyor CI'
   provider: GitHub
   auth_token:
-    secure: d207c2fd5da8963d2b1fc2acdb3cd4acfcc2f5da
+    secure: c2faee48b65b4a1dd918aad2bb5506ec26b4107a
   artifact: fayecpp_7z
   draft: false
   prerelease: true
