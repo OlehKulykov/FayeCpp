@@ -49,7 +49,7 @@ build_script:
   - cd c:\dev
 
 artifacts:
-    - path: *.7z
+    - path: fayecpp.7z
       name: fayecpp_7z
 
 deploy:
