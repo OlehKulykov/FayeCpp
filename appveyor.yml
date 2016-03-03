@@ -19,6 +19,7 @@ clone_folder: c:\dev\FayeCpp
 
 # scripts that run after cloning repository
 install:
+  - cinst 7zip.commandline -x86
   - cd c:\dev\FayeCpp
   - md fayecpp-install-dir
   - git submodule update --init --recursive
@@ -36,5 +37,8 @@ build_script:
   - cd build
   - cmake -DCMAKE_INSTALL_PREFIX:PATH=c:\dev\FayeCpp\fayecpp-install-dir -DLWS_WITH_SSL:BOOL=OFF -DLWS_SSL_CLIENT_USE_OS_CA_CERTS:BOOL=OFF -DLWS_USE_CYASSL:BOOL=OFF -DLWS_WITHOUT_SERVER:BOOL=ON -DLWS_WITHOUT_DAEMONIZE:BOOL=ON -DCMAKE_BUILD_TYPE=Release -DFAYECPP_BUILD_NUMBER=%APPVEYOR_BUILD_NUMBER% ..
   - cmake --build . --config Release
+  - cmake --build . --config Release --target INSTALL
   - ctest
+  - cd c:\dev\FayeCpp\fayecpp-install-dir
+  - cmd: 7za a -t7z -mx=9 -xr!cmake -xr!bin -xr!pkgconfig c:\dev\fayecpp-install-dir.7z c:\dev\FayeCpp\fayecpp-install-dir
 
