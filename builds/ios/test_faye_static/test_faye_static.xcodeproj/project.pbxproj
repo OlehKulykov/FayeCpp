@@ -7,15 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3D6808871C42E105000F0302 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3DAE52AA1A9382BD00C7D82B /* ViewController.mm */; };
-		3D6808881C42E105000F0302 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DAE52A71A9382BD00C7D82B /* AppDelegate.m */; };
-		3D6808891C42E105000F0302 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DAE52A41A9382BC00C7D82B /* main.m */; };
-		3D68088B1C42E105000F0302 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAE52CF1A93851D00C7D82B /* libz.dylib */; };
-		3D68088E1C42E105000F0302 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3DAE52AC1A9382BD00C7D82B /* Main.storyboard */; };
-		3D68088F1C42E105000F0302 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DAE52B11A9382BD00C7D82B /* LaunchScreen.xib */; };
-		3D6808901C42E105000F0302 /* FayeCpp.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3DAE52D11A9387FC00C7D82B /* FayeCpp.bundle */; };
-		3D6808911C42E105000F0302 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3DAE52AF1A9382BD00C7D82B /* Images.xcassets */; };
-		3D68089B1C42E12C000F0302 /* libfayecpp_wolfssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D68089A1C42E105000F0302 /* libfayecpp_wolfssl.a */; };
 		3DAE52A51A9382BC00C7D82B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DAE52A41A9382BC00C7D82B /* main.m */; };
 		3DAE52A81A9382BD00C7D82B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DAE52A71A9382BD00C7D82B /* AppDelegate.m */; };
 		3DAE52AB1A9382BD00C7D82B /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3DAE52AA1A9382BD00C7D82B /* ViewController.mm */; };
@@ -28,13 +19,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		3D6808991C42E105000F0302 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3DAE52C81A93831F00C7D82B /* fayecpp.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 3D6808291C42DD2D000F0302;
-			remoteInfo = fayecpp_wolfssl;
-		};
 		3DAE52CC1A93831F00C7D82B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3DAE52C81A93831F00C7D82B /* fayecpp.xcodeproj */;
@@ -45,7 +29,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		3D6808951C42E105000F0302 /* test_faye_static_wolfssl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = test_faye_static_wolfssl.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D6808961C42E105000F0302 /* test_faye_static copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "test_faye_static copy-Info.plist"; path = "/Volumes/Data/Documents/presentain-desktop/FayeCpp/builds/ios/test_faye_static/test_faye_static copy-Info.plist"; sourceTree = "<absolute>"; };
 		3DAE529F1A9382BC00C7D82B /* test_faye_static.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = test_faye_static.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DAE52A31A9382BC00C7D82B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -63,15 +46,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		3D68088A1C42E105000F0302 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				3D68089B1C42E12C000F0302 /* libfayecpp_wolfssl.a in Frameworks */,
-				3D68088B1C42E105000F0302 /* libz.dylib in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		3DAE529C1A9382BC00C7D82B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -98,7 +72,6 @@
 			isa = PBXGroup;
 			children = (
 				3DAE529F1A9382BC00C7D82B /* test_faye_static.app */,
-				3D6808951C42E105000F0302 /* test_faye_static_wolfssl.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -133,7 +106,6 @@
 			isa = PBXGroup;
 			children = (
 				3DAE52CD1A93831F00C7D82B /* libfayecpp.a */,
-				3D68089A1C42E105000F0302 /* libfayecpp_wolfssl.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -141,23 +113,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		3D6808851C42E105000F0302 /* test_faye_static_wolfssl */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 3D6808921C42E105000F0302 /* Build configuration list for PBXNativeTarget "test_faye_static_wolfssl" */;
-			buildPhases = (
-				3D6808861C42E105000F0302 /* Sources */,
-				3D68088A1C42E105000F0302 /* Frameworks */,
-				3D68088D1C42E105000F0302 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = test_faye_static_wolfssl;
-			productName = test_faye_static;
-			productReference = 3D6808951C42E105000F0302 /* test_faye_static_wolfssl.app */;
-			productType = "com.apple.product-type.application";
-		};
 		3DAE529E1A9382BC00C7D82B /* test_faye_static */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3DAE52C21A9382BD00C7D82B /* Build configuration list for PBXNativeTarget "test_faye_static" */;
@@ -209,19 +164,11 @@
 			projectRoot = "";
 			targets = (
 				3DAE529E1A9382BC00C7D82B /* test_faye_static */,
-				3D6808851C42E105000F0302 /* test_faye_static_wolfssl */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		3D68089A1C42E105000F0302 /* libfayecpp_wolfssl.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libfayecpp_wolfssl.a;
-			remoteRef = 3D6808991C42E105000F0302 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		3DAE52CD1A93831F00C7D82B /* libfayecpp.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -232,17 +179,6 @@
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
-		3D68088D1C42E105000F0302 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				3D68088E1C42E105000F0302 /* Main.storyboard in Resources */,
-				3D68088F1C42E105000F0302 /* LaunchScreen.xib in Resources */,
-				3D6808901C42E105000F0302 /* FayeCpp.bundle in Resources */,
-				3D6808911C42E105000F0302 /* Images.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		3DAE529D1A9382BC00C7D82B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -257,16 +193,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		3D6808861C42E105000F0302 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				3D6808871C42E105000F0302 /* ViewController.mm in Sources */,
-				3D6808881C42E105000F0302 /* AppDelegate.m in Sources */,
-				3D6808891C42E105000F0302 /* main.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		3DAE529B1A9382BC00C7D82B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -299,26 +225,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		3D6808931C42E105000F0302 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = "test_faye_static copy-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		3D6808941C42E105000F0302 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = "test_faye_static copy-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 		3DAE52C01A9382BD00C7D82B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -431,15 +337,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		3D6808921C42E105000F0302 /* Build configuration list for PBXNativeTarget "test_faye_static_wolfssl" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				3D6808931C42E105000F0302 /* Debug */,
-				3D6808941C42E105000F0302 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		3DAE529A1A9382BC00C7D82B /* Build configuration list for PBXProject "test_faye_static" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
