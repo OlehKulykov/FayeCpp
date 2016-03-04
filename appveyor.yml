@@ -2,10 +2,6 @@ version: 1.1.0.{build}
 
 os: Visual Studio 2015
 
-environment:
-  matrix:
-    - DEFAULT_MAT: "DEF"
-      
 # branches to build
 branches:
   only:
@@ -59,10 +55,10 @@ artifacts:
 
 deploy:
   - provider: GitHub
-#   release: fayecpp
-    description: 'Appveyor CI build.'
-#    auth_token:
-#      secure: asdadsadsad
+    release: fayecpp-$(platform)-$(appveyor_build_version)
+    description: 'Appveyor CI'
+    auth_token:
+      secure: r9lXUEYpmTqZpks3eNZTyWHHka0im0x3NgWpGYSH9uUoWcNatA/cqTGsntk/S5uf
     artifact: fayecpp_7z
     draft: false
     prerelease: true
