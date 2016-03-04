@@ -173,9 +173,10 @@ public:
 
 int main(int argc, char* argv[])
 {
-#if !defined(FAYECPP_BUILD_NUMBER)
 	RELog::log("Client info: %s", Client::info());
 	RELog::log("Start test");
+	
+#if !defined(FAYECPP_BUILD_NUMBER)
 
 	_client = new Client();
 	if (!_client) return (++_result);
