@@ -34,7 +34,7 @@ clone_folder: c:\dev\FayeCpp
 
 # scripts that run after cloning repository
 install:
-  - cinst 7zip.commandline -x86
+#  - cinst 7zip.commandline -x86
   - cd c:\dev\FayeCpp
   - md fayecpp-install-dir-%PLATFORM%
   - git submodule update --init --recursive
@@ -60,7 +60,7 @@ build_script:
 
 
 after_build:
-  - 7z a -t7z -mx=9 artifacts-%PLATFORM%.7z c:\dev\FayeCpp\fayecpp-install-dir-%PLATFORM%
+  - 7z a -t7z -mx=9 fayecpp-%OS%-%PLATFORM%-%APPVEYOR_REPO_BRANCH%-%APPVEYOR_BUILD_VERSION%.7z c:\dev\FayeCpp\fayecpp-install-dir-%PLATFORM%
 
 
 artifacts:
