@@ -9,9 +9,13 @@ branches:
   - dev
 
 # build platform, i.e. x86, x64, Any CPU. This setting is optional.
-platform:
-  - x86
-  - x64
+#platform:
+#  - x86
+#  - x64
+matrix:
+  allow_failures:
+    - platform: x86
+    - platform: x64
 
 configuration:
   - Release
@@ -46,11 +50,11 @@ build_script:
 
 
 after_build:
-  - 7z a -t7z -mx=9 -xr!cmake -xr!bin -xr!pkgconfig fayecpp-artifacts.7z c:\dev\FayeCpp\fayecpp-install-dir
+  - 7z a -t7z -mx=9 artifacts-$(platform).7z c:\dev\FayeCpp\fayecpp-install-dir
 
 
 artifacts:
-  - path: fayecpp-artifacts.7z
+  - path: artifacts-$(platform).7z
 
 
 deploy:
@@ -59,7 +63,7 @@ deploy:
     description: 'Appveyor CI build artifacts'
     auth_token:
       secure: r9lXUEYpmTqZpks3eNZTyWHHka0im0x3NgWpGYSH9uUoWcNatA/cqTGsntk/S5uf
-    artifact: fayecpp-artifacts.7z
+    artifact: artifacts-$(platform).7z
     draft: false
     prerelease: true
     on:
