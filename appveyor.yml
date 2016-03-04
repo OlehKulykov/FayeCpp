@@ -36,6 +36,7 @@ install:
 
 build:
 
+
 build_script:
   - cd c:\dev\FayeCpp
   - md build
