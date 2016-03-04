@@ -16,9 +16,6 @@ platform:
 configuration:
   - Release
 
-matrix:
-  fast_finish: true
-
 # clone directory
 clone_folder: c:\dev\FayeCpp
 
@@ -49,9 +46,9 @@ build_script:
   - cmd: 7za a -t7z -mx=9 -xr!cmake -xr!bin -xr!pkgconfig c:\dev\fayecpp.7z c:\dev\FayeCpp\fayecpp-install-dir
   - cd c:\dev
 
-artifacts:
-  - path: fayecpp.7z
-    name: fayecpp_7z
+#artifacts:
+#  - path: fayecpp.7z
+#    name: fayecpp_7z
 
 deploy:
   - provider: GitHub
@@ -59,7 +56,7 @@ deploy:
     description: 'Appveyor CI'
     auth_token:
       secure: r9lXUEYpmTqZpks3eNZTyWHHka0im0x3NgWpGYSH9uUoWcNatA/cqTGsntk/S5uf
-    artifact: fayecpp_7z
+    artifact: c:\dev\fayecpp.7z
     draft: false
     prerelease: true
     on:
