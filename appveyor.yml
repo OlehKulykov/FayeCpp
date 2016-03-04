@@ -64,7 +64,7 @@ after_build:
 
 
 artifacts:
-  - path: *.7z
+  - path: '*.7z'
 
 
 deploy:
