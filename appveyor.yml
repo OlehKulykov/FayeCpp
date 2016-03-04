@@ -61,8 +61,8 @@ deploy:
   - provider: GitHub
 #   release: fayecpp
     description: 'Appveyor CI build.'
-    auth_token:
-      secure: 757c6fe839347ae280ae519c85df8de0df3fe68d
+#    auth_token:
+#      secure: asdadsadsad
     artifact: fayecpp_7z
     draft: false
     prerelease: true
