@@ -43,26 +43,23 @@ build_script:
   - cmake --build . --config Release --target INSTALL
   - ctest
   - cd ..
-#  - cd c:\dev\FayeCpp\fayecpp-install-dir
-#  - cmd: 7za a -xr!cmake -xr!bin -xr!pkgconfig c:\dev\fayecpp.zip c:\dev\FayeCpp\fayecpp-install-dir
-#  - cd c:\dev
 
 
 after_build:
-  - 7z a fayecpp.zip c:\dev\FayeCpp\fayecpp-install-dir
+  - 7z a -t7z -mx=9 -xr!cmake -xr!bin -xr!pkgconfig fayecpp-artifacts.7z c:\dev\FayeCpp\fayecpp-install-dir
 
 
 artifacts:
-  - path: fayecpp.zip
+  - path: fayecpp-artifacts.7z
 
 
 deploy:
   - provider: GitHub
-    release: fayecpp-$(platform)-$(appveyor_build_version)
-    description: 'Appveyor CI'
+    release: $(appveyor_build_version)-$(platform)
+    description: 'Appveyor CI build artifacts'
     auth_token:
       secure: r9lXUEYpmTqZpks3eNZTyWHHka0im0x3NgWpGYSH9uUoWcNatA/cqTGsntk/S5uf
-    artifact: fayecpp.zip
+    artifact: fayecpp-artifacts.7z
     draft: false
     prerelease: true
     on:
