@@ -10,6 +10,9 @@ branches:
   - master
   - dev
 
+# Do not build on tags (GitHub only)
+skip_tags: true
+
 
 # build platform, i.e. x86, x64, Any CPU. This setting is optional.
 #platform:
@@ -61,7 +64,7 @@ after_build:
 
 
 artifacts:
-  - path: artifacts-$(platform).7z
+  - path: *.7z
 
 
 deploy:
@@ -70,7 +73,7 @@ deploy:
     description: 'Appveyor CI build artifacts'
     auth_token:
       secure: r9lXUEYpmTqZpks3eNZTyWHHka0im0x3NgWpGYSH9uUoWcNatA/cqTGsntk/S5uf
-    artifact: artifacts-$(platform).7z
+    artifact: /.*\.7z/
     draft: false
     prerelease: true
     on:
