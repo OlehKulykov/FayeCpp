@@ -49,12 +49,15 @@ build_script:
 
 
 after_build:
-  - echo 'Compressing artifacts ...'
-  - 7z a c:\dev\fayecpp-%PLATFORM%-%APPVEYOR_BUILD_VERSION%.zip c:\dev\FayeCpp\fayecpp-install-dir
-  - appveyor PushArtifact c:\dev\fayecpp-%PLATFORM%-%APPVEYOR_BUILD_VERSION%.zip
+  - 7z a fayecpp.zip c:\dev\FayeCpp\fayecpp-install-dir
+
+
+artifacts:
+  - path: fayecpp.zip
+
 
 deploy:
-    provider: GitHub
+  - provider: GitHub
     release: fayecpp-$(platform)-$(appveyor_build_version)
     description: 'Appveyor CI'
     auth_token:
