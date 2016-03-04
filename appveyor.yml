@@ -1,6 +1,8 @@
 version: 1.1.0.{build}
 
+
 os: Visual Studio 2015
+
 
 # branches to build
 branches:
@@ -8,17 +10,20 @@ branches:
   - master
   - dev
 
+
 # build platform, i.e. x86, x64, Any CPU. This setting is optional.
 #platform:
 #  - x86
 #  - x64
 
+
 environment:
   matrix:
     - platform: x86
-    configuration: Release
     - platform: x64
-    configuration: Release
+
+
+configuration: Release
 
 
 # clone directory
@@ -35,6 +40,7 @@ install:
 #  - cd ../jansson
 #  - git apply < ../jansson_msc_1900.patch
 #  - cd .. 
+
 
 build:
 
