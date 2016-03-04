@@ -10,6 +10,7 @@ branches:
   - master
   - dev
 
+
 # Do not build on tags (GitHub only)
 skip_tags: true
 
@@ -23,7 +24,7 @@ skip_tags: true
 environment:
   matrix:
     - platform: x86
-    - platform: x64
+#    - platform: x64
 
 
 configuration: Release
@@ -32,17 +33,12 @@ configuration: Release
 # clone directory
 clone_folder: c:\dev\FayeCpp
 
+
 # scripts that run after cloning repository
 install:
-#  - cinst 7zip.commandline -x86
   - cd c:\dev\FayeCpp
   - md fayecpp-install-dir-%PLATFORM%
   - git submodule update --init --recursive
-#  - cd libwebsockets
-#  - git apply < ../libwebsockets_h.patch
-#  - cd ../jansson
-#  - git apply < ../jansson_msc_1900.patch
-#  - cd .. 
 
 
 build:
