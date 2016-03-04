@@ -2,6 +2,10 @@ version: 1.1.0.{build}
 
 os: Visual Studio 2015
 
+environment:
+  matrix:
+    - DEFAULT_MAT: "DEF"
+      
 # branches to build
 branches:
   only:
@@ -50,17 +54,17 @@ build_script:
   - cd c:\dev
 
 artifacts:
-    - path: fayecpp.7z
-      name: fayecpp_7z
+  - path: fayecpp.7z
+    name: fayecpp_7z
 
 deploy:
-  release: fayecpp
-  description: 'Appveyor CI'
-  provider: GitHub
-  auth_token:
-    secure: e54ca62de6ee32ab1ea4d858a8cd6bc95bf58ac2
-  artifact: fayecpp_7z
-  draft: false
-  prerelease: true
-  on:
-    branch: master
+  - provider: GitHub
+#   release: fayecpp
+    description: 'Appveyor CI build.'
+    auth_token:
+      secure: 757c6fe839347ae280ae519c85df8de0df3fe68d
+    artifact: fayecpp_7z
+    draft: false
+    prerelease: true
+    on:
+      branch: master
