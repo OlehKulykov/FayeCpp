@@ -1104,7 +1104,8 @@ namespace FayeCpp {
 			}
 			return false;
 		}
-		
+
+
 		/**
 		 @brief Construct list object
 		 @param nodeCreator Node creator callback, if no assigned will use default callback(create node with "new" operator).
@@ -1352,6 +1353,7 @@ namespace FayeCpp {
 		{
 			return Iterator(this->_castHead);
 		}
+
 
 		/**
 		 @brief Check is map has no key-pairs.
