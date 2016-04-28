@@ -1,8 +1,9 @@
 # FayeCpp - Faye C++ lightweight, cross-platform client.
 
 
-[![CocoaPods](https://img.shields.io/cocoapods/p/FayeCpp.svg?style=flat)](https://cocoapods.org/pods/FayeCpp)
-[![CocoaPods](https://img.shields.io/cocoapods/v/FayeCpp.svg?style=flat)](https://cocoapods.org/pods/FayeCpp)
+[![Platform](https://img.shields.io/cocoapods/p/FayeCpp.svg?style=flat)](http://cocoapods.org/pods/FayeCpp)
+[![Version](https://img.shields.io/cocoapods/v/FayeCpp.svg?style=flat)](http://cocoapods.org/pods/FayeCpp)
+[![License](https://img.shields.io/cocoapods/l/FayeCpp.svg?style=flat)](http://cocoapods.org/pods/FayeCpp)
 [![Build Status](https://travis-ci.org/OlehKulykov/FayeCpp.svg?branch=master)](https://travis-ci.org/OlehKulykov/FayeCpp) 
 [![Build status](https://ci.appveyor.com/api/projects/status/iff0000q0c47brnc?svg=true)](https://ci.appveyor.com/project/OlehKulykov/fayecpp)
 [![Coverity Scan Build Status](https://scan.coverity.com/projects/3633/badge.svg)](https://scan.coverity.com/projects/3633)
