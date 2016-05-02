@@ -7,6 +7,7 @@
 [![Build Status](https://travis-ci.org/OlehKulykov/FayeCpp.svg?branch=master)](https://travis-ci.org/OlehKulykov/FayeCpp) 
 [![Build status](https://ci.appveyor.com/api/projects/status/iff0000q0c47brnc?svg=true)](https://ci.appveyor.com/project/OlehKulykov/fayecpp)
 [![Coverity Scan Build Status](https://scan.coverity.com/projects/3633/badge.svg)](https://scan.coverity.com/projects/3633)
+[![OnlineDocumentation Status](https://img.shields.io/badge/online%20documentation-generated-brightgreen.svg)](http://cocoadocs.org/docsets/FayeCpp)
 
 
 **FayeCpp** (C++) lightweight, cross-platform client library for desktop & mobile platforms, such as **Mac**, **Windows**, **Linux**, **iOS**, **Android**. 
