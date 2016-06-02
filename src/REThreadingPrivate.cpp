@@ -30,7 +30,7 @@ namespace FayeCpp {
 #if defined(__RE_THREADING_PTHREAD__)
 		if (_m) pthread_mutex_lock((pthread_mutex_t *)_m);
 #elif defined(__RE_THREADING_WINDOWS__)
-		if (_m) TryEnterCriticalSection((LPCRITICAL_SECTION)_m);
+		if (_m) EnterCriticalSection((LPCRITICAL_SECTION)_m);
 #endif
 	}
 
