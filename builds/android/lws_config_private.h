@@ -75,6 +75,9 @@
 /* Define to 1 if you have the <sys/socket.h> header file. */
 #define LWS_HAVE_SYS_SOCKET_H 1
 
+/* Define to 1 if you have the <sys/sockio.h> header file. */
+/* #define LWS_HAVE_SYS_SOCKIO_H 1 */
+
 /* Define to 1 if you have the <sys/stat.h> header file. */
 #define LWS_HAVE_SYS_STAT_H 1
 
@@ -96,8 +99,13 @@
 /* Define to 1 if `vfork' works. */
 #define LWS_HAVE_WORKING_VFORK 1
 
+/* Define to 1 if execvpe() exists */
+/* #undef LWS_HAVE_EXECVPE */
+
 /* Define to 1 if you have the <zlib.h> header file. */
 #define LWS_HAVE_ZLIB_H 1
+
+/* #define LWS_HAVE_GETLOADAVG 1 */
 
 /* Define to the sub-directory in which libtool stores uninstalled libraries.
    */

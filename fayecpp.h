@@ -29,7 +29,12 @@
  *   Faye C++ client main and one header file.
  *   All class interfaces added to namespace, preventing include files mess(yes, this is unusual structure, but lightweight).
  *
- *   Changes on version 1.1.1 (current):
+ *   Changes on version 1.2.0 (current):
+ *   - Update Libwebsockets to version 2.0.0.
+ *   - Update jansson to version 2.8.
+ *   - Update client info message.
+ *
+ *   Changes on version 1.1.1:
  *   - Windows mutex blocked lock.
  *
  *   Changes on version 1.1.0:

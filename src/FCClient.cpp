@@ -1193,7 +1193,7 @@ namespace FayeCpp {
 #endif
 
 #if defined(RE_HAVE_LIBWEBSOCKETS_H)
-		" - Using Libwebsocket library"
+		" - FayeCpp is based in part on the work of the libwebsockets project (https://libwebsockets.org)"
 #if defined(LWS_LIBRARY_VERSION)
 		", version: " LWS_LIBRARY_VERSION
 #endif

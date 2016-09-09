@@ -47,28 +47,6 @@
 #  define ssize_t 
 #endif
 
-#define HAVE_SNPRINTF 1
-
-/* snprintf should not be defined as macro with MSC_VER >= 1900 */
-#if defined(_WIN32) || defined(WIN32)
-#  if defined(_MSC_VER)  /* MS compiller */
-#    if (_MSC_VER < 1900)  /* snprintf not introduced */
-#      if !defined(snprintf)
-#        define snprintf _snprintf
-#        define HAVE_SNPRINTF 1 /* snprintf defined manually */
-#      endif
-#    else
-#      define HAVE_SNPRINTF 1 /* snprintf available via sdk */
-#    endif
-#  endif
-#endif
-
-#ifndef HAVE_SNPRINTF
-#  define snprintf snprintf
-#endif
-
-/* #undef HAVE_VSNPRINTF */
-
 #define USE_URANDOM 1
 #define USE_WINDOWS_CRYPTOAPI 1
 

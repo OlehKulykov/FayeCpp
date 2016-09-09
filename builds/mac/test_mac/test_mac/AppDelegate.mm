@@ -15,7 +15,6 @@ static NSString * const _clientURL = @"https://localhost:6001/faye";
 static NSString * const _clientChannel1 = @"/xxxxxxxx/xxxxxxxxxxxxx";
 static NSString * const _clientChannel2 = @"/xxxxxx";
 
-
 #if defined(OBJC_CLIENT)
 #import "FayeCppClient.h"
 #else

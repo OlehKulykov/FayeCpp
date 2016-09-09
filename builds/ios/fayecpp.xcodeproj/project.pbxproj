@@ -86,7 +86,6 @@
 		3D12B478194AF31000B8E9D9 /* REWideString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = REWideString.cpp; path = ../../src/REWideString.cpp; sourceTree = "<group>"; };
 		3D1AB9741B02CD7500DA21FC /* header.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = header.c; path = ../../libwebsockets/lib/header.c; sourceTree = "<group>"; };
 		3D50938A194D0AFF000EF310 /* RELog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RELog.cpp; path = ../../src/RELog.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		3D68089C1C42E169000F0302 /* ssl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ssl.c; path = ../../libwebsockets/lib/ssl.c; sourceTree = "<group>"; };
 		3D7450C11AAF931D00AA32A3 /* FCClassMethodWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FCClassMethodWrapper.h; path = ../../src/FCClassMethodWrapper.h; sourceTree = "<group>"; };
 		3D7450C21AAF931D00AA32A3 /* FCClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FCClient.cpp; path = ../../src/FCClient.cpp; sourceTree = "<group>"; };
 		3D7450C31AAF931D00AA32A3 /* FCError.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FCError.cpp; path = ../../src/FCError.cpp; sourceTree = "<group>"; };
@@ -197,7 +196,6 @@
 				3D8CB8B41948994500943B53 /* pollfd.c */,
 				3D8CB8B51948994500943B53 /* service.c */,
 				3D8CB8B61948994500943B53 /* sha-1.c */,
-				3D68089C1C42E169000F0302 /* ssl.c */,
 				3DAD75FC1A32FEA40054F999 /* alloc.c */,
 			);
 			name = libwebsockets;

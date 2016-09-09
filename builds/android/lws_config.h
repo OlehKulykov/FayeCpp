@@ -14,23 +14,30 @@
   (older) CyaSSL library */
 /* #undef USE_OLD_CYASSL */
 
-/* The Libwebsocket version */
-#define LWS_LIBRARY_VERSION "1.7.0"
+/* #undef LWS_USE_MBEDTLS */
+/* #undef LWS_USE_POLARSSL */
+/* #undef LWS_WITH_ESP8266 */
 
-#define LWS_LIBRARY_VERSION_MAJOR 1
-#define LWS_LIBRARY_VERSION_MINOR 7
+/* #undef LWS_WITH_PLUGINS */
+/* #undef LWS_WITH_NO_LOGS */
+
+/* The Libwebsocket version */
+#define LWS_LIBRARY_VERSION "2.0.0"
+
+#define LWS_LIBRARY_VERSION_MAJOR 2
+#define LWS_LIBRARY_VERSION_MINOR 0
 #define LWS_LIBRARY_VERSION_PATCH 0
 /* LWS_LIBRARY_VERSION_NUMBER looks like 1005001 for e.g. version 1.5.1 */
 #define LWS_LIBRARY_VERSION_NUMBER (LWS_LIBRARY_VERSION_MAJOR*1000000)+(LWS_LIBRARY_VERSION_MINOR*1000)+LWS_LIBRARY_VERSION_PATCH
 
 /* The current git commit hash that we're building from */
-#define LWS_BUILD_HASH "residentevil@ResidentsiMac4-v1.6.0-chrome48-firefox42-198-g442ae80"
+#define LWS_BUILD_HASH "residentevil@ResidentsiMac4-v2.0.0-150-gd5f6034"
 
 /* Build with OpenSSL support */
-/* #define LWS_OPENSSL_SUPPORT */
+/* #undef LWS_OPENSSL_SUPPORT */
 
 /* The client should load and trust CA root certs it finds in the OS */
-/* #define LWS_SSL_CLIENT_USE_OS_CA_CERTS */
+/* #undef LWS_SSL_CLIENT_USE_OS_CA_CERTS */
 
 /* Sets the path where the client certs should be installed. */
 #define LWS_OPENSSL_CLIENT_CERTS "../share"
@@ -46,6 +53,9 @@
 
 /* Build with support for ipv6 */
 #define LWS_USE_IPV6 1
+
+/* Build with support for UNIX domain socket */
+/* #undef LWS_USE_UNIX_SOCK */
 
 /* Build with support for HTTP2 */
 /* #undef LWS_USE_HTTP2 */
@@ -73,11 +83,31 @@
 
 /* SSL server using ECDH certificate */
 /* #undef LWS_SSL_SERVER_WITH_ECDH_CERT */
+/* #undef LWS_HAVE_SSL_CTX_set1_param */
+/* #undef LWS_HAVE_X509_VERIFY_PARAM_set1_host */
 
 /* CGI apis */
 /* #undef LWS_WITH_CGI */
 
+/* whether the Openssl is recent enough, and / or built with, ecdh */
+/* #undef LWS_HAVE_OPENSSL_ECDH_H */
+
+/* HTTP Proxy support */
+/* #undef LWS_WITH_HTTP_PROXY */
+
+/* Http access log support */
+/* #undef LWS_WITH_ACCESS_LOG */
+/* #undef LWS_WITH_SERVER_STATUS */
+
+/* #undef LWS_WITH_STATEFUL_URLDECODE */
+
 /* Maximum supported service threads */
 #define LWS_MAX_SMP 32
+
+/* Lightweight JSON Parser */
+/* #undef LWS_WITH_LEJP */
+
+/* SMTP */
+/* #undef LWS_WITH_SMTP */
 
 
