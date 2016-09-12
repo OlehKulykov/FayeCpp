@@ -11,10 +11,9 @@
 #define OBJC_CLIENT 1
 
 class FayeDelegate;
-static NSString * const _clientURL = @"http://messages.presentain.com:80/faye"; // @"https://localhost:6001/faye";
-static NSString * const _clientChannel1 = @"/seminars/5322e93d8ee60a422400008f";// @"/xxxxxxxx/xxxxxxxxxxxxx";
-static NSString * const _clientChannel2 = @"/seminars_service/5322e93d8ee60a422400008f"; // @"/xxxxxx";
-
+static NSString * const _clientURL = @"https://localhost:6001/faye";
+static NSString * const _clientChannel1 = @"/xxxxxxxx/xxxxxxxxxxxxx";
+static NSString * const _clientChannel2 = @"/xxxxxx";
 
 #if defined(OBJC_CLIENT)
 #import "FayeCppClient.h"
