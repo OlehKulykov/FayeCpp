@@ -21,7 +21,7 @@ You can use Objective-C wrapper or C++ client directly.
   s.tvos.deployment_target = '9.0'
 
 # Build  
-  s.public_header_files = 'fayecpp.h', 'contrib/objc/FayeCppClient.h'
+  s.public_header_files = 'contrib/objc/FayeCppClient.h'
   s.source_files = 'contrib/objc/*.{h,mm}',
     'fayecpp.h',
     'builds/ios/*.{h}',

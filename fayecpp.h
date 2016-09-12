@@ -266,7 +266,7 @@
 
 /* C++ Standard Library header */
 #ifndef __RE_OS_ANDROID__
-#include <iostream>
+#include <vector>
 #endif
 
 
