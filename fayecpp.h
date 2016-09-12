@@ -142,7 +142,7 @@
 
 
 #define FAYECPP_VERSION_MAJOR 1
-#define FAYECPP_VERSION_MINOR 1
+#define FAYECPP_VERSION_MINOR 2
 #define FAYECPP_VERSION_PATCH 0
 
 
@@ -498,24 +498,19 @@ namespace FayeCpp {
 	 @detailed Holds created pointer and delete when it's need, usually when no referecnces to pointer.
 	*/
 	template <typename PointerType>
-	class __RE_PUBLIC_CLASS_API__ REPtr
-	{
+	class __RE_PUBLIC_CLASS_API__ REPtr {
 	private:
 		PointerType* _object;
 		REInt32* _referenceCount;
 		
-		void retain()
-		{
-			if (_referenceCount)
-			{
+		void retain() {
+			if (_referenceCount) {
 				*_referenceCount = (*_referenceCount) + 1;
 			}
 		}
 		
-		void deleteObject()
-		{
-			if (_object)
-			{
+		void deleteObject() {
+			if (_object) {
 				delete _object;
 			}
 			_object = NULL;
@@ -526,8 +521,7 @@ namespace FayeCpp {
 		 @brief Check pointer is NULL.
 		 @return True if pointer is NULL, othervice false;
 		 */
-		REBOOL isEmpty() const
-		{
+		REBOOL isEmpty() const {
 			return (_object == NULL);
 		}
 		
@@ -536,8 +530,7 @@ namespace FayeCpp {
 		 @brief Check pointer is not NULL.
 		 @return True if not NULL, othervice false.
 		 */
-		REBOOL isNotEmpty() const
-		{
+		REBOOL isNotEmpty() const {
 			return (_object != NULL);
 		}
 		
@@ -546,8 +539,7 @@ namespace FayeCpp {
 		 @brief Check this class is only one woner of the pointer.
 		 @return True is only one owner, othervice false.
 		 */
-		REBOOL isSingleOwner() const
-		{
+		REBOOL isSingleOwner() const {
 			return _referenceCount ? ((*_referenceCount) <= 1) : false;
 		}
 		
@@ -556,13 +548,10 @@ namespace FayeCpp {
 		 @brief Releases holded pointer.
 		 @detailed Decrement reference counter and if there is not references delete's pointer.
 		 */
-		void release()
-		{
-			if (_referenceCount)
-			{
+		void release() {
+			if (_referenceCount) {
 				*_referenceCount = (*_referenceCount) - 1;
-				if ((*_referenceCount) <= 0)
-				{
+				if ((*_referenceCount) <= 0) {
 					this->deleteObject();
 					
 					free(_referenceCount);
@@ -581,13 +570,10 @@ namespace FayeCpp {
 		 @param anotherPtr Another autopointer object.
 		 @return Address of this autopointer object.
 		 */
-		REPtr<PointerType> & operator=(const REPtr<PointerType> & anotherPtr)
-		{
-			if (this != &anotherPtr)
-			{
+		REPtr<PointerType> & operator=(const REPtr<PointerType> & anotherPtr) {
+			if (this != &anotherPtr) {
 				this->release();
-				if (anotherPtr.isNotEmpty())
-				{
+				if (anotherPtr.isNotEmpty()) {
 					_object = anotherPtr._object;
 					_referenceCount = anotherPtr._referenceCount;
 					this->retain();
@@ -601,8 +587,7 @@ namespace FayeCpp {
 		 @brief Structure dereference operator.
 		 @return Address(pointer to pointer) to holded object.
 		 */
-		PointerType* operator->()
-		{
+		PointerType* operator->() {
 			return _object;
 		}
 		
@@ -611,8 +596,7 @@ namespace FayeCpp {
 		 @brief Const variant of the structure dereference operator.
 		 @return Const address(pointer to pointer) to holded object.
 		 */
-		const PointerType* operator->() const
-		{
+		const PointerType* operator->() const {
 			return _object;
 		}
 		
@@ -621,8 +605,7 @@ namespace FayeCpp {
 		 @brief Indirection operator.
 		 @return Returns object pointer.
 		 */
-		operator PointerType* ()
-		{
+		operator PointerType* () {
 			return _object;
 		}
 		
@@ -631,8 +614,7 @@ namespace FayeCpp {
 		 @brief Const version of indirection operator.
 		 @return Returns object const pointer.
 		 */
-		operator const PointerType* () const
-		{
+		operator const PointerType* () const {
 			return _object;
 		}
 		
@@ -641,12 +623,7 @@ namespace FayeCpp {
 		 @brief Default contructor.
 		 @detailed Contructs autopointer without any object pointer and reference.
 		 */
-		REPtr() :
-			_object(NULL),
-			_referenceCount(NULL)
-		{
-			
-		}
+		REPtr() : _object(NULL), _referenceCount(NULL) { }
 		
 
 		/**
@@ -654,23 +631,16 @@ namespace FayeCpp {
 		 @detailed If pointer is not NULL then holds pointer and create reference to it.
 		 @param object Pointer to typed object.
 		 */
-		REPtr(PointerType* object) :
-			_object(object),
-			_referenceCount(NULL)
-		{
-			if (_object)
-			{
+		REPtr(PointerType* object) : _object(object), _referenceCount(NULL) {
+			if (_object) {
 				REInt32 * count = (REInt32 *)malloc(sizeof(REInt32));
 #if defined(RE_HAVE_ASSERT_H)
 				assert(count);
 #endif				
-				if (count)
-				{
+				if (count) {
 					*count = 1;
 					_referenceCount = count;
-				}
-				else
-				{
+				} else {
 					_object = NULL;
 				}
 			}
@@ -682,14 +652,9 @@ namespace FayeCpp {
 		 @detailed If another autopointer is not empty(holds pointer) than increment reference, othervice created empty autopointer object.
 		 @param anotherPtr Another autopointer object.
 		 */
-		REPtr(const REPtr<PointerType> & anotherPtr) :
-			_object(NULL),
-			_referenceCount(NULL)
-		{
-			if (this != &anotherPtr)
-			{
-				if (anotherPtr.isNotEmpty())
-				{
+		REPtr(const REPtr<PointerType> & anotherPtr) : _object(NULL), _referenceCount(NULL) {
+			if (this != &anotherPtr) {
+				if (anotherPtr.isNotEmpty()) {
 					_object = anotherPtr._object;
 					_referenceCount = anotherPtr._referenceCount;
 					this->retain();
@@ -702,8 +667,7 @@ namespace FayeCpp {
 		 @brief Default destructor.
 		 @detailed Releases holded pointer if available.
 		*/
-		~REPtr()
-		{
+		~REPtr() {
 			this->release();
 		}
 	};
@@ -713,8 +677,7 @@ namespace FayeCpp {
 	 @brief Function template for casting objects using "static_cast".
 	 */
 	template <typename resultType, typename sourceType>
-	static resultType* REPtrCast(sourceType* sourcePointer)
-	{
+	static resultType* REPtrCast(sourceType* sourcePointer) {
 		return static_cast<resultType*>( static_cast<void*>(sourcePointer) );
 	}
 	
@@ -723,8 +686,7 @@ namespace FayeCpp {
 	 @brief Const version of function template for casting objects using "static_cast".
 	 */
 	template <typename resultType, typename sourceType>
-	static const resultType* REPtrCast(const sourceType* sourcePointer)
-	{
+	static const resultType* REPtrCast(const sourceType* sourcePointer) {
 		return static_cast<const resultType*>( static_cast<const void*>(sourcePointer) );
 	}
 	
@@ -733,8 +695,7 @@ namespace FayeCpp {
 	 @brief Class template for list.
 	 */
 	template <typename T>
-	class __RE_PUBLIC_CLASS_API__ REList
-	{
+	class __RE_PUBLIC_CLASS_API__ REList {
 	public:
 		/**
 		 @brief Class of list node.
@@ -742,8 +703,7 @@ namespace FayeCpp {
 		class Node;
 		
 	private:
-		class NodeBase
-		{
+		class NodeBase {
 		public:
 			Node * next;
 			Node * previous;
@@ -755,8 +715,7 @@ namespace FayeCpp {
 		 @brief Class of list node.
 		 @detailed Holds value and pointer to prev. & next nodes.
 		 */
-		class Node : public NodeBase
-		{
+		class Node : public NodeBase {
 		public:
 			T value;
 			Node(const T & newValue) : NodeBase(), value(newValue) { }
@@ -766,8 +725,7 @@ namespace FayeCpp {
 		/**
 		 @brief Type of list values comparation results.
 		 */
-		typedef enum
-		{
+		typedef enum {
 			/**
 			 @brief Left operand is lest then right.
 			 */
@@ -828,8 +786,7 @@ namespace FayeCpp {
 	private:
 		CreateNodeCallback _createNode;
 		ReleaseNodeCallback _releaseNode;
-		union
-		{
+		union {
 			NodeBase * _head;
 			Node * _castHead;
 		};
@@ -841,8 +798,7 @@ namespace FayeCpp {
 		 @param newValue Default node value.
 		 @return Pointer to created node with value.
 		 */
-		static NodePtr newNode(const T & newValue)
-		{
+		static NodePtr newNode(const T & newValue) {
 			return (new Node(newValue));
 		}
 		
@@ -852,8 +808,7 @@ namespace FayeCpp {
 		 @detailed Release node with "delete" operator.
 		 @param node Pointer to node.
 		 */
-		static void deleteNode(NodePtr node)
-		{
+		static void deleteNode(NodePtr node) {
 			delete node;
 		}
 		
@@ -864,11 +819,9 @@ namespace FayeCpp {
 		 @param newValue Default node value.
 		 @return Pointer to allocated node with value.
 		 */
-		static NodePtr allocateNode(const T & newValue)
-		{
+		static NodePtr allocateNode(const T & newValue) {
 			NodePtr node = (NodePtr)malloc(sizeof(Node));
-			if (node)
-			{
+			if (node) {
 				node->value = newValue;
 			}
 			return node;
@@ -880,8 +833,7 @@ namespace FayeCpp {
 		 @detailed Release node with "free" function.
 		 @param node Pointer to node.
 		 */
-		static void freeNode(NodePtr node)
-		{
+		static void freeNode(NodePtr node) {
 			free(node);
 		}
 		
@@ -889,8 +841,7 @@ namespace FayeCpp {
 		/**
 		 @brief Iterator class for list values.
 		 */
-		class Iterator
-		{
+		class Iterator {
 		private:
 			Node * _head;
 			Node * _node;
@@ -899,8 +850,7 @@ namespace FayeCpp {
 			 * @brief Move to next list node.
 			 * @return True if moved next, othervice false.
 			 */
-			bool next()
-			{
+			bool next() {
 				_node = _node ? _node->next : this->_head->next;
 				return _node != this->_head;
 			}
@@ -910,8 +860,7 @@ namespace FayeCpp {
 			 @brief Getter for node pointer.
 			 @return Pointer to current list node.
 			 */
-			Node * node() const
-			{
+			Node * node() const {
 				return _node;
 			}
 
@@ -920,8 +869,7 @@ namespace FayeCpp {
 			 @brief Getter for current node value.
 			 @return Const address for current value.
 			 */
-			const T & value() const
-			{
+			const T & value() const {
 				return _node->value;
 			}
 			
@@ -930,12 +878,7 @@ namespace FayeCpp {
 			 @brief Constructs iterator with another iterator.
 			 @param it Another iterator.
 			 */
-			Iterator(const Iterator & it) :
-				_head(it._head),
-				_node(NULL)
-			{
-				
-			}
+			Iterator(const Iterator & it) : _head(it._head), _node(NULL) { }
 			
 
 			/**
@@ -943,12 +886,7 @@ namespace FayeCpp {
 			 @detailed Need for internal list implementation.
 			 @param listHead Pointer to list head node.
 			 */
-			Iterator(Node * listHead) :
-				_head(listHead),
-				_node(NULL)
-			{
-				
-			}
+			Iterator(Node * listHead) : _head(listHead), _node(NULL) { }
 		};
 		
 
@@ -956,8 +894,7 @@ namespace FayeCpp {
 		 @brief Creates new list iterator object.
 		 @return New iterator.
 		 */
-		Iterator iterator() const
-		{
+		Iterator iterator() const {
 			return Iterator(this->_castHead);
 		}
 		
@@ -966,8 +903,7 @@ namespace FayeCpp {
 		 @brief Check list containes any values.
 		 @return True if there is no values, othervice false.
 		 */
-		bool isEmpty() const
-		{
+		bool isEmpty() const {
 			return (this->_head->next == this->_head);
 		}
 		
@@ -975,11 +911,9 @@ namespace FayeCpp {
 		/**
 		 @brief Removes all list values.
 		 */
-		void clear()
-		{
+		void clear() {
 			Node * node = this->_head->next;
-			while (node != this->_head)
-			{
+			while (node != this->_head) {
 				node = this->removeNode(node);
 			}
 		}
@@ -989,12 +923,10 @@ namespace FayeCpp {
 		 @brief Calculates count of the list by iterating all elements.
 		 @return Count of the elements.
 		 */
-		REUInt32 count() const
-		{
+		REUInt32 count() const {
 			REUInt32 c = 0;
 			Node * next = this->_head->next;
-			while (next != this->_head)
-			{
+			while (next != this->_head) {
 				c++;
 				next = next->next;
 			}
@@ -1008,13 +940,10 @@ namespace FayeCpp {
 		 @param comparator Values comparator callback
 		 @return Pointer to node contained same value or NULL if there is such values in list.
 		 */
-		Node * findNode(void * customValue, CustomNodeValueComparator comparator) const
-		{
+		Node * findNode(void * customValue, CustomNodeValueComparator comparator) const {
 			Node * next = this->_head->next;
-			while (next != this->_head)
-			{
-				if (comparator(&next->value, customValue) == Same)
-				{
+			while (next != this->_head) {
+				if (comparator(&next->value, customValue) == Same) {
 					return next;
 				}
 				next = next->next;
@@ -1029,13 +958,10 @@ namespace FayeCpp {
 		 @param comparator Conparator callback for comparing 2 values.
 		 @return Pointer to node contained same value or NULL if there is such values in list.
 		 */
-		Node * findNode(const T & value, NodeValuesComparator comparator) const
-		{
+		Node * findNode(const T & value, NodeValuesComparator comparator) const {
 			Node * next = this->_head->next;
-			while (next != this->_head)
-			{
-				if (comparator(&next->value, &value) == Same)
-				{
+			while (next != this->_head) {
+				if (comparator(&next->value, &value) == Same) {
 					return next;
 				}
 				next = next->next;
@@ -1049,13 +975,10 @@ namespace FayeCpp {
 		 @param value The value to be located in list. For comparing values used "==" operator.
 		 @return Pointer to node contained same value or NULL if there is such values in list.
 		 */
-		Node * findNode(const T & value) const
-		{
+		Node * findNode(const T & value) const {
 			Node * next = this->_head->next;
-			while (next != this->_head)
-			{
-				if (next->value == value)
-				{
+			while (next != this->_head) {
+				if (next->value == value) {
 					return next;
 				}
 				next = next->next;
@@ -1069,8 +992,7 @@ namespace FayeCpp {
 		 @param value The value to be finded in list.
 		 @return True if such value containes in list, othervice false.
 		 */
-		bool isContaines(const T & value) const
-		{
+		bool isContaines(const T & value) const {
 			return this->findNode(value) ? true : false;
 		}
 		
@@ -1080,10 +1002,8 @@ namespace FayeCpp {
 		 @param node The node pointer.
 		 @return Pointer to the next node.
 		 */
-		Node * removeNode(Node * node)
-		{
-			if (node != this->_head)
-			{
+		Node * removeNode(Node * node) {
+			if (node != this->_head) {
 				Node * next = node->next;
 				node->previous->next = node->next;
 				node->next->previous = node->previous;
@@ -1099,11 +1019,9 @@ namespace FayeCpp {
 		 @param newValue The new value to add.
 		 @return True if value was added, othervice false.
 		 */
-		bool add(const T & newValue)
-		{
+		bool add(const T & newValue) {
 			Node * newNode = _createNode(newValue);
-			if (newNode)
-			{
+			if (newNode) {
 				newNode->previous = _head->previous;
 				newNode->previous->next = newNode;
 				_head->previous = newNode;
@@ -1123,11 +1041,9 @@ namespace FayeCpp {
 			   ReleaseNodeCallback nodeReleaser = &deleteNode) :
 			_createNode(nodeCreator),
 			_releaseNode(nodeReleaser),
-			_head(NULL)
-		{
+			_head(NULL) {
 			NodeBase * newHead = (NodeBase *)malloc(sizeof(NodeBase));
-			if (newHead)
-			{
+			if (newHead) {
 				this->_head = newHead;
 				this->_head->next = this->_castHead;
 				this->_head->previous = this->_castHead;
@@ -1138,11 +1054,9 @@ namespace FayeCpp {
 		/**
 		 * @brief Default virtual desctructor.
 		 */
-		virtual ~REList()
-		{
+		virtual ~REList() {
 			this->clear();
-			if (this->_head)
-			{
+			if (this->_head) {
 				free(this->_head);
 			}
 		}
@@ -1153,8 +1067,7 @@ namespace FayeCpp {
 	 @brief Map class template.
 	 */
 	template <typename TK, typename TV>
-	class __RE_PUBLIC_CLASS_API__ REMap
-	{
+	class __RE_PUBLIC_CLASS_API__ REMap {
 	public:
 		/**
 		 @brief Class of map node.
@@ -1162,8 +1075,7 @@ namespace FayeCpp {
 		class Node;
 		
 	private:
-		class NodeBase
-		{
+		class NodeBase {
 		public:
 			Node * next;
 			Node * previous;
@@ -1174,8 +1086,7 @@ namespace FayeCpp {
 		/**
 		 @brief Map node class. Containes key and value object.
 		 */
-		class Node : public NodeBase
-		{
+		class Node : public NodeBase {
 		public:
 			TK key;
 			TV value;
@@ -1205,17 +1116,14 @@ namespace FayeCpp {
 	private:
 		CreateNodeCallback _createNode;
 		ReleaseNodeCallback _releaseNode;
-		union
-		{
+		union {
 			NodeBase * _head;
 			Node * _castHead;
 		};
 	protected:
-		Node * addNewNodeWithKeyValue(const TK & newKey, const TV & newValue)
-		{
+		Node * addNewNodeWithKeyValue(const TK & newKey, const TV & newValue) {
 			Node * newNode = _createNode(newKey, newValue);
-			if (newNode)
-			{
+			if (newNode) {
 				newNode->previous = _head->previous;
 				newNode->previous->next = newNode;
 				_head->previous = newNode;
@@ -1231,8 +1139,7 @@ namespace FayeCpp {
 		 @param newValue Node value.
 		 @return Pointer to created node.
 		 */
-		static NodePtr newNode(const TK & newKey, const TV & newValue)
-		{
+		static NodePtr newNode(const TK & newKey, const TV & newValue) {
 			return (new Node(newKey, newValue));
 		}
 		
@@ -1242,8 +1149,7 @@ namespace FayeCpp {
 		 @detailed Release node with "delete" operator.
 		 @param node Node pointer.
 		 */
-		static void deleteNode(NodePtr node)
-		{
+		static void deleteNode(NodePtr node) {
 			delete node;
 		}
 		
@@ -1255,11 +1161,9 @@ namespace FayeCpp {
 		 @param newValue Node value.
 		 @return Pointer to created node.
 		 */
-		static NodePtr allocateNode(const TK & newKey, const TV & newValue)
-		{
+		static NodePtr allocateNode(const TK & newKey, const TV & newValue) {
 			NodePtr node = (NodePtr)malloc(sizeof(Node));
-			if (node)
-			{
+			if (node) {
 				node->key = newKey;
 				node->value = newValue;
 			}
@@ -1272,8 +1176,7 @@ namespace FayeCpp {
 		 @detailed Release node with "free" function.
 		 @param node Node pointer.
 		 */
-		static void freeNode(NodePtr node)
-		{
+		static void freeNode(NodePtr node) {
 			free(node);
 		}
 		
@@ -1281,8 +1184,7 @@ namespace FayeCpp {
 		/**
 		 @brief Map iterator class.
 		 */
-		class Iterator
-		{
+		class Iterator {
 		private:
 			Node * _head;
 			Node * _node;
@@ -1291,8 +1193,7 @@ namespace FayeCpp {
 			 @brief Move to next map key-pair.
 			 @return True if moved to next key-pari, othervice false.
 			 */
-			bool next()
-			{
+			bool next() {
 				_node = _node ? _node->next : this->_head->next;
 				return _node != this->_head;
 			}
@@ -1302,8 +1203,7 @@ namespace FayeCpp {
 			 @brief Getter for current node pointer.
 			 @return Current node pointer.
 			 */
-			Node * node() const
-			{
+			Node * node() const {
 				return _node;
 			}
 			
@@ -1312,8 +1212,7 @@ namespace FayeCpp {
 			 @brief Getter for current node key object.
 			 @return Address of the key.
 			 */
-			const TK & key() const
-			{
+			const TK & key() const {
 				return _node->key;
 			}
 			
@@ -1322,8 +1221,7 @@ namespace FayeCpp {
 			 @brief Getter for current node value.
 			 @return Address of the value.
 			 */
-			const TV & value() const
-			{
+			const TV & value() const {
 				return _node->value;
 			}
 			
@@ -1332,24 +1230,14 @@ namespace FayeCpp {
 			 @brief Constructs iterator with another iterator object.
 			 @param it Another iterator object.
 			 */
-			Iterator(const Iterator & it) :
-				_head(it._head),
-				_node(NULL)
-			{
-				
-			}
+			Iterator(const Iterator & it) : _head(it._head), _node(NULL) { }
 			
 
 			/**
 			 @brief Contructs iterator node pointer.
 			 @param listHead Pointer to node.
 			 */
-			Iterator(Node * listHead) :
-				_head(listHead),
-				_node(NULL)
-			{
-				
-			}
+			Iterator(Node * listHead) : _head(listHead), _node(NULL) { }
 		};
 		
 
@@ -1357,8 +1245,7 @@ namespace FayeCpp {
 		 @brief Creates new iterator object.
 		 @return New iterator.
 		 */
-		Iterator iterator() const
-		{
+		Iterator iterator() const {
 			return Iterator(this->_castHead);
 		}
 
@@ -1367,8 +1254,7 @@ namespace FayeCpp {
 		 @brief Check is map has no key-pairs.
 		 @return True if there is no key-pairs, othervice false.
 		 */
-		bool isEmpty() const
-		{
+		bool isEmpty() const {
 			return (this->_head->next == this->_head);
 		}
 		
@@ -1376,11 +1262,9 @@ namespace FayeCpp {
 		/**
 		 @brief Removes all key-pairs from map.
 		 */
-		void clear()
-		{
+		void clear() {
 			Node * node = this->_head->next;
-			while (node != this->_head)
-			{
+			while (node != this->_head) {
 				node = this->removeNode(node);
 			}
 		}
@@ -1390,12 +1274,10 @@ namespace FayeCpp {
 		 @brief Calculates count of the map by iterating all elements.
 		 @return Count of the elements.
 		 */
-		REUInt32 count() const
-		{
+		REUInt32 count() const {
 			REUInt32 c = 0;
 			Node * next = this->_head->next;
-			while (next != this->_head)
-			{
+			while (next != this->_head) {
 				c++;
 				next = next->next;
 			}
@@ -1409,13 +1291,10 @@ namespace FayeCpp {
 		 @param key The key object.
 		 @return Node pointer or NULL if not found.
 		 */
-		Node * findNode(const TK & key) const
-		{
+		Node * findNode(const TK & key) const {
 			Node * next = this->_head->next;
-			while (next != this->_head)
-			{
-				if (next->key == key)
-				{
+			while (next != this->_head) {
+				if (next->key == key) {
 					return next;
 				}
 				next = next->next;
@@ -1430,8 +1309,7 @@ namespace FayeCpp {
 		 @param key The key object.
 		 @return True if have key-pair with the key, othervice false.
 		 */
-		bool isContainesKey(const TK & key) const
-		{
+		bool isContainesKey(const TK & key) const {
 			return this->findNode(key) ? true : false;
 		}
 		
@@ -1442,10 +1320,8 @@ namespace FayeCpp {
 		 @param node The node pointer for remove.
 		 @return Next node pointer.
 		 */
-		Node * removeNode(Node * node)
-		{
-			if (node != this->_head)
-			{
+		Node * removeNode(Node * node) {
+			if (node != this->_head) {
 				Node * next = node->next;
 				node->previous->next = node->next;
 				node->next->previous = node->previous;
@@ -1462,11 +1338,9 @@ namespace FayeCpp {
 		 @param newValue The value.
 		 @return True if value by key is updated or successfully created and added new key-pair.
 		 */
-		bool setKeyValue(const TK & newKey, const TV & newValue)
-		{
+		bool setKeyValue(const TK & newKey, const TV & newValue) {
 			Node * node = this->findNode(newKey);
-			if (node)
-			{
+			if (node) {
 				node->value = newValue;
 				return true;
 			}
@@ -1480,8 +1354,7 @@ namespace FayeCpp {
 		 @param newValue The value.
 		 @return True if added new key-pair, othervice false.
 		 */
-		bool add(const TK & newKey, const TV & newValue)
-		{
+		bool add(const TK & newKey, const TV & newValue) {
 			return this->addNewNodeWithKeyValue(newKey, newValue) ? true : false;
 		}
 		
@@ -1495,11 +1368,9 @@ namespace FayeCpp {
 			  ReleaseNodeCallback nodeReleaser = &deleteNode) :
 			_createNode(nodeCreator),
 			_releaseNode(nodeReleaser),
-			_head(NULL)
-		{
+			_head(NULL) {
 			NodeBase * newHead = (NodeBase *)malloc(sizeof(NodeBase));
-			if (newHead)
-			{
+			if (newHead) {
 				this->_head = newHead;
 				this->_head->next = this->_castHead;
 				this->_head->previous = this->_castHead;
@@ -1510,11 +1381,9 @@ namespace FayeCpp {
 		/**
 		 @brief Default map virtual desctructor.
 		 */
-		virtual ~REMap()
-		{
+		virtual ~REMap() {
 			this->clear();
-			if (this->_head)
-			{
+			if (this->_head) {
 				free(this->_head);
 			}
 		}
@@ -1524,8 +1393,7 @@ namespace FayeCpp {
 	/**
 	 @brief Class using for logining text messages.
 	 */
-	class __RE_PUBLIC_CLASS_API__ RELog
-	{
+	class __RE_PUBLIC_CLASS_API__ RELog {
 	public:
 		/**
 		 @brief Log message with arguments.
@@ -1546,11 +1414,9 @@ namespace FayeCpp {
 	/**
 	 @brief Class of memory buffer.
 	 */
-	class __RE_PUBLIC_CLASS_API__ REBuffer
-	{
+	class __RE_PUBLIC_CLASS_API__ REBuffer {
 	protected:
-		union
-		{
+		union {
 			void * _buff;
 			const char * _constCharBuffer;
 			const unsigned char * _constUnsignedCharBuffer;
@@ -1675,8 +1541,7 @@ namespace FayeCpp {
 	/**
 	 @brief Class of buffer which only hold pointer to buffer without copying.
 	 */
-	class __RE_PUBLIC_CLASS_API__ REBufferNoCopy : public REBuffer
-	{
+	class __RE_PUBLIC_CLASS_API__ REBufferNoCopy : public REBuffer {
 	public:
 		typedef void(*FreeOriginalBuff)(void * mem);
 		
@@ -1707,8 +1572,7 @@ namespace FayeCpp {
 	/**
 	 @brief Type of the string.
 	 */
-	typedef enum _reStringType
-	{
+	typedef enum _reStringType {
 		/**
 		 @brief UTF8 type. Using "char" as type.
 		 */
@@ -1730,8 +1594,7 @@ namespace FayeCpp {
 	 @brief Base string class. Holds autopointer to string data buffer.
 	 @detailed During data assigment strings can be converted between UTF8 and wide char presentation.
 	 */
-	class __RE_PUBLIC_CLASS_API__ REStringBase
-	{
+	class __RE_PUBLIC_CLASS_API__ REStringBase {
 	protected:
 		REPtr<REBuffer> _p;
 		
@@ -1839,8 +1702,7 @@ namespace FayeCpp {
 	/**
 	 @brief Class of the immutable string.
 	 */
-	class __RE_PUBLIC_CLASS_API__ REString : public REStringBase
-	{
+	class __RE_PUBLIC_CLASS_API__ REString : public REStringBase {
 	public:
 		/**
 		 @brief Return mutable string object, string buffer will be copyed.
@@ -2114,8 +1976,7 @@ namespace FayeCpp {
 		// do something with helloString & forgot.
 	 @endcode
 	 */
-	class __RE_PUBLIC_CLASS_API__ REStaticString : public REString
-	{
+	class __RE_PUBLIC_CLASS_API__ REStaticString : public REString {
 	private:
 		static void freeNonCopyBuffMem(void * m);
 	public:
@@ -2146,8 +2007,7 @@ namespace FayeCpp {
 	/**
 	  @brief String class with wide charecters reperesentation.
 	 */
-	class __RE_PUBLIC_CLASS_API__ REWideString : public REStringBase
-	{
+	class __RE_PUBLIC_CLASS_API__ REWideString : public REStringBase {
 	public:
 		/**
 		  @brief Getter for immutable string with UTF8 string presentation.
@@ -2306,8 +2166,7 @@ namespace FayeCpp {
 	/**
 	 @brief Class of mutable UTF8 string.
 	 */
-	class __RE_PUBLIC_CLASS_API__ REMutableString : public REString
-	{
+	class __RE_PUBLIC_CLASS_API__ REMutableString : public REString {
 	protected:
 		void replaceWithLen(const char * charsStringValue,
 							const char * withCharsStringValue,
@@ -2512,8 +2371,7 @@ namespace FayeCpp {
 	/**
 	  @brief Subclass of list for holding strings objects.
 	 */
-	class __RE_PUBLIC_CLASS_API__ REStringList : public REList<REString>
-	{
+	class __RE_PUBLIC_CLASS_API__ REStringList : public REList<REString> {
 	public:
 		/**
 		  @brief Basic assignment operator.
@@ -2555,8 +2413,7 @@ namespace FayeCpp {
 	/**
 	  @brief Delegate for faye client.
 	 */
-	class __RE_PUBLIC_CLASS_API__ Delegate
-	{
+	class __RE_PUBLIC_CLASS_API__ Delegate {
 	public:
 		/**
 		 @brief Client transport protocol connected to server.
@@ -2653,8 +2510,7 @@ namespace FayeCpp {
 	 @deatailed This abstract class containes required to implement methods for getting information about sertificates info,
 	 such as paths to sertificates, keys and pass phrase if available.
 	 */
-	class __RE_PUBLIC_CLASS_API__ SSLDataSource
-	{
+	class __RE_PUBLIC_CLASS_API__ SSLDataSource {
 	public:
 		/**
 		 @brief Get client sertificate file path.
@@ -2714,11 +2570,9 @@ namespace FayeCpp {
 	/**
 	 @brief Class of variant for storing base types, such as integers, reals, strings, lists and maps.
 	 */
-	class __RE_PUBLIC_CLASS_API__ REVariant
-	{
+	class __RE_PUBLIC_CLASS_API__ REVariant {
 	public:
-		typedef enum _variantType
-		{
+		typedef enum _variantType {
 			/**
 			 @brief Variant type is undefined.
 			 */
@@ -2772,14 +2626,12 @@ namespace FayeCpp {
 		VariantType;
 
 	protected:
-		typedef union _variantUnion
-		{
+		typedef union _variantUnion {
 			uint64_t uint64Value;
 			int64_t int64Value;
 			double doubleValue;
 			bool boolValue;
-			union
-			{
+			union {
 				void * pointerValue;
 				REString * stringValue;
 				REVariantMap * mapValue;
@@ -3194,8 +3046,7 @@ namespace FayeCpp {
 	/**
 	 @brief Class of the variant map. Keys is string objects and values is variants.
 	 */
-	class __RE_PUBLIC_CLASS_API__ REVariantMap : public REMap<REString, REVariant>
-	{
+	class __RE_PUBLIC_CLASS_API__ REVariantMap : public REMap<REString, REVariant> {
 	public:
 		/**
 		 @brief Locates pointer of the variant object by C string key with specific variant type of the value.
@@ -3355,8 +3206,7 @@ namespace FayeCpp {
 	/**
 	 @brief Error object described error reason.
 	 */
-	class __RE_PUBLIC_CLASS_API__ Error
-	{
+	class __RE_PUBLIC_CLASS_API__ Error {
 	private:
 		REVariantMap _userInfo;
 		REString _domain;
@@ -3368,8 +3218,7 @@ namespace FayeCpp {
 		 @detailed Used int as type and used negative codes out of 16bit range
 		 for prevent of duplicates with other potentual system/other libs codes.
 		 */
-		typedef enum _errorCode
-		{
+		typedef enum _errorCode {
 			/**
 			 @brief There is no error. Empty error object.
 			 */
@@ -3539,11 +3388,9 @@ namespace FayeCpp {
 	};
 
 
-	class __RE_PUBLIC_CLASS_API__ Advice
-	{
+	class __RE_PUBLIC_CLASS_API__ Advice {
 	public:
-		typedef enum _reconnectType
-		{
+		typedef enum _reconnectType {
 			/**
 			 Indicates a hard failure for the connect attempt.
 			 A client MUST respect reconnect advice none and MUST NOT automatically retry or handshake.
@@ -3599,8 +3446,7 @@ namespace FayeCpp {
 	/**
 	 @brief Faye clent object.
 	 */
-	class __RE_PUBLIC_CLASS_API__ Client
-	{
+	class __RE_PUBLIC_CLASS_API__ Client {
 	private:
 		Transport * _transport;
 		Delegate * _delegate;
@@ -3970,8 +3816,7 @@ namespace FayeCpp {
 	/**
 	 @brief Class of the list containes variants objects.
 	 */
-	class __RE_PUBLIC_CLASS_API__ REVariantList : public REList<REVariant>
-	{
+	class __RE_PUBLIC_CLASS_API__ REVariantList : public REList<REVariant> {
 	public:
 		/**
 		 @brief Add variant to the list with int value.
@@ -4118,14 +3963,12 @@ namespace FayeCpp {
 	/**
 	 @brief Message class for internal logic communication.
 	 */
-	class __RE_PUBLIC_CLASS_API__ Responce
-	{
+	class __RE_PUBLIC_CLASS_API__ Responce{
 	public:
 		/**
 		 @brief Faye message type.
 		 */
-		typedef enum _responceType
-		{
+		typedef enum _responceType {
 			/**
 			 @brief Undefined, default type.
 			 */

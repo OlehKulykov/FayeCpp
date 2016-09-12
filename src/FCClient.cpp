@@ -1220,8 +1220,12 @@ namespace FayeCpp {
 #endif
 #endif
 
-		" - Using jansson library\n"
-			
+		" - Using jansson library"
+#if defined(JANSSON_VERSION)
+		", version: " JANSSON_VERSION
+#endif
+		"\n"
+
 		/* Compiller build date, time and/or timestamp */
 #if defined(__DATE__) && defined(__TIME__)
 		" - Timestamp: " __DATE__ " " __TIME__ "\n"
