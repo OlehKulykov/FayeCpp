@@ -1100,8 +1100,7 @@ namespace FayeCpp {
 #define STRING_I(s) #s
 #define TO_STRING(s) STRING_I(s)
 	
-	const char * Client::info()
-	{
+	const char * Client::info() {
 		const char * info = "\nFayeCpp client library based on Bayeux protocol.\n"
 		" - Client Bayeux minimum version: " CLIENT_BAYEUX_MINIMUM_VERSION "\n"
 
