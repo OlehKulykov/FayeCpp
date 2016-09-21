@@ -31,6 +31,8 @@
 #include "fayecpp_config.h"
 #endif
 
+#include <ctype.h>
+
 namespace FayeCpp {
 	
 	REBuffer * REStringUtilsPrivate::newBufferWithSize(const REUInt32 newSize)
