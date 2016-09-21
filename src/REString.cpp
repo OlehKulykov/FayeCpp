@@ -37,6 +37,8 @@
 #include <stdarg.h>
 #endif
 
+#include <ctype.h>
+
 namespace FayeCpp {
 	
 	REString & REString::operator=(const char * utf8String)
