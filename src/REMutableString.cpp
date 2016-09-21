@@ -36,6 +36,9 @@
 #include <stdarg.h>
 #endif
 
+#include <ctype.h>
+#include <wctype.h>
+
 namespace FayeCpp {
 	
 	REMutableString & REMutableString::operator=(const char * utf8String)
