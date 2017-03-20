@@ -29,6 +29,10 @@
  *   Faye C++ client main and one header file.
  *   All class interfaces added to namespace, preventing include files mess(yes, this is unusual structure, but lightweight).
  *
+ *   Changes on version 1.2.1 (current):
+ *   - Update Libwebsockets to version 2.1.1.
+ *   - Update jansson to version 2.10.
+ *
  *   Changes on version 1.2.0 (current):
  *   - Update Libwebsockets to version 2.0.0.
  *   - Update jansson to version 2.8.
@@ -143,7 +147,7 @@
 
 #define FAYECPP_VERSION_MAJOR 1
 #define FAYECPP_VERSION_MINOR 2
-#define FAYECPP_VERSION_PATCH 0
+#define FAYECPP_VERSION_PATCH 1
 
 
 #if !defined(HAVE_SUITABLE_QT_VERSION) 

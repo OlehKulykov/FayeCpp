@@ -206,45 +206,39 @@ using namespace FayeCpp;
 
 ### Client delegate
 ```cpp
-class FayeDelegate : public FayeCpp::Delegate
-{
+class FayeDelegate : public FayeCpp::Delegate {
 public:
     // override all FayeCpp::Delegate methods.
-    virtual void onFayeTransportConnected(FayeCpp::Client * client)
-	{
+    virtual void onFayeTransportConnected(FayeCpp::Client * client) {
         // ....
-	}
-	
-	virtual void onFayeClientReceivedMessageFromChannel(FayeCpp::Client * client, 
-														const FayeCpp::REVariantMap & message, 
-														const FayeCpp::REString & channel)
-	{
-	    
+    }
+    
+    virtual void onFayeClientReceivedMessageFromChannel(FayeCpp::Client * client,
+                                                        const FayeCpp::REVariantMap & message,
+                                                        const FayeCpp::REString & channel) {
+        
         // Print channel which received message
-		RELog::log("Received message from channel: \"%s\"", channel.UTF8String());
-		
-		// Iterate all message (VariantMap) pairs
-		REVariantMap::Iterator iterator = message.iterator();
-		while (iterator.next()) 
-		{
-			iterator.key();   // get key
-			iterator.value();   // get value for key
-		}
-		
-		// .....
-	}
-	
-    // overide other methods
-	
-    FayeDelegate() 
-    {
+        RELog::log("Received message from channel: \"%s\"", channel.UTF8String());
+        
+        // Iterate all message (VariantMap) pairs
+        REVariantMap::Iterator iterator = message.iterator();
+        while (iterator.next()) {
+            iterator.key();   // get key
+            iterator.value();   // get value for key
+        }
+        
         // .....
     }
     
-	virtual ~FayeDelegate() 
-	{
+    // overide other methods
+    
+    FayeDelegate() {
+        // .....
+    }
+    
+    virtual ~FayeDelegate() {
         // ......
-	}
+    }
 };
 ```
 
@@ -347,16 +341,14 @@ self.client = [[FayeCppClient alloc] init];
 
 ```objective-c
 #pragma mark - FayeCpp client delegate
-- (void) onFayeClientConnected:(FayeCppClient *) client
-{
-	NSLog(@"On faye client connected");
+- (void) onFayeClientConnected:(FayeCppClient *) client {
+    NSLog(@"On faye client connected");
 }
 
 - (void) onFayeClient:(FayeCppClient *) client
-	  receivedMessage:(NSDictionary *) message
-		  fromChannel:(NSString *) channel
-{
-	NSLog(@"On faye client received message: \n%@ \nfrom channel: %@", message, channel);
+      receivedMessage:(NSDictionary *) message
+          fromChannel:(NSString *) channel {
+    NSLog(@"On faye client received message: \n%@ \nfrom channel: %@", message, channel);
 }
 // implement other delegate messages if needed ...
 ```
@@ -380,7 +372,7 @@ self.client = [[FayeCppClient alloc] init];
 
 ```objective-c
 [_client sendMessage:@{@"text" : @"Hello world", @"other_params" : @[]}
-		   toChannel:@"/faye_channel_1"];
+           toChannel:@"/faye_channel_1"];
 ```
 
 
