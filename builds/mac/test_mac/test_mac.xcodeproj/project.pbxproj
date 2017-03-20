@@ -52,7 +52,6 @@
 		3D0831151987CB4E0038CD79 /* REVariantMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D0830FF1987CB4E0038CD79 /* REVariantMap.cpp */; };
 		3D08311A1987CB570038CD79 /* FayeCppClient.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D0831191987CB570038CD79 /* FayeCppClient.mm */; };
 		3D08311C1987CC020038CD79 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D08311B1987CC020038CD79 /* libz.dylib */; };
-		3D0831281987CE280038CD79 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D0831271987CE280038CD79 /* libcrypto.dylib */; };
 		3D0855431C4697F600B53963 /* extension-permessage-deflate.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D0855411C4697F600B53963 /* extension-permessage-deflate.c */; };
 		3D26F46F1C3E9166006ED0AE /* FCAdvice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D26F46E1C3E9166006ED0AE /* FCAdvice.cpp */; };
 		3D26F4721C3ED594006ED0AE /* REThreadingPrivate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D26F4701C3ED594006ED0AE /* REThreadingPrivate.cpp */; };
@@ -166,7 +165,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3D0831281987CE280038CD79 /* libcrypto.dylib in Frameworks */,
 				3D08311C1987CC020038CD79 /* libz.dylib in Frameworks */,
 				3D0830731987C9D80038CD79 /* Cocoa.framework in Frameworks */,
 			);
