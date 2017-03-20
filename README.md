@@ -77,9 +77,9 @@ make
 > During configuration phase, [Libwebsockets] and [Jansson] will be also configured, so, you can add cmake flags for this libs. Something like:
 > ```sh
 > cmake -DCMAKE_BUILD_TYPE=Release \
--DCMAKE_INSTALL_PREFIX:PATH=/usr \
--DJANSSON_BUILD_DOCS:BOOL=OFF \
--DLWS_WITHOUT_DEBUG:BOOL=ON ..
+> -DCMAKE_INSTALL_PREFIX:PATH=/usr \
+> -DJANSSON_BUILD_DOCS:BOOL=OFF \
+> -DLWS_WITHOUT_DEBUG:BOOL=ON ..
 > ```
 > For more options read [Libwebsockets], [Jansson] and [CMake] documentation.
 
@@ -100,13 +100,13 @@ cmake -G"Visual Studio 11" -DCMAKE_BUILD_TYPE=Release ..
 Example configuring **without** [OpenSSL] support for **Microsoft Visual Studio**:
 > ```sh
 > cmake -DCMAKE_INSTALL_PREFIX:PATH=c:\dev\FayeCpp\win-install \
--DLWS_WITH_SSL:BOOL=OFF \
--DLWS_SSL_CLIENT_USE_OS_CA_CERTS:BOOL=OFF \
--DLWS_USE_CYASSL:BOOL=OFF \
--DLWS_WITHOUT_SERVER:BOOL=ON \
--DLWS_WITHOUT_DAEMONIZE:BOOL=ON \
--DCMAKE_BUILD_TYPE=Release \
--G"Visual Studio 11" ..
+> -DLWS_WITH_SSL:BOOL=OFF \
+> -DLWS_SSL_CLIENT_USE_OS_CA_CERTS:BOOL=OFF \
+> -DLWS_USE_CYASSL:BOOL=OFF \
+> -DLWS_WITHOUT_SERVER:BOOL=ON \
+> -DLWS_WITHOUT_DAEMONIZE:BOOL=ON \
+> -DCMAKE_BUILD_TYPE=Release \
+> -G"Visual Studio 11" ..
 > ```
 
 * Or another option: especially for this case was added continuous integration for **Microsoft Windows** via [AppVeyor] service, so you could look to the **appveyor.yml** file, located a the root of the repository, and find out how to configure and build with minimun actions.
