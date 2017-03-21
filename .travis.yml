@@ -9,6 +9,7 @@ compiler:
 
 before_script:
 #  - sudo apt-get install p7zip-full
+  - ./travis.sh
   - mkdir ~/fayecpp-install-dir
   - git submodule update --init --recursive
   - cd libwebsockets
@@ -28,7 +29,7 @@ before_script:
 #  - rm ndk.tar
 #  - cd ..
   - cd build
-  - cmake -DCMAKE_INSTALL_PREFIX:PATH=~/fayecpp-install-dir -DCMAKE_BUILD_TYPE=Release -DLWS_WITH_SSL:BOOL=OFF -DFAYECPP_BUILD_NUMBER=$TRAVIS_BUILD_NUMBER ..
+  - cmake -DCMAKE_INSTALL_PREFIX:PATH=~/fayecpp-install-dir -DCMAKE_BUILD_TYPE=Release -DFAYECPP_BUILD_NUMBER=$TRAVIS_BUILD_NUMBER ..
   - cd ..
 
 script:
