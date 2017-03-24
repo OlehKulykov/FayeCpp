@@ -2,12 +2,12 @@
 
 if [ "$TRAVIS_OS_NAME" == "linux" ];
 then
-	sudo apt-get -qq update
-	sudo apt-get install -y -qq cmake
+	sudo apt-get update
+	sudo apt-get install -y cmake
 fi
 
 if [ "$TRAVIS_OS_NAME" == "osx" ];
 then
 	brew update
-	brew install openssl
+	brew install openssl --force
 fi
